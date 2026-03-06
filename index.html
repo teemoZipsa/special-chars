@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>특수 문자 & 이모지 입력기</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .app {
+    background: #16213e;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    width: 720px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .titlebar {
+    background: linear-gradient(135deg, #0f3460, #533483);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .titlebar h1 { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: 1px; }
+  .titlebar .search-box {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 4px 12px;
+  }
+  .titlebar .search-box input {
+    background: none; border: none; outline: none;
+    color: #fff; font-size: 13px; width: 140px; padding: 2px 4px;
+  }
+  .titlebar .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+  .titlebar .search-box svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.6); }
+
+  .recent-bar {
+    background: #1a1a3e; padding: 8px 16px;
+    display: flex; align-items: center; gap: 6px;
+    min-height: 42px; border-bottom: 1px solid #2a2a5a;
+  }
+  .recent-bar .label { font-size: 11px; color: #8888bb; white-space: nowrap; margin-right: 4px; }
+  .recent-bar .recent-chars { display: flex; gap: 2px; flex-wrap: nowrap; overflow-x: auto; }
+  .recent-bar .char-btn { background: #2a2a5a; border: 1px solid #3a3a6a; }
+
+  /* 탭 그룹 */
+  .tab-groups {
+    background: #1e1e3a;
+    padding: 6px 10px 0;
+  }
+  .tab-group-label {
+    font-size: 10px;
+    color: #6666aa;
+    padding: 6px 4px 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .tab-group-label:first-child { padding-top: 2px; }
+  .tab-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding-bottom: 4px;
+  }
+  .tab-divider {
+    border: none;
+    border-top: 1px solid #3a3a6a;
+    margin: 2px 0;
+  }
+  .tab {
+    padding: 7px 12px; font-size: 12px;
+    border: none; background: #2a2a5a; color: #aaa;
+    border-radius: 8px 8px 0 0; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .tab:hover { background: #3a3a7a; color: #ddd; }
+  .tab.active { background: #533483; color: #fff; font-weight: 600; }
+  .tab.emoji-tab { background: #2a3a2a; }
+  .tab.emoji-tab:hover { background: #3a5a3a; }
+  .tab.emoji-tab.active { background: #e67e22; color: #fff; }
+
+  .grid-container {
+    padding: 12px; height: 360px;
+    overflow-y: auto; overflow-x: hidden;
+  }
+  .grid-container::-webkit-scrollbar { width: 6px; }
+  .grid-container::-webkit-scrollbar-track { background: #1a1a3e; }
+  .grid-container::-webkit-scrollbar-thumb { background: #533483; border-radius: 3px; }
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 3px;
+  }
+  .char-grid.emoji-mode {
+    grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+  }
+  .char-btn {
+    width: 100%; aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; background: #222250;
+    border: 1px solid #333366; border-radius: 6px;
+    color: #e0e0e0; cursor: pointer;
+    transition: all 0.15s; user-select: none; position: relative;
+  }
+  .char-btn:hover {
+    background: #533483; border-color: #7b52b9;
+    transform: scale(1.15); z-index: 2;
+    box-shadow: 0 4px 12px rgba(83,52,131,0.5);
+  }
+  .char-btn:active { transform: scale(0.95); background: #6b44a3; }
+  .char-btn.copied { background: #2ecc71 !important; border-color: #27ae60 !important; }
+  .char-btn.emoji-cell {
+    font-size: 24px; background: #1e2e1e; border-color: #2a3a2a;
+  }
+  .char-btn.emoji-cell:hover {
+    background: #e67e22; border-color: #f39c12;
+    box-shadow: 0 4px 12px rgba(230,126,34,0.5);
+  }
+
+  .toast {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #533483; color: #fff;
+    padding: 10px 24px; border-radius: 24px;
+    font-size: 14px; font-weight: 500;
+    box-shadow: 0 4px 20px rgba(83,52,131,0.6);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0; pointer-events: none; z-index: 999;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  .bottom-bar {
+    background: #1a1a3e; padding: 10px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid #2a2a5a;
+  }
+  .preview {
+    font-size: 28px; width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: #222250; border-radius: 8px; border: 1px solid #333366;
+  }
+  .bottom-bar .info { font-size: 11px; color: #8888bb; }
+  .bottom-bar .info span { color: #bb88ff; font-family: monospace; }
+  .action-btn {
+    padding: 8px 20px; border: none; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-clear { background: #2a2a5a; color: #ccc; }
+  .btn-clear:hover { background: #3a3a6a; }
+
+  .sub-header {
+    grid-column: 1 / -1; font-size: 11px; color: #8888bb;
+    padding: 8px 4px 4px; border-bottom: 1px solid #2a2a5a; margin-bottom: 2px;
+  }
+  .sub-header:first-child { padding-top: 0; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="titlebar">
+    <h1>⌨ 특수 문자 & 이모지</h1>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" id="searchInput" placeholder="검색..." oninput="filterChars()">
+    </div>
+  </div>
+
+  <div class="recent-bar">
+    <span class="label">최근 ▸</span>
+    <div class="recent-chars" id="recentChars"></div>
+  </div>
+
+  <div class="tab-groups" id="tabBar"></div>
+
+  <div class="grid-container">
+    <div class="char-grid" id="charGrid"></div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="preview" id="preview"></div>
+    <div class="info">클릭: 복사 | 유니코드: <span id="codeInfo">-</span></div>
+    <button class="action-btn btn-clear" onclick="clearRecent()">최근 삭제</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SPECIAL = {
+  "기호": {
+    "일반 기호": "★☆♠♣♥♦♤♧♡♢♩♪♫♬♭♮♯⚡⚽⚾⛄⛅⛳⛵⛺✂✈✉✌✍✏✒✔✖✝✞✡✨✿❀❁❂❃❄❅❆❇❈❉❊❋",
+    "화살표": "←↑→↓↔↕↖↗↘↙⇐⇑⇒⇓⇔⇕⇦⇧⇨⇩➔➜➝➞➟➠➡➢➣➤➥➦➧➨➩➪➫➬➭➮➯➲",
+    "수학 기호": "±×÷≠≤≥≈∞∑∏∫∂√∝∟∠∥∦∧∨∩∪∈∉⊂⊃⊆⊇∀∃∄∅∇∝≡≢≪≫",
+    "도형": "■□▢▣▤▥▦▧▨▩▪▫▬▭▮▯▰▱▲△▴▵▶▷▸▹►▻▼▽▾▿◀◁◂◃◄◅◆◇◈◉◊○◌◍◎●◐◑◒◓◔◕◖◗",
+    "기타": "‣※†‡‰‱′″‴‵‶‷‸‹›«»‼‽⁂⁑⁕⁖⁗⁘⁙⁚⁛⁜⁝⁞"
+  },
+  "원/괄호": {
+    "원 숫자": "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳",
+    "괄호 숫자": "⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇",
+    "원 영문 대문자": "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ",
+    "원 영문 소문자": "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ",
+    "원 한글": "㉠㉡㉢㉣㉤㉥㉦㉧㉨㉩㉪㉫㉬㉭",
+    "괄호 한글": "㈀㈁㈂㈃㈄㈅㈆㈇㈈㈉㈊㈋㈌㈍",
+    "원 한글(가나다)": "㉮㉯㉰㉱㉲㉳㉴㉵㉶㉷㉸㉹㉺㉻"
+  },
+  "선/단위": {
+    "선 문자": "─│┌┐└┘├┤┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬",
+    "블록": "▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏░▒▓",
+    "단위 기호": "℃℉Å㎕㎖㎗ℓ㎘㎣㎤㎥㎦㎙㎜㎝㎞㎟㎠㎡㎢㏊㎍㎎㎏㏏㎈㎉㏈㎐㎑㎒㎓㎔㎴㎵㎶㎷㎸㎹㎺㎻㎼㎽㎾㎿㎀㎁㎂㎃㎄",
+    "화폐/상업": "¢£¥€₩₪₫₭₮₯₰₱₲₳₴₵℀℁℃℅℆№℗℠™℡㏂㏘㏜"
+  },
+  "일본어": {
+    "히라가나": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+    "가타카나": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン"
+  },
+  "그리스/러시아": {
+    "그리스 대문자": "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ",
+    "그리스 소문자": "αβγδεζηθικλμνξοπρστυφχψω",
+    "러시아 대문자": "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
+    "러시아 소문자": "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+  },
+  "한글 자모": {
+    "자음": "ㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",
+    "모음": "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ",
+    "옛한글": "ㅥㅦㅧㅨㅩㅪㅫㅬㅭㅮㅯㅰㅱㅲㅳㅴㅵㅶㅷㅸㅹㅺㅻㅼㅽㅾㅿㆀㆁㆂㆃ"
+  },
+  "전각 영문": {
+    "대문자": "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ",
+    "소문자": "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ",
+    "숫자": "０１２３４５６７８９",
+    "로마 숫자": "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"
+  }
+};
+
+const EMOJI = {
+  "😀 스마일": {
+    "웃는 얼굴": "😀😃😄😁😆😅🤣😂🙂🙃😉😊😇🥰😍🤩😘😗☺😚😙🥲",
+    "혀/손 얼굴": "😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡",
+    "중립/졸린 얼굴": "🤐🤨😐😑😶🫥😏😒🙄😬🤥🫨",
+    "걱정/슬픈 얼굴": "😌😔😪🤤😴😷🤒🤕🤢🤮🤧🥵🥶🥴😵😵‍💫🤯",
+    "모자/안경 얼굴": "🤠🥳🥸😎🤓🧐",
+    "부정 얼굴": "😕🫤😟🙁☹😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱",
+    "화난 얼굴": "😤😡😠🤬😈👿💀☠",
+    "기타 얼굴": "💩🤡👹👺👻👽👾🤖😺😸😹😻😼😽🙀😿😾🫶"
+  },
+  "👋 제스처": {
+    "손": "👋🤚🖐✋🖖🫱🫲🫳🫴🫷🫸👌🤌🤏✌🤞🫰🤟🤘🤙",
+    "손가락": "👈👉👆🖕👇☝🫵👍👎✊👊🤛🤜",
+    "손동작": "👏🙌🫶👐🤲🤝🙏",
+    "팔/몸": "✍💅🤳💪🦾🦿🦵🦶👂🦻👃🧠🫀🫁🦷🦴👀👁👅👄🫦",
+    "사람": "👶🧒👦👧🧑👱👨🧔👩🧓👴👵",
+    "직업": "👮🕵💂🥷👷🫅🤴👸👳👲🧕🤵👰🤰🫃🫄🤱",
+    "동작": "🙍🙎🙅🙆💁🙋🧏🙇🤦🤷💆💇🧖🛀🛌🕴🗣👤👥🫂"
+  },
+  "🐶 동물": {
+    "포유류": "🐶🐕🦮🐕‍🦺🐩🐺🦊🦝🐱🐈🐈‍⬛🦁🐯🐅🐆🐴🫎🫏🐎🦄🦓🦌🦬🐮🐂🐃🐄🐷🐖🐗🐽🐏🐑🐐🐪🐫🦙🦒🐘🦣🦏🦛🐭🐁🐀🐹🐰🐇🐿🦫🦔🦇🐻🐻‍❄️🐨🐼🦥🦦🦨🦘🦡",
+    "새": "🐔🐓🐣🐤🐥🐦🐧🕊🦅🦆🦢🦉🦤🪶🦩🦚🦜🪽🐦‍⬛🪿",
+    "해양/파충류": "🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡🦈🐙🐚🪸🪼🦀🦞🦐🦑",
+    "곤충": "🐌🦋🐛🐜🐝🪲🐞🦗🪳🕷🕸🦂🦟🪰🪱🦠",
+    "식물": "💐🌸💮🪷🏵🌹🥀🌺🌻🌼🌷🪻🌱🪴🌲🌳🌴🌵🌾🌿☘🍀🍁🍂🍃🪹🪺🍄🪨"
+  },
+  "🍔 음식": {
+    "과일": "🍇🍈🍉🍊🍋🍋‍🟩🍌🍍🥭🍎🍏🍐🍑🍒🍓🫐🥝🍅🫒🥥",
+    "채소": "🥑🍆🥔🥕🌽🌶🫑🥒🥬🥦🧄🧅🍄🥜🫘🌰🫚🫛",
+    "곡물/빵": "🍞🥐🥖🫓🥨🥯🥞🧇🧀🍖🍗🥩🥓🍔🍟🍕🌭🥪🌮🌯🫔🥙🧆🥚🍳🥘🍲🫕🥣🥗🍿🧈🧂🥫",
+    "디저트": "🍦🍧🍨🍩🍪🎂🍰🧁🥧🍫🍬🍭🍮🍯",
+    "음료": "🍼🥛☕🫖🍵🍶🍾🍷🍸🍹🍺🍻🥂🥃🫗🥤🧋🧃🧉🧊",
+    "식기": "🥢🍽🍴🥄🔪🫙🏺"
+  },
+  "⚽ 활동": {
+    "스포츠": "⚽⚾🥎🏀🏐🏈🏉🎾🥏🎳🏏🏑🏒🥍🏓🏸🥊🥋🥅⛳⛸🎣🤿🎽🎿🛷🥌",
+    "게임/오락": "🎯🪀🪁🔫🎱🔮🪄🎮🕹🎰🧩🎲♟🪅🧸🪆🪩",
+    "예술": "🎭🖼🎨🧵🪡🧶🪢",
+    "악기/음악": "🎼🎵🎶🎙🎚🎛🎤🎧📯🎷🪗🎸🎹🎺🎻🪕🥁🪘🪇",
+    "이벤트": "🎪🎗🎟🎫🎖🏆🏅🥇🥈🥉",
+    "운동": "🧗🤸🤼🤽🤾🤺⛷🏂🪂🏋🤹🧘🛹🛼🛶🏄🚣🏊🚴🚵🏇"
+  },
+  "✈ 여행": {
+    "지도/세계": "🌍🌎🌏🌐🗺🧭",
+    "지형/건물": "🏔⛰🌋🗻🏕🏖🏜🏝🏞🏟🏛🏗🧱🪨🪵🛖🏘🏚🏠🏡🏢🏣🏤🏥🏦🏨🏩🏪🏫🏬🏭🏯🏰💒🗼🗽⛪🕌🛕🕍⛩🕋⛲⛺🌁🌃🏙🌄🌅🌆🌇🌉♨🎠🛝🎡🎢💈🎪",
+    "교통": "🚂🚃🚄🚅🚆🚇🚈🚉🚊🚝🚞🚋🚌🚍🚎🚐🚑🚒🚓🚔🚕🚖🚗🚘🚙🛻🚚🚛🚜🏎🏍🛵🦽🦼🛺🚲🛴🛹🛼🚏🛣🛤🛢⛽🛞🚨🚥🚦🛑🚧",
+    "항공/해양": "⚓🛟⛵🛶🚤🛳⛴🛥🚢✈🛩🛫🛬🪂💺🚁🚟🚠🚡🛰🚀🛸",
+    "시간/하늘": "🌑🌒🌓🌔🌕🌖🌗🌘🌙🌚🌛🌜🌡☀🌝🌞🪐⭐🌟🌠🌌☁⛅⛈🌤🌥🌦🌧🌨🌩🌪🌫🌬🌀🌈🌂☂☔⛱⚡❄☃⛄☄🔥💧🌊"
+  },
+  "💡 사물": {
+    "의류": "👓🕶🥽🥼🦺👔👕👖🧣🧤🧥🧦👗👘🥻🩱🩲🩳👙👚🪭👛👜👝🛍🎒🩴👞👟🥾🥿👠👡🩰👢🪮👑👒🎩🪖🧢⛑📿💄💍💎",
+    "전자기기": "⌚📱📲💻⌨🖥🖨🖱🖲🕹🗜💽💾💿📀📷📸📹🎥📽🎞📞☎📟📠📺📻🎙🎚🎛🧭⏱⏲⏰🕰",
+    "조명/생활": "💡🔦🏮🪔🕯🧯🛒🚬⚰🪦⚱🗿🪧🪪🏧🚮🚰♿🚹🚺🚻🚼🚾🛂🛃🛄🛅",
+    "도구": "🔧🔨⚒🛠⛏🪓🔩⚙🗜⚖🦯🔗⛓🪝🧰🧲🪜🪣",
+    "문구": "📌📍📎🖇📏📐✂🗃🗄🗑📦📫📪📬📭📮🗳✏✒🖋🖊🖌🖍📝",
+    "책/서류": "💼📁📂🗂📅📆🗒🗓📇📈📉📊📋📌📃📄📑🧾📰🗞📓📔📒📕📗📘📙📚",
+    "잠금/보안": "🔒🔓🔏🔐🔑🗝🛡🔫🪃🏹⚔🗡🔪🪚🪛🪤🪆"
+  },
+  "🔣 기호": {
+    "하트": "❤🩷🧡💛💚💙🩵💜🖤🩶🤍🤎💔❣💕💞💟❤️‍🔥❤️‍🩹♥💘💝💖💗",
+    "말풍선": "💬💭🗯💢💥💫💦💨🕳💣",
+    "경고/정보": "⚠🚸⛔🚫🚳🚭🚯🚱🚷📵🔞☢☣",
+    "화살표 기호": "⬆↗➡↘⬇↙⬅↖↕↔↩↪⤴⤵🔃🔄🔙🔚🔛🔜🔝",
+    "종교/점성": "♈♉♊♋♌♍♎♏♐♑♒♓⛎☮✡🕉☸☯✝☦☪🔯🪯♾",
+    "숫자/문자": "🔢🔤🔡🔠🆎🆑🆒🆓🆔🆕🆖🆗🆘🆙🆚🈁🈂🈷🈶🈯🉐🈹🈚🈲🉑🈸🈴🈳㊗㊙🈺🈵",
+    "기타 기호": "▶⏩⏭⏯◀⏪⏮🔀🔁🔂⏫⏬⏸⏹⏺⏏🎦📶📳📴♀♂⚧✖➕➖➗♻🔱📛🔰⭕✅☑✔❌❎➰➿〽✳✴❇©®™🔘🔴🟠🟡🟢🔵🟣⚫⚪🟤🔺🔻🔸🔹🔶🔷🔲🔳▪▫◼◻◾◽⬛⬜🟥🟧🟨🟩🟦🟪🟫"
+  },
+  "🏁 깃발": {
+    "특수 깃발": "🏁🚩🎌🏴🏳🏳️‍🌈🏳️‍⚧️🏴‍☠️",
+    "아시아": "🇰🇷🇯🇵🇨🇳🇹🇼🇭🇰🇲🇴🇲🇳🇻🇳🇹🇭🇸🇬🇲🇾🇮🇩🇵🇭🇲🇲🇰🇭🇱🇦🇧🇳🇹🇱🇮🇳🇧🇩🇱🇰🇳🇵🇧🇹🇵🇰🇦🇫🇲🇻🇮🇷🇮🇶🇸🇾🇯🇴🇱🇧🇮🇱🇵🇸🇸🇦🇦🇪🇶🇦🇰🇼🇧🇭🇴🇲🇾🇪🇹🇷🇰🇿🇺🇿🇹🇲🇰🇬🇹🇯🇦🇿🇬🇪🇦🇲",
+    "유럽": "🇬🇧🇫🇷🇩🇪🇮🇹🇪🇸🇵🇹🇳🇱🇧🇪🇨🇭🇦🇹🇸🇪🇳🇴🇩🇰🇫🇮🇮🇸🇮🇪🇵🇱🇨🇿🇸🇰🇭🇺🇷🇴🇧🇬🇬🇷🇺🇦🇷🇺🇧🇾🇱🇹🇱🇻🇪🇪🇭🇷🇷🇸🇸🇮🇲🇪🇲🇰🇦🇱🇧🇦🇽🇰🇲🇩🇱🇺🇱🇮🇲🇨🇦🇩🇲🇹🇨🇾🇻🇦",
+    "아메리카": "🇺🇸🇨🇦🇲🇽🇧🇷🇦🇷🇨🇱🇨🇴🇵🇪🇻🇪🇪🇨🇧🇴🇵🇾🇺🇾🇬🇾🇸🇷🇨🇷🇵🇦🇨🇺🇯🇲🇭🇹🇩🇴🇵🇷🇹🇹🇧🇸🇧🇧🇬🇹🇭🇳🇸🇻🇳🇮🇧🇿",
+    "아프리카/오세아니아": "🇪🇬🇿🇦🇳🇬🇰🇪🇪🇹🇬🇭🇹🇿🇲🇦🇹🇳🇩🇿🇱🇾🇸🇩🇸🇸🇨🇩🇨🇲🇨🇮🇸🇳🇲🇱🇧🇫🇳🇪🇹🇩🇲🇬🇲🇺🇦🇺🇳🇿🇫🇯🇵🇬🇼🇸🇹🇴🇻🇺🇸🇧🇰🇮🇹🇻🇳🇷🇵🇼🇲🇭🇫🇲",
+    "국제기구": "🇺🇳🇪🇺"
+  }
+};
+
+const CATEGORIES = { ...SPECIAL, ...EMOJI };
+const SPECIAL_KEYS = Object.keys(SPECIAL);
+const EMOJI_KEYS = Object.keys(EMOJI);
+
+let currentTab = "기호";
+let recentChars = JSON.parse(localStorage.getItem('recentChars') || '[]');
+
+function isEmojiTab(name) {
+  return EMOJI_KEYS.includes(name);
+}
+
+function renderTabs() {
+  const bar = document.getElementById('tabBar');
+  bar.innerHTML = '';
+  // 특수문자 그룹
+  const lbl1 = document.createElement('div');
+  lbl1.className = 'tab-group-label';
+  lbl1.textContent = '특수 문자';
+  bar.appendChild(lbl1);
+  const row1 = document.createElement('div');
+  row1.className = 'tab-row';
+  SPECIAL_KEYS.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (name === currentTab ? ' active' : '');
+    btn.textContent = name;
+    btn.onclick = () => { currentTab = name; renderTabs(); renderGrid(); };
+    row1.appendChild(btn);
+  });
+  bar.appendChild(row1);
+  // 구분선
+  const hr = document.createElement('hr');
+  hr.className = 'tab-divider';
+  bar.appendChild(hr);
+  // 이모지 그룹
+  const lbl2 = document.createElement('div');
+  lbl2.className = 'tab-group-label';
+  lbl2.textContent = '이모지';
+  bar.appendChild(lbl2);
+  const row2 = document.createElement('div');
+  row2.className = 'tab-row';
+  EMOJI_KEYS.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'tab emoji-tab' + (name === currentTab ? ' active' : '');
+    btn.textContent = name;
+    btn.onclick = () => { currentTab = name; renderTabs(); renderGrid(); };
+    row2.appendChild(btn);
+  });
+  bar.appendChild(row2);
+}
+
+function renderGrid(filter = '') {
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = '';
+  const isEmoji = isEmojiTab(currentTab);
+  grid.className = 'char-grid' + (isEmoji ? ' emoji-mode' : '');
+  const cat = CATEGORIES[currentTab];
+  for (const [subName, chars] of Object.entries(cat)) {
+    const charArr = [...chars];
+    const filtered = filter
+      ? charArr.filter(c => c.includes(filter) || subName.includes(filter) || ('U+' + c.codePointAt(0).toString(16).toUpperCase()).includes(filter.toUpperCase()))
+      : charArr;
+    if (filtered.length === 0) continue;
+    const header = document.createElement('div');
+    header.className = 'sub-header';
+    header.textContent = subName;
+    grid.appendChild(header);
+    filtered.forEach(ch => {
+      const btn = document.createElement('button');
+      btn.className = 'char-btn' + (isEmoji ? ' emoji-cell' : '');
+      btn.textContent = ch;
+      btn.title = `${ch}  (U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')})`;
+      btn.onmouseenter = () => {
+        document.getElementById('preview').textContent = ch;
+        document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+      };
+      btn.onclick = () => copyChar(ch, btn);
+      grid.appendChild(btn);
+    });
+  }
+}
+
+function copyChar(ch, btnEl) {
+  navigator.clipboard.writeText(ch).then(() => {
+    showToast(`'${ch}' 복사됨!`);
+    if (btnEl) {
+      btnEl.classList.add('copied');
+      setTimeout(() => btnEl.classList.remove('copied'), 400);
+    }
+    addRecent(ch);
+  });
+}
+
+function addRecent(ch) {
+  recentChars = recentChars.filter(c => c !== ch);
+  recentChars.unshift(ch);
+  if (recentChars.length > 20) recentChars = recentChars.slice(0, 20);
+  localStorage.setItem('recentChars', JSON.stringify(recentChars));
+  renderRecent();
+}
+
+function renderRecent() {
+  const container = document.getElementById('recentChars');
+  container.innerHTML = '';
+  recentChars.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'char-btn';
+    btn.textContent = ch;
+    btn.style.cssText = 'width:32px;height:32px;font-size:16px;flex-shrink:0;aspect-ratio:auto;';
+    btn.onclick = () => copyChar(ch, btn);
+    btn.onmouseenter = () => {
+      document.getElementById('preview').textContent = ch;
+      document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+    };
+    container.appendChild(btn);
+  });
+}
+
+function clearRecent() {
+  recentChars = [];
+  localStorage.setItem('recentChars', JSON.stringify(recentChars));
+  renderRecent();
+  showToast('최근 사용 목록 삭제됨');
+}
+
+function filterChars() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) {
+    const grid = document.getElementById('charGrid');
+    grid.innerHTML = '';
+    grid.className = 'char-grid';
+    for (const [catName, subs] of Object.entries(CATEGORIES)) {
+      for (const [subName, chars] of Object.entries(subs)) {
+        const charArr = [...chars];
+        const filtered = charArr.filter(c =>
+          c.includes(q) ||
+          subName.toLowerCase().includes(q.toLowerCase()) ||
+          catName.toLowerCase().includes(q.toLowerCase()) ||
+          ('U+' + c.codePointAt(0).toString(16).toUpperCase()).includes(q.toUpperCase())
+        );
+        if (filtered.length === 0) continue;
+        const header = document.createElement('div');
+        header.className = 'sub-header';
+        header.textContent = `${catName} › ${subName}`;
+        grid.appendChild(header);
+        const isEmoji = EMOJI_KEYS.some(k => k === catName);
+        filtered.forEach(ch => {
+          const btn = document.createElement('button');
+          btn.className = 'char-btn' + (isEmoji ? ' emoji-cell' : '');
+          btn.textContent = ch;
+          btn.onmouseenter = () => {
+            document.getElementById('preview').textContent = ch;
+            document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+          };
+          btn.onclick = () => copyChar(ch, btn);
+          grid.appendChild(btn);
+        });
+      }
+    }
+  } else {
+    renderGrid();
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 1500);
+}
+
+renderTabs();
+renderGrid();
+renderRecent();
+</script>
+</body>
+</html>
