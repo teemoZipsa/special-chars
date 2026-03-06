@@ -330,6 +330,14 @@ const EMOJI_KEYS = Object.keys(EMOJI);
 let currentTab = "기호";
 let recentChars = JSON.parse(localStorage.getItem('recentChars') || '[]');
 
+// ZWJ 이모지, 국기 등 올바르게 분리
+function splitChars(str) {
+  if (Intl.Segmenter) {
+    return [...new Intl.Segmenter().segment(str)].map(s => s.segment);
+  }
+  return [...str];
+}
+
 function isEmojiTab(name) {
   return EMOJI_KEYS.includes(name);
 }
@@ -380,7 +388,7 @@ function renderGrid(filter = '') {
   grid.className = 'char-grid' + (isEmoji ? ' emoji-mode' : '');
   const cat = CATEGORIES[currentTab];
   for (const [subName, chars] of Object.entries(cat)) {
-    const charArr = [...chars];
+    const charArr = splitChars(chars);
     const filtered = filter
       ? charArr.filter(c => c.includes(filter) || subName.includes(filter) || ('U+' + c.codePointAt(0).toString(16).toUpperCase()).includes(filter.toUpperCase()))
       : charArr;
@@ -455,7 +463,7 @@ function filterChars() {
     grid.className = 'char-grid';
     for (const [catName, subs] of Object.entries(CATEGORIES)) {
       for (const [subName, chars] of Object.entries(subs)) {
-        const charArr = [...chars];
+        const charArr = splitChars(chars);
         const filtered = charArr.filter(c =>
           c.includes(q) ||
           subName.toLowerCase().includes(q.toLowerCase()) ||
