@@ -165,34 +165,175 @@
     padding: 8px 4px 4px; border-bottom: 1px solid #2a2a5a; margin-bottom: 2px;
   }
   .sub-header:first-child { padding-top: 0; }
+
+  /* 도구 선택 드롭다운 */
+  .tool-selector { position: relative; }
+  .tool-current {
+    background: none; border: none; color: #fff;
+    font-size: 16px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    letter-spacing: 1px; padding: 0;
+  }
+  .dropdown-arrow { font-size: 12px; opacity: 0.7; transition: transform 0.2s; }
+  .dropdown-arrow.open { transform: rotate(180deg); }
+  .tool-menu {
+    display: none; position: absolute; top: 100%; left: 0;
+    margin-top: 8px; background: #1e1e3a;
+    border: 1px solid #3a3a6a; border-radius: 8px;
+    overflow: hidden; z-index: 100;
+    min-width: 240px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .tool-menu.show { display: block; }
+  .tool-option {
+    padding: 12px 16px; cursor: pointer;
+    font-size: 14px; color: #ccc; transition: background 0.15s;
+  }
+  .tool-option:hover { background: #2a2a5a; color: #fff; }
+  .tool-option.active { background: #533483; color: #fff; }
+
+  /* 글자 수 계산기 */
+  .counter-body { padding: 12px; }
+  #counterInput {
+    width: 100%; height: 200px; resize: vertical;
+    background: #222250; border: 1px solid #333366; border-radius: 8px;
+    color: #e0e0e0; font-size: 14px; padding: 12px;
+    font-family: inherit; outline: none; line-height: 1.6;
+  }
+  #counterInput:focus { border-color: #533483; }
+  #counterInput::placeholder { color: #555588; }
+  .limit-bar {
+    display: flex; gap: 8px; margin-top: 10px; align-items: center;
+  }
+  .limit-bar select, .limit-bar input {
+    background: #2a2a5a; border: 1px solid #3a3a6a; border-radius: 6px;
+    color: #e0e0e0; padding: 6px 10px; font-size: 12px;
+    font-family: inherit; outline: none;
+  }
+  .limit-bar select { cursor: pointer; }
+  .limit-bar input { width: 100px; }
+  .stat-cards {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 8px; margin-top: 12px;
+  }
+  .stat-card {
+    background: #222250; border: 1px solid #333366; border-radius: 8px;
+    padding: 12px 8px; text-align: center;
+  }
+  .stat-value {
+    font-size: 24px; font-weight: 700; color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label { font-size: 11px; color: #8888bb; margin-top: 4px; }
+  .stat-sub { font-size: 9px; color: #6666aa; margin-top: 2px; }
+  .progress-wrap { margin-top: 12px; }
+  .progress-bar {
+    height: 8px; background: #2a2a5a; border-radius: 4px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: #533483; border-radius: 4px;
+    transition: width 0.2s, background-color 0.3s;
+  }
+  .progress-fill.warn { background: #e67e22; }
+  .progress-fill.over { background: #e74c3c; }
+  .progress-text {
+    font-size: 11px; color: #8888bb; text-align: right; margin-top: 4px;
+  }
+  .btn-copy { background: #533483; color: #fff; }
+  .btn-copy:hover { background: #6b44a3; }
 </style>
 </head>
 <body>
 
 <div class="app">
   <div class="titlebar">
-    <h1>⌨ 특수 문자 & 이모지</h1>
-    <div class="search-box">
+    <div class="tool-selector">
+      <button class="tool-current" onclick="toggleToolMenu()">
+        <span id="toolTitle">⌨ 특수 문자 & 이모지</span>
+        <span class="dropdown-arrow" id="dropdownArrow">▾</span>
+      </button>
+      <div class="tool-menu" id="toolMenu">
+        <div class="tool-option active" data-tool="special-chars" onclick="switchTool('special-chars')">⌨ 특수 문자 & 이모지</div>
+        <div class="tool-option" data-tool="char-counter" onclick="switchTool('char-counter')">📏 글자 수 계산기</div>
+      </div>
+    </div>
+    <div class="search-box" id="searchBox">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       <input type="text" id="searchInput" placeholder="검색..." oninput="filterChars()">
     </div>
   </div>
 
-  <div class="recent-bar">
-    <span class="label">최근 ▸</span>
-    <div class="recent-chars" id="recentChars"></div>
+  <div id="tool-special-chars">
+    <div class="recent-bar">
+      <span class="label">최근 ▸</span>
+      <div class="recent-chars" id="recentChars"></div>
+    </div>
+
+    <div class="tab-groups" id="tabBar"></div>
+
+    <div class="grid-container">
+      <div class="char-grid" id="charGrid"></div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="preview" id="preview"></div>
+      <div class="info">클릭: 복사 | 유니코드: <span id="codeInfo">-</span></div>
+      <button class="action-btn btn-clear" onclick="clearRecent()">최근 삭제</button>
+    </div>
   </div>
 
-  <div class="tab-groups" id="tabBar"></div>
+  <div id="tool-char-counter" style="display:none">
+    <div class="counter-body">
+      <textarea id="counterInput" placeholder="여기에 텍스트를 입력하세요..." oninput="updateCounter()"></textarea>
 
-  <div class="grid-container">
-    <div class="char-grid" id="charGrid"></div>
-  </div>
+      <div class="limit-bar">
+        <select id="limitType" onchange="updateCounter()">
+          <option value="none">제한 없음</option>
+          <option value="chars">글자 수 제한</option>
+          <option value="bytes-utf8">바이트 제한 (UTF-8)</option>
+          <option value="bytes-euckr">바이트 제한 (EUC-KR)</option>
+        </select>
+        <input type="number" id="limitValue" placeholder="예: 500" oninput="updateCounter()" style="display:none">
+      </div>
 
-  <div class="bottom-bar">
-    <div class="preview" id="preview"></div>
-    <div class="info">클릭: 복사 | 유니코드: <span id="codeInfo">-</span></div>
-    <button class="action-btn btn-clear" onclick="clearRecent()">최근 삭제</button>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-value" id="statChars">0</div>
+          <div class="stat-label">전체 글자</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statNoSpace">0</div>
+          <div class="stat-label">공백 제외</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statWords">0</div>
+          <div class="stat-label">단어</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statLines">0</div>
+          <div class="stat-label">줄</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statBytes">0</div>
+          <div class="stat-label">바이트</div>
+          <div class="stat-sub" id="statBytesType">UTF-8</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap" id="progressWrap" style="display:none">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 500</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="info">실시간 계산</div>
+      <div style="display:flex;gap:8px">
+        <button class="action-btn btn-clear" onclick="clearCounter()">초기화</button>
+        <button class="action-btn btn-copy" onclick="copyStats()">결과 복사</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -511,6 +652,110 @@ function showToast(msg) {
   t.classList.add('show');
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), 1500);
+}
+
+let currentTool = 'special-chars';
+
+function toggleToolMenu() {
+  const menu = document.getElementById('toolMenu');
+  const arrow = document.getElementById('dropdownArrow');
+  menu.classList.toggle('show');
+  arrow.classList.toggle('open');
+}
+
+function switchTool(toolId) {
+  if (currentTool === toolId) { toggleToolMenu(); return; }
+  currentTool = toolId;
+  document.getElementById('tool-special-chars').style.display = toolId === 'special-chars' ? '' : 'none';
+  document.getElementById('tool-char-counter').style.display = toolId === 'char-counter' ? '' : 'none';
+  document.getElementById('searchBox').style.display = toolId === 'special-chars' ? '' : 'none';
+  // 타이틀 업데이트
+  const titles = { 'special-chars': '⌨ 특수 문자 & 이모지', 'char-counter': '📏 글자 수 계산기' };
+  document.getElementById('toolTitle').textContent = titles[toolId];
+  document.title = titles[toolId];
+  // 메뉴 active 업데이트
+  document.querySelectorAll('.tool-option').forEach(el => {
+    el.classList.toggle('active', el.dataset.tool === toolId);
+  });
+  // 드롭다운 닫기
+  document.getElementById('toolMenu').classList.remove('show');
+  document.getElementById('dropdownArrow').classList.remove('open');
+}
+
+// 외부 클릭 시 드롭다운 닫기
+document.addEventListener('click', e => {
+  if (!e.target.closest('.tool-selector')) {
+    document.getElementById('toolMenu').classList.remove('show');
+    document.getElementById('dropdownArrow').classList.remove('open');
+  }
+});
+
+// 글자 수 계산기
+function updateCounter() {
+  const text = document.getElementById('counterInput').value;
+  const chars = [...text].length;
+  const noSpace = [...text.replace(/\s/g, '')].length;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const lines = text ? text.split('\n').length : 0;
+  const utf8Bytes = new TextEncoder().encode(text).length;
+  const euckrBytes = calcEuckrBytes(text);
+
+  document.getElementById('statChars').textContent = chars.toLocaleString();
+  document.getElementById('statNoSpace').textContent = noSpace.toLocaleString();
+  document.getElementById('statWords').textContent = words.toLocaleString();
+  document.getElementById('statLines').textContent = lines.toLocaleString();
+
+  const limitType = document.getElementById('limitType').value;
+  if (limitType === 'bytes-euckr') {
+    document.getElementById('statBytes').textContent = euckrBytes.toLocaleString();
+    document.getElementById('statBytesType').textContent = 'EUC-KR';
+  } else {
+    document.getElementById('statBytes').textContent = utf8Bytes.toLocaleString();
+    document.getElementById('statBytesType').textContent = 'UTF-8';
+  }
+
+  document.getElementById('limitValue').style.display = limitType === 'none' ? 'none' : '';
+  updateProgress(limitType, chars, utf8Bytes, euckrBytes);
+}
+
+function calcEuckrBytes(text) {
+  let bytes = 0;
+  for (const ch of text) {
+    bytes += ch.codePointAt(0) <= 0x7F ? 1 : 2;
+  }
+  return bytes;
+}
+
+function updateProgress(limitType, chars, utf8, euckr) {
+  const wrap = document.getElementById('progressWrap');
+  if (limitType === 'none') { wrap.style.display = 'none'; return; }
+  const limit = parseInt(document.getElementById('limitValue').value) || 0;
+  if (!limit) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  let current = limitType === 'chars' ? chars : limitType === 'bytes-utf8' ? utf8 : euckr;
+  const pct = Math.min((current / limit) * 100, 100);
+  const fill = document.getElementById('progressFill');
+  fill.style.width = pct + '%';
+  fill.className = 'progress-fill' + (current > limit ? ' over' : pct > 80 ? ' warn' : '');
+  document.getElementById('progressText').textContent =
+    current.toLocaleString() + ' / ' + limit.toLocaleString() + (current > limit ? ' ⚠ 초과!' : '');
+}
+
+function clearCounter() {
+  document.getElementById('counterInput').value = '';
+  updateCounter();
+}
+
+function copyStats() {
+  const text = document.getElementById('counterInput').value;
+  const chars = [...text].length;
+  const noSpace = [...text.replace(/\s/g, '')].length;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const lines = text ? text.split('\n').length : 0;
+  const utf8 = new TextEncoder().encode(text).length;
+  const euckr = calcEuckrBytes(text);
+  const result = `전체 글자: ${chars}\n공백 제외: ${noSpace}\n단어 수: ${words}\n줄 수: ${lines}\nUTF-8 바이트: ${utf8}\nEUC-KR 바이트: ${euckr}`;
+  navigator.clipboard.writeText(result).then(() => showToast('결과가 복사되었습니다!'));
 }
 
 renderTabs();
