@@ -240,6 +240,46 @@
   }
   .btn-copy { background: #533483; color: #fff; }
   .btn-copy:hover { background: #6b44a3; }
+
+  /* === 날짜 계산기 === */
+  .date-section { margin-bottom: 16px; }
+  .date-section-title {
+    font-size: 13px; font-weight: 600; color: #b0b0e0;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .date-row {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .date-row label { font-size: 12px; color: #8888bb; min-width: 42px; }
+  .date-row input[type="date"],
+  .date-row input[type="number"] {
+    background: #2a2a5a; border: 1px solid #3a3a6a; border-radius: 6px;
+    color: #e0e0ff; padding: 6px 10px; font-size: 13px; flex: 1;
+    font-family: inherit; outline: none;
+  }
+  .date-row input[type="date"]:focus,
+  .date-row input[type="number"]:focus { border-color: #533483; }
+  .date-row input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
+  .checkbox-row {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: #8888bb; margin-bottom: 8px;
+  }
+  .checkbox-row input[type="checkbox"] { accent-color: #533483; }
+  .date-result-card {
+    background: #222250; border-radius: 10px; padding: 14px;
+    text-align: center; margin-top: 8px;
+  }
+  .date-result-value { font-size: 28px; font-weight: 700; color: #e0e0ff; }
+  .date-result-sub { font-size: 12px; color: #8888bb; margin-top: 4px; }
+  .quick-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .quick-btn {
+    background: #2a2a5a; border: 1px solid #3a3a6a; border-radius: 6px;
+    color: #b0b0e0; padding: 5px 12px; font-size: 11px; cursor: pointer;
+    transition: background 0.15s; font-family: inherit;
+  }
+  .quick-btn:hover { background: #3a3a6a; }
+  .section-divider { border: none; border-top: 1px solid #333366; margin: 16px 0; }
 </style>
 </head>
 <body>
@@ -254,6 +294,7 @@
       <div class="tool-menu" id="toolMenu">
         <div class="tool-option active" data-tool="special-chars" onclick="switchTool('special-chars')">⌨ 특수 문자 & 이모지</div>
         <div class="tool-option" data-tool="char-counter" onclick="switchTool('char-counter')">📏 글자 수 계산기</div>
+        <div class="tool-option" data-tool="date-calc" onclick="switchTool('date-calc')">📅 날짜 / D-Day 계산기</div>
       </div>
     </div>
     <div class="search-box" id="searchBox">
@@ -332,6 +373,69 @@
       <div style="display:flex;gap:8px">
         <button class="action-btn btn-clear" onclick="clearCounter()">초기화</button>
         <button class="action-btn btn-copy" onclick="copyStats()">결과 복사</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tool-date-calc" style="display:none">
+    <div class="counter-body">
+      <!-- 기능1: D-Day 계산 -->
+      <div class="date-section">
+        <div class="date-section-title">📆 D-Day 계산</div>
+        <div class="date-row">
+          <label>시작일</label>
+          <input type="date" id="ddayStart">
+        </div>
+        <div class="date-row">
+          <label>목표일</label>
+          <input type="date" id="ddayEnd">
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="ddayInclusive">
+          <label for="ddayInclusive">시작일을 1일로 포함 (초일 산입)</label>
+          <span title="체크하면 시작일을 D-1이 아닌 D-Day 1일째로 계산합니다.&#10;예: 1월1일~1월3일 → 체크 시 3일, 미체크 시 2일&#10;기념일·만일 계산에는 체크, 업무 D-Day는 미체크 권장" style="cursor:help;color:#8888bb;">ⓘ</span>
+        </div>
+        <div class="date-result-card" id="ddayResult">
+          <div class="date-result-value" id="ddayValue">-</div>
+          <div class="date-result-sub" id="ddaySub">날짜를 선택하세요</div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- 기능2: 날짜 더하기/빼기 -->
+      <div class="date-section">
+        <div class="date-section-title">🧮 날짜 계산 (기준일 ± 일수)</div>
+        <div class="date-row">
+          <label>기준일</label>
+          <input type="date" id="dateBase">
+        </div>
+        <div class="date-row">
+          <label>일수</label>
+          <input type="number" id="dateDays" placeholder="예: 100, -30">
+        </div>
+        <div class="quick-buttons">
+          <button class="quick-btn" onclick="applyQuick(7)">+7일</button>
+          <button class="quick-btn" onclick="applyQuick(30)">+30일</button>
+          <button class="quick-btn" onclick="applyQuick(100)">+100일</button>
+          <button class="quick-btn" onclick="applyQuick(365)">+1년</button>
+          <button class="quick-btn" onclick="applyQuick(-7)">-7일</button>
+          <button class="quick-btn" onclick="applyQuick(-30)">-30일</button>
+          <button class="quick-btn" onclick="applyQuick(-100)">-100일</button>
+          <button class="quick-btn" onclick="applyQuick(-365)">-1년</button>
+        </div>
+        <div class="date-result-card" id="dateAddResult">
+          <div class="date-result-value" id="dateAddValue">-</div>
+          <div class="date-result-sub" id="dateAddSub">기준일과 일수를 입력하세요</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="info">실시간 계산</div>
+      <div style="display:flex;gap:8px">
+        <button class="action-btn btn-clear" onclick="clearDateCalc()">초기화</button>
+        <button class="action-btn btn-copy" onclick="copyDateResult()">결과 복사</button>
       </div>
     </div>
   </div>
@@ -668,9 +772,10 @@ function switchTool(toolId) {
   currentTool = toolId;
   document.getElementById('tool-special-chars').style.display = toolId === 'special-chars' ? '' : 'none';
   document.getElementById('tool-char-counter').style.display = toolId === 'char-counter' ? '' : 'none';
+  document.getElementById('tool-date-calc').style.display = toolId === 'date-calc' ? '' : 'none';
   document.getElementById('searchBox').style.display = toolId === 'special-chars' ? '' : 'none';
   // 타이틀 업데이트
-  const titles = { 'special-chars': '⌨ 특수 문자 & 이모지', 'char-counter': '📏 글자 수 계산기' };
+  const titles = { 'special-chars': '⌨ 특수 문자 & 이모지', 'char-counter': '📏 글자 수 계산기', 'date-calc': '📅 날짜 / D-Day 계산기' };
   document.getElementById('toolTitle').textContent = titles[toolId];
   document.title = titles[toolId];
   // 메뉴 active 업데이트
@@ -757,6 +862,100 @@ function copyStats() {
   const result = `전체 글자: ${chars}\n공백 제외: ${noSpace}\n단어 수: ${words}\n줄 수: ${lines}\nUTF-8 바이트: ${utf8}\nEUC-KR 바이트: ${euckr}`;
   navigator.clipboard.writeText(result).then(() => showToast('결과가 복사되었습니다!'));
 }
+
+// === 날짜/D-Day 계산기 ===
+function calcDday() {
+  const start = document.getElementById('ddayStart').value;
+  const end = document.getElementById('ddayEnd').value;
+  if (!start || !end) {
+    document.getElementById('ddayValue').textContent = '-';
+    document.getElementById('ddaySub').textContent = '날짜를 선택하세요';
+    return;
+  }
+  const s = new Date(start), e = new Date(end);
+  let diff = Math.round((e - s) / 86400000);
+  const inclusive = document.getElementById('ddayInclusive').checked;
+  if (inclusive) diff += 1;
+  const absD = Math.abs(diff);
+  if (inclusive) {
+    document.getElementById('ddayValue').textContent = `${absD}일`;
+  } else {
+    if (diff === 0) document.getElementById('ddayValue').textContent = 'D-Day';
+    else if (diff > 0) document.getElementById('ddayValue').textContent = `D-${diff}`;
+    else document.getElementById('ddayValue').textContent = `D+${Math.abs(diff)}`;
+  }
+  const weeks = Math.floor(absD / 7);
+  const remain = absD % 7;
+  const months = Math.floor(absD / 30);
+  let sub = `${absD}일`;
+  if (weeks > 0) sub += ` = ${weeks}주 ${remain}일`;
+  if (months > 0) sub += ` ≈ ${months}개월`;
+  document.getElementById('ddaySub').textContent = sub;
+}
+
+function calcDateAdd() {
+  const base = document.getElementById('dateBase').value;
+  const days = parseInt(document.getElementById('dateDays').value);
+  if (!base || isNaN(days)) {
+    document.getElementById('dateAddValue').textContent = '-';
+    document.getElementById('dateAddSub').textContent = '기준일과 일수를 입력하세요';
+    return;
+  }
+  const d = new Date(base);
+  d.setDate(d.getDate() + days);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+  const dayName = weekdays[d.getDay()];
+  document.getElementById('dateAddValue').textContent = `${yyyy}-${mm}-${dd} (${dayName})`;
+  const sign = days >= 0 ? '+' : '';
+  document.getElementById('dateAddSub').textContent = `${base} 부터 ${sign}${days}일`;
+}
+
+function applyQuick(days) {
+  if (!document.getElementById('dateBase').value) {
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = String(today.getMonth() + 1).padStart(2, '0');
+    const d = String(today.getDate()).padStart(2, '0');
+    document.getElementById('dateBase').value = `${y}-${m}-${d}`;
+  }
+  document.getElementById('dateDays').value = days;
+  calcDateAdd();
+}
+
+function clearDateCalc() {
+  document.getElementById('ddayStart').value = '';
+  document.getElementById('ddayEnd').value = '';
+  document.getElementById('ddayInclusive').checked = false;
+  document.getElementById('ddayValue').textContent = '-';
+  document.getElementById('ddaySub').textContent = '날짜를 선택하세요';
+  document.getElementById('dateBase').value = '';
+  document.getElementById('dateDays').value = '';
+  document.getElementById('dateAddValue').textContent = '-';
+  document.getElementById('dateAddSub').textContent = '기준일과 일수를 입력하세요';
+  showToast('초기화 완료');
+}
+
+function copyDateResult() {
+  const dday = document.getElementById('ddayValue').textContent;
+  const ddaySub = document.getElementById('ddaySub').textContent;
+  const dateAdd = document.getElementById('dateAddValue').textContent;
+  const dateAddSub = document.getElementById('dateAddSub').textContent;
+  let text = '';
+  if (dday !== '-') text += `D-Day: ${dday} (${ddaySub})\n`;
+  if (dateAdd !== '-') text += `날짜 계산: ${dateAdd} (${dateAddSub})`;
+  if (!text) { showToast('복사할 결과가 없습니다'); return; }
+  navigator.clipboard.writeText(text.trim()).then(() => showToast('결과가 복사되었습니다!'));
+}
+
+// 날짜 계산기 이벤트 리스너
+document.getElementById('ddayStart').addEventListener('change', calcDday);
+document.getElementById('ddayEnd').addEventListener('change', calcDday);
+document.getElementById('ddayInclusive').addEventListener('change', calcDday);
+document.getElementById('dateBase').addEventListener('change', calcDateAdd);
+document.getElementById('dateDays').addEventListener('input', calcDateAdd);
 
 renderTabs();
 renderGrid();
