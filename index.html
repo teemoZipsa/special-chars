@@ -25,6 +25,9 @@
     width: 720px;
     max-width: 100%;
     overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
   }
   .titlebar {
     background: linear-gradient(135deg, #0f3460, #533483);
@@ -480,8 +483,8 @@
     </div>
   </div>
 
-  <div id="tool-unit-conv" style="display:none">
-    <div class="counter-body" style="overflow-y:auto;max-height:480px">
+  <div id="tool-unit-conv" style="display:none; flex: 1; flex-direction: column;">
+    <div class="counter-body" style="overflow-y:auto; flex: 1; max-height:480px">
       <div class="conv-cat-tabs">
         <div class="tab-row" id="unitCatTabs"></div>
       </div>
@@ -826,11 +829,27 @@ function toggleToolMenu() {
 function switchTool(toolId) {
   if (currentTool === toolId) { toggleToolMenu(); return; }
   currentTool = toolId;
-  document.getElementById('tool-special-chars').style.display = toolId === 'special-chars' ? '' : 'none';
-  document.getElementById('tool-char-counter').style.display = toolId === 'char-counter' ? '' : 'none';
-  document.getElementById('tool-date-calc').style.display = toolId === 'date-calc' ? '' : 'none';
-  document.getElementById('tool-unit-conv').style.display = toolId === 'unit-conv' ? '' : 'none';
-  document.getElementById('searchBox').style.display = toolId === 'special-chars' ? '' : 'none';
+  document.getElementById('tool-special-chars').style.display = toolId === 'special-chars' ? 'flex' : 'none';
+  if (toolId === 'special-chars') {
+    document.getElementById('tool-special-chars').style.flexDirection = 'column';
+    document.getElementById('tool-special-chars').style.flex = '1';
+  }
+  document.getElementById('tool-char-counter').style.display = toolId === 'char-counter' ? 'flex' : 'none';
+  if (toolId === 'char-counter') {
+    document.getElementById('tool-char-counter').style.flexDirection = 'column';
+    document.getElementById('tool-char-counter').style.flex = '1';
+  }
+  document.getElementById('tool-date-calc').style.display = toolId === 'date-calc' ? 'flex' : 'none';
+  if (toolId === 'date-calc') {
+    document.getElementById('tool-date-calc').style.flexDirection = 'column';
+    document.getElementById('tool-date-calc').style.flex = '1';
+  }
+  document.getElementById('tool-unit-conv').style.display = toolId === 'unit-conv' ? 'flex' : 'none';
+  if (toolId === 'unit-conv') {
+    document.getElementById('tool-unit-conv').style.flexDirection = 'column';
+    document.getElementById('tool-unit-conv').style.flex = '1';
+  }
+  document.getElementById('searchBox').style.display = toolId === 'special-chars' ? 'flex' : 'none';
   // 타이틀 업데이트
   const titles = { 'special-chars': '⌨ 특수 문자 & 이모지', 'char-counter': '📏 글자 수 계산기', 'date-calc': '📅 날짜 / D-Day 계산기', 'unit-conv': '📐 생활 단위 변환기' };
   document.getElementById('toolTitle').textContent = titles[toolId];
