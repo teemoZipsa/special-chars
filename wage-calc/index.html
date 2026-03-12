@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<title>💵 시급 ↔ 월급/연봉 환산기 — 티모집사</title>
+<meta name="description" content="시급, 월급, 연봉을 자유롭게 환산! 근무시간 설정 가능. 2025년 최저시급 기준 포함.">
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Pretendard',sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+  .app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:460px;max-width:100%;overflow:hidden}
+  .header{background:linear-gradient(135deg,#0f3460,#533483);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+  .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+  .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+  .header h1{font-size:15px;font-weight:600;color:#fff}
+  .body{padding:16px;display:flex;flex-direction:column;gap:14px}
+
+  .section{background:#1a1a3e;border-radius:12px;padding:14px 16px;border:1px solid #2a2a5a}
+  .section-title{font-size:12px;font-weight:700;color:#8888bb;margin-bottom:10px}
+  .field-row{display:flex;gap:10px;margin-bottom:8px}
+  .field-row:last-child{margin-bottom:0}
+  .field{flex:1;display:flex;flex-direction:column;gap:3px}
+  .field label{font-size:10px;color:#6666aa;font-weight:600}
+  .field input,.field select{
+    background:#12122e;border:1px solid #2a2a5a;border-radius:8px;
+    color:#e0e0ff;padding:10px 12px;font-size:15px;font-family:inherit;outline:none;width:100%
+  }
+  .field input:focus{border-color:#533483}
+  .field input::placeholder{color:#333355}
+
+  .result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .r-card{
+    background:linear-gradient(135deg,#1a1a50,#2a1a50);
+    border:1px solid #3a2a6a;border-radius:12px;padding:14px 10px;text-align:center;
+    cursor:pointer;transition:all .15s;
+  }
+  .r-card:hover{border-color:#7c5eb8;transform:translateY(-2px)}
+  .r-card.active{border-color:#a78bfa;background:#2a2a60}
+  .r-label{font-size:10px;color:#6666aa;margin-bottom:4px}
+  .r-value{font-size:16px;font-weight:800;color:#fff;word-break:break-all}
+  .r-sub{font-size:9px;color:#555580;margin-top:2px}
+
+  .min-wage{
+    background:#1a2a1a;border:1px solid #2a4a2a;border-radius:10px;
+    padding:10px 14px;font-size:11px;color:#4ade80;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .min-wage button{
+    background:#2a4a2a;border:none;color:#4ade80;padding:4px 10px;
+    border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;
+    transition:background .15s;
+  }
+  .min-wage button:hover{background:#3a5a3a}
+
+  .hint{font-size:10px;color:#555580;text-align:center}
+
+  .footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
+  .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:#b0b0e0}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>💵 시급 ↔ 월급/연봉 환산기</h1>
+  </div>
+  <div class="body">
+    <div class="section">
+      <div class="section-title">⏰ 근무 조건</div>
+      <div class="field-row">
+        <div class="field">
+          <label>일 근무시간</label>
+          <input type="number" id="hoursDay" value="8" min="1" max="24" oninput="calc()">
+        </div>
+        <div class="field">
+          <label>주 근무일수</label>
+          <input type="number" id="daysWeek" value="5" min="1" max="7" oninput="calc()">
+        </div>
+        <div class="field">
+          <label>주휴수당 포함</label>
+          <select id="weeklyHol" onchange="calc()">
+            <option value="yes" selected>포함</option>
+            <option value="no">미포함</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">💰 금액 입력 (하나만 입력하세요)</div>
+      <div class="field-row">
+        <div class="field">
+          <label>시급 (원)</label>
+          <input type="text" id="hourly" placeholder="10,030" oninput="formatAndCalc(this,'hourly')">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>월급 (원)</label>
+          <input type="text" id="monthly" placeholder="" oninput="formatAndCalc(this,'monthly')">
+        </div>
+        <div class="field">
+          <label>연봉 (원)</label>
+          <input type="text" id="yearly" placeholder="" oninput="formatAndCalc(this,'yearly')">
+        </div>
+      </div>
+    </div>
+
+    <div class="min-wage">
+      <span>2025 최저시급: <strong>10,030원</strong></span>
+      <button onclick="applyMinWage()">적용하기</button>
+    </div>
+
+    <div class="result-grid" id="resultGrid">
+      <div class="r-card">
+        <div class="r-label">시급</div>
+        <div class="r-value" id="rHourly">-</div>
+      </div>
+      <div class="r-card">
+        <div class="r-label">월급</div>
+        <div class="r-value" id="rMonthly">-</div>
+        <div class="r-sub">세전</div>
+      </div>
+      <div class="r-card">
+        <div class="r-label">연봉</div>
+        <div class="r-value" id="rYearly">-</div>
+        <div class="r-sub">세전</div>
+      </div>
+    </div>
+
+    <div class="hint">카드를 클릭하면 금액이 복사됩니다</div>
+  </div>
+  <div class="footer">
+    <span>입력 즉시 실시간 환산</span>
+    <a href="https://teemozipsa.github.io/">😺 더 많은 도구</a>
+  </div>
+</div>
+<script>
+let lastInput = '';
+function formatMoney(el) {
+  let v = el.value.replace(/[^0-9]/g,'');
+  if(v) el.value = parseInt(v).toLocaleString('ko-KR');
+  else el.value = '';
+}
+function parseNum(id) {
+  return parseInt(document.getElementById(id).value.replace(/[^0-9]/g,'')) || 0;
+}
+function fmtWon(n) {
+  if(n>=1e8){const e=Math.floor(n/1e8),m=Math.floor((n%1e8)/1e4);return m>0?`${e}억 ${m.toLocaleString()}만`:`${e}억`}
+  if(n>=1e4)return Math.floor(n/1e4).toLocaleString()+'만';
+  return Math.round(n).toLocaleString();
+}
+function formatAndCalc(el, src) {
+  formatMoney(el);
+  lastInput = src;
+  calc();
+}
+function calc() {
+  const hpd = parseInt(document.getElementById('hoursDay').value)||8;
+  const dpw = parseInt(document.getElementById('daysWeek').value)||5;
+  const inclHol = document.getElementById('weeklyHol').value === 'yes';
+  // 월 근무시간 = (일근무×주근무일 + 주휴시간) × 4.345주
+  const weeklyHours = hpd * dpw + (inclHol ? hpd : 0);
+  const monthlyHours = weeklyHours * 4.345;
+
+  let hourly=0, monthly=0, yearly=0;
+
+  if(lastInput==='hourly'){
+    hourly = parseNum('hourly');
+    monthly = Math.round(hourly * monthlyHours);
+    yearly = monthly * 12;
+  } else if(lastInput==='monthly'){
+    monthly = parseNum('monthly');
+    hourly = Math.round(monthly / monthlyHours);
+    yearly = monthly * 12;
+  } else if(lastInput==='yearly'){
+    yearly = parseNum('yearly');
+    monthly = Math.round(yearly / 12);
+    hourly = Math.round(monthly / monthlyHours);
+  } else return;
+
+  document.getElementById('rHourly').textContent = hourly ? fmtWon(hourly)+'원' : '-';
+  document.getElementById('rMonthly').textContent = monthly ? fmtWon(monthly)+'원' : '-';
+  document.getElementById('rYearly').textContent = yearly ? fmtWon(yearly)+'원' : '-';
+
+  // 다른 필드 자동 채움 (현재 입력 중인 필드 제외)
+  if(lastInput!=='hourly' && hourly) document.getElementById('hourly').value = hourly.toLocaleString('ko-KR');
+  if(lastInput!=='monthly' && monthly) document.getElementById('monthly').value = monthly.toLocaleString('ko-KR');
+  if(lastInput!=='yearly' && yearly) document.getElementById('yearly').value = yearly.toLocaleString('ko-KR');
+}
+function applyMinWage() {
+  document.getElementById('hourly').value = '10,030';
+  lastInput = 'hourly';
+  calc();
+}
+// 카드 클릭 복사
+document.querySelectorAll('.r-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const val = card.querySelector('.r-value').textContent;
+    if(val==='-') return;
+    navigator.clipboard.writeText(val).then(()=>{
+      card.style.borderColor='#4ade80';
+      setTimeout(()=>card.style.borderColor='',600);
+    });
+  });
+});
+</script>
+</body>
+</html>
