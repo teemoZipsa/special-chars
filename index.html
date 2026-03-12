@@ -1350,6 +1350,19 @@ renderGrid();
 renderRecent();
 renderUnitCats();
 renderConverters();
+
+// 해시 라우팅: URL에 #counter, #date, #unit 이 있으면 해당 도구로 전환
+(function handleHash() {
+  const hashMap = {
+    '#counter': 'char-counter',
+    '#date': 'date-calc',
+    '#unit': 'unit-conv'
+  };
+  const hash = window.location.hash;
+  if (hash && hashMap[hash]) {
+    switchTool(hashMap[hash]);
+  }
+})();
 </script>
 </body>
 </html>
