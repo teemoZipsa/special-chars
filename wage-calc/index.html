@@ -204,7 +204,7 @@ function parseNum(id) {
 }
 function fmtWon(n) {
   if(n>=1e8){const e=Math.floor(n/1e8),m=Math.floor((n%1e8)/1e4);return m>0?`${e}억 ${m.toLocaleString()}만`:`${e}억`}
-  if(n>=1e4)return Math.floor(n/1e4).toLocaleString()+'만';
+  if(n>=1e5)return Math.floor(n/1e4).toLocaleString()+'만';
   return Math.round(n).toLocaleString();
 }
 function formatAndCalc(el, src) {
