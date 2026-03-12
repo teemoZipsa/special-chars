@@ -170,6 +170,17 @@
   }
   .sub-header:first-child { padding-top: 0; }
 
+  /* 뒤로가기 버튼 */
+  .back-btn {
+    background: rgba(255,255,255,0.12); border: none; color: #ddd;
+    font-size: 12px; cursor: pointer; padding: 5px 10px;
+    border-radius: 6px; text-decoration: none;
+    transition: background 0.2s; white-space: nowrap;
+    display: flex; align-items: center; gap: 4px;
+    font-family: inherit;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.22); color: #fff; }
+
   /* 도구 선택 드롭다운 */
   .tool-selector { position: relative; }
   .tool-current {
@@ -327,6 +338,7 @@
 
 <div class="app">
   <div class="titlebar">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
     <div class="tool-selector">
       <button class="tool-current" onclick="toggleToolMenu()">
         <span id="toolTitle">⌨ 특수 문자 & 이모지</span>
