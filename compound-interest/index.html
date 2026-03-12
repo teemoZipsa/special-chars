@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>💰 복리 계산기 — 티모집사</title>
-<meta name="description" content="원금과 수익률을 넣으면 복리의 마법을 한눈에! 년도별 자산 성장을 차트와 표로 확인하세요.">
+<meta name="description" content="원금과 수익률을 넣고, 매 거래마다 복리로 얼마나 불어나는지 한눈에! 단타·투자 복리 시뮬레이션.">
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -19,7 +20,6 @@
     box-shadow:0 8px 32px rgba(0,0,0,0.5);
     width:480px;max-width:100%;overflow:hidden;
   }
-  /* 헤더 */
   .header{
     background:linear-gradient(135deg,#0f3460,#533483);
     padding:12px 16px;display:flex;justify-content:space-between;align-items:center;
@@ -34,52 +34,49 @@
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
   .header h1{font-size:15px;font-weight:600;color:#fff;letter-spacing:.5px}
 
-  /* 입력 영역 */
+  /* 입력 */
   .inputs{padding:16px;display:flex;flex-direction:column;gap:12px}
   .input-row{display:flex;gap:10px;align-items:flex-end}
   .input-group{flex:1;display:flex;flex-direction:column;gap:4px}
   .input-group label{font-size:11px;color:#8888bb;font-weight:600}
-  .input-group input,.input-group select{
+  .input-group input{
     background:#1a1a3e;border:1px solid #2a2a5a;border-radius:8px;
     color:#e0e0ff;padding:10px 12px;font-size:15px;font-family:inherit;
     outline:none;width:100%;
   }
   .input-group input:focus{border-color:#533483}
   .input-group input::placeholder{color:#444466}
-
   .calc-btn{
     background:linear-gradient(135deg,#533483,#6b44a3);
     border:none;color:#fff;padding:12px;border-radius:10px;
     font-size:15px;font-weight:700;cursor:pointer;
-    font-family:inherit;transition:opacity .2s;
-    width:100%;
+    font-family:inherit;transition:opacity .2s;width:100%;
   }
   .calc-btn:hover{opacity:.9}
-  .calc-btn:active{opacity:.8}
 
-  /* 결과 요약 */
-  .summary{
-    display:none;padding:0 16px;
-  }
-  .summary-cards{
-    display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;
-  }
-  .s-card{
-    background:#1a1a3e;border-radius:10px;padding:12px 10px;text-align:center;
-  }
+  /* 요약 */
+  .summary{display:none;padding:0 16px 12px}
+  .summary-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .s-card{background:#1a1a3e;border-radius:10px;padding:12px 8px;text-align:center}
   .s-card .s-label{font-size:10px;color:#6666aa;margin-bottom:4px}
-  .s-card .s-value{font-size:16px;font-weight:700;color:#fff}
+  .s-card .s-value{font-size:15px;font-weight:700;color:#fff}
   .s-card .s-value.profit{color:#4ade80}
   .s-card .s-value.rate{color:#facc15}
 
-  /* 차트 */
-  .chart-wrap{
-    display:none;padding:0 16px 12px;
+  /* 이스터에그 */
+  .buffett-msg{
+    display:none;text-align:center;padding:0 16px 12px;
+    font-size:12px;color:#facc15;
+    animation:fadeIn .8s ease;
   }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* 차트 */
+  .chart-wrap{display:none;padding:0 16px 12px}
   .chart-title{font-size:11px;color:#6666aa;margin-bottom:8px;font-weight:600}
   .chart{
     background:#1a1a3e;border-radius:10px;padding:12px;
-    height:200px;display:flex;align-items:flex-end;gap:2px;
+    height:180px;display:flex;align-items:flex-end;gap:2px;
     position:relative;overflow:hidden;
   }
   .bar-wrap{
@@ -89,56 +86,57 @@
   .bar{
     width:100%;border-radius:4px 4px 0 0;
     background:linear-gradient(180deg,#a78bfa,#533483);
-    transition:height .6s cubic-bezier(.34,1.56,.64,1);
+    transition:height .5s cubic-bezier(.34,1.56,.64,1);
     min-height:2px;position:relative;cursor:pointer;
   }
   .bar:hover{background:linear-gradient(180deg,#c4b5fd,#7c3aed)}
-  .bar-label{
-    font-size:8px;color:#6666aa;margin-top:4px;
-    white-space:nowrap;
-  }
+  .bar-label{font-size:8px;color:#6666aa;margin-top:3px;white-space:nowrap}
   .bar-tooltip{
     display:none;position:absolute;bottom:calc(100% + 6px);
     left:50%;transform:translateX(-50%);
     background:#222250;color:#e0e0ff;font-size:10px;
     padding:4px 8px;border-radius:6px;white-space:nowrap;
-    box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:10;
-    font-weight:600;
+    box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:10;font-weight:600;
   }
   .bar:hover .bar-tooltip{display:block}
 
-  /* 테이블 */
-  .table-wrap{
-    display:none;padding:0 16px 16px;
+  /* 시도별 리스트 */
+  .trades-wrap{display:none;padding:0 16px 16px}
+  .trades-title{font-size:11px;color:#6666aa;margin-bottom:8px;font-weight:600}
+  .trades-list{
+    display:flex;flex-direction:column;gap:4px;
+    max-height:400px;overflow-y:auto;
+    padding-right:4px;
   }
-  .table-toggle{
-    background:none;border:1px solid #2a2a5a;color:#8888bb;
-    padding:6px 12px;border-radius:8px;font-size:11px;
-    cursor:pointer;font-family:inherit;margin-bottom:8px;
-    transition:all .2s;
+  .trade-item{
+    display:flex;align-items:center;gap:10px;
+    background:#1a1a3e;border-radius:10px;padding:10px 14px;
+    transition:background .15s;
   }
-  .table-toggle:hover{border-color:#533483;color:#b0b0e0}
-  .table-toggle.open{background:#1a1a3e;color:#e0e0ff}
-  .result-table{
-    display:none;width:100%;border-collapse:collapse;font-size:12px;
+  .trade-item:hover{background:#1e2250}
+  .trade-num{
+    font-size:11px;color:#6666aa;font-weight:700;
+    min-width:32px;text-align:center;
   }
-  .result-table th{
-    background:#1a1a3e;color:#8888bb;padding:8px 6px;
-    text-align:right;font-weight:600;border-bottom:1px solid #2a2a5a;
-    position:sticky;top:0;
+  .trade-info{flex:1;min-width:0}
+  .trade-amount{
+    font-size:15px;font-weight:700;color:#c4b5fd;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
-  .result-table th:first-child{text-align:center;width:50px}
-  .result-table td{
-    padding:7px 6px;text-align:right;border-bottom:1px solid #1a1a3e;
-    color:#c0c0e0;
+  .trade-detail{font-size:11px;color:#6666aa;margin-top:2px}
+  .trade-gain{
+    font-size:13px;font-weight:700;color:#4ade80;
+    white-space:nowrap;
   }
-  .result-table td:first-child{text-align:center;color:#8888bb}
-  .result-table tr:hover td{background:#1a1a3e}
-  .table-scroll{max-height:300px;overflow-y:auto;border-radius:8px;border:1px solid #2a2a5a}
 
-  .profit-cell{color:#4ade80!important}
+  /* 현재 자산 강조 (마지막 아이템) */
+  .trade-item.final{
+    border:1px solid #533483;
+    background:#1e1e50;
+  }
+  .trade-item.final .trade-amount{color:#fff;font-size:17px}
+  .trade-item.final .trade-gain{color:#facc15;font-size:14px}
 
-  /* 푸터 */
   .footer{
     background:#1a1a3e;padding:10px 16px;
     display:flex;justify-content:space-between;align-items:center;
@@ -146,14 +144,6 @@
   }
   .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:#b0b0e0}
-
-  /* 워렌버핏 이스터에그 */
-  .buffett-msg{
-    display:none;text-align:center;padding:0 16px 12px;
-    font-size:12px;color:#facc15;
-    animation:fadeIn .8s ease;
-  }
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -165,26 +155,18 @@
   </div>
 
   <div class="inputs">
-    <div class="input-row">
-      <div class="input-group">
-        <label>💵 원금 (원)</label>
-        <input type="text" id="principal" placeholder="10,000,000" oninput="formatMoney(this)">
-      </div>
+    <div class="input-group">
+      <label>💵 원금 (원)</label>
+      <input type="text" id="principal" placeholder="1,000,000" oninput="formatMoney(this)">
     </div>
     <div class="input-row">
       <div class="input-group">
-        <label>📈 연 수익률 (%)</label>
+        <label>📈 시도당 수익률 (%)</label>
         <input type="number" id="rate" placeholder="10" step="0.1" value="10">
       </div>
       <div class="input-group">
-        <label>📅 투자 기간 (년)</label>
-        <input type="number" id="years" placeholder="30" min="1" max="100" value="30">
-      </div>
-    </div>
-    <div class="input-row">
-      <div class="input-group">
-        <label>💸 매월 추가 적립 (원, 선택)</label>
-        <input type="text" id="monthly" placeholder="0" oninput="formatMoney(this)" value="0">
+        <label>🔄 반복 횟수</label>
+        <input type="number" id="times" placeholder="10" min="1" max="200" value="10">
       </div>
     </div>
     <button class="calc-btn" onclick="calculate()">🚀 복리의 마법 보기</button>
@@ -193,15 +175,15 @@
   <div class="summary" id="summary">
     <div class="summary-cards">
       <div class="s-card">
-        <div class="s-label">원금 합계</div>
+        <div class="s-label">시작 원금</div>
         <div class="s-value" id="sumPrincipal">-</div>
       </div>
       <div class="s-card">
-        <div class="s-label">최종 자산</div>
+        <div class="s-label">최종 금액</div>
         <div class="s-value profit" id="sumTotal">-</div>
       </div>
       <div class="s-card">
-        <div class="s-label">수익률</div>
+        <div class="s-label">총 수익률</div>
         <div class="s-value rate" id="sumRate">-</div>
       </div>
     </div>
@@ -210,29 +192,17 @@
   <div class="buffett-msg" id="buffettMsg"></div>
 
   <div class="chart-wrap" id="chartWrap">
-    <div class="chart-title">📊 연도별 자산 성장</div>
+    <div class="chart-title">📊 시도별 자산 변화</div>
     <div class="chart" id="chart"></div>
   </div>
 
-  <div class="table-wrap" id="tableWrap">
-    <button class="table-toggle" id="tableToggle" onclick="toggleTable()">📋 상세 표 보기</button>
-    <div class="table-scroll" id="tableScroll" style="display:none">
-      <table class="result-table" id="resultTable">
-        <thead>
-          <tr>
-            <th>년</th>
-            <th>누적 원금</th>
-            <th>자산 총액</th>
-            <th>수익금</th>
-          </tr>
-        </thead>
-        <tbody id="resultBody"></tbody>
-      </table>
-    </div>
+  <div class="trades-wrap" id="tradesWrap">
+    <div class="trades-title">📋 시도별 상세</div>
+    <div class="trades-list" id="tradesList"></div>
   </div>
 
   <div class="footer">
-    <span>복리 = 원금 × (1+r)ⁿ</span>
+    <span>매 시도마다 수익을 재투자하는 복리 효과</span>
     <a href="https://teemozipsa.github.io/">😺 더 많은 도구</a>
   </div>
 </div>
@@ -243,83 +213,77 @@ function formatMoney(el) {
   if (v) el.value = parseInt(v).toLocaleString('ko-KR');
   else el.value = '';
 }
-
 function parseMoney(id) {
   return parseInt(document.getElementById(id).value.replace(/[^0-9]/g, '')) || 0;
 }
-
 function fmtWon(n) {
+  if (n >= 1e12) {
+    const jo = Math.floor(n / 1e12);
+    const eok = Math.floor((n % 1e12) / 1e8);
+    return eok > 0 ? `${jo.toLocaleString()}조 ${eok.toLocaleString()}억` : `${jo.toLocaleString()}조`;
+  }
   if (n >= 1e8) {
     const eok = Math.floor(n / 1e8);
     const man = Math.floor((n % 1e8) / 1e4);
     return man > 0 ? `${eok.toLocaleString()}억 ${man.toLocaleString()}만` : `${eok.toLocaleString()}억`;
   }
-  if (n >= 1e4) {
-    const man = Math.floor(n / 1e4);
-    return `${man.toLocaleString()}만`;
-  }
-  return n.toLocaleString() + '원';
+  if (n >= 1e4) return `${Math.floor(n / 1e4).toLocaleString()}만`;
+  return Math.round(n).toLocaleString() + '원';
 }
 
 function calculate() {
   const principal = parseMoney('principal');
   const rate = parseFloat(document.getElementById('rate').value) || 0;
-  const years = parseInt(document.getElementById('years').value) || 0;
-  const monthly = parseMoney('monthly');
-
-  if (!principal || !rate || !years) return;
+  const times = parseInt(document.getElementById('times').value) || 0;
+  if (!principal || !rate || !times) return;
 
   const r = rate / 100;
-  const data = [];
-  let total = principal;
+  const data = [{ round: 0, amount: principal, gain: 0 }];
+  let current = principal;
 
-  for (let y = 1; y <= years; y++) {
-    total = total * (1 + r) + monthly * 12;
-    const invested = principal + monthly * 12 * y;
-    data.push({ year: y, total: Math.round(total), invested });
+  for (let i = 1; i <= times; i++) {
+    const gain = Math.round(current * r);
+    current = current + gain;
+    data.push({ round: i, amount: current, gain });
   }
 
-  const totalInvested = principal + monthly * 12 * years;
-  const finalTotal = data[data.length - 1].total;
-  const profitRate = ((finalTotal - totalInvested) / totalInvested * 100).toFixed(1);
+  const finalAmount = data[data.length - 1].amount;
+  const totalProfit = finalAmount - principal;
+  const totalRate = ((totalProfit / principal) * 100).toFixed(1);
 
   // 요약
-  document.getElementById('sumPrincipal').textContent = fmtWon(totalInvested);
-  document.getElementById('sumTotal').textContent = fmtWon(finalTotal);
-  document.getElementById('sumRate').textContent = '+' + profitRate + '%';
+  document.getElementById('sumPrincipal').textContent = fmtWon(principal);
+  document.getElementById('sumTotal').textContent = fmtWon(finalAmount);
+  document.getElementById('sumRate').textContent = '+' + totalRate + '%';
   document.getElementById('summary').style.display = 'block';
 
-  // 워렌버핏 메시지
+  // 이스터에그
   const msg = document.getElementById('buffettMsg');
-  if (finalTotal >= totalInvested * 10) {
-    msg.textContent = '🤑 자산이 10배 이상! 워렌 버핏도 울고 갑니다! 💸🔥';
+  if (finalAmount >= principal * 10) {
+    msg.textContent = '🤑 자산 10배! 워렌 버핏도 울고 갑니다! 복리는 인류 최대의 발명! 💸🔥';
     msg.style.display = 'block';
-  } else if (finalTotal >= totalInvested * 5) {
+  } else if (finalAmount >= principal * 5) {
     msg.textContent = '🚀 자산 5배 돌파! 복리의 마법이 실현되고 있습니다!';
     msg.style.display = 'block';
-  } else if (finalTotal >= totalInvested * 2) {
-    msg.textContent = '✨ 원금 2배 달성! 이게 바로 복리의 힘입니다!';
+  } else if (finalAmount >= principal * 2) {
+    msg.textContent = '✨ 원금 2배 달성! 이게 바로 복리의 힘!';
     msg.style.display = 'block';
   } else {
     msg.style.display = 'none';
   }
 
-  // 차트
   renderChart(data);
-
-  // 테이블
-  renderTable(data);
+  renderTrades(data, principal);
 
   document.getElementById('chartWrap').style.display = 'block';
-  document.getElementById('tableWrap').style.display = 'block';
+  document.getElementById('tradesWrap').style.display = 'block';
 }
 
 function renderChart(data) {
   const chart = document.getElementById('chart');
   chart.innerHTML = '';
-  const maxVal = Math.max(...data.map(d => d.total));
+  const maxVal = Math.max(...data.map(d => d.amount));
 
-  // 너무 많으면 샘플링
   let displayData = data;
   if (data.length > 30) {
     const step = Math.ceil(data.length / 30);
@@ -329,21 +293,22 @@ function renderChart(data) {
   displayData.forEach(d => {
     const wrap = document.createElement('div');
     wrap.className = 'bar-wrap';
-
     const bar = document.createElement('div');
     bar.className = 'bar';
-    const pct = (d.total / maxVal) * 100;
+    const pct = (d.amount / maxVal) * 100;
     bar.style.height = '0%';
-    setTimeout(() => { bar.style.height = Math.max(pct, 1) + '%'; }, 50);
+    setTimeout(() => { bar.style.height = Math.max(pct, 2) + '%'; }, 50);
 
     const tooltip = document.createElement('div');
     tooltip.className = 'bar-tooltip';
-    tooltip.textContent = `${d.year}년차: ${fmtWon(d.total)}`;
+    tooltip.textContent = d.round === 0
+      ? `시작: ${d.amount.toLocaleString()}원`
+      : `${d.round}회: ${d.amount.toLocaleString()}원 (+${d.gain.toLocaleString()})`;
     bar.appendChild(tooltip);
 
     const label = document.createElement('div');
     label.className = 'bar-label';
-    label.textContent = d.year + '년';
+    label.textContent = d.round === 0 ? '시작' : d.round + '회';
 
     wrap.appendChild(bar);
     wrap.appendChild(label);
@@ -351,41 +316,41 @@ function renderChart(data) {
   });
 }
 
-function renderTable(data) {
-  const body = document.getElementById('resultBody');
-  body.innerHTML = '';
+function renderTrades(data, principal) {
+  const list = document.getElementById('tradesList');
+  list.innerHTML = '';
 
-  data.forEach(d => {
-    const profit = d.total - d.invested;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${d.year}년</td>
-      <td>${d.invested.toLocaleString()}</td>
-      <td style="color:#c4b5fd;font-weight:600">${d.total.toLocaleString()}</td>
-      <td class="profit-cell">+${profit.toLocaleString()}</td>
-    `;
-    body.appendChild(tr);
+  data.forEach((d, idx) => {
+    const item = document.createElement('div');
+    const isFinal = idx === data.length - 1 && idx > 0;
+    item.className = 'trade-item' + (isFinal ? ' final' : '');
+
+    const totalGain = d.amount - principal;
+    const totalRate = ((totalGain / principal) * 100).toFixed(1);
+
+    if (d.round === 0) {
+      item.innerHTML = `
+        <div class="trade-num">시작</div>
+        <div class="trade-info">
+          <div class="trade-amount">${d.amount.toLocaleString()}원</div>
+          <div class="trade-detail">초기 원금</div>
+        </div>
+      `;
+    } else {
+      item.innerHTML = `
+        <div class="trade-num">${d.round}회</div>
+        <div class="trade-info">
+          <div class="trade-amount">${d.amount.toLocaleString()}원</div>
+          <div class="trade-detail">이번 수익 +${d.gain.toLocaleString()}원 · 원금 대비 +${totalRate}%</div>
+        </div>
+        <div class="trade-gain">+${d.gain.toLocaleString()}</div>
+      `;
+    }
+    list.appendChild(item);
   });
 }
 
-function toggleTable() {
-  const scroll = document.getElementById('tableScroll');
-  const btn = document.getElementById('tableToggle');
-  if (scroll.style.display === 'none') {
-    scroll.style.display = 'block';
-    btn.textContent = '📋 상세 표 숨기기';
-    btn.classList.add('open');
-  } else {
-    scroll.style.display = 'none';
-    btn.textContent = '📋 상세 표 보기';
-    btn.classList.remove('open');
-  }
-}
-
-// 엔터 키로 계산
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') calculate();
-});
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 </script>
 
 </body>
