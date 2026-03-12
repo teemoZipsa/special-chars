@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<title>📉 물타기/불타기 계산기 — 티모집사</title>
+<meta name="description" content="코인·주식 물타기 불타기 평단가 계산기. 추가 매수 시 평균 단가를 실시간으로 계산합니다.">
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Pretendard',-apple-system,sans-serif;
+    background:#0f0f23;color:#e0e0f0;
+    min-height:100vh;padding:20px;
+    display:flex;justify-content:center;align-items:flex-start;
+  }
+  .app{
+    background:#16213e;border-radius:16px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.5);
+    width:480px;max-width:100%;overflow:hidden;
+  }
+  .header{
+    background:linear-gradient(135deg,#0f3460,#533483);
+    padding:12px 16px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .back-btn{
+    background:rgba(255,255,255,.12);border:none;color:#ddd;
+    font-size:12px;cursor:pointer;padding:5px 10px;
+    border-radius:6px;text-decoration:none;
+    transition:background .2s;font-family:inherit;
+    display:flex;align-items:center;gap:4px;
+  }
+  .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+  .header h1{font-size:15px;font-weight:600;color:#fff;letter-spacing:.5px}
+
+  .body{padding:16px;display:flex;flex-direction:column;gap:16px}
+
+  /* 섹션 */
+  .section{
+    background:#1a1a3e;border-radius:12px;padding:14px 16px;
+    border:1px solid #2a2a5a;
+  }
+  .section-title{
+    font-size:12px;font-weight:700;color:#8888bb;
+    margin-bottom:10px;display:flex;align-items:center;gap:6px;
+  }
+  .section-title .badge{
+    font-size:10px;padding:2px 8px;border-radius:4px;
+    font-weight:600;
+  }
+  .badge-hold{background:#1e3a5f;color:#60a5fa}
+  .badge-add{background:#3a1e5f;color:#c084fc}
+
+  .field-row{display:flex;gap:10px;margin-bottom:8px}
+  .field-row:last-child{margin-bottom:0}
+  .field{flex:1;display:flex;flex-direction:column;gap:3px}
+  .field label{font-size:10px;color:#6666aa;font-weight:600}
+  .field input{
+    background:#12122e;border:1px solid #2a2a5a;border-radius:8px;
+    color:#e0e0ff;padding:10px 12px;font-size:15px;font-family:inherit;
+    outline:none;width:100%;
+  }
+  .field input:focus{border-color:#533483}
+  .field input::placeholder{color:#333355}
+
+  /* 수량↔금액 토글 */
+  .toggle-row{
+    display:flex;align-items:center;gap:8px;margin-bottom:8px;
+  }
+  .toggle-label{font-size:11px;color:#6666aa}
+  .toggle-btn{
+    display:flex;background:#12122e;border:1px solid #2a2a5a;
+    border-radius:8px;overflow:hidden;
+  }
+  .toggle-opt{
+    padding:5px 12px;font-size:11px;cursor:pointer;
+    font-family:inherit;border:none;background:none;
+    color:#6666aa;transition:all .15s;font-weight:600;
+  }
+  .toggle-opt.active{background:#533483;color:#fff}
+
+  /* 결과 */
+  .result-section{
+    background:linear-gradient(135deg,#1a1a50,#2a1a50);
+    border:1px solid #3a2a6a;border-radius:14px;
+    padding:18px;
+  }
+  .result-title{
+    font-size:12px;font-weight:700;color:#8888bb;
+    margin-bottom:12px;display:flex;align-items:center;gap:6px;
+  }
+
+  .result-main{
+    text-align:center;margin-bottom:14px;
+  }
+  .result-label{font-size:11px;color:#6666aa;margin-bottom:4px}
+  .result-value{
+    font-size:32px;font-weight:800;color:#fff;
+    letter-spacing:-0.5px;
+  }
+  .result-change{
+    font-size:13px;font-weight:700;margin-top:4px;
+  }
+  .change-down{color:#f87171}
+  .change-up{color:#4ade80}
+  .change-same{color:#8888bb}
+
+  .result-stats{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  }
+  .r-stat{
+    background:rgba(0,0,0,.2);border-radius:8px;
+    padding:10px;text-align:center;
+  }
+  .r-stat .r-label{font-size:10px;color:#6666aa;margin-bottom:3px}
+  .r-stat .r-value{font-size:14px;font-weight:700;color:#c4b5fd}
+
+  /* 안내 */
+  .hint{
+    font-size:11px;color:#555580;text-align:center;
+    padding:4px 0;
+  }
+
+  .footer{
+    background:#1a1a3e;padding:10px 16px;
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa;
+  }
+  .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:#b0b0e0}
+
+  /* 애니메이션 */
+  .result-value{transition:color .3s}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>📉 물타기/불타기 계산기</h1>
+  </div>
+
+  <div class="body">
+    <!-- 1단: 기존 보유 -->
+    <div class="section">
+      <div class="section-title">
+        <span class="badge badge-hold">1</span> 내 현재 보유
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>현재 평단가</label>
+          <input type="text" id="curPrice" placeholder="예: 50000" oninput="calc()" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label>보유 수량</label>
+          <input type="text" id="curQty" placeholder="예: 10" oninput="calc()" inputmode="decimal">
+        </div>
+      </div>
+      <div class="hint" id="curTotal">보유 금액: -</div>
+    </div>
+
+    <!-- 2단: 추가 매수 -->
+    <div class="section">
+      <div class="section-title">
+        <span class="badge badge-add">2</span> 추가 매수 계획
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>매수 단가</label>
+          <input type="text" id="addPrice" placeholder="예: 40000" oninput="calc()" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label id="addLabel">추가 수량</label>
+          <input type="text" id="addQtyOrAmt" placeholder="예: 5" oninput="calc()" inputmode="decimal">
+        </div>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">입력 방식:</span>
+        <div class="toggle-btn">
+          <button class="toggle-opt active" id="togQty" onclick="setMode('qty')">수량</button>
+          <button class="toggle-opt" id="togAmt" onclick="setMode('amt')">금액 (원)</button>
+        </div>
+      </div>
+      <div class="hint" id="addConvert">-</div>
+    </div>
+
+    <!-- 3단: 결과 -->
+    <div class="result-section">
+      <div class="result-title">
+        📊 최종 결과
+      </div>
+      <div class="result-main">
+        <div class="result-label">최종 평단가</div>
+        <div class="result-value" id="finalPrice">-</div>
+        <div class="result-change" id="priceChange"></div>
+      </div>
+      <div class="result-stats">
+        <div class="r-stat">
+          <div class="r-label">총 투자 금액</div>
+          <div class="r-value" id="finalInvest">-</div>
+        </div>
+        <div class="r-stat">
+          <div class="r-label">총 보유 수량</div>
+          <div class="r-value" id="finalQty">-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>숫자 입력 즉시 실시간 계산</span>
+    <a href="https://teemozipsa.github.io/">😺 더 많은 도구</a>
+  </div>
+</div>
+
+<script>
+let inputMode = 'qty'; // 'qty' or 'amt'
+
+function setMode(mode) {
+  inputMode = mode;
+  document.getElementById('togQty').classList.toggle('active', mode === 'qty');
+  document.getElementById('togAmt').classList.toggle('active', mode === 'amt');
+  document.getElementById('addLabel').textContent = mode === 'qty' ? '추가 수량' : '추가 금액 (원)';
+  document.getElementById('addQtyOrAmt').placeholder = mode === 'qty' ? '예: 5' : '예: 200000';
+  document.getElementById('addQtyOrAmt').value = '';
+  document.getElementById('addConvert').textContent = '-';
+  calc();
+}
+
+function parseNum(id) {
+  const v = document.getElementById(id).value.replace(/,/g, '').trim();
+  if (v === '' || v === '-') return NaN;
+  return parseFloat(v);
+}
+
+function fmtNum(n, maxDec) {
+  if (isNaN(n) || !isFinite(n)) return '-';
+  // 정수면 콤마, 소수면 적절한 자릿수
+  if (Number.isInteger(n) && Math.abs(n) < 1e15) return n.toLocaleString('ko-KR');
+  // 소수점 자릿수 자동 결정
+  const str = n.toString();
+  const dotIdx = str.indexOf('.');
+  if (dotIdx >= 0) {
+    const decLen = str.length - dotIdx - 1;
+    const dec = Math.min(decLen, maxDec || 8);
+    return n.toLocaleString('ko-KR', { minimumFractionDigits: 0, maximumFractionDigits: dec });
+  }
+  return n.toLocaleString('ko-KR');
+}
+
+function fmtWon(n) {
+  if (isNaN(n)) return '-';
+  if (n >= 1e8) {
+    const eok = Math.floor(n / 1e8);
+    const man = Math.floor((n % 1e8) / 1e4);
+    return man > 0 ? `${eok.toLocaleString()}억 ${man.toLocaleString()}만원` : `${eok.toLocaleString()}억원`;
+  }
+  if (n >= 1e4) return `${Math.floor(n / 1e4).toLocaleString()}만원`;
+  return fmtNum(n, 2) + '원';
+}
+
+function calc() {
+  const curPrice = parseNum('curPrice');
+  const curQty = parseNum('curQty');
+  const addPrice = parseNum('addPrice');
+  const rawInput = parseNum('addQtyOrAmt');
+
+  // 보유 금액 표시
+  if (!isNaN(curPrice) && !isNaN(curQty)) {
+    const curTotal = curPrice * curQty;
+    document.getElementById('curTotal').textContent = '보유 금액: ' + fmtWon(curTotal);
+  } else {
+    document.getElementById('curTotal').textContent = '보유 금액: -';
+  }
+
+  // 추가 수량 계산
+  let addQty = NaN;
+  if (inputMode === 'qty') {
+    addQty = rawInput;
+    if (!isNaN(addQty) && !isNaN(addPrice) && addPrice > 0) {
+      const addTotal = addPrice * addQty;
+      document.getElementById('addConvert').textContent = '= ' + fmtWon(addTotal);
+    } else {
+      document.getElementById('addConvert').textContent = '-';
+    }
+  } else {
+    // 금액 → 수량 역산
+    const addAmt = rawInput;
+    if (!isNaN(addAmt) && !isNaN(addPrice) && addPrice > 0) {
+      addQty = addAmt / addPrice;
+      document.getElementById('addConvert').textContent = '= ' + fmtNum(addQty, 8) + '개';
+    } else {
+      document.getElementById('addConvert').textContent = '-';
+    }
+  }
+
+  // 최종 계산
+  if (!isNaN(curPrice) && !isNaN(curQty) && !isNaN(addPrice) && !isNaN(addQty) && addQty > 0) {
+    const totalInvest = curPrice * curQty + addPrice * addQty;
+    const totalQty = curQty + addQty;
+    const finalAvg = totalInvest / totalQty;
+
+    document.getElementById('finalPrice').textContent = fmtNum(finalAvg, 8);
+    document.getElementById('finalInvest').textContent = fmtWon(totalInvest);
+    document.getElementById('finalQty').textContent = fmtNum(totalQty, 8);
+
+    // 변동 표시
+    const diff = finalAvg - curPrice;
+    const pct = ((diff / curPrice) * 100).toFixed(2);
+    const changeEl = document.getElementById('priceChange');
+    if (diff < 0) {
+      changeEl.textContent = `▼ ${fmtNum(Math.abs(diff), 4)} (${pct}%) — 물타기 성공!`;
+      changeEl.className = 'result-change change-down';
+    } else if (diff > 0) {
+      changeEl.textContent = `▲ ${fmtNum(diff, 4)} (+${pct}%) — 불타기`;
+      changeEl.className = 'result-change change-up';
+    } else {
+      changeEl.textContent = '변동 없음';
+      changeEl.className = 'result-change change-same';
+    }
+  } else {
+    document.getElementById('finalPrice').textContent = '-';
+    document.getElementById('finalInvest').textContent = '-';
+    document.getElementById('finalQty').textContent = '-';
+    document.getElementById('priceChange').textContent = '';
+  }
+}
+</script>
+
+</body>
+</html>
