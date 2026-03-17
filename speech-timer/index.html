@@ -6,6 +6,7 @@
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>🎤 발표시간 계산기 — 티모집사</title>
 <meta name="description" content="발표 스크립트를 붙여넣으면 예상 발표 시간을 자동 계산! 말하기 속도 조절 가능.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -118,6 +119,12 @@
   }
   .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:#b0b0e0}
+  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+  .guide-section summary:hover{background:#2a2a5a}
+  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -174,6 +181,17 @@
       • 매우 빠르게 (~470): 빠른 브리핑
     </div>
   </div>
+
+  <details class="guide-section">
+    <summary>📖 사용 방법</summary>
+    <div class="guide-content">
+      <ol>
+        <li>발표 스크립트를 텍스트 영역에 붙여넣으세요.</li>
+        <li>말하기 속도(분당 글자수)를 조절하면 예상 발표 시간이 자동 계산됩니다.</li>
+        <li>한국어 평균 말하기 속도는 분당 약 350~400자입니다.</li>
+      </ol>
+    </div>
+  </details>
 
   <div class="footer">
     <span>한국어 평균 말하기 속도: 약 330자/분</span>

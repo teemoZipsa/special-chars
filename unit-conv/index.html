@@ -6,6 +6,7 @@
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>📐 생활 단위 변환기 — 티모집사</title>
 <meta name="description" content="부동산(평↔㎡), 요리(근↔g), 직구(신발사이즈, ℃↔℉), 디지털(MB↔GB), 여행(mile↔km) 등 생활 단위를 양방향 실시간 변환합니다.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -42,6 +43,12 @@
   .conv-triple .conv-field{flex:1;min-width:0}
   .conv-extra{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11px;color:#8888bb}
   .conv-extra input{width:60px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:6px;color:#e0e0ff;padding:4px 8px;font-size:12px;text-align:center;font-family:inherit}
+  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+  .guide-section summary:hover{background:#2a2a5a}
+  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -56,6 +63,18 @@
     <div class="conv-cat-tabs"><div class="tab-row" id="unitCatTabs"></div></div>
     <div id="unitConvArea"></div>
   </div>
+
+  <details class="guide-section">
+    <summary>📖 사용 방법</summary>
+    <div class="guide-content">
+      <ol>
+        <li>상단 카테고리 탭(부동산, 요리, 직구, 디지털, 여행)에서 원하는 분야를 선택하세요.</li>
+        <li>어느 쪽 입력칸에든 숫자를 입력하면 반대쪽이 자동으로 변환됩니다.</li>
+        <li>근(고기/채소), 신발 사이즈 등 특수 변환도 지원합니다.</li>
+        <li>"결과 복사" 버튼으로 변환 결과를 복사할 수 있습니다.</li>
+      </ol>
+    </div>
+  </details>
 
   <div class="bottom-bar">
     <div class="info">양방향 실시간 계산</div>

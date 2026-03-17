@@ -6,6 +6,7 @@
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>🤖 AI 프롬프트 자판기 — 티모집사</title>
 <meta name="description" content="빈칸만 채우면 AI가 잘 알아듣는 구조화된 프롬프트가 완성! ChatGPT, Claude 등에 바로 붙여넣기.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -47,6 +48,12 @@
   .footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
   .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:#b0b0e0}
+  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+  .guide-section summary:hover{background:#2a2a5a}
+  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -118,6 +125,16 @@
       <button class="btn btn-secondary" onclick="clearAll()">🗑️ 초기화</button>
     </div>
   </div>
+  <details class="guide-section">
+    <summary>📖 사용 방법</summary>
+    <div class="guide-content">
+      <ol>
+        <li>카테고리에서 원하는 프롬프트 템플릿을 선택하세요.</li>
+        <li>빈칸([ ] 부분)에 원하는 내용을 채워넣으세요.</li>
+        <li>"복사" 버튼을 클릭하여 완성된 프롬프트를 ChatGPT, Claude 등에 붙여넣으세요.</li>
+      </ol>
+    </div>
+  </details>
   <div class="footer">
     <span>빈칸만 채우면 프롬프트 완성!</span>
     <a href="https://teemozipsa.github.io/">😺 더 많은 도구</a>

@@ -6,6 +6,7 @@
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>📉 물타기/불타기 계산기 — 티모집사</title>
 <meta name="description" content="코인·주식 물타기 불타기 평단가 계산기. 추가 매수 시 평균 단가를 실시간으로 계산합니다.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -132,6 +133,12 @@
 
   /* 애니메이션 */
   .result-value{transition:color .3s}
+  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+  .guide-section summary:hover{background:#2a2a5a}
+  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -208,6 +215,17 @@
       </div>
     </div>
   </div>
+
+  <details class="guide-section">
+    <summary>📖 사용 방법</summary>
+    <div class="guide-content">
+      <ol>
+        <li>현재 보유 수량과 평균 단가를 입력하세요.</li>
+        <li>추가 매수할 수량과 매수 단가를 입력하면 새 평균 단가가 계산됩니다.</li>
+        <li>여러 번 추가 매수하는 경우 행을 추가하여 시뮬레이션할 수 있습니다.</li>
+      </ol>
+    </div>
+  </details>
 
   <div class="footer">
     <span>숫자 입력 즉시 실시간 계산</span>

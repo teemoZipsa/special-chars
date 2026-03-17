@@ -7,6 +7,7 @@
 <meta name="google-site-verification" content="TyyNKYVi782xFUYEwSxrYkTFRbP7qeWK7TUds1zObD0" />
 <meta name="naver-site-verification" content="1240f9c95aabdaaf2a61568437d1a8cbc1749a0c" />
 <title>특수 문자 & 이모지 입력기</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -186,6 +187,12 @@
   .btn-copy { background: #533483; color: #fff; }
   .btn-copy:hover { background: #6b44a3; }
 
+  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+  .guide-section summary:hover{background:#2a2a5a}
+  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -211,6 +218,17 @@
     <div class="grid-container">
       <div class="char-grid" id="charGrid"></div>
     </div>
+
+    <details class="guide-section">
+      <summary>📖 사용 방법</summary>
+      <div class="guide-content">
+        <ol>
+          <li>상단 카테고리 탭에서 원하는 문자 종류를 선택하세요.</li>
+          <li>원하는 특수문자나 이모지를 클릭하면 자동으로 클립보드에 복사됩니다.</li>
+          <li>하단 입력창에서 복사된 문자를 확인하고, "전체 복사" 버튼으로 한꺼번에 복사할 수 있습니다.</li>
+        </ol>
+      </div>
+    </details>
 
     <div class="bottom-bar">
       <div class="preview" id="preview"></div>

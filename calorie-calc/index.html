@@ -50,6 +50,12 @@
   .footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
   .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:#b0b0e0}
+  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+  .guide-section summary:hover{background:#2a2a5a}
+  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 </style>
 <!-- 구글 애드센스 코드 -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
@@ -143,6 +149,16 @@
       <div class="result-desc" style="margin-top:8px" id="macro-desc">다이어트를 위한 균형 잡힌 비율입니다.</div>
     </div>
   </div>
+  <details class="guide-section">
+    <summary>📖 사용 방법</summary>
+    <div class="guide-content">
+      <ol>
+        <li>성별, 나이, 키, 몸무게, 활동량을 입력하세요.</li>
+        <li>기초대사량(BMR)과 하루 권장 칼로리가 자동 계산됩니다.</li>
+        <li>다이어트 목표에 맞는 탄수화물·단백질·지방 비율도 확인할 수 있습니다.</li>
+      </ol>
+    </div>
+  </details>
   <div class="footer">
     <span>Mifflin-St Jeor 공식 적용</span>
     <a href="https://teemozipsa.github.io/">😺 더 많은 도구</a>
