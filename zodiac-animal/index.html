@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/special-chars/favicon.png">
     <title>띠(십이지신) 계산기 / Chinese Zodiac Calculator</title>
-    <meta name="description" content="출생년도로 나의 띠를 알아보세요. 십이지신, 천간지지, 오행, 궁합 띠까지 한눈에 확인">
+    <meta name="description" content="생년월일로 나의 띠를 정확하게 알아보세요. 음력 설 기준 자동 보정, 십이지신, 천간지지, 오행, 궁합 띠까지 한눈에 확인">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -19,13 +19,13 @@
         .counter-body{padding:16px;flex:1}
         .input-section{background:#1e1e44;border-radius:10px;padding:16px;margin-bottom:16px}
         .input-section label{font-size:13px;color:#b0b0e0;font-weight:600;display:block;margin-bottom:8px}
-        .year-row{display:flex;gap:10px;align-items:center}
-        .year-row input[type="number"]{flex:1;padding:10px 12px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:8px;color:#e0e0ff;font-size:16px;font-family:inherit;text-align:center}
-        .year-row input:focus{outline:none;border-color:#533483}
-        .year-row input::-webkit-inner-spin-button{-webkit-appearance:none}
-        .btn-my-year{padding:10px 16px;background:#533483;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
-        .btn-my-year:hover{background:#6b44a3}
-        .lunar-note{margin-top:8px;font-size:11px;color:#8888bb;line-height:1.5}
+        .date-row{display:flex;gap:10px;align-items:center}
+        .date-row input[type="date"]{flex:1;padding:10px 12px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:8px;color:#e0e0ff;font-size:14px;font-family:inherit}
+        .date-row input:focus{outline:none;border-color:#533483}
+        .btn-today{padding:10px 16px;background:#533483;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
+        .btn-today:hover{background:#6b44a3}
+        .lunar-note{margin-top:8px;font-size:11px;color:#b0b0e0;line-height:1.5;padding:6px 10px;background:rgba(83,52,131,.15);border-radius:6px;border-left:3px solid #533483;display:none}
+        .lunar-note.show{display:block}
 
         .result-card{display:none;background:#1e1e44;border-radius:12px;overflow:hidden;animation:fadeIn .4s ease}
         .result-card.show{display:block}
@@ -81,12 +81,12 @@
     </div>
     <div class="counter-body">
         <div class="input-section">
-            <label>출생년도를 입력하세요 (양력)</label>
-            <div class="year-row">
-                <input type="number" id="birthYear" min="1900" max="2100" placeholder="예: 1995" oninput="calcAnimal()">
-                <button class="btn-my-year" onclick="setThisYear()">올해</button>
+            <label>생년월일을 입력하세요 (양력)</label>
+            <div class="date-row">
+                <input type="date" id="birthDate" onchange="calcAnimal()">
+                <button class="btn-today" onclick="setToday()">오늘 날짜</button>
             </div>
-            <div class="lunar-note">⚠️ 음력 1~2월생은 설(음력 1월 1일) 이전 출생 시 전년도 띠에 해당할 수 있습니다.</div>
+            <div class="lunar-note" id="lunarNote"></div>
         </div>
 
         <div class="result-card" id="resultCard">
@@ -138,9 +138,9 @@
         <summary>📖 사용 방법</summary>
         <div class="guide-content">
             <ol>
-                <li>양력 출생년도 4자리를 입력하세요 (예: 1995)</li>
-                <li>자동으로 십이지신 띠와 상세 정보가 표시됩니다</li>
-                <li>천간·지지 기반의 60갑자 정보도 함께 확인할 수 있습니다</li>
+                <li>양력 생년월일을 선택하세요</li>
+                <li>음력 설 날짜를 자동으로 비교하여 정확한 띠를 계산합니다</li>
+                <li>1~2월생의 경우 설 이전이면 전년도 띠로 자동 보정됩니다</li>
                 <li>'결과 복사' 버튼으로 텍스트 결과를 복사할 수 있습니다</li>
             </ol>
             <p style="margin-top:8px">💡 십이지신은 12년을 주기로 순환합니다. 천간(10개)과 지지(12개)가 조합되어 60갑자를 이루며, 60년마다 같은 간지가 돌아옵니다.</p>
@@ -148,7 +148,7 @@
     </details>
 
     <div class="bottom-bar">
-        <div class="info">60갑자 기반 계산</div>
+        <div class="info">음력 설 기준 자동 보정</div>
         <div style="display:flex;gap:8px">
             <button class="action-btn btn-clear" onclick="clearAll()">초기화</button>
             <button class="action-btn btn-copy" onclick="copyResult()">결과 복사</button>
@@ -177,17 +177,57 @@ const CHEONGAN = ['갑','을','병','정','무','기','경','신','임','계'];
 const CHEONGAN_HANJA = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
 const JIJI = ['자','축','인','묘','진','사','오','미','신','유','술','해'];
 const JIJI_HANJA = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-const OHANG = ['목','화','토','금','수']; // 천간 2개씩
 const OHANG_EMOJI = ['🌳 목(木)','🔥 화(火)','🏔️ 토(土)','🪙 금(金)','💧 수(水)'];
 const YINYANG = ['양(陽)','음(陰)'];
 
-function calcAnimal() {
-    const yearStr = document.getElementById('birthYear').value;
-    if (yearStr.length < 4) { document.getElementById('resultCard').classList.remove('show'); return; }
-    const year = parseInt(yearStr);
-    if (isNaN(year) || year < 1900 || year > 2100) return;
+// 양력 기준 음력 설(1월 1일) 날짜 룩업 테이블 [월, 일]
+const LUNAR_NEW_YEAR = {
+    1900:[1,31],1901:[2,19],1902:[2,8],1903:[1,29],1904:[2,16],1905:[2,4],1906:[1,25],1907:[2,13],1908:[2,2],1909:[1,22],
+    1910:[2,10],1911:[1,30],1912:[2,18],1913:[2,6],1914:[1,26],1915:[2,14],1916:[2,3],1917:[1,23],1918:[2,11],1919:[2,1],
+    1920:[2,20],1921:[2,8],1922:[1,28],1923:[2,16],1924:[2,5],1925:[1,24],1926:[2,13],1927:[2,2],1928:[1,23],1929:[2,10],
+    1930:[1,30],1931:[2,17],1932:[2,6],1933:[1,26],1934:[2,14],1935:[2,4],1936:[1,24],1937:[2,11],1938:[1,31],1939:[2,19],
+    1940:[2,8],1941:[1,27],1942:[2,15],1943:[2,5],1944:[1,25],1945:[2,13],1946:[2,2],1947:[1,22],1948:[2,10],1949:[1,29],
+    1950:[2,17],1951:[2,6],1952:[1,27],1953:[2,14],1954:[2,3],1955:[1,24],1956:[2,12],1957:[1,31],1958:[2,18],1959:[2,8],
+    1960:[1,28],1961:[2,15],1962:[2,5],1963:[1,25],1964:[2,13],1965:[2,2],1966:[1,21],1967:[2,9],1968:[1,30],1969:[2,17],
+    1970:[2,6],1971:[1,27],1972:[2,15],1973:[2,3],1974:[1,23],1975:[2,11],1976:[1,31],1977:[2,18],1978:[2,7],1979:[1,28],
+    1980:[2,16],1981:[2,5],1982:[1,25],1983:[2,13],1984:[2,2],1985:[2,20],1986:[2,9],1987:[1,29],1988:[2,17],1989:[2,6],
+    1990:[1,27],1991:[2,15],1992:[2,4],1993:[1,23],1994:[2,10],1995:[1,31],1996:[2,19],1997:[2,7],1998:[1,28],1999:[2,16],
+    2000:[2,5],2001:[1,24],2002:[2,12],2003:[2,1],2004:[1,22],2005:[2,9],2006:[1,29],2007:[2,18],2008:[2,7],2009:[1,26],
+    2010:[2,14],2011:[2,3],2012:[1,23],2013:[2,10],2014:[1,31],2015:[2,19],2016:[2,8],2017:[1,28],2018:[2,16],2019:[2,5],
+    2020:[1,25],2021:[2,12],2022:[2,1],2023:[1,22],2024:[2,10],2025:[1,29],2026:[2,17],2027:[2,6],2028:[1,26],2029:[2,13],
+    2030:[2,3],2031:[1,23],2032:[2,11],2033:[1,31],2034:[2,19],2035:[2,8],2036:[1,28],2037:[2,15],2038:[2,4],2039:[1,24],
+    2040:[2,12],2041:[2,1],2042:[1,22],2043:[2,10],2044:[1,30],2045:[2,17],2046:[2,6],2047:[1,26],2048:[2,14],2049:[2,2],
+    2050:[1,23],2051:[2,11],2052:[2,1],2053:[2,19],2054:[2,8],2055:[1,28],2056:[2,15],2057:[2,4],2058:[1,24],2059:[2,12],
+    2060:[2,2]
+};
 
-    const animalIdx = (year - 4) % 12;  // 4년이 쥐띠 기준
+function calcAnimal() {
+    const input = document.getElementById('birthDate').value;
+    if (!input) { document.getElementById('resultCard').classList.remove('show'); return; }
+    const d = new Date(input);
+    let year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+    const originalYear = year;
+    let lunarAdjusted = false;
+
+    // 음력 설 이전이면 전년도 기준
+    const lny = LUNAR_NEW_YEAR[year];
+    if (lny && (month < lny[0] || (month === lny[0] && day < lny[1]))) {
+        year = year - 1;
+        lunarAdjusted = true;
+    }
+
+    // 음력 보정 안내
+    const noteEl = document.getElementById('lunarNote');
+    if (lunarAdjusted) {
+        noteEl.textContent = `📌 ${originalYear}년 음력 설(${lny[0]}/${lny[1]}) 이전 출생 → ${year}년 기준으로 계산되었습니다`;
+        noteEl.classList.add('show');
+    } else {
+        noteEl.classList.remove('show');
+    }
+
+    const animalIdx = (year - 4) % 12;
     const idx = ((animalIdx % 12) + 12) % 12;
     const animal = ANIMALS[idx];
 
@@ -202,7 +242,7 @@ function calcAnimal() {
     const ganzhiKo = `${CHEONGAN[gan]}${JIJI[jiIdx]}년`;
     const ganzhiHanja = `${CHEONGAN_HANJA[gan]}${JIJI_HANJA[jiIdx]}年`;
     document.getElementById('ganzhiText').textContent = `${ganzhiKo} (${ganzhiHanja})`;
-    document.getElementById('ganzhiSub').textContent = `${year}년생`;
+    document.getElementById('ganzhiSub').textContent = lunarAdjusted ? `${originalYear}년생 (음력 기준 ${year}년)` : `${year}년생`;
 
     const ohangIdx = Math.floor(gan / 2);
     document.getElementById('resultOhang').textContent = OHANG_EMOJI[ohangIdx];
@@ -220,7 +260,6 @@ function calcAnimal() {
         return `<span class="compat-tag compat-bad">${a ? a.emoji : ''} ${b}</span>`;
     }).join('');
 
-    // 같은 띠 다음 해
     const nextSame = year + 12;
     const prevSame = year - 12;
     document.getElementById('resultFooter').textContent = `같은 ${animal.name}: ${prevSame}년, ${year}년, ${nextSame}년 ...  (12년 주기)`;
@@ -228,20 +267,25 @@ function calcAnimal() {
     document.getElementById('resultCard').classList.add('show');
 }
 
-function setThisYear() {
-    document.getElementById('birthYear').value = new Date().getFullYear();
+function setToday() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const dd = String(today.getDate()).padStart(2,'0');
+    document.getElementById('birthDate').value = `${yyyy}-${mm}-${dd}`;
     calcAnimal();
 }
 
 function clearAll() {
-    document.getElementById('birthYear').value = '';
+    document.getElementById('birthDate').value = '';
     document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('lunarNote').classList.remove('show');
     showToast('초기화되었습니다');
 }
 
 function copyResult() {
     const card = document.getElementById('resultCard');
-    if (!card.classList.contains('show')) { showToast('먼저 출생년도를 입력하세요'); return; }
+    if (!card.classList.contains('show')) { showToast('먼저 생년월일을 입력하세요'); return; }
     const name = document.getElementById('animalName').textContent;
     const hanja = document.getElementById('animalHanja').textContent;
     const ganzhi = document.getElementById('ganzhiText').textContent;
