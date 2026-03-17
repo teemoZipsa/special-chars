@@ -22,9 +22,16 @@
         .search-bar input:focus{outline:none;border-color:#533483}
         .search-bar input::placeholder{color:#6666aa}
 
-        .tabs{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;flex-shrink:0;-webkit-overflow-scrolling:touch}
+        .tabs-wrap{position:relative;flex-shrink:0}
+        .tabs-wrap::before,.tabs-wrap::after{content:'';position:absolute;top:0;bottom:12px;width:24px;z-index:2;pointer-events:none;transition:opacity .2s}
+        .tabs-wrap::before{left:0;background:linear-gradient(to right,#16213e,transparent)}
+        .tabs-wrap::after{right:0;background:linear-gradient(to left,#16213e,transparent)}
+        .tabs-wrap.at-start::before{opacity:0}
+        .tabs-wrap.at-end::after{opacity:0}
+        .tabs{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;flex-shrink:0;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;cursor:grab}
         .tabs::-webkit-scrollbar{height:0}
-        .tab{padding:7px 14px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:20px;font-size:12px;color:#b0b0e0;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit;font-weight:500}
+        .tabs.dragging{cursor:grabbing;scroll-behavior:auto}
+        .tab{padding:7px 14px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:20px;font-size:12px;color:#b0b0e0;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit;font-weight:500;user-select:none}
         .tab:hover{background:#333366;color:#e0e0ff}
         .tab.active{background:#533483;color:#fff;border-color:#533483}
 
@@ -79,7 +86,9 @@
         <input type="text" id="searchInput" placeholder="문구 검색..." oninput="renderMessages()">
     </div>
 
-    <div class="tabs" id="tabsContainer"></div>
+    <div class="tabs-wrap at-start" id="tabsWrap">
+        <div class="tabs" id="tabsContainer"></div>
+    </div>
 
     <div class="msg-list" id="msgList"></div>
 
@@ -199,6 +208,11 @@ function switchTab(id) {
     currentTab = id;
     renderTabs();
     renderMessages();
+    // 활성 탭을 뷰포트 안으로 스크롤
+    setTimeout(() => {
+        const active = document.querySelector('.tab.active');
+        if (active) active.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+    }, 10);
 }
 
 function getAllMessages() {
@@ -328,6 +342,50 @@ function showToast(msg) {
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 1500);
 }
+
+// === 탭 드래그 스크롤 ===
+(function() {
+    const wrap = document.getElementById('tabsWrap');
+    const tabs = document.getElementById('tabsContainer');
+    let isDragging = false, startX, scrollLeft, moved = false;
+
+    function updateIndicators() {
+        const sl = tabs.scrollLeft, max = tabs.scrollWidth - tabs.clientWidth;
+        wrap.classList.toggle('at-start', sl <= 4);
+        wrap.classList.toggle('at-end', sl >= max - 4);
+    }
+
+    tabs.addEventListener('scroll', updateIndicators);
+    window.addEventListener('resize', updateIndicators);
+
+    // Mouse drag
+    tabs.addEventListener('mousedown', e => {
+        isDragging = true; moved = false;
+        startX = e.pageX - tabs.offsetLeft;
+        scrollLeft = tabs.scrollLeft;
+        tabs.classList.add('dragging');
+    });
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - tabs.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        if (Math.abs(walk) > 3) moved = true;
+        tabs.scrollLeft = scrollLeft - walk;
+    });
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        tabs.classList.remove('dragging');
+    });
+
+    // 드래그 후 탭 클릭 방지
+    tabs.addEventListener('click', e => {
+        if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+    }, true);
+
+    // 초기 체크
+    setTimeout(updateIndicators, 100);
+})();
 
 // Init
 renderTabs();
