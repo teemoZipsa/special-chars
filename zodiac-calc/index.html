@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+    <title>별자리 계산기 / Zodiac Calculator</title>
+    <meta name="description" content="생년월일로 나의 별자리를 알아보세요. 성격 특성, 원소, 수호성, 궁합 별자리까지 한눈에 확인">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Pretendard',-apple-system,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;display:flex;justify-content:center;padding:20px}
+        .app{background:#16213e;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
+        .header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+        .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
+        .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
+        .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+        .counter-body{padding:16px;flex:1}
+        .input-section{background:#1e1e44;border-radius:10px;padding:16px;margin-bottom:16px}
+        .input-section label{font-size:13px;color:#b0b0e0;font-weight:600;display:block;margin-bottom:8px}
+        .date-row{display:flex;gap:10px;align-items:center}
+        .date-row input[type="date"]{flex:1;padding:10px 12px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:8px;color:#e0e0ff;font-size:14px;font-family:inherit}
+        .date-row input:focus{outline:none;border-color:#533483}
+        .btn-today{padding:10px 16px;background:#533483;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
+        .btn-today:hover{background:#6b44a3}
+
+        .result-card{display:none;background:#1e1e44;border-radius:12px;overflow:hidden;animation:fadeIn .4s ease}
+        .result-card.show{display:block}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .result-image{width:100%;max-height:300px;object-fit:cover;display:block}
+        .result-body{padding:16px}
+        .result-name{font-size:22px;font-weight:700;color:#fff;margin-bottom:2px}
+        .result-name-en{font-size:13px;color:#8888bb;margin-bottom:12px}
+        .result-date-range{font-size:12px;color:#b0b0e0;margin-bottom:16px;padding:6px 12px;background:#2a2a5a;border-radius:6px;display:inline-block}
+        .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+        .info-item{background:#222250;border-radius:8px;padding:12px}
+        .info-label{font-size:11px;color:#8888bb;margin-bottom:4px}
+        .info-value{font-size:14px;color:#e0e0ff;font-weight:600}
+        .section-title{font-size:13px;font-weight:600;color:#b0b0e0;margin-bottom:8px;margin-top:4px}
+        .traits{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+        .trait-tag{padding:6px 12px;background:#2a2a5a;border-radius:20px;font-size:12px;color:#e0e0ff;border:1px solid #3a3a6a}
+        .compat-list{display:flex;gap:8px;flex-wrap:wrap}
+        .compat-item{padding:8px 14px;background:#222250;border-radius:8px;font-size:13px;color:#e0e0ff;border:1px solid #333366}
+        .compat-item .compat-icon{margin-right:4px}
+
+        .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+        .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+        .guide-section summary:hover{background:#2a2a5a}
+        .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+        .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+        .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+
+        .bottom-bar{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a}
+        .bottom-bar .info{font-size:11px;color:#8888bb}
+        .action-btn{padding:8px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+        .btn-clear{background:#2a2a5a;color:#b0b0e0}.btn-clear:hover{background:#3a3a6a}
+        .btn-copy{background:#533483;color:#fff}.btn-copy:hover{background:#6b44a3}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#533483;color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
+        .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+        @media(max-width:640px){.info-grid{grid-template-columns:1fr}.date-row{flex-direction:column}}
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="header">
+        <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+        <h1>⭐ 별자리 계산기</h1>
+    </div>
+    <div class="counter-body">
+        <div class="input-section">
+            <label>생년월일을 입력하세요</label>
+            <div class="date-row">
+                <input type="date" id="birthDate" onchange="calcZodiac()">
+                <button class="btn-today" onclick="setToday()">오늘 날짜</button>
+            </div>
+        </div>
+        <div class="result-card" id="resultCard">
+            <img class="result-image" id="resultImage" src="" alt="">
+            <div class="result-body">
+                <div class="result-name" id="resultName"></div>
+                <div class="result-name-en" id="resultNameEn"></div>
+                <div class="result-date-range" id="resultRange"></div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">원소</div>
+                        <div class="info-value" id="resultElement"></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">수호성</div>
+                        <div class="info-value" id="resultPlanet"></div>
+                    </div>
+                </div>
+                <div class="section-title">성격 키워드</div>
+                <div class="traits" id="resultTraits"></div>
+                <div class="section-title">궁합이 좋은 별자리</div>
+                <div class="compat-list" id="resultCompat"></div>
+            </div>
+        </div>
+    </div>
+
+    <details class="guide-section">
+        <summary>📖 사용 방법</summary>
+        <div class="guide-content">
+            <ol>
+                <li>생년월일을 선택하거나 직접 입력하세요 (또는 '오늘 날짜' 버튼 클릭)</li>
+                <li>자동으로 해당하는 별자리와 상세 정보가 표시됩니다</li>
+                <li>'결과 복사' 버튼으로 텍스트 결과를 복사할 수 있습니다</li>
+            </ol>
+            <p style="margin-top:8px">💡 별자리는 태양이 해당 황도대를 지나는 기간을 기준으로 합니다. 경계 날짜(cusp)에 태어난 경우 해에 따라 다를 수 있습니다.</p>
+        </div>
+    </details>
+
+    <div class="bottom-bar">
+        <div class="info">생년월일 기반 계산</div>
+        <div style="display:flex;gap:8px">
+            <button class="action-btn btn-clear" onclick="clearAll()">초기화</button>
+            <button class="action-btn btn-copy" onclick="copyResult()">결과 복사</button>
+        </div>
+    </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const ZODIAC = [
+    { name:'물병자리', en:'Aquarius', symbol:'♒', img:'Aquarius_compressed.jpg', start:[1,20], end:[2,18], element:'🌬️ 공기', planet:'♅ 천왕성', traits:['독창적','자유로운','인도적','지적'], compat:['쌍둥이자리','천칭자리','사수자리'] },
+    { name:'물고기자리', en:'Pisces', symbol:'♓', img:'Pisces_compressed.jpg', start:[2,19], end:[3,20], element:'💧 물', planet:'♆ 해왕성', traits:['직관적','감성적','예술적','헌신적'], compat:['전갈자리','게자리','염소자리'] },
+    { name:'양자리', en:'Aries', symbol:'♈', img:'Aries_compressed.jpg', start:[3,21], end:[4,19], element:'🔥 불', planet:'♂ 화성', traits:['열정적','도전적','솔직한','용감한'], compat:['사자자리','사수자리','쌍둥이자리'] },
+    { name:'황소자리', en:'Taurus', symbol:'♉', img:'Taurus_compressed.jpg', start:[4,20], end:[5,20], element:'🌍 땅', planet:'♀ 금성', traits:['안정적','인내심','감각적','신뢰감'], compat:['처녀자리','염소자리','게자리'] },
+    { name:'쌍둥이자리', en:'Gemini', symbol:'♊', img:'Gemini_compressed.jpg', start:[5,21], end:[6,21], element:'🌬️ 공기', planet:'☿ 수성', traits:['재치있는','호기심','적응력','사교적'], compat:['천칭자리','물병자리','양자리'] },
+    { name:'게자리', en:'Cancer', symbol:'♋', img:'Cancer_compressed.jpg', start:[6,22], end:[7,22], element:'💧 물', planet:'☽ 달', traits:['보호적','감성적','직관적','가정적'], compat:['전갈자리','물고기자리','황소자리'] },
+    { name:'사자자리', en:'Leo', symbol:'♌', img:'Leo_compressed.jpg', start:[7,23], end:[8,22], element:'🔥 불', planet:'☉ 태양', traits:['카리스마','자신감','관대한','창의적'], compat:['양자리','사수자리','쌍둥이자리'] },
+    { name:'처녀자리', en:'Virgo', symbol:'♍', img:'Virgo_compressed.jpg', start:[8,23], end:[9,22], element:'🌍 땅', planet:'☿ 수성', traits:['분석적','꼼꼼한','실용적','겸손한'], compat:['황소자리','염소자리','전갈자리'] },
+    { name:'천칭자리', en:'Libra', symbol:'♎', img:'Libra_compressed.jpg', start:[9,23], end:[10,23], element:'🌬️ 공기', planet:'♀ 금성', traits:['균형감','우아한','공정한','사교적'], compat:['쌍둥이자리','물병자리','사자자리'] },
+    { name:'전갈자리', en:'Scorpio', symbol:'♏', img:'Scorpio_compressed.jpg', start:[10,24], end:[11,21], element:'💧 물', planet:'♇ 명왕성', traits:['열정적','통찰력','결단력','신비로운'], compat:['게자리','물고기자리','처녀자리'] },
+    { name:'사수자리', en:'Sagittarius', symbol:'♐', img:'Sagittarius_compressed.jpg', start:[11,22], end:[12,21], element:'🔥 불', planet:'♃ 목성', traits:['낙관적','모험적','철학적','자유분방'], compat:['양자리','사자자리','물병자리'] },
+    { name:'염소자리', en:'Capricorn', symbol:'♑', img:'Capricorn_compressed.jpg', start:[12,22], end:[1,19], element:'🌍 땅', planet:'♄ 토성', traits:['야심찬','책임감','끈기있는','현실적'], compat:['황소자리','처녀자리','물고기자리'] }
+];
+
+function getZodiac(month, day) {
+    for (const z of ZODIAC) {
+        const [sm, sd] = z.start, [em, ed] = z.end;
+        if (sm <= em) {
+            if ((month === sm && day >= sd) || (month === em && day <= ed) || (month > sm && month < em)) return z;
+        } else {
+            if ((month === sm && day >= sd) || (month === em && day <= ed) || month > sm || month < em) return z;
+        }
+    }
+    return ZODIAC[11]; // fallback Capricorn
+}
+
+function calcZodiac() {
+    const input = document.getElementById('birthDate').value;
+    if (!input) return;
+    const d = new Date(input);
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+    const z = getZodiac(month, day);
+
+    document.getElementById('resultImage').src = 'images/' + z.img;
+    document.getElementById('resultImage').alt = z.name;
+    document.getElementById('resultName').textContent = z.symbol + ' ' + z.name;
+    document.getElementById('resultNameEn').textContent = z.en;
+    const rangeText = `${z.start[0]}월 ${z.start[1]}일 ~ ${z.end[0]}월 ${z.end[1]}일`;
+    document.getElementById('resultRange').textContent = rangeText;
+    document.getElementById('resultElement').textContent = z.element;
+    document.getElementById('resultPlanet').textContent = z.planet;
+
+    const traitsEl = document.getElementById('resultTraits');
+    traitsEl.innerHTML = z.traits.map(t => `<span class="trait-tag">${t}</span>`).join('');
+
+    const compatEl = document.getElementById('resultCompat');
+    compatEl.innerHTML = z.compat.map(c => {
+        const cz = ZODIAC.find(x => x.name === c);
+        return `<span class="compat-item"><span class="compat-icon">${cz ? cz.symbol : ''}</span>${c}</span>`;
+    }).join('');
+
+    document.getElementById('resultCard').classList.add('show');
+}
+
+function setToday() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const dd = String(today.getDate()).padStart(2,'0');
+    document.getElementById('birthDate').value = `${yyyy}-${mm}-${dd}`;
+    calcZodiac();
+}
+
+function clearAll() {
+    document.getElementById('birthDate').value = '';
+    document.getElementById('resultCard').classList.remove('show');
+    showToast('초기화되었습니다');
+}
+
+function copyResult() {
+    const card = document.getElementById('resultCard');
+    if (!card.classList.contains('show')) { showToast('먼저 생년월일을 입력하세요'); return; }
+    const name = document.getElementById('resultName').textContent;
+    const en = document.getElementById('resultNameEn').textContent;
+    const range = document.getElementById('resultRange').textContent;
+    const elem = document.getElementById('resultElement').textContent;
+    const planet = document.getElementById('resultPlanet').textContent;
+    const traits = [...document.querySelectorAll('.trait-tag')].map(t=>t.textContent).join(', ');
+    const compat = [...document.querySelectorAll('.compat-item')].map(c=>c.textContent.trim()).join(', ');
+    const text = `${name} (${en})\n기간: ${range}\n원소: ${elem} | 수호성: ${planet}\n성격: ${traits}\n궁합: ${compat}`;
+    navigator.clipboard.writeText(text).then(()=>showToast('결과가 복사되었습니다'));
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(()=>t.classList.remove('show'), 1500);
+}
+</script>
+</body>
+</html>
