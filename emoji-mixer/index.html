@@ -191,7 +191,13 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 <script>
 // === 이모지 카테고리 데이터 ===
 const splitEmojis = (str) => {
-  return str.match(/[\p{Emoji}\uFE0F\u200D]+/gu) || [];
+  const emojis = [];
+  for (const char of str) {
+    if (char.trim() && char !== '\uFE0F' && char !== '\u200D') {
+      emojis.push(char);
+    }
+  }
+  return emojis;
 };
 
 const EMOJI_CATS = {
