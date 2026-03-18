@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<title>📄 PDF 도구 — 티모집사</title>
+<meta name="description" content="PDF 합치기, 나누기, 회전, 순서 변경, 워터마크 추가를 브라우저에서 바로. 서버 전송 없이 100% 로컬 처리.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:720px;max-width:100%;overflow:hidden}
+.header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+.tool-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.mode-tabs{display:flex;gap:0;background:#1e1e44;border-radius:10px;overflow:hidden;border:1px solid #333366}
+.mode-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:#8888bb;background:transparent;border:none;font-family:inherit}
+.mode-tab:hover{color:#c0c0e8;background:#222250}
+.mode-tab.active{background:#533483;color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.drop-zone{border:2px dashed #2a2a5a;border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#1a1a3e}
+.drop-zone:hover,.drop-zone.dragover{border-color:#533483;background:#1e1e50}
+.drop-zone .icon{font-size:36px;margin-bottom:8px}
+.drop-zone .text{font-size:13px;color:#6666aa}
+.drop-zone .sub{font-size:11px;color:#444466;margin-top:4px}
+.drop-zone input{display:none}
+
+.file-list{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.file-item{display:flex;align-items:center;gap:10px;background:#1a1a3e;border-radius:8px;padding:10px 14px;border:1px solid #2a2a5a;cursor:grab;user-select:none}
+.file-item:active{cursor:grabbing}
+.file-item.dragging{opacity:.4;border-color:#533483}
+.file-item.drag-over{border-top:2px solid #a78bfa}
+.file-item .grip{color:#555580;font-size:14px;flex-shrink:0}
+.file-item .name{flex:1;font-size:13px;color:#c0c0e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-item .size{font-size:11px;color:#6666aa;flex-shrink:0}
+.file-item .remove-btn{background:none;border:none;color:#aa5555;font-size:16px;cursor:pointer;padding:0 4px;transition:color .2s}
+.file-item .remove-btn:hover{color:#ff6666}
+
+.info-bar{background:#1a1a3e;border-radius:8px;padding:10px 14px;font-size:13px;color:#8888bb;display:flex;align-items:center;gap:8px;border:1px solid #2a2a5a}
+.info-bar .highlight{color:#a78bfa;font-weight:700}
+
+.field-group{margin-bottom:14px}
+.field-label{font-size:13px;font-weight:500;color:#b8b8e0;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.field-input{width:100%;padding:10px 12px;background:#1e1e44;border:1.5px solid #333366;border-radius:8px;color:#e0e0e0;font-size:14px;font-family:inherit;transition:border-color .2s}
+.field-input:focus{outline:none;border-color:#7c5cbf}
+
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.quick-btn{padding:5px 12px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:16px;color:#b0b0e0;font-size:11px;cursor:pointer;transition:all .2s;font-family:inherit;border-style:solid}
+.quick-btn:hover{background:#3a3a7a;border-color:#5a5a9a}
+
+.control-row{display:flex;align-items:center;gap:12px;background:#1a1a3e;border-radius:10px;padding:12px 16px;margin-bottom:8px}
+.control-row label{font-size:12px;color:#8888bb;font-weight:600;white-space:nowrap;min-width:70px}
+.slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:#2a2a5a;border-radius:3px;outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:#533483;border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
+.slider::-moz-range-thumb{width:18px;height:18px;background:#533483;border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
+.val{font-size:14px;color:#c4b5fd;font-weight:700;min-width:48px;text-align:right}
+.control-row input[type=number]{background:#12122e;border:1px solid #2a2a5a;border-radius:6px;color:#e0e0ff;padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit}
+
+.thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px}
+.thumb-card{background:#1a1a3e;border:1px solid #2a2a5a;border-radius:8px;padding:8px;text-align:center;position:relative;transition:border-color .2s}
+.thumb-card canvas{width:100%;border-radius:4px;display:block}
+.thumb-card .page-num{font-size:11px;color:#8888bb;margin-top:6px}
+.thumb-card .rotate-badge{position:absolute;top:4px;right:4px;background:rgba(83,52,131,.85);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;display:none}
+.thumb-card .rotate-badge.show{display:block}
+.thumb-card .thumb-btn{position:absolute;top:4px;left:4px;background:rgba(83,52,131,.85);border:none;color:#fff;font-size:14px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.thumb-card .thumb-btn:hover{background:rgba(107,68,163,.95)}
+
+.thumb-card.draggable{cursor:grab}
+.thumb-card.draggable:active{cursor:grabbing}
+.thumb-card.dragging{opacity:.4;border-color:#533483}
+.thumb-card.drag-over{border-color:#a78bfa;box-shadow:0 0 8px rgba(167,139,250,.4)}
+
+.watermark-preview{position:relative;background:#1a1a3e;border:1px solid #2a2a5a;border-radius:8px;padding:8px;margin-top:12px;display:flex;justify-content:center;overflow:hidden}
+.watermark-preview canvas{max-width:100%;border-radius:4px}
+.watermark-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.watermark-text{color:rgba(255,0,0,.3);font-weight:700;white-space:nowrap}
+
+.btn{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.btn-primary{background:linear-gradient(135deg,#533483,#6b44a3);color:#fff;margin-top:12px}
+.btn-primary:hover{opacity:.9}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{background:#2a2a5a;color:#b0b0e0;border:1px solid #3a3a6a;margin-top:8px}
+.btn-secondary:hover{background:#3a3a7a}
+.btn-row{display:flex;gap:8px;margin-top:8px}
+.btn-row .btn{flex:1}
+
+.guide-section{background:#1a1a3a;border-radius:10px;margin:0 16px 12px;font-size:14px;overflow:hidden}
+.guide-section summary{cursor:pointer;padding:14px 16px;font-weight:600;color:#b8b8e0;list-style:none;display:flex;align-items:center;gap:6px}
+.guide-section summary::-webkit-details-marker{display:none}
+.guide-section summary::after{content:'▼';font-size:10px;margin-left:auto;transition:transform .2s;color:#666}
+.guide-section[open] summary::after{transform:rotate(180deg)}
+.guide-content{padding:0 16px 16px;color:#9999bb;line-height:1.8;font-size:13px}
+.guide-content strong{color:#c0c0e8}
+.guide-content ul,.guide-content ol{margin:8px 0;padding-left:20px}
+.guide-content li{margin-bottom:4px}
+
+.bottom-bar{background:#0f0f2a;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #222250}
+.bottom-bar .info{font-size:11px;color:#666}
+.action-btn{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-clear{background:#2a2a5a;color:#b8b8e0}
+.btn-clear:hover{background:#3a3a7a}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}
+
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+@media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
+
+.loading{display:none;text-align:center;padding:20px;color:#8888bb;font-size:13px}
+.loading.show{display:block}
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid #2a2a5a;border-top-color:#533483;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:640px){
+  body{padding:10px}
+  .app{border-radius:8px}
+  .header{padding:12px 14px}
+  .header h1{font-size:14px}
+  .tool-body{padding:12px}
+  .guide-section{margin:0 12px 12px}
+  .thumb-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px}
+}
+@media(max-width:480px){
+  .mode-tab{font-size:11px;padding:8px 4px}
+  .mode-tab .tab-label{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>📄 PDF 도구</h1>
+  </div>
+
+  <div class="tool-body">
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-tab="merge">📎 <span class="tab-label">합치기</span></button>
+      <button class="mode-tab" data-tab="split">✂️ <span class="tab-label">나누기</span></button>
+      <button class="mode-tab" data-tab="rotate">🔄 <span class="tab-label">회전</span></button>
+      <button class="mode-tab" data-tab="reorder">↕️ <span class="tab-label">순서</span></button>
+      <button class="mode-tab" data-tab="watermark">💧 <span class="tab-label">워터마크</span></button>
+    </div>
+
+    <!-- Merge Panel -->
+    <div class="tab-panel active" id="mergePanel">
+      <div class="drop-zone" id="mergeDropZone">
+        <div class="icon">📁</div>
+        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
+        <div class="sub">여러 파일 선택 가능 · 서버 전송 없음</div>
+        <input type="file" accept=".pdf" multiple id="mergeFileInput">
+      </div>
+      <div class="file-list" id="mergeFileList"></div>
+      <button class="btn btn-primary" id="mergeBtn" style="display:none" onclick="doMerge()">📎 합치기</button>
+      <div class="loading" id="mergeLoading"><span class="spinner"></span>처리 중...</div>
+    </div>
+
+    <!-- Split Panel -->
+    <div class="tab-panel" id="splitPanel">
+      <div class="drop-zone" id="splitDropZone">
+        <div class="icon">📁</div>
+        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
+        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <input type="file" accept=".pdf" id="splitFileInput">
+      </div>
+      <div class="info-bar" id="splitInfo" style="display:none;margin-top:12px">
+        📄 총 <span class="highlight" id="splitPageCount">0</span>페이지
+      </div>
+      <div class="field-group" id="splitRangeGroup" style="display:none;margin-top:12px">
+        <div class="field-label">📑 페이지 범위 입력</div>
+        <input type="text" class="field-input" id="splitRange" placeholder="예: 1-3, 5, 7-10">
+        <div class="quick-btns">
+          <button class="quick-btn" onclick="splitAll()">전체 페이지 개별 분리</button>
+          <button class="quick-btn" onclick="splitOdd()">홀수 페이지</button>
+          <button class="quick-btn" onclick="splitEven()">짝수 페이지</button>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="splitBtn" style="display:none" onclick="doSplit()">✂️ 나누기</button>
+      <div class="loading" id="splitLoading"><span class="spinner"></span>처리 중...</div>
+    </div>
+
+    <!-- Rotate Panel -->
+    <div class="tab-panel" id="rotatePanel">
+      <div class="drop-zone" id="rotateDropZone">
+        <div class="icon">📁</div>
+        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
+        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <input type="file" accept=".pdf" id="rotateFileInput">
+      </div>
+      <div id="rotateControls" style="display:none;margin-top:12px">
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="rotateAll(90)">🔄 전체 시계 방향 90°</button>
+          <button class="btn btn-secondary" onclick="rotateAll(-90)">🔄 전체 반시계 90°</button>
+        </div>
+        <div class="thumb-grid" id="rotateThumbs"></div>
+        <button class="btn btn-primary" onclick="doRotate()">✅ 적용</button>
+      </div>
+      <div class="loading" id="rotateLoading"><span class="spinner"></span>처리 중...</div>
+    </div>
+
+    <!-- Reorder Panel -->
+    <div class="tab-panel" id="reorderPanel">
+      <div class="drop-zone" id="reorderDropZone">
+        <div class="icon">📁</div>
+        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
+        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <input type="file" accept=".pdf" id="reorderFileInput">
+      </div>
+      <div id="reorderControls" style="display:none;margin-top:12px">
+        <div class="info-bar" style="margin-bottom:12px">💡 카드를 드래그하여 순서를 변경하세요</div>
+        <div class="thumb-grid" id="reorderThumbs"></div>
+        <button class="btn btn-primary" onclick="doReorder()">✅ 적용</button>
+      </div>
+      <div class="loading" id="reorderLoading"><span class="spinner"></span>처리 중...</div>
+    </div>
+
+    <!-- Watermark Panel -->
+    <div class="tab-panel" id="watermarkPanel">
+      <div class="drop-zone" id="watermarkDropZone">
+        <div class="icon">📁</div>
+        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
+        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <input type="file" accept=".pdf" id="watermarkFileInput">
+      </div>
+      <div id="watermarkControls" style="display:none;margin-top:12px">
+        <div class="field-group">
+          <div class="field-label">💧 워터마크 텍스트</div>
+          <input type="text" class="field-input" id="wmText" value="CONFIDENTIAL" oninput="updateWmPreview()">
+        </div>
+        <div class="control-row">
+          <label>글자 크기</label>
+          <input type="range" class="slider" id="wmSize" min="20" max="80" value="50" oninput="document.getElementById('wmSizeVal').textContent=this.value+'px';updateWmPreview()">
+          <span class="val" id="wmSizeVal">50px</span>
+        </div>
+        <div class="control-row">
+          <label>투명도</label>
+          <input type="range" class="slider" id="wmOpacity" min="5" max="50" value="15" oninput="document.getElementById('wmOpacityVal').textContent=(this.value/100).toFixed(2);updateWmPreview()">
+          <span class="val" id="wmOpacityVal">0.15</span>
+        </div>
+        <div class="control-row">
+          <label>회전 각도</label>
+          <input type="number" id="wmAngle" value="-45" min="-90" max="90" style="background:#12122e;border:1px solid #2a2a5a;border-radius:6px;color:#e0e0ff;padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit" oninput="updateWmPreview()">
+          <span class="val" style="min-width:auto;font-size:11px;color:#6666aa">°</span>
+        </div>
+        <div class="watermark-preview" id="wmPreview"></div>
+        <button class="btn btn-primary" onclick="doWatermark()">✅ 적용</button>
+      </div>
+      <div class="loading" id="watermarkLoading"><span class="spinner"></span>처리 중...</div>
+    </div>
+  </div>
+
+  <details class="guide-section">
+    <summary>📖 사용 방법</summary>
+    <div class="guide-content">
+      <ul>
+        <li><strong>📎 합치기</strong> — 여러 PDF 파일을 하나로 합칩니다. 드래그로 순서를 변경할 수 있습니다.</li>
+        <li><strong>✂️ 나누기</strong> — PDF에서 원하는 페이지만 추출합니다. 범위(1-3), 개별(5), 혼합(1-3, 5, 7-10) 입력이 가능합니다.</li>
+        <li><strong>🔄 회전</strong> — 각 페이지를 개별 또는 전체 회전합니다. 클릭할 때마다 90°씩 회전합니다.</li>
+        <li><strong>↕️ 순서 변경</strong> — 페이지 썸네일을 드래그하여 원하는 순서로 재배치합니다.</li>
+        <li><strong>💧 워터마크</strong> — 모든 페이지에 텍스트 워터마크를 추가합니다. 크기, 투명도, 각도를 조절할 수 있습니다.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="guide-section">
+    <summary>❓ 자주 묻는 질문</summary>
+    <div class="guide-content">
+      <ul>
+        <li><strong>파일이 서버로 전송되나요?</strong><br>아닙니다. 모든 처리는 브라우저에서만 이루어지며, 파일이 외부로 전송되지 않습니다.</li>
+        <li><strong>파일 크기 제한이 있나요?</strong><br>서버 제한은 없지만, 브라우저 메모리에 따라 매우 큰 파일(수백 MB)은 처리가 느려질 수 있습니다.</li>
+        <li><strong>어떤 PDF 파일이든 지원되나요?</strong><br>대부분의 표준 PDF를 지원합니다. 암호화되거나 보호된 PDF는 처리가 제한될 수 있습니다.</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="bottom-bar">
+    <div class="info">📌 모든 파일은 브라우저에서만 처리됩니다</div>
+    <button class="action-btn btn-clear" onclick="resetAll()">🔄 초기화</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="맨 위로">↑</button>
+
+<script>
+/* ===== PDF.js worker setup ===== */
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+const { PDFDocument, degrees, rgb, StandardFonts } = PDFLib;
+
+/* ===== Tab switching ===== */
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(tab.dataset.tab + 'Panel').classList.add('active');
+  });
+});
+
+/* ===== Helpers ===== */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(80px)'; }, 2000);
+}
+
+function downloadPdf(bytes, filename) {
+  const blob = new Blob([bytes], { type: 'application/pdf' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function setLoading(id, show) {
+  document.getElementById(id).classList.toggle('show', show);
+}
+
+async function renderThumb(pdfBytes, pageNum, width) {
+  width = width || 120;
+  const pdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+  const page = await pdf.getPage(pageNum);
+  const vp = page.getViewport({ scale: 1 });
+  const scale = width / vp.width;
+  const viewport = page.getViewport({ scale });
+  const canvas = document.createElement('canvas');
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+  await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+  return canvas;
+}
+
+/* ===== Drop zone wiring ===== */
+function setupDropZone(zoneId, inputId, handler, multi) {
+  const zone = document.getElementById(zoneId);
+  const input = document.getElementById(inputId);
+  zone.addEventListener('click', () => input.click());
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('dragover');
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+    if (files.length) handler(multi ? files : [files[0]]);
+  });
+  input.addEventListener('change', () => {
+    if (input.files.length) handler(multi ? Array.from(input.files) : [input.files[0]]);
+    input.value = '';
+  });
+}
+
+/* ===== MERGE ===== */
+let mergeFiles = [];
+
+setupDropZone('mergeDropZone', 'mergeFileInput', files => {
+  mergeFiles = mergeFiles.concat(files);
+  renderMergeList();
+}, true);
+
+function renderMergeList() {
+  const list = document.getElementById('mergeFileList');
+  list.innerHTML = '';
+  document.getElementById('mergeBtn').style.display = mergeFiles.length > 1 ? 'block' : 'none';
+  mergeFiles.forEach((f, i) => {
+    const el = document.createElement('div');
+    el.className = 'file-item';
+    el.draggable = true;
+    el.dataset.idx = i;
+    el.innerHTML = `<span class="grip">☰</span><span class="name">${f.name}</span><span class="size">${formatSize(f.size)}</span><button class="remove-btn" data-i="${i}">✕</button>`;
+    el.querySelector('.remove-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      mergeFiles.splice(+e.target.dataset.i, 1);
+      renderMergeList();
+    });
+    // drag reorder
+    el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', i); el.classList.add('dragging'); });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag-over'); });
+    el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+    el.addEventListener('drop', e => {
+      e.preventDefault(); el.classList.remove('drag-over');
+      const from = +e.dataTransfer.getData('text/plain');
+      const to = i;
+      if (from !== to) {
+        const [item] = mergeFiles.splice(from, 1);
+        mergeFiles.splice(to, 0, item);
+        renderMergeList();
+      }
+    });
+    list.appendChild(el);
+  });
+}
+
+async function doMerge() {
+  if (mergeFiles.length < 2) return showToast('2개 이상의 파일을 추가하세요');
+  setLoading('mergeLoading', true);
+  try {
+    const merged = await PDFDocument.create();
+    for (const file of mergeFiles) {
+      const bytes = await file.arrayBuffer();
+      const src = await PDFDocument.load(bytes);
+      const pages = await merged.copyPages(src, src.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+    }
+    const result = await merged.save();
+    downloadPdf(result, 'merged.pdf');
+    showToast('합치기 완료!');
+  } catch (e) {
+    showToast('오류: ' + e.message);
+  }
+  setLoading('mergeLoading', false);
+}
+
+/* ===== SPLIT ===== */
+let splitPdfBytes = null;
+let splitPageTotal = 0;
+
+setupDropZone('splitDropZone', 'splitFileInput', async files => {
+  const file = files[0];
+  splitPdfBytes = await file.arrayBuffer();
+  try {
+    const doc = await PDFDocument.load(splitPdfBytes);
+    splitPageTotal = doc.getPageCount();
+    document.getElementById('splitPageCount').textContent = splitPageTotal;
+    document.getElementById('splitInfo').style.display = 'flex';
+    document.getElementById('splitRangeGroup').style.display = 'block';
+    document.getElementById('splitBtn').style.display = 'block';
+    document.getElementById('splitRange').value = '1-' + splitPageTotal;
+  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+}, false);
+
+function splitAll() { document.getElementById('splitRange').value = Array.from({ length: splitPageTotal }, (_, i) => i + 1).join(', '); }
+function splitOdd() { document.getElementById('splitRange').value = Array.from({ length: splitPageTotal }, (_, i) => i + 1).filter(n => n % 2 === 1).join(', '); }
+function splitEven() { document.getElementById('splitRange').value = Array.from({ length: splitPageTotal }, (_, i) => i + 1).filter(n => n % 2 === 0).join(', '); }
+
+function parseRange(str, max) {
+  const pages = new Set();
+  str.split(',').forEach(part => {
+    part = part.trim();
+    if (!part) return;
+    const m = part.match(/^(\d+)\s*-\s*(\d+)$/);
+    if (m) {
+      const a = Math.max(1, +m[1]), b = Math.min(max, +m[2]);
+      for (let i = a; i <= b; i++) pages.add(i);
+    } else {
+      const n = +part;
+      if (n >= 1 && n <= max) pages.add(n);
+    }
+  });
+  return Array.from(pages).sort((a, b) => a - b);
+}
+
+async function doSplit() {
+  if (!splitPdfBytes) return;
+  const pages = parseRange(document.getElementById('splitRange').value, splitPageTotal);
+  if (!pages.length) return showToast('유효한 페이지를 입력하세요');
+  setLoading('splitLoading', true);
+  try {
+    const src = await PDFDocument.load(splitPdfBytes);
+    const out = await PDFDocument.create();
+    const copied = await out.copyPages(src, pages.map(p => p - 1));
+    copied.forEach(p => out.addPage(p));
+    const result = await out.save();
+    downloadPdf(result, 'split.pdf');
+    showToast('나누기 완료! (' + pages.length + '페이지)');
+  } catch (e) { showToast('오류: ' + e.message); }
+  setLoading('splitLoading', false);
+}
+
+/* ===== ROTATE ===== */
+let rotatePdfBytes = null;
+let rotateAngles = [];
+
+setupDropZone('rotateDropZone', 'rotateFileInput', async files => {
+  const file = files[0];
+  rotatePdfBytes = new Uint8Array(await file.arrayBuffer());
+  setLoading('rotateLoading', true);
+  try {
+    const doc = await PDFDocument.load(rotatePdfBytes);
+    const n = doc.getPageCount();
+    rotateAngles = new Array(n).fill(0);
+    const grid = document.getElementById('rotateThumbs');
+    grid.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const canvas = await renderThumb(rotatePdfBytes, i + 1);
+      const card = document.createElement('div');
+      card.className = 'thumb-card';
+      card.innerHTML = `<button class="thumb-btn" data-i="${i}" title="회전">🔄</button><span class="rotate-badge" id="rBadge${i}"></span>`;
+      card.insertBefore(canvas, card.firstChild.nextSibling);
+      const pn = document.createElement('div');
+      pn.className = 'page-num';
+      pn.textContent = (i + 1) + '페이지';
+      card.appendChild(pn);
+      card.querySelector('.thumb-btn').addEventListener('click', () => {
+        rotateAngles[i] = (rotateAngles[i] + 90) % 360;
+        const badge = document.getElementById('rBadge' + i);
+        if (rotateAngles[i]) { badge.textContent = rotateAngles[i] + '°'; badge.classList.add('show'); }
+        else badge.classList.remove('show');
+        canvas.style.transform = 'rotate(' + rotateAngles[i] + 'deg)';
+      });
+      grid.appendChild(card);
+    }
+    document.getElementById('rotateControls').style.display = 'block';
+  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  setLoading('rotateLoading', false);
+}, false);
+
+function rotateAll(deg) {
+  rotateAngles = rotateAngles.map(a => ((a + deg) % 360 + 360) % 360);
+  rotateAngles.forEach((a, i) => {
+    const badge = document.getElementById('rBadge' + i);
+    if (a) { badge.textContent = a + '°'; badge.classList.add('show'); } else badge.classList.remove('show');
+    const canvas = document.getElementById('rotateThumbs').children[i].querySelector('canvas');
+    if (canvas) canvas.style.transform = 'rotate(' + a + 'deg)';
+  });
+}
+
+async function doRotate() {
+  if (!rotatePdfBytes) return;
+  setLoading('rotateLoading', true);
+  try {
+    const doc = await PDFDocument.load(rotatePdfBytes);
+    const pages = doc.getPages();
+    pages.forEach((p, i) => {
+      if (rotateAngles[i]) p.setRotation(degrees((p.getRotation().angle + rotateAngles[i]) % 360));
+    });
+    const result = await doc.save();
+    downloadPdf(result, 'rotated.pdf');
+    showToast('회전 적용 완료!');
+  } catch (e) { showToast('오류: ' + e.message); }
+  setLoading('rotateLoading', false);
+}
+
+/* ===== REORDER ===== */
+let reorderPdfBytes = null;
+let reorderPages = [];
+
+setupDropZone('reorderDropZone', 'reorderFileInput', async files => {
+  const file = files[0];
+  reorderPdfBytes = new Uint8Array(await file.arrayBuffer());
+  setLoading('reorderLoading', true);
+  try {
+    const doc = await PDFDocument.load(reorderPdfBytes);
+    const n = doc.getPageCount();
+    reorderPages = Array.from({ length: n }, (_, i) => i);
+    const grid = document.getElementById('reorderThumbs');
+    grid.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const canvas = await renderThumb(reorderPdfBytes, i + 1);
+      const card = document.createElement('div');
+      card.className = 'thumb-card draggable';
+      card.draggable = true;
+      card.dataset.page = i;
+      card.appendChild(canvas);
+      const pn = document.createElement('div');
+      pn.className = 'page-num';
+      pn.textContent = (i + 1) + '페이지';
+      card.appendChild(pn);
+      card.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', card.dataset.page);
+        card.classList.add('dragging');
+      });
+      card.addEventListener('dragend', () => card.classList.remove('dragging'));
+      card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drag-over'); });
+      card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+      card.addEventListener('drop', e => {
+        e.preventDefault(); card.classList.remove('drag-over');
+        const fromPage = e.dataTransfer.getData('text/plain');
+        const fromEl = grid.querySelector('[data-page="' + fromPage + '"]');
+        if (fromEl && fromEl !== card) {
+          const children = Array.from(grid.children);
+          const fromIdx = children.indexOf(fromEl);
+          const toIdx = children.indexOf(card);
+          if (fromIdx < toIdx) card.after(fromEl);
+          else card.before(fromEl);
+          // update reorderPages
+          const arr = Array.from(grid.children).map(c => +c.dataset.page);
+          reorderPages = arr;
+        }
+      });
+      grid.appendChild(card);
+    }
+    document.getElementById('reorderControls').style.display = 'block';
+  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  setLoading('reorderLoading', false);
+}, false);
+
+async function doReorder() {
+  if (!reorderPdfBytes) return;
+  const grid = document.getElementById('reorderThumbs');
+  const order = Array.from(grid.children).map(c => +c.dataset.page);
+  setLoading('reorderLoading', true);
+  try {
+    const src = await PDFDocument.load(reorderPdfBytes);
+    const out = await PDFDocument.create();
+    const copied = await out.copyPages(src, order);
+    copied.forEach(p => out.addPage(p));
+    const result = await out.save();
+    downloadPdf(result, 'reordered.pdf');
+    showToast('순서 변경 완료!');
+  } catch (e) { showToast('오류: ' + e.message); }
+  setLoading('reorderLoading', false);
+}
+
+/* ===== WATERMARK ===== */
+let wmPdfBytes = null;
+
+setupDropZone('watermarkDropZone', 'watermarkFileInput', async files => {
+  const file = files[0];
+  wmPdfBytes = new Uint8Array(await file.arrayBuffer());
+  setLoading('watermarkLoading', true);
+  try {
+    await PDFDocument.load(wmPdfBytes);
+    document.getElementById('watermarkControls').style.display = 'block';
+    await updateWmPreview();
+  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  setLoading('watermarkLoading', false);
+}, false);
+
+async function updateWmPreview() {
+  if (!wmPdfBytes) return;
+  const container = document.getElementById('wmPreview');
+  container.innerHTML = '';
+  try {
+    const canvas = await renderThumb(wmPdfBytes, 1, 300);
+    container.appendChild(canvas);
+    // overlay
+    const text = document.getElementById('wmText').value || 'CONFIDENTIAL';
+    const size = +document.getElementById('wmSize').value;
+    const opacity = +document.getElementById('wmOpacity').value / 100;
+    const angle = +document.getElementById('wmAngle').value;
+    const overlay = document.createElement('div');
+    overlay.className = 'watermark-overlay';
+    const span = document.createElement('span');
+    span.className = 'watermark-text';
+    span.textContent = text;
+    span.style.fontSize = (size * canvas.width / 600) + 'px';
+    span.style.color = 'rgba(255,0,0,' + opacity + ')';
+    span.style.transform = 'rotate(' + angle + 'deg)';
+    overlay.appendChild(span);
+    container.appendChild(overlay);
+  } catch (e) { /* ignore preview errors */ }
+}
+
+async function doWatermark() {
+  if (!wmPdfBytes) return;
+  const text = document.getElementById('wmText').value || 'CONFIDENTIAL';
+  const size = +document.getElementById('wmSize').value;
+  const opacity = +document.getElementById('wmOpacity').value / 100;
+  const angle = +document.getElementById('wmAngle').value;
+  setLoading('watermarkLoading', true);
+  try {
+    const doc = await PDFDocument.load(wmPdfBytes);
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    const pages = doc.getPages();
+    pages.forEach(page => {
+      const { width, height } = page.getSize();
+      const textWidth = font.widthOfTextAtSize(text, size);
+      const x = (width - textWidth) / 2;
+      const y = height / 2;
+      page.drawText(text, {
+        x, y, size, font,
+        color: rgb(0.5, 0.5, 0.5),
+        opacity,
+        rotate: degrees(angle),
+      });
+    });
+    const result = await doc.save();
+    downloadPdf(result, 'watermarked.pdf');
+    showToast('워터마크 적용 완료!');
+  } catch (e) { showToast('오류: ' + e.message); }
+  setLoading('watermarkLoading', false);
+}
+
+/* ===== Reset ===== */
+function resetAll() {
+  mergeFiles = [];
+  splitPdfBytes = null; splitPageTotal = 0;
+  rotatePdfBytes = null; rotateAngles = [];
+  reorderPdfBytes = null; reorderPages = [];
+  wmPdfBytes = null;
+  document.getElementById('mergeFileList').innerHTML = '';
+  document.getElementById('mergeBtn').style.display = 'none';
+  document.getElementById('splitInfo').style.display = 'none';
+  document.getElementById('splitRangeGroup').style.display = 'none';
+  document.getElementById('splitBtn').style.display = 'none';
+  document.getElementById('splitRange').value = '';
+  document.getElementById('rotateControls').style.display = 'none';
+  document.getElementById('rotateThumbs').innerHTML = '';
+  document.getElementById('reorderControls').style.display = 'none';
+  document.getElementById('reorderThumbs').innerHTML = '';
+  document.getElementById('watermarkControls').style.display = 'none';
+  document.getElementById('wmPreview').innerHTML = '';
+  document.getElementById('wmText').value = 'CONFIDENTIAL';
+  document.getElementById('wmSize').value = 50;
+  document.getElementById('wmSizeVal').textContent = '50px';
+  document.getElementById('wmOpacity').value = 15;
+  document.getElementById('wmOpacityVal').textContent = '0.15';
+  document.getElementById('wmAngle').value = -45;
+  showToast('초기화 완료');
+}
+
+/* ===== Scroll to top ===== */
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('visible', window.scrollY > 300);
+});
+scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+</body>
+</html>
