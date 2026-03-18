@@ -228,7 +228,7 @@ const $btnSave = document.getElementById('btnSave');
 const $btnCopy = document.getElementById('btnCopy');
 const $emojiGrid = document.getElementById('emojiGrid');
 
-// === 이모지 → 코드포인트 변환 ===
+// === 이모지 ↔ 코드 변환 ===
 function emojiToCode(emoji) {
   const pts = [];
   for (const ch of emoji) {
@@ -238,10 +238,14 @@ function emojiToCode(emoji) {
   return pts.join('-');
 }
 
+function codeToEmoji(code) {
+  return String.fromCodePoint(...code.split('-').map(x => parseInt(x, 16)));
+}
+
 // === 데이터 로드 ===
 async function loadData() {
-  const url = 'https://raw.githubusercontent.com/xsalazar/emoji-kitchen-backend/main/app/metadata.json';
-  const cacheName = 'emoji-kitchen-meta-v1';
+  const url = './emoji-db.json';
+  const cacheName = 'emoji-kitchen-db-v1';
   try {
     let resp;
     if ('caches' in window) {
@@ -259,9 +263,10 @@ async function loadData() {
     
     if (!resp.ok) throw new Error('fetch failed');
     emojiData = await resp.json();
+    
     // Build supported emoji set
-    if (emojiData && emojiData.data) {
-      for (const key of Object.keys(emojiData.data)) {
+    if (emojiData && emojiData.emojis) {
+      for (const key of emojiData.emojis) {
         supportedEmoji.add(key);
       }
     }
@@ -372,35 +377,39 @@ function findComboUrl(e1, e2) {
   const c1 = emojiToCode(e1);
   const c2 = emojiToCode(e2);
 
-  // Try e1's combinations
-  const entry1 = emojiData.data[c1];
-  if (entry1 && entry1.combinations) {
-    for (const combo of entry1.combinations) {
-      if (combo.gStaticUrl && isMatch(combo, c1, c2)) return combo.gStaticUrl;
-    }
-  }
+  const idx1 = emojiData.emojis.indexOf(c1);
+  const idx2 = emojiData.emojis.indexOf(c2);
+  if (idx1 === -1 || idx2 === -1) return null;
 
-  // Try e2's combinations (reverse)
-  const entry2 = emojiData.data[c2];
-  if (entry2 && entry2.combinations) {
-    for (const combo of entry2.combinations) {
-      if (combo.gStaticUrl && isMatch(combo, c2, c1)) return combo.gStaticUrl;
+  const n1 = idx1.toString(36);
+  const n2 = idx2.toString(36);
+
+  const arr = [n1, n2].sort();
+  const nA = arr[0];
+  const nB = arr[1];
+
+  if (emojiData.data[nA] && emojiData.data[nA][nB] !== undefined) {
+    const val = emojiData.data[nA][nB];
+    const sign = val.charAt(0);
+    const dateIdx = parseInt(val.substring(1), 36);
+    const date = emojiData.dates[dateIdx];
+
+    const codeA = emojiData.emojis[parseInt(nA, 36)];
+    const codeB = emojiData.emojis[parseInt(nB, 36)];
+
+    let leftCode, rightCode;
+    if (sign === '+') {
+      leftCode = codeA;
+      rightCode = codeB;
+    } else {
+      leftCode = codeB;
+      rightCode = codeA;
     }
+
+    return `https://www.gstatic.com/android/keyboard/emojikitchen/${date}/u${leftCode}/u${leftCode}_u${rightCode}.png`;
   }
 
   return null;
-}
-
-function isMatch(combo, leftCode, rightCode) {
-  // The combo has leftEmoji and rightEmoji (or leftEmojiCodepoint / rightEmojiCodepoint)
-  // Need to check both directions
-  const le = combo.leftEmojiCodepoint || combo.leftEmoji || '';
-  const re = combo.rightEmojiCodepoint || combo.rightEmoji || '';
-  if ((le === leftCode && re === rightCode) || (le === rightCode && re === leftCode)) return true;
-  // Also try with 'u' prefix format
-  const uLeft = leftCode, uRight = rightCode;
-  if ((le === uLeft && re === uRight) || (le === uRight && re === uLeft)) return true;
-  return false;
 }
 
 // === 초기화 ===
@@ -431,54 +440,52 @@ function randomCombo() {
   
   while (!validComboFound && attempts < 100) {
     attempts++;
-    const randKey = keys[Math.floor(Math.random() * keys.length)];
-    const entry = emojiData.data[randKey];
+    const randA = keys[Math.floor(Math.random() * keys.length)];
+    const subKeys = Object.keys(emojiData.data[randA]);
     
-    if (entry && entry.combinations && entry.combinations.length > 0) {
-      // Find a combination with a valid URL
-      const validCombos = entry.combinations.filter(c => c.gStaticUrl);
-      if (validCombos.length > 0) {
-        const randCombo = validCombos[Math.floor(Math.random() * validCombos.length)];
-        
-        // Get the two emojis
-        const e1 = entry.emoji;
-        const rc = randCombo.rightEmojiCodepoint || randCombo.rightEmoji;
-        const entry2 = emojiData.data[rc];
-        const e2 = entry2 ? entry2.emoji : null;
-        
-        if (e1 && e2) {
-          slot1Emoji = e1;
-          slot2Emoji = e2;
-          $slot1.textContent = e1;
-          $slot2.textContent = e2;
-          $slot1.classList.add('filled');
-          $slot2.classList.add('filled');
-          activateSlot(2);
-          updateSelectedHighlight();
+    if (subKeys.length > 0) {
+      const randB = subKeys[Math.floor(Math.random() * subKeys.length)];
+      
+      const codeA = emojiData.emojis[parseInt(randA, 36)];
+      const codeB = emojiData.emojis[parseInt(randB, 36)];
+      
+      const e1 = codeToEmoji(codeA);
+      const e2 = codeToEmoji(codeB);
+      
+      if (e1 && e2) {
+        slot1Emoji = e1;
+        slot2Emoji = e2;
+        $slot1.textContent = e1;
+        $slot2.textContent = e2;
+        $slot1.classList.add('filled');
+        $slot2.classList.add('filled');
+        activateSlot(2);
+        updateSelectedHighlight();
 
-          $placeholder.style.display = 'none';
-          $noResult.style.display = 'none';
-          $resultLoading.style.display = 'flex';
-          $resultImg.style.display = 'none';
-          $resultMini.textContent = '⏳';
-          $btnSave.disabled = true;
-          $btnCopy.disabled = true;
+        $placeholder.style.display = 'none';
+        $noResult.style.display = 'none';
+        $resultLoading.style.display = 'flex';
+        $resultImg.style.display = 'none';
+        $resultMini.textContent = '⏳';
+        $btnSave.disabled = true;
+        $btnCopy.disabled = true;
 
+        const url = findComboUrl(e1, e2);
+        if (url) {
           const img = new Image();
           img.crossOrigin = 'anonymous';
           img.onload = () => {
             $resultLoading.style.display = 'none';
-            $resultImg.src = randCombo.gStaticUrl;
+            $resultImg.src = url;
             $resultImg.style.display = 'block';
-            $resultMini.innerHTML = '<img src="'+randCombo.gStaticUrl+'" style="width:48px;height:48px;object-fit:contain">';
+            $resultMini.innerHTML = '<img src="'+url+'" style="width:48px;height:48px;object-fit:contain">';
             $btnSave.disabled = false;
             $btnCopy.disabled = false;
           };
           img.onerror = () => {
-             // If image fails to load despite having URL, try another
              randomCombo();
           };
-          img.src = randCombo.gStaticUrl;
+          img.src = url;
           
           validComboFound = true;
           return;
