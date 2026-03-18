@@ -56,7 +56,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 .emoji-grid-wrap::-webkit-scrollbar-track{background:transparent}
 .emoji-grid-wrap::-webkit-scrollbar-thumb{background:#2a2a5a;border-radius:3px}
 .emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
-.emoji-btn{aspect-ratio:1;border:none;background:#1a1a3e;border-radius:8px;font-size:22px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.emoji-btn{width:40px;height:40px;border:none;background:#1a1a3e;border-radius:8px;font-size:22px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin:0 auto}
 .emoji-btn:hover{background:#2a2a5a;transform:scale(1.15)}
 .emoji-btn.selected{background:#533483;box-shadow:0 0 8px rgba(83,52,131,.5)}
 
@@ -190,6 +190,11 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 
 <script>
 // === 이모지 카테고리 데이터 ===
+const splitEmojis = (str) => {
+  const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+  return Array.from(segmenter.segment(str)).map(s => s.segment).filter(e => e.trim());
+};
+
 const EMOJI_CATS = {
   face: '😀😃😄😁😆🥹😅😂🤣🥲😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟😕🙁😣😖😫😩🥺😢😭😤😠😡🤬🤯😳🥵🥶😱😨😰😥😓🤗🤔🤭🤫🤥😶😐😑😬🙄😯😦😧😮😲🥱😴🤤😪😵🤐🥴🤢🤮🤧😷🤒🤕🤑🤠😈👿👻💀☠️👽🤖🎃😺😸😹😻😼😽🙀😿😾'.split(/(?=\p{Emoji_Presentation})/u).filter(e=>e.trim()),
   animal: '🐶🐱🐭🐹🐰🦊🐻🐼🐨🐯🦁🐮🐷🐽🐸🐵🙈🙉🙊🐔🐧🐦🐤🐣🐥🦆🦅🦉🦇🐺🐗🐴🦄🐝🐛🦋🐌🐞🐜🐢🐍🦎🦖🦕🐙🦑🦐🦞🦀🐡🐠🐟🐬🐳🐋🐊🐆🐅🐃🐂🐄🦬🐎🐖🐏🐑🦙🐐🦌🐕🐩🦮🐈🐓🦃🦚🦜🦢🦩🐇🦝🦨🐁🐀🐿️🦔🐾🐉🐲'.split(/(?=\p{Emoji_Presentation})/u).filter(e=>e.trim()),
@@ -416,18 +421,26 @@ function clearSlots() {
 function randomCombo() {
   if (!emojiData || !emojiData.data) return;
   const keys = Object.keys(emojiData.data);
+  let validComboFound = false;
   let attempts = 0;
-  while (attempts < 50) {
+  
+  while (!validComboFound && attempts < 100) {
+    attempts++;
     const randKey = keys[Math.floor(Math.random() * keys.length)];
     const entry = emojiData.data[randKey];
+    
     if (entry && entry.combinations && entry.combinations.length > 0) {
-      const randCombo = entry.combinations[Math.floor(Math.random() * entry.combinations.length)];
-      if (randCombo.gStaticUrl) {
-        // Get the two emoji
+      // Find a combination with a valid URL
+      const validCombos = entry.combinations.filter(c => c.gStaticUrl);
+      if (validCombos.length > 0) {
+        const randCombo = validCombos[Math.floor(Math.random() * validCombos.length)];
+        
+        // Get the two emojis
         const e1 = entry.emoji;
-        const rc = randCombo.rightEmojiCodepoint || randCombo.rightEmoji || '';
+        const rc = randCombo.rightEmojiCodepoint || randCombo.rightEmoji;
         const entry2 = emojiData.data[rc];
         const e2 = entry2 ? entry2.emoji : null;
+        
         if (e1 && e2) {
           slot1Emoji = e1;
           slot2Emoji = e2;
@@ -438,22 +451,40 @@ function randomCombo() {
           activateSlot(2);
           updateSelectedHighlight();
 
-          // Show result directly
           $placeholder.style.display = 'none';
           $noResult.style.display = 'none';
-          $resultLoading.style.display = 'none';
-          $resultImg.src = randCombo.gStaticUrl;
-          $resultImg.style.display = 'block';
-          $resultMini.innerHTML = '<img src="'+randCombo.gStaticUrl+'" style="width:48px;height:48px;object-fit:contain">';
-          $btnSave.disabled = false;
-          $btnCopy.disabled = false;
+          $resultLoading.style.display = 'flex';
+          $resultImg.style.display = 'none';
+          $resultMini.textContent = '⏳';
+          $btnSave.disabled = true;
+          $btnCopy.disabled = true;
+
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            $resultLoading.style.display = 'none';
+            $resultImg.src = randCombo.gStaticUrl;
+            $resultImg.style.display = 'block';
+            $resultMini.innerHTML = '<img src="'+randCombo.gStaticUrl+'" style="width:48px;height:48px;object-fit:contain">';
+            $btnSave.disabled = false;
+            $btnCopy.disabled = false;
+          };
+          img.onerror = () => {
+             // If image fails to load despite having URL, try another
+             randomCombo();
+          };
+          img.src = randCombo.gStaticUrl;
+          
+          validComboFound = true;
           return;
         }
       }
     }
-    attempts++;
   }
-  showToast('랜덤 조합을 찾지 못했습니다');
+  
+  if (!validComboFound) {
+    showToast('랜덤 조합을 찾지 못했습니다');
+  }
 }
 
 // === 저장 ===
