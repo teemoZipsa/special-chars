@@ -230,8 +230,23 @@ function emojiToCode(emoji) {
 
 // === 데이터 로드 ===
 async function loadData() {
+  const url = 'https://raw.githubusercontent.com/xsalazar/emoji-kitchen-backend/main/app/metadata.json';
+  const cacheName = 'emoji-kitchen-meta-v1';
   try {
-    const resp = await fetch('https://raw.githubusercontent.com/xsalazar/emoji-kitchen-backend/main/app/metadata.json');
+    let resp;
+    if ('caches' in window) {
+      const cache = await caches.open(cacheName);
+      const cachedResp = await cache.match(url);
+      if (cachedResp) {
+        resp = cachedResp;
+      } else {
+        resp = await fetch(url);
+        if (resp.ok) cache.put(url, resp.clone());
+      }
+    } else {
+      resp = await fetch(url);
+    }
+    
     if (!resp.ok) throw new Error('fetch failed');
     emojiData = await resp.json();
     // Build supported emoji set
