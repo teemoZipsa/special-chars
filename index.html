@@ -7,11 +7,22 @@
 <meta name="google-site-verification" content="TyyNKYVi782xFUYEwSxrYkTFRbP7qeWK7TUds1zObD0" />
 <meta name="naver-site-verification" content="1240f9c95aabdaaf2a61568437d1a8cbc1749a0c" />
 <title>특수 문자 & 이모지 입력기</title>
+<meta name="description" content="특수문자, 이모지, 기호를 클릭 한 번으로 복사하세요. 글자 수 계산기, 날짜 계산기 등 22가지 무료 온라인 도구 모음.">
+<meta property="og:title" content="특수 문자 & 이모지 입력기 — 티모집사">
+<meta property="og:description" content="특수문자, 이모지, 기호를 클릭 한 번으로 복사하세요. 22가지 무료 온라인 도구 모음.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
+<meta name="theme-color" content="#533483">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-family: 'Pretendard', -apple-system, sans-serif;
     background: #1a1a2e;
     color: #e0e0e0;
     display: flex;
@@ -207,7 +218,7 @@
     <h1 style="font-size:16px;font-weight:600;color:#fff;letter-spacing:1px">⌨ 특수 문자 & 이모지</h1>
     <div class="search-box" id="searchBox">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      <input type="text" id="searchInput" placeholder="검색..." oninput="filterChars()">
+      <input type="text" id="searchInput" placeholder="검색..." oninput="filterChars()" aria-label="문자 검색">
     </div>
   </div>
 
@@ -243,7 +254,7 @@
 
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const SPECIAL = {
@@ -386,7 +397,8 @@ const SPECIAL_KEYS = Object.keys(SPECIAL);
 const EMOJI_KEYS = Object.keys(EMOJI);
 
 let currentTab = "기호";
-let recentChars = JSON.parse(localStorage.getItem('recentChars') || '[]');
+let recentChars;
+try { recentChars = JSON.parse(localStorage.getItem('recentChars') || '[]'); } catch { recentChars = []; }
 
 // ZWJ 이모지, 국기 등 올바르게 분리
 function splitChars(str) {
@@ -485,7 +497,7 @@ function addRecent(ch) {
   recentChars = recentChars.filter(c => c !== ch);
   recentChars.unshift(ch);
   if (recentChars.length > 20) recentChars = recentChars.slice(0, 20);
-  localStorage.setItem('recentChars', JSON.stringify(recentChars));
+  try { localStorage.setItem('recentChars', JSON.stringify(recentChars)); } catch {}
   renderRecent();
 }
 
@@ -508,7 +520,7 @@ function renderRecent() {
 
 function clearRecent() {
   recentChars = [];
-  localStorage.setItem('recentChars', JSON.stringify(recentChars));
+  try { localStorage.setItem('recentChars', JSON.stringify(recentChars)); } catch {}
   renderRecent();
   showToast('최근 사용 목록 삭제됨');
 }
@@ -565,17 +577,6 @@ renderTabs();
 renderGrid();
 renderRecent();
 
-// 기존 해시 URL을 새 독립 페이지로 리다이렉트
-(function handleHash() {
-  const hashRedirects = {
-    '#counter': '/special-chars/char-counter/',
-    '#date': '/special-chars/date-calc/',
-    '#unit': '/special-chars/unit-conv/'
-  };
-  if (hashRedirects[location.hash]) {
-    location.replace(hashRedirects[location.hash]);
-  }
-})();
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>

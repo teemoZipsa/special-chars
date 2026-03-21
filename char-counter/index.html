@@ -6,6 +6,12 @@
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>📏 글자 수 계산기 — 티모집사</title>
 <meta name="description" content="글자 수, 공백 제외, 단어 수, 줄 수, 바이트(UTF-8/EUC-KR)를 실시간으로 계산합니다.">
+<meta property="og:title" content="📏 글자 수 계산기 — 티모집사">
+<meta property="og:description" content="글자 수, 공백 제외, 단어 수, 줄 수, 바이트(UTF-8/EUC-KR)를 실시간으로 계산합니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/char-counter/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/char-counter/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -112,7 +118,7 @@
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1500)}

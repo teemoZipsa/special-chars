@@ -6,8 +6,14 @@
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
 <title>📷 QR 코드 생성기 — 티모집사</title>
 <meta name="description" content="텍스트, URL, 연락처 등을 QR 코드로 즉시 생성하고 다운로드하세요.">
+<meta property="og:title" content="📷 QR 코드 생성기 — 티모집사">
+<meta property="og:description" content="텍스트, URL, 연락처 등을 QR 코드로 즉시 생성하고 다운로드하세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/qr-code/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/qr-code/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js" onerror="document.getElementById('cdnError').style.display='block'"></script>
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -47,6 +53,7 @@
 </style>
 </head>
 <body>
+<div id="cdnError" style="display:none;background:#ff4444;color:#fff;text-align:center;padding:12px;font-size:14px;">외부 라이브러리 로드에 실패했습니다. 인터넷 연결을 확인하고 새로고침 해주세요.</div>
 <div class="app">
   <div class="header">
     <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
