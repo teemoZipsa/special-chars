@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<title>⌨️ 한영 타자 변환기 — 티모집사</title>
+<meta name="description" content="영타로 친 한글, 한타로 친 영어를 즉시 변환하세요. 서버 전송 없이 100% 브라우저 로컬 처리.">
+<meta property="og:title" content="⌨️ 한영 타자 변환기 — 티모집사">
+<meta property="og:description" content="영타로 친 한글, 한타로 친 영어를 즉시 변환하세요. 100% 브라우저 로컬 처리.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/korean-english-converter/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/korean-english-converter/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:520px;max-width:100%;overflow:hidden}
+.header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:.5px}
+.back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+.content{padding:20px}
+
+.mode-tabs{display:flex;gap:6px;margin-bottom:16px}
+.mode-tab{flex:1;padding:10px;border:1px solid #2a2a5a;border-radius:10px;background:#1a1a3e;color:#8888cc;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
+.mode-tab.active{background:#533483;border-color:#533483;color:#fff}
+.mode-tab:hover:not(.active){background:#222250;border-color:#3a3a7a}
+
+.input-group{margin-bottom:14px}
+.input-group label{display:block;font-size:12px;color:#8888cc;font-weight:600;margin-bottom:6px}
+.input-area{width:100%;min-height:100px;background:#1a1a3e;border:2px solid #2a2a5a;border-radius:12px;padding:14px;font-size:15px;color:#e0e0ff;resize:vertical;outline:none;font-family:'Pretendard',sans-serif;line-height:1.6;transition:border-color .2s}
+.input-area:focus{border-color:#533483}
+.input-area::placeholder{color:#444466}
+
+.result-box{background:#1a1a3e;border:2px solid #3a3a6a;border-radius:12px;padding:14px;min-height:60px;margin-bottom:14px;position:relative;line-height:1.6}
+.result-text{font-size:15px;color:#c4b5fd;word-break:break-all;font-weight:500}
+.result-placeholder{color:#444466;font-size:14px}
+
+.actions{display:flex;gap:8px;margin-bottom:16px}
+.btn{flex:1;padding:11px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-copy{background:#533483;color:#fff}
+.btn-copy:hover{background:#6b44a3}
+.btn-clear{background:#1a1a3e;border:1px solid #2a2a5a;color:#8888bb}
+.btn-clear:hover{background:#222250}
+
+.examples{margin-top:8px}
+.examples-title{font-size:12px;color:#6666aa;margin-bottom:8px;font-weight:600}
+.example-chips{display:flex;flex-wrap:wrap;gap:6px}
+.example-chip{background:#1a1a3e;border:1px solid #2a2a5a;border-radius:8px;padding:6px 12px;font-size:12px;color:#8888cc;cursor:pointer;transition:all .2s;font-family:inherit}
+.example-chip:hover{background:#222250;border-color:#533483;color:#c4b5fd}
+.example-chip span{color:#555580;margin:0 4px}
+
+.guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
+.guide-section summary:hover{background:#2a2a5a}
+.guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+.guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+
+.footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
+.footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:#b0b0e0}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+@media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>⌨️ 한영 타자 변환기</h1>
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+  </div>
+  <div class="content">
+    <div class="mode-tabs">
+      <button class="mode-tab active" onclick="setMode('engToKor')">영타 → 한글</button>
+      <button class="mode-tab" onclick="setMode('korToEng')">한타 → 영어</button>
+    </div>
+
+    <div class="input-group">
+      <label id="inputLabel">영타로 잘못 친 텍스트를 입력하세요</label>
+      <textarea class="input-area" id="inputText" placeholder="예: dkssud" oninput="convert()"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>변환 결과</label>
+      <div class="result-box">
+        <div class="result-text" id="resultText"><span class="result-placeholder">입력하면 자동으로 변환됩니다</span></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-copy" onclick="copyResult()">📋 결과 복사</button>
+      <button class="btn btn-clear" onclick="clearAll()">🗑️ 초기화</button>
+    </div>
+
+    <div class="examples" id="examples">
+      <div class="examples-title">💡 예시 (클릭하면 입력됩니다)</div>
+      <div class="example-chips" id="exampleChips"></div>
+    </div>
+  </div>
+
+  <details class="guide-section">
+    <summary>📖 사용법 안내</summary>
+    <div class="guide-content">
+      <p><b>영타 → 한글:</b> 한/영 전환을 깜빡하고 영문 상태로 한글을 타이핑했을 때 사용합니다.</p>
+      <p>예) <code>dkssud</code> → <code>안녕</code></p>
+      <br>
+      <p><b>한타 → 영어:</b> 한글 상태에서 영어를 타이핑했을 때 사용합니다.</p>
+      <p>예) <code>ㅗ디ㅣㅐ</code> → <code>hello</code></p>
+      <br>
+      <p>⚠️ 100% 브라우저 로컬 처리 — 입력한 텍스트는 어디에도 전송되지 않습니다.</p>
+    </div>
+  </details>
+
+  <div class="footer">
+    <span>© 티모집사</span>
+    <a href="https://teemozipsa.github.io/">도구 모음 →</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// 한영 키보드 매핑
+const ENG_KEYS = "rRseEfaqQtTdwWczxvgkoiOjpuPhynbml";
+const KOR_CHO  = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+const KOR_JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+const KOR_JONG = ["","ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+
+// 영문 키 → 한글 자모 매핑
+const engToJamo = {
+  'r':'ㄱ','R':'ㄲ','s':'ㄴ','e':'ㄷ','E':'ㄸ','f':'ㄹ','a':'ㅁ','q':'ㅂ','Q':'ㅃ',
+  't':'ㅅ','T':'ㅆ','d':'ㅇ','w':'ㅈ','W':'ㅉ','c':'ㅊ','z':'ㅋ','x':'ㅌ','v':'ㅍ','g':'ㅎ',
+  'k':'ㅏ','o':'ㅐ','i':'ㅑ','O':'ㅒ','j':'ㅓ','p':'ㅔ','u':'ㅕ','P':'ㅖ',
+  'h':'ㅗ','y':'ㅛ','n':'ㅜ','b':'ㅠ','m':'ㅡ','l':'ㅣ',
+  'hk':'ㅘ','ho':'ㅙ','hl':'ㅚ','nj':'ㅝ','np':'ㅞ','nl':'ㅟ','ml':'ㅢ'
+};
+
+// 한글 자모 → 영문 키 매핑
+const jamoToEng = {};
+for(const [e,k] of Object.entries(engToJamo)) jamoToEng[k] = e;
+
+// 초성 인덱스 매핑
+const CHO_MAP = {'ㄱ':0,'ㄲ':1,'ㄴ':2,'ㄷ':3,'ㄸ':4,'ㄹ':5,'ㅁ':6,'ㅂ':7,'ㅃ':8,'ㅅ':9,'ㅆ':10,'ㅇ':11,'ㅈ':12,'ㅉ':13,'ㅊ':14,'ㅋ':15,'ㅌ':16,'ㅍ':17,'ㅎ':18};
+const JUNG_MAP = {'ㅏ':0,'ㅐ':1,'ㅑ':2,'ㅒ':3,'ㅓ':4,'ㅔ':5,'ㅕ':6,'ㅖ':7,'ㅗ':8,'ㅘ':9,'ㅙ':10,'ㅚ':11,'ㅛ':12,'ㅜ':13,'ㅝ':14,'ㅞ':15,'ㅟ':16,'ㅠ':17,'ㅡ':18,'ㅢ':19,'ㅣ':20};
+const JONG_MAP = {'':0,'ㄱ':1,'ㄲ':2,'ㄳ':3,'ㄴ':4,'ㄵ':5,'ㄶ':6,'ㄷ':7,'ㄹ':8,'ㄺ':9,'ㄻ':10,'ㄼ':11,'ㄽ':12,'ㄾ':13,'ㄿ':14,'ㅀ':15,'ㅁ':16,'ㅂ':17,'ㅄ':18,'ㅅ':19,'ㅆ':20,'ㅇ':21,'ㅈ':22,'ㅊ':23,'ㅋ':24,'ㅌ':25,'ㅍ':26,'ㅎ':27};
+
+// 복합 종성 분리
+const COMPLEX_JONG = {'ㄳ':['ㄱ','ㅅ'],'ㄵ':['ㄴ','ㅈ'],'ㄶ':['ㄴ','ㅎ'],'ㄺ':['ㄹ','ㄱ'],'ㄻ':['ㄹ','ㅁ'],'ㄼ':['ㄹ','ㅂ'],'ㄽ':['ㄹ','ㅅ'],'ㄾ':['ㄹ','ㅌ'],'ㄿ':['ㄹ','ㅍ'],'ㅀ':['ㄹ','ㅎ'],'ㅄ':['ㅂ','ㅅ']};
+
+// 복합 종성 조합
+const JONG_COMBINE = {
+  'ㄱㅅ':'ㄳ','ㄴㅈ':'ㄵ','ㄴㅎ':'ㄶ',
+  'ㄹㄱ':'ㄺ','ㄹㅁ':'ㄻ','ㄹㅂ':'ㄼ','ㄹㅅ':'ㄽ','ㄹㅌ':'ㄾ','ㄹㅍ':'ㄿ','ㄹㅎ':'ㅀ',
+  'ㅂㅅ':'ㅄ'
+};
+
+// 복합 모음 조합
+const JUNG_COMBINE = {
+  'ㅗㅏ':'ㅘ','ㅗㅐ':'ㅙ','ㅗㅣ':'ㅚ',
+  'ㅜㅓ':'ㅝ','ㅜㅔ':'ㅞ','ㅜㅣ':'ㅟ',
+  'ㅡㅣ':'ㅢ'
+};
+
+const CHO_LIST = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JUNG_LIST = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+
+function isCho(c){return CHO_MAP.hasOwnProperty(c)}
+function isJung(c){return JUNG_MAP.hasOwnProperty(c)}
+function isJong(c){return JONG_MAP.hasOwnProperty(c) && c!==''}
+
+function composeSyllable(cho,jung,jong){
+  const ci=CHO_MAP[cho], ji=JUNG_MAP[jung], ki=jong?JONG_MAP[jong]:0;
+  return String.fromCharCode(0xAC00+ci*21*28+ji*28+ki);
+}
+
+// 영타 → 한글 변환
+function engToKor(text){
+  // 영문을 자모로 변환
+  const jamos=[];
+  for(const ch of text){
+    if(engToJamo[ch]) jamos.push(engToJamo[ch]);
+    else jamos.push(ch);
+  }
+
+  // 자모를 음절로 조합
+  let result='';
+  let i=0;
+  while(i<jamos.length){
+    const cur=jamos[i];
+
+    // 초성이 될 수 있는 자음인지
+    if(isCho(cur)){
+      // 다음이 모음인지 확인
+      let jung=null, jungIdx=i+1;
+
+      if(jungIdx<jamos.length && isJung(jamos[jungIdx])){
+        jung=jamos[jungIdx];
+
+        // 복합 모음 체크
+        if(jungIdx+1<jamos.length){
+          const combined=JUNG_COMBINE[jung+jamos[jungIdx+1]];
+          if(combined){jung=combined;jungIdx++;}
+        }
+
+        // 종성 체크
+        let jong=null, jongIdx=jungIdx+1;
+
+        if(jongIdx<jamos.length && isJong(jamos[jongIdx])){
+          const possibleJong=jamos[jongIdx];
+
+          // 다음에 모음이 오면 종성이 아니라 다음 음절의 초성
+          if(jongIdx+1<jamos.length && isJung(jamos[jongIdx+1])){
+            // 종성 없이 현재 음절 완성
+            result+=composeSyllable(cur,jung,'');
+            i=jongIdx;
+            continue;
+          }
+
+          // 복합 종성 체크
+          if(jongIdx+1<jamos.length){
+            const complexJong=JONG_COMBINE[possibleJong+jamos[jongIdx+1]];
+            if(complexJong && JONG_MAP.hasOwnProperty(complexJong)){
+              // 복합 종성 뒤에 모음이 오면 분리
+              if(jongIdx+2<jamos.length && isJung(jamos[jongIdx+2])){
+                jong=possibleJong;
+                result+=composeSyllable(cur,jung,jong);
+                i=jongIdx+1;
+                continue;
+              }
+              jong=complexJong;
+              result+=composeSyllable(cur,jung,jong);
+              i=jongIdx+2;
+              continue;
+            }
+          }
+
+          jong=possibleJong;
+          result+=composeSyllable(cur,jung,jong);
+          i=jongIdx+1;
+          continue;
+        }
+
+        result+=composeSyllable(cur,jung,'');
+        i=jungIdx+1;
+        continue;
+      }
+
+      // 초성만 있으면 자음 그대로
+      result+=cur;
+      i++;
+    } else if(isJung(cur)){
+      // 모음만 단독
+      result+=cur;
+      i++;
+    } else {
+      result+=cur;
+      i++;
+    }
+  }
+  return result;
+}
+
+// 한글 음절 분해
+function decompose(ch){
+  const code=ch.charCodeAt(0);
+  if(code<0xAC00||code>0xD7A3) return null;
+  const idx=code-0xAC00;
+  const cho=Math.floor(idx/(21*28));
+  const jung=Math.floor((idx%(21*28))/28);
+  const jong=idx%28;
+  return {cho:CHO_LIST[cho], jung:JUNG_LIST[jung], jong:KOR_JONG[jong]};
+}
+
+// 한타 → 영어 변환
+function korToEng(text){
+  let result='';
+  for(const ch of text){
+    const d=decompose(ch);
+    if(d){
+      result+=jamoToEng[d.cho]||d.cho;
+      // 복합 모음 분리
+      const jungParts=decomposeJung(d.jung);
+      for(const jp of jungParts) result+=jamoToEng[jp]||jp;
+      // 종성 분리
+      if(d.jong){
+        if(COMPLEX_JONG[d.jong]){
+          for(const jj of COMPLEX_JONG[d.jong]) result+=jamoToEng[jj]||jj;
+        } else {
+          result+=jamoToEng[d.jong]||d.jong;
+        }
+      }
+    } else if(jamoToEng[ch]){
+      result+=jamoToEng[ch];
+    } else {
+      result+=ch;
+    }
+  }
+  return result;
+}
+
+function decomposeJung(jung){
+  const map={'ㅘ':['ㅗ','ㅏ'],'ㅙ':['ㅗ','ㅐ'],'ㅚ':['ㅗ','ㅣ'],'ㅝ':['ㅜ','ㅓ'],'ㅞ':['ㅜ','ㅔ'],'ㅟ':['ㅜ','ㅣ'],'ㅢ':['ㅡ','ㅣ']};
+  return map[jung]||[jung];
+}
+
+let mode='engToKor';
+
+const engExamples=[
+  ['dkssud','안녕'],['tksrmfdlqfur','사랑이란'],['skansk','나는나'],
+  ['rhksflwk','관리자'],['dkswud','안녕'],['ahtdj','메세']
+];
+const korExamples=[
+  ['ㅗ디ㅣㅐ','hello'],['ㅈㅐㄱ디','world'],['ㅎㅐㅐㅇ','good'],
+  ['ㅅㅗㅁㄷ','than'],['ㄱㄷㅁㅊㅅ','react'],['ㅔㅁㅅㅗㅐㅜ','python']
+];
+
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.mode-tab').forEach((tab,i)=>{
+    tab.classList.toggle('active',i===(m==='engToKor'?0:1));
+  });
+  document.getElementById('inputLabel').textContent=
+    m==='engToKor'?'영타로 잘못 친 텍스트를 입력하세요':'한타로 잘못 친 텍스트를 입력하세요';
+  document.getElementById('inputText').placeholder=
+    m==='engToKor'?'예: dkssud':'예: ㅗ디ㅣㅐ';
+  renderExamples();
+  convert();
+}
+
+function renderExamples(){
+  const chips=document.getElementById('exampleChips');
+  const examples=mode==='engToKor'?engExamples:korExamples;
+  chips.innerHTML=examples.map(([inp,out])=>
+    `<button class="example-chip" onclick="useExample('${inp}')">${inp}<span>→</span>${out}</button>`
+  ).join('');
+}
+
+function useExample(text){
+  document.getElementById('inputText').value=text;
+  convert();
+}
+
+function convert(){
+  const input=document.getElementById('inputText').value;
+  const resultEl=document.getElementById('resultText');
+  if(!input){
+    resultEl.innerHTML='<span class="result-placeholder">입력하면 자동으로 변환됩니다</span>';
+    return;
+  }
+  const result=mode==='engToKor'?engToKor(input):korToEng(input);
+  resultEl.textContent=result;
+}
+
+function copyResult(){
+  const text=document.getElementById('resultText').textContent;
+  if(!text||text==='입력하면 자동으로 변환됩니다'){showToast('변환할 내용이 없습니다');return;}
+  navigator.clipboard.writeText(text).then(()=>showToast('복사 완료! 📋'));
+}
+
+function clearAll(){
+  document.getElementById('inputText').value='';
+  document.getElementById('resultText').innerHTML='<span class="result-placeholder">입력하면 자동으로 변환됩니다</span>';
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// 스크롤 탑 버튼
+window.addEventListener('scroll',()=>{
+  document.getElementById('scrollTopBtn').classList.toggle('visible',window.scrollY>300);
+});
+
+renderExamples();
+</script>
+</body>
+</html>
