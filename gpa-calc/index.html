@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
+<title>🎓 학점 계산기 — 티모집사</title>
+<meta name="description" content="대학교 학점(GPA) 계산기. 4.5, 4.3, 4.0 만점제 지원. 과목별 학점과 성적을 입력하면 평균 평점을 자동 계산합니다.">
+<meta property="og:title" content="🎓 학점 계산기 — 티모집사">
+<meta property="og:description" content="대학교 학점(GPA) 계산기. 4.5, 4.3, 4.0 만점제 지원.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/gpa-calc/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/gpa-calc/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;padding:20px}
+.app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:640px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.body{padding:16px;display:flex;flex-direction:column;gap:14px}
+
+.scale-row{display:flex;gap:6px;align-items:center}
+.scale-label{font-size:12px;color:var(--text-info);font-weight:600;white-space:nowrap}
+.scale-btn{padding:8px 16px;border:1px solid var(--border);border-radius:8px;background:var(--bg-btn);color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.scale-btn.active{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
+.scale-btn:hover:not(.active){background:var(--bg-btn-hover)}
+
+.result-card{background:var(--accent-bg);border:2px solid var(--accent);border-radius:12px;padding:20px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.result-gpa{font-size:42px;font-weight:800;color:var(--accent);letter-spacing:-1px}
+.result-scale{font-size:14px;color:var(--text-info);font-weight:500}
+.result-stats{display:flex;justify-content:center;gap:20px;margin-top:6px;font-size:12px;color:var(--text-secondary)}
+.result-stats span{display:flex;align-items:center;gap:4px}
+.result-empty{font-size:15px;color:var(--text-placeholder);padding:12px 0}
+
+.course-table{width:100%;border-collapse:separate;border-spacing:0 4px}
+.course-table th{font-size:11px;color:var(--text-info);font-weight:600;text-align:center;padding:6px 4px;text-transform:uppercase}
+.course-table td{padding:4px}
+.course-table input{width:100%;padding:8px 6px;background:var(--bg-guide);border:1.5px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:13px;font-family:inherit;text-align:center;outline:none;transition:border-color .2s}
+.course-table input:focus{border-color:var(--accent)}
+.course-table input::placeholder{color:var(--text-placeholder);font-size:11px}
+.course-table select{width:100%;padding:8px 4px;background:var(--bg-guide);border:1.5px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:13px;font-family:inherit;text-align:center;outline:none;cursor:pointer;transition:border-color .2s;-webkit-appearance:none}
+.course-table select:focus{border-color:var(--accent)}
+.del-btn{background:none;border:none;color:var(--text-placeholder);font-size:16px;cursor:pointer;padding:4px 8px;border-radius:4px;transition:all .2s}
+.del-btn:hover{color:#e74c7c;background:rgba(231,76,124,.1)}
+.credit-col{width:60px}
+.grade-col{width:90px}
+.name-col{min-width:80px}
+.del-col{width:36px}
+
+.btn-row{display:flex;gap:8px}
+.btn{flex:1;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-add{background:var(--accent);color:var(--text-on-accent)}
+.btn-add:hover{background:var(--accent-hover)}
+.btn-reset{background:var(--bg-btn);color:var(--text-secondary);border:1px solid var(--border)}
+.btn-reset:hover{background:var(--bg-btn-hover)}
+
+.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary:hover{background:var(--bg-guide-hover)}
+.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+.guide-content table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+.guide-content table th{background:var(--bg-btn);padding:6px;border:1px solid var(--border);color:var(--text-secondary);font-weight:600}
+.guide-content table td{padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)}
+
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.4);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+@media(max-width:640px){
+  .scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}
+  .name-col{min-width:60px}
+  .course-table input,.course-table select{font-size:12px;padding:6px 4px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>🎓 학점 계산기</h1>
+  </div>
+
+  <div class="body">
+    <div class="scale-row">
+      <span class="scale-label">만점 기준</span>
+      <button class="scale-btn active" onclick="setScale(4.5)">4.5 만점</button>
+      <button class="scale-btn" onclick="setScale(4.3)">4.3 만점</button>
+      <button class="scale-btn" onclick="setScale(4.0)">4.0 만점</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-empty">과목을 입력하면 평점이 계산됩니다</div>
+    </div>
+
+    <table class="course-table">
+      <thead>
+        <tr>
+          <th class="name-col">과목명</th>
+          <th class="credit-col">학점</th>
+          <th class="grade-col">성적</th>
+          <th class="del-col"></th>
+        </tr>
+      </thead>
+      <tbody id="courseBody"></tbody>
+    </table>
+
+    <div class="btn-row">
+      <button class="btn btn-add" onclick="addCourse()">+ 과목 추가</button>
+      <button class="btn btn-reset" onclick="resetAll()">초기화</button>
+    </div>
+  </div>
+
+  <details class="guide-section">
+    <summary>📖 성적 환산표</summary>
+    <div class="guide-content">
+      <table>
+        <tr><th>성적</th><th>4.5 만점</th><th>4.3 만점</th><th>4.0 만점</th></tr>
+        <tr><td>A+</td><td>4.5</td><td>4.3</td><td>4.0</td></tr>
+        <tr><td>A0</td><td>4.0</td><td>4.0</td><td>4.0</td></tr>
+        <tr><td>B+</td><td>3.5</td><td>3.3</td><td>3.0</td></tr>
+        <tr><td>B0</td><td>3.0</td><td>3.0</td><td>3.0</td></tr>
+        <tr><td>C+</td><td>2.5</td><td>2.3</td><td>2.0</td></tr>
+        <tr><td>C0</td><td>2.0</td><td>2.0</td><td>2.0</td></tr>
+        <tr><td>D+</td><td>1.5</td><td>1.3</td><td>1.0</td></tr>
+        <tr><td>D0</td><td>1.0</td><td>1.0</td><td>1.0</td></tr>
+        <tr><td>F</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+      </table>
+      <br>
+      <p>💡 P(Pass)는 평점 계산에서 제외됩니다.</p>
+      <p>💡 전공/교양 구분 없이 전체 평균 평점을 계산합니다.</p>
+    </div>
+  </details>
+
+  <div class="footer">
+    <span>© 티모집사</span>
+    <a href="https://teemozipsa.github.io/">도구 모음 →</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+
+<script>
+let scale = 4.5;
+const GRADES = {
+  4.5: { 'A+':4.5,'A0':4.0,'B+':3.5,'B0':3.0,'C+':2.5,'C0':2.0,'D+':1.5,'D0':1.0,'F':0,'P':-1 },
+  4.3: { 'A+':4.3,'A0':4.0,'B+':3.3,'B0':3.0,'C+':2.3,'C0':2.0,'D+':1.3,'D0':1.0,'F':0,'P':-1 },
+  4.0: { 'A+':4.0,'A0':4.0,'B+':3.0,'B0':3.0,'C+':2.0,'C0':2.0,'D+':1.0,'D0':1.0,'F':0,'P':-1 }
+};
+
+function setScale(s) {
+  scale = s;
+  document.querySelectorAll('.scale-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(s));
+  });
+  calculate();
+}
+
+function gradeOptions() {
+  const grades = Object.keys(GRADES[scale]);
+  return '<option value="">선택</option>' + grades.map(g => `<option value="${g}">${g}</option>`).join('');
+}
+
+let courseId = 0;
+function addCourse() {
+  courseId++;
+  const tr = document.createElement('tr');
+  tr.id = 'course' + courseId;
+  tr.innerHTML = `
+    <td class="name-col"><input type="text" placeholder="과목명" oninput="calculate()"></td>
+    <td class="credit-col"><input type="number" min="1" max="9" value="3" oninput="calculate()"></td>
+    <td class="grade-col"><select onchange="calculate()">${gradeOptions()}</select></td>
+    <td class="del-col"><button class="del-btn" onclick="delCourse('course${courseId}')">✕</button></td>
+  `;
+  document.getElementById('courseBody').appendChild(tr);
+  calculate();
+}
+
+function delCourse(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+  calculate();
+}
+
+function calculate() {
+  const rows = document.querySelectorAll('#courseBody tr');
+  let totalCredits = 0, totalPoints = 0, courseCount = 0;
+
+  rows.forEach(row => {
+    const credit = parseInt(row.querySelector('input[type="number"]').value) || 0;
+    const gradeVal = row.querySelector('select').value;
+    if (!gradeVal || credit <= 0) return;
+
+    const gp = GRADES[scale][gradeVal];
+    if (gp === -1) return; // P (Pass) — 제외
+
+    totalCredits += credit;
+    totalPoints += credit * gp;
+    courseCount++;
+  });
+
+  const card = document.getElementById('resultCard');
+  if (courseCount === 0 || totalCredits === 0) {
+    card.innerHTML = '<div class="result-empty">과목을 입력하면 평점이 계산됩니다</div>';
+    return;
+  }
+
+  const gpa = totalPoints / totalCredits;
+  const emoji = gpa >= 4.0 ? '🏆' : gpa >= 3.5 ? '🎉' : gpa >= 3.0 ? '👍' : gpa >= 2.0 ? '📚' : '💪';
+
+  card.innerHTML = `
+    <div class="result-gpa" style="cursor:pointer" onclick="copyGpa('${gpa.toFixed(2)}')">${emoji} ${gpa.toFixed(2)}</div>
+    <div class="result-scale">/ ${scale} 만점</div>
+    <div class="result-stats">
+      <span>📘 ${courseCount}과목</span>
+      <span>📝 ${totalCredits}학점</span>
+      <span>📊 ${(gpa/scale*100).toFixed(1)}%</span>
+    </div>
+  `;
+}
+
+function resetAll() {
+  document.getElementById('courseBody').innerHTML = '';
+  document.getElementById('resultCard').innerHTML = '<div class="result-empty">과목을 입력하면 평점이 계산됩니다</div>';
+  for (let i = 0; i < 5; i++) addCourse();
+  showToast('초기화되었습니다');
+}
+
+function copyGpa(val) {
+  navigator.clipboard.writeText(val).then(() => showToast('평점이 복사되었습니다! 📋'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 초기 5과목 생성
+for (let i = 0; i < 5; i++) addCourse();
+
+(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
+</body>
+</html>
