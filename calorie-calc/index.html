@@ -20,9 +20,9 @@
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-  .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:480px;max-width:100%;overflow:hidden}
+  .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
   .header{background:linear-gradient(135deg,#ff4b2b,#ff416c);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-  .back-btn{background:var(--bg-btn);border:none;color:#fff;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+  .back-btn{background:var(--bg-btn);border:none;color:var(--text-primary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
   .back-btn:hover{background:var(--bg-btn-hover)}
   .header h1{font-size:15px;font-weight:600;color:var(--text-on-accent)}
   .body{padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -33,15 +33,15 @@
   .field{flex:1;display:flex;flex-direction:column;gap:4px}
   .field label{font-size:11px;color:var(--calc-expr-text);font-weight:600}
   .field input,.field select{background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:9px 10px;font-size:14px;font-family:inherit;outline:none;width:100%}
-  .field input:focus,.field select:focus{border-color:#ff4b2b}
+  .field input:focus,.field select:focus{border-color:var(--text-error, #ff4b2b)}
 
   .gender-toggle{display:flex;gap:4px;background:var(--bg-input);padding:4px;border-radius:8px;border:1px solid var(--border)}
   .gender-btn{flex:1;padding:6px;text-align:center;font-size:13px;border-radius:6px;cursor:pointer;color:var(--calc-expr-text);transition:all .2s;border:none;background:transparent}
-  .gender-btn.active{background:#ff4b2b;color:#fff;font-weight:bold}
+  .gender-btn.active{background:var(--bg-error, #ff4b2b);color:var(--text-on-accent);font-weight:bold}
 
-  .result-box{background:var(--bg-input);border:1px solid #3a2a6a;border-radius:12px;padding:16px;text-align:center;margin-top:4px}
+  .result-box{background:var(--bg-input);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;margin-top:4px}
   .result-title{font-size:11px;color:var(--text-info);margin-bottom:4px}
-  .result-value{font-size:24px;font-weight:800;color:#fff;margin-bottom:2px}
+  .result-value{font-size:24px;font-weight:800;color:var(--text-on-accent);margin-bottom:2px}
   .result-value span{font-size:14px;font-weight:normal;color:#aaa}
   .result-desc{font-size:11px;color:var(--calc-expr-text)}
 
@@ -66,7 +66,7 @@
   .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
   .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#ff4b2b;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(255,75,43,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--bg-error, #ff4b2b);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(255,75,43,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:#e0431f}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}

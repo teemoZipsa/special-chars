@@ -28,7 +28,7 @@
   }
   .app{
     background:var(--bg-app);border-radius:16px;
-    box-shadow:0 8px 32px rgba(0,0,0,0.5);
+    box-shadow:var(--shadow-lg);
     width:480px;max-width:100%;overflow:hidden;
   }
   .header{
@@ -43,7 +43,7 @@
     display:flex;align-items:center;gap:4px;
   }
   .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
-  .header h1{font-size:15px;font-weight:600;color:#fff;letter-spacing:.5px}
+  .header h1{font-size:15px;font-weight:600;color:var(--text-on-accent);letter-spacing:.5px}
 
   /* 입력 */
   .inputs{padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -59,7 +59,7 @@
   .input-group input::placeholder{color:var(--text-placeholder)}
   .calc-btn{
     background:linear-gradient(135deg,#533483,#6b44a3);
-    border:none;color:#fff;padding:12px;border-radius:10px;
+    border:none;color:var(--text-on-accent);padding:12px;border-radius:10px;
     font-size:15px;font-weight:700;cursor:pointer;
     font-family:inherit;transition:opacity .2s;width:100%;
   }
@@ -71,7 +71,7 @@
   .s-card{background:var(--bg-bar);border-radius:10px;padding:12px 8px;text-align:center}
   .s-card .s-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:4px}
   .s-card .s-value{font-size:15px;font-weight:700;color:var(--text-on-accent)}
-  .s-card .s-value.profit{color:#4ade80}
+  .s-card .s-value.profit{color:var(--text-success)}
   .s-card .s-value.rate{color:var(--text-highlight)}
 
   /* 이스터에그 */
@@ -96,11 +96,11 @@
   }
   .bar{
     width:100%;border-radius:4px 4px 0 0;
-    background:linear-gradient(180deg,#a78bfa,#533483);
+    background:linear-gradient(180deg,var(--accent-hover),var(--accent));
     transition:height .5s cubic-bezier(.34,1.56,.64,1);
     min-height:2px;position:relative;cursor:pointer;
   }
-  .bar:hover{background:linear-gradient(180deg,#c4b5fd,#7c3aed)}
+  .bar:hover{background:linear-gradient(180deg,var(--accent),var(--accent-hover))}
   .bar-label{font-size:8px;color:var(--calc-expr-text);margin-top:3px;white-space:nowrap}
   .bar-tooltip{
     display:none;position:absolute;bottom:calc(100% + 6px);
@@ -136,7 +136,7 @@
   }
   .trade-detail{font-size:11px;color:var(--calc-expr-text);margin-top:2px}
   .trade-gain{
-    font-size:13px;font-weight:700;color:#4ade80;
+    font-size:13px;font-weight:700;color:var(--text-success);
     white-space:nowrap;
   }
 
@@ -145,7 +145,7 @@
     border:1px solid var(--border-final);
     background:#1e1e50;
   }
-  .trade-item.final .trade-amount{color:#fff;font-size:17px}
+  .trade-item.final .trade-amount{color:var(--text-primary);font-size:17px}
   .trade-item.final .trade-gain{color:var(--text-highlight);font-size:14px}
 
   .footer{

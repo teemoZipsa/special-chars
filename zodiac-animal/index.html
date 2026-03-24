@@ -23,7 +23,7 @@
         body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;padding:20px}
         .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
         .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
-        .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
+        .header h1{font-size:16px;font-weight:600;color:var(--text-on-accent);letter-spacing:1px}
         .back-btn{background:var(--bg-btn);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
         .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
         .counter-body{padding:16px;flex:1}
@@ -32,9 +32,9 @@
         .date-row{display:flex;gap:10px;align-items:center}
         .date-row input[type="date"]{flex:1;padding:10px 12px;background:var(--bg-btn);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:14px;font-family:inherit}
         .date-row input:focus{outline:none;border-color:var(--accent)}
-        .btn-today{padding:10px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
+        .btn-today{padding:10px 16px;background:var(--accent);color:var(--text-on-accent);border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
         .btn-today:hover{background:var(--accent-hover)}
-        .lunar-note{margin-top:8px;font-size:11px;color:var(--text-guide);line-height:1.5;padding:6px 10px;background:rgba(83,52,131,.15);border-radius:6px;border-left:3px solid #533483;display:none}
+        .lunar-note{margin-top:8px;font-size:11px;color:var(--text-guide);line-height:1.5;padding:6px 10px;background:rgba(83,52,131,.15);border-radius:6px;border-left:3px solid var(--accent);display:none}
         .lunar-note.show{display:block}
 
         .result-card{display:none;background:var(--bg-guide);border-radius:12px;overflow:hidden;animation:fadeIn .4s ease}
@@ -78,7 +78,7 @@
         .action-btn{padding:8px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
         .btn-clear{background:var(--bg-btn);color:var(--text-guide)}.btn-clear:hover{background:var(--bg-btn-hover)}
         .btn-copy{background:var(--accent);color:var(--text-on-accent)}.btn-copy:hover{background:var(--accent-hover)}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
         @media(max-width:640px){.info-grid{grid-template-columns:1fr 1fr}.compat-grid{grid-template-columns:1fr}}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}

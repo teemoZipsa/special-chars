@@ -28,7 +28,7 @@
   }
   .app{
     background:var(--bg-app);border-radius:16px;
-    box-shadow:0 8px 32px rgba(0,0,0,0.5);
+    box-shadow:var(--shadow-lg);
     width:480px;max-width:100%;overflow:hidden;
   }
   .header{
@@ -43,7 +43,7 @@
     display:flex;align-items:center;gap:4px;
   }
   .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
-  .header h1{font-size:15px;font-weight:600;color:#fff;letter-spacing:.5px}
+  .header h1{font-size:15px;font-weight:600;color:var(--text-on-accent);letter-spacing:.5px}
 
   .body{padding:16px;display:flex;flex-direction:column;gap:16px}
 
@@ -94,7 +94,7 @@
   /* 결과 */
   .result-section{
     background:var(--bg-input);
-    border:1px solid #3a2a6a;border-radius:14px;
+    border:1px solid var(--border);border-radius:14px;
     padding:18px;
   }
   .result-title{
@@ -107,14 +107,14 @@
   }
   .result-label{font-size:11px;color:var(--calc-expr-text);margin-bottom:4px}
   .result-value{
-    font-size:32px;font-weight:800;color:#fff;
+    font-size:32px;font-weight:800;color:var(--text-on-accent);
     letter-spacing:-0.5px;
   }
   .result-change{
     font-size:13px;font-weight:700;margin-top:4px;
   }
   .change-down{color:#f87171}
-  .change-up{color:#4ade80}
+  .change-up{color:var(--text-success)}
   .change-same{color:var(--text-info)}
 
   .result-stats{

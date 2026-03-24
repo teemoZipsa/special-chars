@@ -28,7 +28,7 @@
   }
   .app{
     background:var(--bg-app);border-radius:16px;
-    box-shadow:0 8px 32px rgba(0,0,0,0.5);
+    box-shadow:var(--shadow-lg);
     width:520px;max-width:100%;overflow:hidden;
   }
   .header{
@@ -43,7 +43,7 @@
     display:flex;align-items:center;gap:4px;
   }
   .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
-  .header h1{font-size:15px;font-weight:600;color:#fff;letter-spacing:.5px}
+  .header h1{font-size:15px;font-weight:600;color:var(--text-on-accent);letter-spacing:.5px}
 
   .body{padding:16px;display:flex;flex-direction:column;gap:14px}
 
@@ -88,7 +88,7 @@
     cursor:pointer;font-family:inherit;transition:all .15s;
   }
   .speed-preset:hover{border-color:var(--accent);color:var(--text-amount)}
-  .speed-preset.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .speed-preset.active{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
 
   /* 결과 카드 */
   .result{display:none;animation:fadeIn .5s ease}
@@ -96,11 +96,11 @@
 
   .result-main{
     background:var(--bg-input);
-    border:1px solid #3a2a6a;border-radius:14px;
+    border:1px solid var(--border);border-radius:14px;
     padding:24px;text-align:center;
   }
   .result-time{
-    font-size:42px;font-weight:800;color:#fff;
+    font-size:42px;font-weight:800;color:var(--text-on-accent);
     margin-bottom:4px;letter-spacing:-1px;
   }
   .result-sub{font-size:13px;color:var(--text-info)}

@@ -21,7 +21,7 @@
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-  .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:500px;max-width:100%;overflow:hidden}
+  .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:500px;max-width:100%;overflow:hidden}
   .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .back-btn{background:var(--bg-btn);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
   .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
@@ -48,7 +48,7 @@
 
   /* 빠른 추가 */
   .quick-adds{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-  .quick-add{background:#1e1e3a;border:1px solid var(--border);color:var(--calc-expr-text);padding:4px 10px;border-radius:6px;font-size:10px;cursor:pointer;font-family:inherit;transition:all .15s}
+  .quick-add{background:var(--bg-bar);border:1px solid var(--border);color:var(--calc-expr-text);padding:4px 10px;border-radius:6px;font-size:10px;cursor:pointer;font-family:inherit;transition:all .15s}
   .quick-add:hover{border-color:var(--accent);color:var(--text-amount)}
 
   /* 월 합계 */
@@ -57,18 +57,18 @@
 
   /* 결과 */
   .result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .r-card{background:var(--bg-input);border:1px solid #3a2a6a;border-radius:12px;padding:12px 8px;text-align:center}
+  .r-card{background:var(--bg-input);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
   .r-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:3px}
   .r-value{font-size:15px;font-weight:800;color:#f87171}
   .r-sub{font-size:9px;color:var(--text-muted);margin-top:2px}
 
   /* 투자 비교 */
   .invest-section{background:var(--bg-success, #1a2a1a);border:1px solid var(--border-success, #2a4a2a);border-radius:12px;padding:14px 16px}
-  .invest-title{font-size:12px;font-weight:700;color:#4ade80;margin-bottom:8px}
+  .invest-title{font-size:12px;font-weight:700;color:var(--text-success);margin-bottom:8px}
   .invest-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .i-card{background:rgba(0,0,0,.2);border-radius:8px;padding:10px 8px;text-align:center}
   .i-card .r-label{color:#2a6a2a}
-  .i-card .r-value{color:#4ade80}
+  .i-card .r-value{color:var(--text-success)}
   .invest-note{font-size:10px;color:#2a5a2a;margin-top:8px;text-align:center}
 
   /* 팩폭 */
