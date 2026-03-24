@@ -61,6 +61,9 @@
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
 </style>
 </head>
 <body>
@@ -119,9 +122,9 @@
         <li>날짜 계산: 기준일과 일수를 입력하거나 퀵 버튼(+7일, +100일 등)을 클릭하세요.</li>
         <li>"결과 복사" 버튼으로 계산 결과를 복사할 수 있습니다.</li>
       </ol>
+  <div class="footer"><span>실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
     </div>
   </details>
-  <div class="footer"><span>실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

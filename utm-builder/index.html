@@ -106,7 +106,10 @@
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
-    </style>
+    .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+</style>
 </head>
 <body>
 <div class="app">
@@ -205,9 +208,9 @@
                 <li>팀 내에서 일관된 네이밍 규칙을 정해두면 분석이 편합니다</li>
                 <li>프리셋을 활용하면 자주 쓰는 source/medium을 빠르게 입력할 수 있습니다</li>
             </ul>
+  <div class="footer"><span>마케팅 URL 추적 파라미터</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
         </div>
     </details>
-  <div class="footer"><span>마케팅 URL 추적 파라미터</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

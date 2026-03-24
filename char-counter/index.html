@@ -64,6 +64,9 @@
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
 </style>
 </head>
 <body>
@@ -110,9 +113,9 @@
         <li>제한 설정에서 글자 수 또는 바이트 제한을 걸면 진행률 바가 나타납니다.</li>
         <li>"결과 복사" 버튼으로 통계를 클립보드에 복사할 수 있습니다.</li>
       </ol>
+  <div class="footer"><span>실시간 분석</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
     </div>
   </details>
-  <div class="footer"><span>실시간 분석</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

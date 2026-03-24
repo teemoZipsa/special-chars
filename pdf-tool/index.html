@@ -143,6 +143,9 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
   .mode-tab{font-size:11px;padding:8px 4px}
   .mode-tab .tab-label{display:none}
 }
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
 </style>
 </head>
 <body>
@@ -290,9 +293,9 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
         <li><strong>파일 크기 제한이 있나요?</strong><br>서버 제한은 없지만, 브라우저 메모리에 따라 매우 큰 파일(수백 MB)은 처리가 느려질 수 있습니다.</li>
         <li><strong>어떤 PDF 파일이든 지원되나요?</strong><br>대부분의 표준 PDF를 지원합니다. 암호화되거나 보호된 PDF는 처리가 제한될 수 있습니다.</li>
       </ul>
+  <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
     </div>
   </details>
-  <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <button class="scroll-top-btn" id="scrollTopBtn" aria-label="맨 위로">↑</button>
