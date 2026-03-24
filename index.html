@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -29,7 +29,7 @@
     color: var(--text-primary);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     min-height: 100vh;
     padding: 20px;
   }
@@ -43,7 +43,7 @@
     display: flex;
     flex-direction: column;
   }
-  .titlebar {
+  .header {
     background: var(--bg-header);
     padding: 14px 20px;
     display: flex;
@@ -51,18 +51,18 @@
     align-items: center;
     user-select: none;
   }
-  .titlebar h1 { font-size: 16px; font-weight: 600; color: var(--text-on-accent); letter-spacing: 1px; }
-  .titlebar .search-box {
+  .header h1 { font-size: 15px; font-weight: 600; color: #fff; }
+  .header .search-box {
     display: flex; align-items: center;
     background: rgba(255,255,255,0.15);
     border-radius: 20px; padding: 4px 12px;
   }
-  .titlebar .search-box input {
+  .header .search-box input {
     background: none; border: none; outline: none;
     color: #fff; font-size: 13px; width: 140px; padding: 2px 4px;
   }
-  .titlebar .search-box input::placeholder { color: rgba(255,255,255,0.5); }
-  .titlebar .search-box svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.6); }
+  .header .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+  .header .search-box svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.6); }
 
   .recent-bar {
     background: var(--bg-bar); padding: 8px 16px;
@@ -187,14 +187,14 @@
 
   /* 뒤로가기 버튼 */
   .back-btn {
-    background: rgba(255,255,255,0.12); border: none; color: var(--text-secondary);
+    background: rgba(255,255,255,0.15); border: none; color: rgba(255,255,255,0.9);
     font-size: 12px; cursor: pointer; padding: 5px 10px;
     border-radius: 6px; text-decoration: none;
     transition: background 0.2s; white-space: nowrap;
     display: flex; align-items: center; gap: 4px;
     font-family: inherit;
   }
-  .back-btn:hover { background: rgba(255,255,255,0.22); color: #fff; }
+  .back-btn:hover { background: rgba(255,255,255,0.25); color: #fff; }
 
 
   .btn-copy { background: var(--btn-copy-bg); color: var(--btn-copy-text); }
@@ -210,14 +210,17 @@
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
+  .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+  .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:var(--text-secondary)}
 </style>
 </head>
 <body>
 
 <div class="app">
-  <div class="titlebar">
+  <div class="header">
     <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1 style="font-size:16px;font-weight:600;color:#fff;letter-spacing:1px">⌨ 특수 문자 & 이모지</h1>
+    <h1>⌨ 특수 문자 & 이모지</h1>
     <div class="search-box" id="searchBox">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       <input type="text" id="searchInput" placeholder="검색..." oninput="filterChars()" aria-label="문자 검색">
@@ -253,7 +256,7 @@
       <button class="action-btn btn-clear" onclick="clearRecent()">최근 삭제</button>
     </div>
   </div>
-
+  <div class="footer"><span>클릭 한 번으로 복사</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
