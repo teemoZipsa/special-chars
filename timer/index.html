@@ -36,7 +36,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
 /* 디스플레이 */
 .display{text-align:center;padding:32px 0 24px;user-select:none}
-.display .time{font-size:64px;font-weight:700;letter-spacing:2px;font-variant-numeric:tabular-nums;color:var(--text-on-accent)}
+.display .time{font-size:64px;font-weight:700;letter-spacing:2px;font-variant-numeric:tabular-nums;color:var(--text-primary)}
 .display .ms{font-size:32px;color:var(--text-section);font-weight:400}
 @media(max-width:400px){.display .time{font-size:48px}.display .ms{font-size:24px}}
 
@@ -49,21 +49,21 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
 .quick-btns{display:flex;justify-content:center;gap:6px;margin-bottom:20px;flex-wrap:wrap}
 .quick-btn{padding:6px 14px;background:var(--bg-btn);border:1px solid var(--border);border-radius:16px;color:var(--text-label);font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s}
-.quick-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
+.quick-btn:hover{background:var(--bg-btn-hover);color:var(--text-primary)}
 
 /* 컨트롤 버튼 */
 .controls{display:flex;justify-content:center;gap:12px;margin-bottom:20px}
 .ctrl-btn{width:72px;height:72px;border-radius:50%;border:none;font-size:22px;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .ctrl-btn:active{transform:scale(.92)}
-.btn-start{background:#22c55e;color:var(--text-on-accent)}
+.btn-start{background:#22c55e;color:var(--text-primary)}
 .btn-start:hover{background:#16a34a}
 .btn-start.running{background:#ef4444}
 .btn-start.running:hover{background:#dc2626}
-.btn-pause{background:#f59e0b;color:var(--text-on-accent)}
+.btn-pause{background:#f59e0b;color:var(--text-primary)}
 .btn-pause:hover{background:#d97706}
 .btn-reset{background:var(--bg-btn-hover);color:var(--text-label)}
-.btn-reset:hover{background:#4a4a7a;color:var(--text-on-accent)}
-.btn-lap{background:#3b82f6;color:var(--text-on-accent)}
+.btn-reset:hover{background:#4a4a7a;color:var(--text-primary)}
+.btn-lap{background:#3b82f6;color:var(--text-primary)}
 .btn-lap:hover{background:#2563eb}
 
 /* 랩 기록 */
@@ -76,7 +76,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .lap-time{font-variant-numeric:tabular-nums}
 .lap-diff{color:var(--text-muted);font-size:12px}
 
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:var(--text-primary);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
