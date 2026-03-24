@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -139,7 +139,7 @@
       <div class="field-row">
         <div class="field">
           <label>시급 (원)</label>
-          <input type="text" id="hourly" placeholder="10,320" oninput="formatAndCalc(this,'hourly')">
+          <input type="text" id="hourly" value="10,320" oninput="formatAndCalc(this,'hourly')">
         </div>
       </div>
       <div class="field-row">
@@ -386,6 +386,9 @@ function copyVal(card) {
     setTimeout(()=>card.style.borderColor='',600);
   });
 }
+// 페이지 로드 시 기본값으로 자동 계산
+lastInput = 'hourly';
+calc();
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
