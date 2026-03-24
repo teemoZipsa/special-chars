@@ -111,7 +111,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     </div>
 
     <div class="input-group">
-      <label>체형 상태 (BCS, Body Condition Score)</label>
+      <label>체형 상태 (BCS) <span class="bcs-label-auto" style="display:none;color:var(--accent);font-size:10px;font-weight:400">— 품종+체중 기반 자동 계산</span></label>
       <div class="bcs-selector" id="bcsSelector"></div>
     </div>
 
@@ -240,23 +240,52 @@ function selectBreed(idx) {
   calc();
 }
 
-function renderBCS() {
+function renderBCS(locked) {
   const el = document.getElementById('bcsSelector');
-  el.innerHTML = BCS_DATA.map(b => `<button class="bcs-btn${b.score === selectedBCS ? ' active' : ''}" onclick="setBCS(${b.score})"><span class="bcs-emoji">${b.emoji}</span>${b.score}</button>`).join('');
+  el.innerHTML = BCS_DATA.map(b => {
+    const isActive = b.score === selectedBCS;
+    const disabled = locked ? ' style="pointer-events:none;opacity:' + (isActive ? '1' : '0.4') + '"' : '';
+    return `<button class="bcs-btn${isActive ? ' active' : ''}"${disabled} onclick="setBCS(${b.score})"><span class="bcs-emoji">${b.emoji}</span>${b.score}</button>`;
+  }).join('');
+  // Show auto label
+  const label = document.querySelector('.bcs-label-auto');
+  if (label) label.style.display = locked ? '' : 'none';
 }
 
 function setBCS(score) {
+  if (selectedBreed) return; // locked when breed selected
   selectedBCS = score;
-  renderBCS();
+  renderBCS(false);
   calc();
+}
+
+function calcBCSFromBreed(w, breed) {
+  const mid = (breed.min + breed.max) / 2;
+  const range = breed.max - breed.min;
+  if (w < breed.min * 0.8) return 1;
+  if (w < breed.min * 0.9) return 2;
+  if (w < breed.min) return 3;
+  if (w < mid - range * 0.1) return 4;
+  if (w <= mid + range * 0.1) return 5;
+  if (w <= breed.max) return 5;
+  if (w <= breed.max * 1.1) return 6;
+  if (w <= breed.max * 1.2) return 7;
+  if (w <= breed.max * 1.35) return 8;
+  return 9;
 }
 
 function calc() {
   const w = parseFloat(document.getElementById('weight').value);
   if (!w || w <= 0) return;
 
-  const bcs = BCS_DATA.find(b => b.score === selectedBCS);
   const breeds = petType === 'dog' ? DOG_BREEDS : CAT_BREEDS;
+
+  // Auto-set BCS if breed selected
+  if (selectedBreed) {
+    selectedBCS = calcBCSFromBreed(w, selectedBreed);
+  }
+  const bcs = BCS_DATA.find(b => b.score === selectedBCS);
+  renderBCS(!!selectedBreed);
 
   // Determine ideal weight
   let idealWeight, idealSource;
