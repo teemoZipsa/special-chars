@@ -24,8 +24,8 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:480px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
-.back-btn{background:rgba(255,255,255,.12);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
-.back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+.back-btn{background:var(--bg-btn);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
+.back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
 .content{padding:24px 20px}
 
 .pw-display{background:var(--bg-bar);border:2px solid #3a3a6a;border-radius:12px;padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;min-height:60px}
@@ -33,10 +33,10 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .pw-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
 .pw-btn{width:40px;height:40px;border-radius:10px;border:none;font-size:18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .pw-btn:active{transform:scale(.9)}
-.btn-copy{background:var(--accent);color:#fff}
+.btn-copy{background:var(--accent);color:var(--text-on-accent)}
 .btn-copy:hover{background:var(--accent-hover)}
 .btn-regen{background:var(--bg-btn);color:#aab}
-.btn-regen:hover{background:var(--bg-btn-hover);color:#fff}
+.btn-regen:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
 
 .strength-bar{height:6px;background:var(--bg-btn);border-radius:3px;margin-bottom:6px;overflow:hidden}
 .strength-fill{height:100%;border-radius:3px;transition:width .3s,background .3s}

@@ -24,14 +24,14 @@
         .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
         .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
         .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
-        .back-btn{background:rgba(255,255,255,.12);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
-        .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+        .back-btn{background:var(--bg-btn);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
+        .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
         .tool-body{padding:16px;flex:1}
 
         .mode-tabs{display:flex;gap:0;margin-bottom:16px;background:var(--bg-guide);border-radius:10px;overflow:hidden;border:1px solid #333366}
         .mode-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-info);background:transparent;border:none;font-family:inherit}
         .mode-tab:hover{color:#c0c0e8;background:var(--bg-input)}
-        .mode-tab.active{background:var(--accent);color:#fff}
+        .mode-tab.active{background:var(--accent);color:var(--text-on-accent)}
 
         .field-group{margin-bottom:14px}
         .field-label{font-size:13px;font-weight:500;color:#b8b8e0;margin-bottom:6px;display:flex;align-items:center;gap:6px}
@@ -84,7 +84,7 @@
         .action-btn{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
         .btn-clear{background:var(--bg-btn);color:#b8b8e0}
         .btn-clear:hover{background:#3a3a7a}
-        .btn-copy{background:var(--accent);color:#fff}
+        .btn-copy{background:var(--accent);color:var(--text-on-accent)}
         .btn-copy:hover{background:var(--accent-hover)}
 
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}

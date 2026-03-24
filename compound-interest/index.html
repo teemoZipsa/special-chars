@@ -36,13 +36,13 @@
     padding:12px 16px;display:flex;justify-content:space-between;align-items:center;
   }
   .back-btn{
-    background:rgba(255,255,255,.12);border:none;color:var(--text-secondary);
+    background:var(--bg-btn);border:none;color:var(--text-secondary);
     font-size:12px;cursor:pointer;padding:5px 10px;
     border-radius:6px;text-decoration:none;
     transition:background .2s;font-family:inherit;
     display:flex;align-items:center;gap:4px;
   }
-  .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+  .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
   .header h1{font-size:15px;font-weight:600;color:#fff;letter-spacing:.5px}
 
   /* 입력 */
@@ -70,7 +70,7 @@
   .summary-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .s-card{background:var(--bg-bar);border-radius:10px;padding:12px 8px;text-align:center}
   .s-card .s-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:4px}
-  .s-card .s-value{font-size:15px;font-weight:700;color:#fff}
+  .s-card .s-value{font-size:15px;font-weight:700;color:var(--text-on-accent)}
   .s-card .s-value.profit{color:#4ade80}
   .s-card .s-value.rate{color:#facc15}
 
