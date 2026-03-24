@@ -67,6 +67,11 @@ html[data-theme="light"] {
   --btn-copy-text: #ffffff;
   --btn-copy-hover: #4f46e5;
 
+  /* 성공/긍정 상태 */
+  --bg-success: #ecfdf5;
+  --bg-success-hover: #d1fae5;
+  --border-success: #a7f3d0;
+
   /* 계산기용 */
   --calc-btn-bg: #f1f5f9;
   --calc-btn-hover: #e2e8f0;
@@ -148,6 +153,11 @@ html[data-theme="dark"] {
   --btn-copy-bg: #533483;
   --btn-copy-text: #ffffff;
   --btn-copy-hover: #6b44a3;
+
+  /* 성공/긍정 상태 */
+  --bg-success: #1a2a1a;
+  --bg-success-hover: #2a4a2a;
+  --border-success: #2a4a2a;
 
   /* 계산기용 */
   --calc-btn-bg: #222250;

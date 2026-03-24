@@ -24,7 +24,7 @@
   .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
   .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
   .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
-  .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
+  .back-btn{background:rgba(255,255,255,.12);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
   .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
   .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
@@ -39,13 +39,13 @@
   .date-section-title{font-size:13px;font-weight:600;color:var(--text-guide);margin-bottom:8px;display:flex;align-items:center;gap:6px}
   .date-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
   .date-row label{font-size:12px;color:var(--text-info);min-width:42px}
-  .date-row input[type="date"],.date-row input[type="number"]{background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:#e0e0ff;padding:6px 10px;font-size:13px;flex:1;font-family:inherit;outline:none}
+  .date-row input[type="date"],.date-row input[type="number"]{background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 10px;font-size:13px;flex:1;font-family:inherit;outline:none}
   .date-row input[type="date"]:focus,.date-row input[type="number"]:focus{border-color:var(--accent)}
   .date-row input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.7)}
   .checkbox-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-info);margin-bottom:8px}
   .checkbox-row input[type="checkbox"]{accent-color:#533483}
   .date-result-card{background:var(--bg-input);border-radius:10px;padding:14px;text-align:center;margin-top:8px}
-  .date-result-value{font-size:28px;font-weight:700;color:#e0e0ff}
+  .date-result-value{font-size:28px;font-weight:700;color:var(--text-primary)}
   .date-result-sub{font-size:12px;color:var(--text-info);margin-top:4px}
   .quick-buttons{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
   .quick-btn{background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-guide);padding:5px 12px;font-size:11px;cursor:pointer;transition:background .15s;font-family:inherit}

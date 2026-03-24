@@ -26,17 +26,17 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:720px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
-.back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn{background:rgba(255,255,255,.12);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
 .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
 .tool-body{padding:16px;display:flex;flex-direction:column;gap:14px}
 .mode-tabs{display:flex;gap:0;background:var(--bg-guide);border-radius:10px;overflow:hidden;border:1px solid #333366}
 .mode-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-info);background:transparent;border:none;font-family:inherit}
-.mode-tab:hover{color:#c0c0e8;background:#222250}
+.mode-tab:hover{color:#c0c0e8;background:var(--bg-input)}
 .mode-tab.active{background:var(--accent);color:#fff}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 
-.drop-zone{border:2px dashed #2a2a5a;border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#1a1a3e}
+.drop-zone{border:2px dashed #2a2a5a;border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg-bar)}
 .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:#1e1e50}
 .drop-zone .icon{font-size:36px;margin-bottom:8px}
 .drop-zone .text{font-size:13px;color:var(--calc-expr-text)}
@@ -48,7 +48,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .file-item:active{cursor:grabbing}
 .file-item.dragging{opacity:.4;border-color:var(--accent)}
 .file-item.drag-over{border-top:2px solid #a78bfa}
-.file-item .grip{color:#555580;font-size:14px;flex-shrink:0}
+.file-item .grip{color:var(--text-muted);font-size:14px;flex-shrink:0}
 .file-item .name{flex:1;font-size:13px;color:#c0c0e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .file-item .size{font-size:11px;color:var(--calc-expr-text);flex-shrink:0}
 .file-item .remove-btn{background:none;border:none;color:#aa5555;font-size:16px;cursor:pointer;padding:0 4px;transition:color .2s}
@@ -72,7 +72,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
 .slider::-moz-range-thumb{width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
 .val{font-size:14px;color:#c4b5fd;font-weight:700;min-width:48px;text-align:right}
-.control-row input[type=number]{background:#12122e;border:1px solid var(--border);border-radius:6px;color:#e0e0ff;padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit}
+.control-row input[type=number]{background:var(--bg-input);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit}
 
 .thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px}
 .thumb-card{background:var(--bg-bar);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;position:relative;transition:border-color .2s}
@@ -259,7 +259,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
         </div>
         <div class="control-row">
           <label>회전 각도</label>
-          <input type="number" id="wmAngle" value="-45" min="-90" max="90" style="background:#12122e;border:1px solid var(--border);border-radius:6px;color:#e0e0ff;padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit" oninput="updateWmPreview()">
+          <input type="number" id="wmAngle" value="-45" min="-90" max="90" style="background:var(--bg-input);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit" oninput="updateWmPreview()">
           <span class="val" style="min-width:auto;font-size:11px;color:var(--calc-expr-text)">°</span>
         </div>
         <div class="watermark-preview" id="wmPreview"></div>

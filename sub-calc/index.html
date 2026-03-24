@@ -23,7 +23,7 @@
   body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
   .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:500px;max-width:100%;overflow:hidden}
   .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-  .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+  .back-btn{background:rgba(255,255,255,.12);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
   .header h1{font-size:15px;font-weight:600;color:#fff}
   .body{padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -34,12 +34,12 @@
   /* 구독 목록 */
   .sub-list{display:flex;flex-direction:column;gap:6px}
   .sub-item{display:flex;gap:8px;align-items:center}
-  .sub-item input{background:#12122e;border:1px solid var(--border);border-radius:8px;color:#e0e0ff;padding:8px 10px;font-size:13px;font-family:inherit;outline:none}
+  .sub-item input{background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:8px 10px;font-size:13px;font-family:inherit;outline:none}
   .sub-item input:focus{border-color:var(--accent)}
-  .sub-item input::placeholder{color:#333355}
+  .sub-item input::placeholder{color:var(--text-muted)}
   .sub-name{flex:2}
   .sub-price{flex:1;text-align:right}
-  .sub-del{background:none;border:none;color:#555580;font-size:16px;cursor:pointer;padding:0 4px;transition:color .15s}
+  .sub-del{background:none;border:none;color:var(--text-muted);font-size:16px;cursor:pointer;padding:0 4px;transition:color .15s}
   .sub-del:hover{color:#f87171}
 
   .add-row{display:flex;gap:8px;margin-top:8px}
@@ -60,10 +60,10 @@
   .r-card{background:linear-gradient(135deg,#1a1a50,#2a1a50);border:1px solid #3a2a6a;border-radius:12px;padding:12px 8px;text-align:center}
   .r-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:3px}
   .r-value{font-size:15px;font-weight:800;color:#f87171}
-  .r-sub{font-size:9px;color:#555580;margin-top:2px}
+  .r-sub{font-size:9px;color:var(--text-muted);margin-top:2px}
 
   /* 투자 비교 */
-  .invest-section{background:#1a2a1a;border:1px solid #2a4a2a;border-radius:12px;padding:14px 16px}
+  .invest-section{background:var(--bg-success, #1a2a1a);border:1px solid var(--border-success, #2a4a2a);border-radius:12px;padding:14px 16px}
   .invest-title{font-size:12px;font-weight:700;color:#4ade80;margin-bottom:8px}
   .invest-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .i-card{background:rgba(0,0,0,.2);border-radius:8px;padding:10px 8px;text-align:center}

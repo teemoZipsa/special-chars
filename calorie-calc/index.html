@@ -32,10 +32,10 @@
   .field-row:last-child{margin-bottom:0}
   .field{flex:1;display:flex;flex-direction:column;gap:4px}
   .field label{font-size:11px;color:var(--calc-expr-text);font-weight:600}
-  .field input,.field select{background:#12122e;border:1px solid var(--border);border-radius:8px;color:#e0e0ff;padding:9px 10px;font-size:14px;font-family:inherit;outline:none;width:100%}
+  .field input,.field select{background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:9px 10px;font-size:14px;font-family:inherit;outline:none;width:100%}
   .field input:focus,.field select:focus{border-color:#ff4b2b}
 
-  .gender-toggle{display:flex;gap:4px;background:#12122e;padding:4px;border-radius:8px;border:1px solid var(--border)}
+  .gender-toggle{display:flex;gap:4px;background:var(--bg-input);padding:4px;border-radius:8px;border:1px solid var(--border)}
   .gender-btn{flex:1;padding:6px;text-align:center;font-size:13px;border-radius:6px;cursor:pointer;color:var(--calc-expr-text);transition:all .2s;border:none;background:transparent}
   .gender-btn.active{background:#ff4b2b;color:#fff;font-weight:bold}
 
@@ -46,7 +46,7 @@
   .result-desc{font-size:11px;color:var(--calc-expr-text)}
 
   .macros-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
-  .macro-card{background:#12122e;border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center}
+  .macro-card{background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center}
   .m-label{font-size:11px;font-weight:600;margin-bottom:4px}
   .m-carbs{color:#38bdf8}
   .m-protein{color:#f472b6}
@@ -54,7 +54,7 @@
   .m-val{font-size:16px;font-weight:800;color:#fff}
   .m-g{font-size:10px;color:#888;font-weight:normal}
 
-  .progress-container{margin-top:12px;background:#12122e;border-radius:8px;height:8px;position:relative;overflow:hidden}
+  .progress-container{margin-top:12px;background:var(--bg-input);border-radius:8px;height:8px;position:relative;overflow:hidden}
   .progress-bar{height:100%;background:linear-gradient(90deg,#38bdf8,#f472b6,#facc15);width:100%}
 
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
