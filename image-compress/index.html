@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -29,11 +29,11 @@
   .body{padding:16px;display:flex;flex-direction:column;gap:14px}
 
   .drop-zone{
-    border:2px dashed #2a2a5a;border-radius:12px;padding:40px 20px;
+    border:2px dashed var(--border);border-radius:12px;padding:40px 20px;
     text-align:center;cursor:pointer;transition:all .2s;
     background:var(--bg-bar);
   }
-  .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:#1e1e50}
+  .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:var(--bg-hover)}
   .drop-zone .icon{font-size:36px;margin-bottom:8px}
   .drop-zone .text{font-size:13px;color:var(--calc-expr-text)}
   .drop-zone .sub{font-size:11px;color:var(--text-placeholder);margin-top:4px}
@@ -57,7 +57,7 @@
   .saved{font-size:14px;font-weight:700;color:var(--text-success);text-align:center;padding:4px}
 
   .btn{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
-  .btn-dl{background:linear-gradient(135deg,#533483,#6b44a3);color:var(--text-primary)}
+  .btn-dl{background:linear-gradient(135deg,#533483,#6b44a3);color:#fff}
   .btn-dl:hover{opacity:.9}
   .btn-reset{background:var(--bg-bar);border:1px solid var(--border);color:var(--text-info);margin-top:4px}
 
@@ -196,10 +196,10 @@ function compress() {
     const savedEl = document.getElementById('saved');
     if (saved > 0) {
       savedEl.textContent = `🎉 ${saved}% 줄었습니다! (${fmtBytes(origFile.size)} → ${fmtBytes(blob.size)})`;
-      savedEl.style.color = '#4ade80';
+      savedEl.style.color = 'var(--text-success)';
     } else {
       savedEl.textContent = `⚠️ 원본보다 커졌습니다. 품질을 낮춰보세요.`;
-      savedEl.style.color = '#facc15';
+      savedEl.style.color = 'var(--text-error, #f87171)';
     }
   }, 'image/jpeg', quality);
 }
