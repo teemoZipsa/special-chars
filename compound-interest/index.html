@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -56,7 +56,7 @@
     outline:none;width:100%;
   }
   .input-group input:focus{border-color:var(--accent)}
-  .input-group input::placeholder{color:#444466}
+  .input-group input::placeholder{color:var(--text-placeholder)}
   .calc-btn{
     background:linear-gradient(135deg,#533483,#6b44a3);
     border:none;color:#fff;padding:12px;border-radius:10px;
@@ -72,12 +72,12 @@
   .s-card .s-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:4px}
   .s-card .s-value{font-size:15px;font-weight:700;color:var(--text-on-accent)}
   .s-card .s-value.profit{color:#4ade80}
-  .s-card .s-value.rate{color:#facc15}
+  .s-card .s-value.rate{color:var(--text-highlight)}
 
   /* 이스터에그 */
   .buffett-msg{
     display:none;text-align:center;padding:0 16px 12px;
-    font-size:12px;color:#facc15;
+    font-size:12px;color:var(--text-highlight);
     animation:fadeIn .8s ease;
   }
   @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -124,14 +124,14 @@
     background:var(--bg-bar);border-radius:10px;padding:10px 14px;
     transition:background .15s;
   }
-  .trade-item:hover{background:#1e2250}
+  .trade-item:hover{background:var(--bg-item-hover)}
   .trade-num{
     font-size:11px;color:var(--calc-expr-text);font-weight:700;
     min-width:32px;text-align:center;
   }
   .trade-info{flex:1;min-width:0}
   .trade-amount{
-    font-size:15px;font-weight:700;color:#c4b5fd;
+    font-size:15px;font-weight:700;color:var(--text-amount);
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .trade-detail{font-size:11px;color:var(--calc-expr-text);margin-top:2px}
@@ -142,11 +142,11 @@
 
   /* 현재 자산 강조 (마지막 아이템) */
   .trade-item.final{
-    border:1px solid #533483;
+    border:1px solid var(--border-final);
     background:#1e1e50;
   }
   .trade-item.final .trade-amount{color:#fff;font-size:17px}
-  .trade-item.final .trade-gain{color:#facc15;font-size:14px}
+  .trade-item.final .trade-gain{color:var(--text-highlight);font-size:14px}
 
   .footer{
     background:var(--bg-bar);padding:10px 16px;
@@ -241,7 +241,7 @@
       <strong>Q. 72법칙이란 무엇인가요?</strong>
       <p>72를 연 수익률(%)로 나누면 원금이 2배가 되는 대략적인 기간(년)을 알 수 있는 간편 공식입니다. 아래 표를 참고하세요:</p>
       <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid #333366">연 수익률</th><th style="padding:6px;border:1px solid #333366">2배 기간</th><th style="padding:6px;border:1px solid #333366">연 수익률</th><th style="padding:6px;border:1px solid #333366">2배 기간</th></tr>
+        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">연 수익률</th><th style="padding:6px;border:1px solid var(--border)">2배 기간</th><th style="padding:6px;border:1px solid var(--border)">연 수익률</th><th style="padding:6px;border:1px solid var(--border)">2배 기간</th></tr>
         <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">72년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12년</td></tr>
         <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">36년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9년</td></tr>
         <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2년</td></tr>

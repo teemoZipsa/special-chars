@@ -36,7 +36,7 @@
   .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:#1e1e50}
   .drop-zone .icon{font-size:36px;margin-bottom:8px}
   .drop-zone .text{font-size:13px;color:var(--calc-expr-text)}
-  .drop-zone .sub{font-size:11px;color:#444466;margin-top:4px}
+  .drop-zone .sub{font-size:11px;color:var(--text-placeholder);margin-top:4px}
   .drop-zone input{display:none}
 
   .controls{display:none;gap:14px;flex-direction:column}
@@ -45,14 +45,14 @@
   .slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:var(--bg-btn);border-radius:3px;outline:none}
   .slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid var(--border-hover)}
   .slider::-moz-range-thumb{width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid var(--border-hover)}
-  .val{font-size:14px;color:#c4b5fd;font-weight:700;min-width:48px;text-align:right}
+  .val{font-size:14px;color:var(--text-amount);font-weight:700;min-width:48px;text-align:right}
   .control-row input[type=number]{background:var(--bg-input);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit}
 
   .preview{display:none;gap:12px}
   .preview-card{flex:1;background:var(--bg-bar);border-radius:10px;padding:12px;text-align:center;min-width:0}
   .preview-card img{max-width:100%;max-height:140px;border-radius:6px;margin-bottom:8px;object-fit:contain}
   .preview-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:2px}
-  .preview-size{font-size:14px;font-weight:700;color:#c4b5fd}
+  .preview-size{font-size:14px;font-weight:700;color:var(--text-amount)}
   .preview-dim{font-size:10px;color:var(--text-muted)}
   .saved{font-size:14px;font-weight:700;color:#4ade80;text-align:center;padding:4px}
 
@@ -61,7 +61,7 @@
   .btn-dl:hover{opacity:.9}
   .btn-reset{background:var(--bg-bar);border:1px solid var(--border);color:var(--text-info);margin-top:4px}
 
-  .privacy{font-size:10px;color:#444466;text-align:center}
+  .privacy{font-size:10px;color:var(--text-placeholder);text-align:center}
 
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}

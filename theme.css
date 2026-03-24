@@ -72,6 +72,17 @@ html[data-theme="light"] {
   --bg-success-hover: #d1fae5;
   --border-success: #a7f3d0;
 
+  /* 의미적 텍스트 색상 */
+  --text-success: #16a34a;
+  --text-amount: #6366f1;
+  --text-highlight: #ca8a04;
+  --text-section: #6366f1;
+  --text-label: #64748b;
+  --text-placeholder: #94a3b8;
+  --bg-item-hover: #f1f5f9;
+  --bg-item-final: #eef2ff;
+  --border-final: #c7d2fe;
+
   /* 계산기용 */
   --calc-btn-bg: #f1f5f9;
   --calc-btn-hover: #e2e8f0;
@@ -158,6 +169,17 @@ html[data-theme="dark"] {
   --bg-success: #1a2a1a;
   --bg-success-hover: #2a4a2a;
   --border-success: #2a4a2a;
+
+  /* 의미적 텍스트 색상 */
+  --text-success: #4ade80;
+  --text-amount: #c4b5fd;
+  --text-highlight: #facc15;
+  --text-section: #8888cc;
+  --text-label: #aaaacc;
+  --text-placeholder: #444466;
+  --bg-item-hover: #1e2250;
+  --bg-item-final: #1e1e50;
+  --border-final: #533483;
 
   /* 계산기용 */
   --calc-btn-bg: #222250;

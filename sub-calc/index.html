@@ -44,15 +44,15 @@
 
   .add-row{display:flex;gap:8px;margin-top:8px}
   .add-btn{background:var(--bg-input);border:1px solid var(--border);color:var(--text-info);padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s;flex-shrink:0}
-  .add-btn:hover{border-color:var(--accent);color:#c4b5fd}
+  .add-btn:hover{border-color:var(--accent);color:var(--text-amount)}
 
   /* 빠른 추가 */
   .quick-adds{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
   .quick-add{background:#1e1e3a;border:1px solid var(--border);color:var(--calc-expr-text);padding:4px 10px;border-radius:6px;font-size:10px;cursor:pointer;font-family:inherit;transition:all .15s}
-  .quick-add:hover{border-color:var(--accent);color:#c4b5fd}
+  .quick-add:hover{border-color:var(--accent);color:var(--text-amount)}
 
   /* 월 합계 */
-  .monthly-total{text-align:center;padding:8px;font-size:14px;color:#c4b5fd;font-weight:700}
+  .monthly-total{text-align:center;padding:8px;font-size:14px;color:var(--text-amount);font-weight:700}
   .monthly-total strong{font-size:20px;color:var(--text-on-accent)}
 
   /* 결과 */
@@ -72,7 +72,7 @@
   .invest-note{font-size:10px;color:#2a5a2a;margin-top:8px;text-align:center}
 
   /* 팩폭 */
-  .punchline{display:none;text-align:center;padding:8px 16px;font-size:13px;color:#facc15;line-height:1.5;animation:fadeIn .6s ease}
+  .punchline{display:none;text-align:center;padding:8px 16px;font-size:13px;color:var(--text-highlight);line-height:1.5;animation:fadeIn .6s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}

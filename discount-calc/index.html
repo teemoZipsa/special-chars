@@ -28,27 +28,27 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
 .content{padding:20px}
 .section{margin-bottom:20px}
-.section-title{font-size:13px;color:#8888cc;font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.section-title{font-size:13px;color:var(--text-section);font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
 .input-group{margin-bottom:14px}
-.input-group label{display:block;font-size:13px;color:#aab;margin-bottom:5px}
+.input-group label{display:block;font-size:13px;color:var(--text-label);margin-bottom:5px}
 .input-group input{width:100%;padding:12px 14px;background:var(--bg-btn);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:16px;font-family:inherit;text-align:right}
 .input-group input:focus{outline:none;border-color:var(--accent)}
 .input-group input::placeholder{color:#5555aa;text-align:left}
 .row{display:flex;gap:10px}
 .row .input-group{flex:1}
 .toggle-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg-btn);border-radius:8px;margin-bottom:14px;cursor:pointer;user-select:none}
-.toggle-row:hover{background:#333370}
+.toggle-row:hover{background:var(--bg-btn-hover)}
 .toggle-label{font-size:14px;flex:1}
 .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0}
-.toggle .slider{position:absolute;inset:0;background:#444;border-radius:12px;transition:.3s}
+.toggle .slider{position:absolute;inset:0;background:var(--bg-btn);border-radius:12px;transition:.3s}
 .toggle .slider::before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
 .toggle input:checked+.slider{background:#533483}
 .toggle input:checked+.slider::before{transform:translateX(20px)}
 .result-box{background:var(--bg-bar);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
 .result-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .result-item:last-child{border-bottom:none}
-.result-label{font-size:13px;color:#8888cc}
+.result-label{font-size:13px;color:var(--text-section)}
 .result-value{font-size:18px;font-weight:700;color:var(--text-primary)}
 .result-value.highlight{color:#a78bfa;font-size:22px}
 .result-value.tax{color:#f97316}
@@ -56,9 +56,9 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .copy-btn:hover{opacity:.85}
 .copy-btn:active{transform:scale(.98)}
 .guide{margin-top:16px}
-.guide summary{font-size:13px;color:#8888cc;cursor:pointer;padding:8px 0}
-.guide-content{font-size:12px;color:#777;line-height:1.8;padding:8px 0}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
+.guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}

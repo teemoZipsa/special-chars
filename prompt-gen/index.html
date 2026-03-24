@@ -33,7 +33,7 @@
   .field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
   .field:last-child{margin-bottom:0}
   .field label{font-size:11px;color:var(--calc-expr-text);font-weight:600;display:flex;align-items:center;gap:4px}
-  .field label .tip{font-weight:400;color:#444466}
+  .field label .tip{font-weight:400;color:var(--text-placeholder)}
   .field input,.field textarea,.field select{background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:10px 12px;font-size:14px;font-family:inherit;outline:none;width:100%}
   .field input:focus,.field textarea:focus{border-color:var(--accent)}
   .field input::placeholder,.field textarea::placeholder{color:var(--text-muted)}
@@ -42,7 +42,7 @@
   /* 프리셋 */
   .presets{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
   .preset{background:var(--bg-input);border:1px solid var(--border);color:var(--text-info);padding:5px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s}
-  .preset:hover{border-color:var(--accent);color:#c4b5fd}
+  .preset:hover{border-color:var(--accent);color:var(--text-amount)}
   .preset.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
   /* 결과 */
@@ -53,7 +53,7 @@
   .btn-secondary{background:var(--bg-bar);border:1px solid var(--border);color:var(--text-info)}
   .btn:hover{opacity:.85}
 
-  .char-count{font-size:10px;color:#444466;text-align:right;margin-top:4px}
+  .char-count{font-size:10px;color:var(--text-placeholder);text-align:right;margin-top:4px}
 
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}

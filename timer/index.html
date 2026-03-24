@@ -37,7 +37,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 /* 디스플레이 */
 .display{text-align:center;padding:32px 0 24px;user-select:none}
 .display .time{font-size:64px;font-weight:700;letter-spacing:2px;font-variant-numeric:tabular-nums;color:var(--text-on-accent)}
-.display .ms{font-size:32px;color:#8888cc;font-weight:400}
+.display .ms{font-size:32px;color:var(--text-section);font-weight:400}
 @media(max-width:400px){.display .time{font-size:48px}.display .ms{font-size:24px}}
 
 /* 타이머 입력 */
@@ -48,7 +48,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .timer-inputs .tfield span{display:block;font-size:11px;color:#666;margin-top:4px}
 
 .quick-btns{display:flex;justify-content:center;gap:6px;margin-bottom:20px;flex-wrap:wrap}
-.quick-btn{padding:6px 14px;background:var(--bg-btn);border:1px solid var(--border);border-radius:16px;color:#aab;font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s}
+.quick-btn{padding:6px 14px;background:var(--bg-btn);border:1px solid var(--border);border-radius:16px;color:var(--text-label);font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s}
 .quick-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
 
 /* 컨트롤 버튼 */
@@ -61,7 +61,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .btn-start.running:hover{background:#dc2626}
 .btn-pause{background:#f59e0b;color:var(--text-on-accent)}
 .btn-pause:hover{background:#d97706}
-.btn-reset{background:var(--bg-btn-hover);color:#aab}
+.btn-reset{background:var(--bg-btn-hover);color:var(--text-label)}
 .btn-reset:hover{background:#4a4a7a;color:var(--text-on-accent)}
 .btn-lap{background:#3b82f6;color:var(--text-on-accent)}
 .btn-lap:hover{background:#2563eb}
@@ -76,15 +76,15 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .lap-time{font-variant-numeric:tabular-nums}
 .lap-diff{color:#666;font-size:12px}
 
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 
 .guide{padding:0 20px 20px}
-.guide summary{font-size:13px;color:#8888cc;cursor:pointer;padding:8px 0}
-.guide-content{font-size:12px;color:#777;line-height:1.8;padding:8px 0}
+.guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
+.guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
 </style>
 </head>
 <body>
