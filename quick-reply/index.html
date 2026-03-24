@@ -34,8 +34,8 @@
 
         .tabs-wrap{position:relative;flex-shrink:0}
         .tabs-wrap::before,.tabs-wrap::after{content:'';position:absolute;top:0;bottom:12px;width:24px;z-index:2;pointer-events:none;transition:opacity .2s}
-        .tabs-wrap::before{left:0;background:linear-gradient(to right,#16213e,transparent)}
-        .tabs-wrap::after{right:0;background:linear-gradient(to left,#16213e,transparent)}
+        .tabs-wrap::before{left:0;background:linear-gradient(to right,var(--bg-app),transparent)}
+        .tabs-wrap::after{right:0;background:linear-gradient(to left,var(--bg-app),transparent)}
         .tabs-wrap.at-start::before{opacity:0}
         .tabs-wrap.at-end::after{opacity:0}
         .tabs{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;flex-shrink:0;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;cursor:grab}
