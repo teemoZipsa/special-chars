@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
+<title>🐾 반려동물 나이 계산기 — 티모집사</title>
+<meta name="description" content="강아지, 고양이 나이를 사람 나이로 환산하세요. 소형·중형·대형견 구분, 고양이 전용 계산 지원. 100% 무료 온라인 도구.">
+<meta property="og:title" content="🐾 반려동물 나이 계산기 — 티모집사">
+<meta property="og:description" content="강아지, 고양이 나이를 사람 나이로 환산해보세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/pet-age-calc/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/pet-age-calc/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:start;padding:20px}
+.app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.body{padding:20px;display:flex;flex-direction:column;gap:16px}
+
+.type-tabs{display:flex;gap:0;background:var(--bg-guide);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.type-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-info);background:transparent;border:none;font-family:inherit}
+.type-tab:hover{color:var(--text-secondary);background:var(--bg-input)}
+.type-tab.active{background:var(--accent);color:var(--text-on-accent)}
+
+.size-tabs{display:flex;gap:6px}
+.size-tab{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-info);background:var(--bg-guide);border:1px solid var(--border);border-radius:8px;font-family:inherit;transition:all .2s}
+.size-tab:hover{border-color:var(--accent)}
+.size-tab.active{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
+
+.input-group{display:flex;flex-direction:column;gap:4px}
+.input-group label{font-size:12px;color:var(--text-info);font-weight:600}
+.input-row{display:flex;align-items:center;gap:8px}
+.input-row input{flex:1;padding:12px 14px;background:var(--bg-guide);border:1.5px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:24px;font-family:inherit;font-weight:700;outline:none;transition:border-color .2s;text-align:center}
+.input-row input:focus{border-color:var(--accent)}
+.input-row .unit{font-size:14px;color:var(--text-info);font-weight:600;min-width:24px}
+
+.result-card{border-radius:16px;padding:28px;text-align:center;background:var(--bg-guide);border:1px solid var(--border)}
+.result-emoji{font-size:60px;margin-bottom:8px}
+.result-age{font-size:48px;font-weight:800;color:var(--accent);letter-spacing:-2px}
+.result-label{font-size:14px;color:var(--text-info);margin-top:4px}
+.result-stage{font-size:16px;font-weight:700;margin-top:8px;padding:6px 16px;border-radius:20px;display:inline-block}
+
+.stage-bar{display:flex;gap:2px;border-radius:8px;overflow:hidden;height:28px}
+.stage-bar .seg{flex:1;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.9);transition:all .3s}
+.stage-bar .seg.active{outline:2px solid var(--text-primary);outline-offset:-2px;font-size:11px}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info-item{background:var(--bg-guide);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border)}
+.info-item .label{font-size:11px;color:var(--text-info);margin-bottom:2px}
+.info-item .value{font-size:15px;font-weight:700;color:var(--text-primary)}
+
+.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary:hover{background:var(--bg-guide-hover)}
+.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+.guide-content strong{color:var(--text-secondary)}
+
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.4);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>🐾 반려동물 나이 계산기</h1>
+  </div>
+  <div class="body">
+    <div class="type-tabs">
+      <button class="type-tab active" onclick="setType('dog')">🐶 강아지</button>
+      <button class="type-tab" onclick="setType('cat')">🐱 고양이</button>
+    </div>
+
+    <div id="sizeGroup">
+      <label style="font-size:12px;color:var(--text-info);font-weight:600;margin-bottom:4px;display:block">체형 (강아지)</label>
+      <div class="size-tabs">
+        <button class="size-tab" onclick="setSize('small')">소형<br><span style="font-size:10px;font-weight:400">~10kg</span></button>
+        <button class="size-tab active" onclick="setSize('medium')">중형<br><span style="font-size:10px;font-weight:400">10~25kg</span></button>
+        <button class="size-tab" onclick="setSize('large')">대형<br><span style="font-size:10px;font-weight:400">25kg+</span></button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>반려동물 나이</label>
+      <div class="input-row">
+        <input type="number" id="petAge" value="3" min="0" max="30" step="1" oninput="calc()">
+        <span class="unit">살</span>
+      </div>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-emoji" id="emoji">🐾</div>
+      <div class="result-age" id="humanAge">-</div>
+      <div class="result-label">사람 나이로 환산</div>
+      <div class="result-stage" id="stage">-</div>
+    </div>
+
+    <div class="stage-bar" id="stageBar"></div>
+
+    <div class="info-grid" id="infoGrid"></div>
+  </div>
+
+  <details class="guide-section">
+    <summary>📖 계산 방식</summary>
+    <div class="guide-content">
+      <strong>🐶 강아지</strong><br>
+      • 1살: 15세 / 2살: 24세 / 3살~: 체형별로 다르게 증가<br>
+      • 소형견: +4세/년, 중형견: +5세/년, 대형견: +6~7세/년<br><br>
+      <strong>🐱 고양이</strong><br>
+      • 1살: 15세 / 2살: 24세 / 3살~: +4세/년<br>
+      • 실내 고양이 기준이며, 실외 고양이는 더 빨리 노화<br><br>
+      ⚠️ 품종, 건강 상태에 따라 차이가 있으므로 참고용으로 활용하세요.
+    </div>
+  </details>
+
+  <details class="guide-section">
+    <summary>❓ 자주 묻는 질문</summary>
+    <div class="guide-content">
+      <strong>강아지 1살은 사람 7살이 아닌가요?</strong><br>
+      이전에는 단순히 ×7로 계산했지만, 실제로는 초기 2년이 훨씬 빠르게 성장합니다. 현재는 미국수의학회(AVMA) 기준의 비선형 계산을 사용합니다.<br><br>
+      <strong>소형견이 대형견보다 오래 사나요?</strong><br>
+      네, 일반적으로 소형견이 더 오래 삽니다. 대형견은 3살 이후 사람 나이 기준으로 더 빠르게 노화합니다.
+    </div>
+  </details>
+
+  <div class="footer"><span>AVMA 기준 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+
+<script>
+let petType = 'dog';
+let dogSize = 'medium';
+
+const STAGES = [
+  { maxAge: 6, name: '아기', emoji: '🍼', color: '#60a5fa' },
+  { maxAge: 12, name: '청소년', emoji: '🌱', color: '#34d399' },
+  { maxAge: 30, name: '청년', emoji: '💪', color: '#22c55e' },
+  { maxAge: 50, name: '장년', emoji: '👔', color: '#facc15' },
+  { maxAge: 70, name: '중년', emoji: '📖', color: '#f97316' },
+  { maxAge: 999, name: '노년', emoji: '🤍', color: '#a78bfa' },
+];
+
+// Dog age to human age (by size)
+function dogToHuman(age, size) {
+  if (age <= 0) return 0;
+  if (age <= 1) return 15;
+  if (age <= 2) return 24;
+  const rates = { small: 4, medium: 5, large: 7 };
+  return 24 + (age - 2) * rates[size];
+}
+
+// Cat age to human age
+function catToHuman(age) {
+  if (age <= 0) return 0;
+  if (age <= 1) return 15;
+  if (age <= 2) return 24;
+  return 24 + (age - 2) * 4;
+}
+
+function avgLifespan() {
+  if (petType === 'cat') return { years: 15, human: catToHuman(15) };
+  const spans = { small: 14, medium: 12, large: 9 };
+  const y = spans[dogSize];
+  return { years: y, human: dogToHuman(y, dogSize) };
+}
+
+function setType(t) {
+  petType = t;
+  document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.type-tab[onclick*="${t}"]`).classList.add('active');
+  document.getElementById('sizeGroup').style.display = t === 'dog' ? '' : 'none';
+  calc();
+}
+
+function setSize(s) {
+  dogSize = s;
+  document.querySelectorAll('.size-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.size-tab[onclick*="${s}"]`).classList.add('active');
+  calc();
+}
+
+function calc() {
+  const age = parseFloat(document.getElementById('petAge').value);
+  if (isNaN(age) || age < 0) return;
+
+  const human = petType === 'dog' ? dogToHuman(age, dogSize) : catToHuman(age);
+  const stage = STAGES.find(s => human < s.maxAge) || STAGES[STAGES.length - 1];
+  const life = avgLifespan();
+
+  document.getElementById('emoji').textContent = petType === 'dog' ? '🐶' : '🐱';
+  document.getElementById('humanAge').textContent = Math.round(human) + '세';
+  document.getElementById('stage').textContent = stage.emoji + ' ' + stage.name + '기';
+  document.getElementById('stage').style.background = stage.color;
+  document.getElementById('stage').style.color = '#fff';
+
+  // Stage bar
+  const bar = document.getElementById('stageBar');
+  bar.innerHTML = STAGES.map(s => {
+    const isActive = s.name === stage.name;
+    return `<div class="seg${isActive ? ' active' : ''}" style="background:${s.color}">${s.emoji}</div>`;
+  }).join('');
+
+  // Info grid
+  const pct = Math.min(100, Math.round((age / life.years) * 100));
+  document.getElementById('infoGrid').innerHTML = `
+    <div class="info-item">
+      <div class="label">${petType === 'dog' ? '🐶 견종 평균 수명' : '🐱 평균 수명'}</div>
+      <div class="value">${life.years}년</div>
+    </div>
+    <div class="info-item">
+      <div class="label">수명 진행률</div>
+      <div class="value" style="color:${pct > 80 ? '#ef4444' : pct > 50 ? '#f97316' : '#22c55e'}">${pct}%</div>
+    </div>
+    <div class="info-item">
+      <div class="label">생애 단계</div>
+      <div class="value">${stage.emoji} ${stage.name}기</div>
+    </div>
+    <div class="info-item">
+      <div class="label">💡 참고</div>
+      <div class="value" style="font-size:11px;font-weight:500">${age <= 2 ? '빠른 성장기예요!' : petType === 'dog' && dogSize === 'large' ? '대형견은 노화가 빨라요' : '건강검진을 꾸준히!'}</div>
+    </div>
+  `;
+}
+
+calc();
+
+(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
+<title>⚖️ 반려동물 체중 관리 — 티모집사</title>
+<meta name="description" content="반려동물 체중 관리 도구. 강아지·고양이의 체중, 체형(BCS)을 평가하고 이상 체중을 확인하세요. 품종별 표준 체중 안내.">
+<meta property="og:title" content="⚖️ 반려동물 체중 관리 — 티모집사">
+<meta property="og:description" content="강아지·고양이 체중과 체형(BCS)을 평가해보세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/pet-bmi-calc/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/pet-bmi-calc/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:start;padding:20px}
+.app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.body{padding:20px;display:flex;flex-direction:column;gap:16px}
+
+.type-tabs{display:flex;gap:0;background:var(--bg-guide);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.type-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-info);background:transparent;border:none;font-family:inherit}
+.type-tab:hover{color:var(--text-secondary);background:var(--bg-input)}
+.type-tab.active{background:var(--accent);color:var(--text-on-accent)}
+
+.input-group{display:flex;flex-direction:column;gap:4px}
+.input-group label{font-size:12px;color:var(--text-info);font-weight:600}
+.input-row{display:flex;align-items:center;gap:8px}
+.input-row input,.input-row select{flex:1;padding:12px 14px;background:var(--bg-guide);border:1.5px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:16px;font-family:inherit;font-weight:600;outline:none;transition:border-color .2s}
+.input-row input:focus,.input-row select:focus{border-color:var(--accent)}
+.input-row .unit{font-size:14px;color:var(--text-info);font-weight:600;min-width:24px}
+.input-row select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+
+.bcs-selector{display:flex;gap:4px}
+.bcs-btn{flex:1;padding:8px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;border:2px solid var(--border);border-radius:8px;background:var(--bg-guide);color:var(--text-info);font-family:inherit;transition:all .2s}
+.bcs-btn:hover{border-color:var(--accent)}
+.bcs-btn.active{border-color:var(--accent);background:var(--accent);color:var(--text-on-accent)}
+.bcs-emoji{font-size:20px;display:block;margin-bottom:2px}
+
+.result-card{border-radius:16px;padding:24px;text-align:center;background:var(--bg-guide);border:1px solid var(--border)}
+.result-emoji{font-size:56px;margin-bottom:8px}
+.result-status{font-size:22px;font-weight:800}
+.result-sub{font-size:13px;color:var(--text-info);margin-top:6px;line-height:1.6}
+
+.gauge-wrap{width:100%;padding:0 8px}
+.gauge-bar{height:14px;border-radius:7px;background:linear-gradient(to right,#3b82f6 0%,#22c55e 35%,#facc15 60%,#f97316 80%,#ef4444 100%);position:relative;margin:8px 0}
+.gauge-marker{position:absolute;top:-4px;width:4px;height:22px;background:var(--text-primary);border-radius:2px;transition:left .4s ease;box-shadow:0 0 4px rgba(0,0,0,.3)}
+.gauge-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);padding:0 2px}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info-item{background:var(--bg-guide);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border)}
+.info-item .label{font-size:11px;color:var(--text-info);margin-bottom:2px}
+.info-item .value{font-size:15px;font-weight:700;color:var(--text-primary)}
+
+.breed-section label{font-size:12px;color:var(--text-info);font-weight:600;margin-bottom:4px;display:block}
+.breed-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-height:180px;overflow-y:auto;padding:4px}
+.breed-item{padding:8px 10px;background:var(--bg-guide);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text-secondary);cursor:pointer;transition:all .2s;text-align:center}
+.breed-item:hover{border-color:var(--accent);background:var(--bg-input)}
+.breed-item.active{border-color:var(--accent);background:var(--accent);color:var(--text-on-accent)}
+
+.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary:hover{background:var(--bg-guide-hover)}
+.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+.guide-content strong{color:var(--text-secondary)}
+
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.4);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>⚖️ 반려동물 체중 관리</h1>
+  </div>
+  <div class="body">
+    <div class="type-tabs">
+      <button class="type-tab active" onclick="setType('dog')">🐶 강아지</button>
+      <button class="type-tab" onclick="setType('cat')">🐱 고양이</button>
+    </div>
+
+    <div class="breed-section" id="breedSection">
+      <label>품종 (표준 체중 참고)</label>
+      <div class="breed-list" id="breedList"></div>
+    </div>
+
+    <div class="input-group">
+      <label>현재 체중</label>
+      <div class="input-row">
+        <input type="number" id="weight" value="5" min="0.5" max="100" step="0.1" oninput="calc()">
+        <span class="unit">kg</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>체형 상태 (BCS, Body Condition Score)</label>
+      <div class="bcs-selector" id="bcsSelector"></div>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-emoji" id="emoji">⚖️</div>
+      <div class="result-status" id="status">-</div>
+      <div class="result-sub" id="statusDetail">체중과 체형을 입력하세요</div>
+    </div>
+
+    <div class="gauge-wrap">
+      <div class="gauge-bar"><div class="gauge-marker" id="gaugeMarker" style="left:40%"></div></div>
+      <div class="gauge-labels">
+        <span>저체중</span><span>이상적</span><span>과체중</span><span>비만</span>
+      </div>
+    </div>
+
+    <div class="info-grid" id="infoGrid"></div>
+  </div>
+
+  <details class="guide-section">
+    <summary>📖 BCS란?</summary>
+    <div class="guide-content">
+      <strong>BCS (Body Condition Score)</strong>는 반려동물의 체형을 1~9단계로 평가하는 수의학 표준 지표입니다.<br><br>
+      • <strong>1~3</strong>: 저체중 — 갈비뼈가 눈에 보이거나 쉽게 만져짐<br>
+      • <strong>4~5</strong>: 이상적 — 갈비뼈가 살짝 만져지고 허리 라인이 보임<br>
+      • <strong>6~7</strong>: 과체중 — 갈비뼈가 잘 안 만져지고 허리 라인 불분명<br>
+      • <strong>8~9</strong>: 비만 — 갈비뼈가 안 느껴지고 배가 처짐<br><br>
+      ⚠️ 정확한 평가는 수의사와 상담하세요.
+    </div>
+  </details>
+
+  <details class="guide-section">
+    <summary>❓ 자주 묻는 질문</summary>
+    <div class="guide-content">
+      <strong>표준 체중이 왜 중요한가요?</strong><br>
+      비만은 관절 질환, 당뇨, 심장병 등의 위험을 높입니다. 이상 체중의 10~15% 이내를 유지하는 것이 좋습니다.<br><br>
+      <strong>사람 BMI처럼 계산하면 안 되나요?</strong><br>
+      반려동물은 품종별 체형 차이가 크기 때문에 BCS(체형 점수) + 품종별 표준 체중이 더 정확합니다.
+    </div>
+  </details>
+
+  <div class="footer"><span>BCS 기반 체형 평가</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+
+<script>
+let petType = 'dog';
+let selectedBCS = 5;
+let selectedBreed = null;
+
+const DOG_BREEDS = [
+  { name: '치와와', min: 1.5, max: 3 },
+  { name: '포메라니안', min: 1.5, max: 3.5 },
+  { name: '말티즈', min: 2.5, max: 4 },
+  { name: '요크셔 테리어', min: 2, max: 3.5 },
+  { name: '시추', min: 4, max: 7.5 },
+  { name: '푸들 (소형)', min: 3, max: 6 },
+  { name: '비숑 프리제', min: 3, max: 6 },
+  { name: '닥스훈트', min: 5, max: 12 },
+  { name: '코기', min: 10, max: 14 },
+  { name: '비글', min: 9, max: 11 },
+  { name: '코카 스파니엘', min: 12, max: 15 },
+  { name: '보더 콜리', min: 14, max: 20 },
+  { name: '진돗개', min: 18, max: 23 },
+  { name: '래브라도', min: 25, max: 36 },
+  { name: '골든 리트리버', min: 25, max: 34 },
+  { name: '시베리안 허스키', min: 16, max: 27 },
+  { name: '셰퍼드', min: 22, max: 40 },
+  { name: '그레이트 데인', min: 50, max: 80 },
+];
+
+const CAT_BREEDS = [
+  { name: '한국 고양이', min: 3.5, max: 5.5 },
+  { name: '러시안 블루', min: 3, max: 5.5 },
+  { name: '아비시니안', min: 2.7, max: 4.5 },
+  { name: '브리티시 숏헤어', min: 4, max: 7 },
+  { name: '페르시안', min: 3, max: 5.5 },
+  { name: '스코티시 폴드', min: 3, max: 6 },
+  { name: '샴', min: 2.5, max: 5 },
+  { name: '랙돌', min: 4.5, max: 9 },
+  { name: '먼치킨', min: 2.5, max: 4 },
+  { name: '노르웨이 숲', min: 4, max: 9 },
+  { name: '메인쿤', min: 5, max: 11 },
+  { name: '벵갈', min: 3.5, max: 7 },
+];
+
+const BCS_DATA = [
+  { score: 1, emoji: '🦴', label: '매우 마름', pct: -30, color: '#3b82f6' },
+  { score: 2, emoji: '🦴', label: '마름', pct: -20, color: '#60a5fa' },
+  { score: 3, emoji: '🏃', label: '약간 마름', pct: -10, color: '#34d399' },
+  { score: 4, emoji: '👍', label: '약간 날씬', pct: -5, color: '#22c55e' },
+  { score: 5, emoji: '✅', label: '이상적', pct: 0, color: '#22c55e' },
+  { score: 6, emoji: '⚠️', label: '약간 과체중', pct: 10, color: '#facc15' },
+  { score: 7, emoji: '⚠️', label: '과체중', pct: 20, color: '#f97316' },
+  { score: 8, emoji: '🔴', label: '비만', pct: 30, color: '#ef4444' },
+  { score: 9, emoji: '🔴', label: '고도비만', pct: 40, color: '#dc2626' },
+];
+
+function setType(t) {
+  petType = t;
+  selectedBreed = null;
+  document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.type-tab[onclick*="${t}"]`).classList.add('active');
+  renderBreeds();
+  calc();
+}
+
+function renderBreeds() {
+  const breeds = petType === 'dog' ? DOG_BREEDS : CAT_BREEDS;
+  const list = document.getElementById('breedList');
+  list.innerHTML = breeds.map((b, i) => `<div class="breed-item" data-idx="${i}" onclick="selectBreed(${i})">${b.name}<br><span style="font-size:10px;color:var(--text-muted)">${b.min}~${b.max}kg</span></div>`).join('');
+}
+
+function selectBreed(idx) {
+  const breeds = petType === 'dog' ? DOG_BREEDS : CAT_BREEDS;
+  selectedBreed = breeds[idx];
+  document.querySelectorAll('.breed-item').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.breed-item[data-idx="${idx}"]`).classList.add('active');
+  // Set weight to midpoint
+  const mid = (selectedBreed.min + selectedBreed.max) / 2;
+  document.getElementById('weight').value = mid.toFixed(1);
+  calc();
+}
+
+function renderBCS() {
+  const el = document.getElementById('bcsSelector');
+  el.innerHTML = BCS_DATA.map(b => `<button class="bcs-btn${b.score === selectedBCS ? ' active' : ''}" onclick="setBCS(${b.score})"><span class="bcs-emoji">${b.emoji}</span>${b.score}</button>`).join('');
+}
+
+function setBCS(score) {
+  selectedBCS = score;
+  renderBCS();
+  calc();
+}
+
+function calc() {
+  const w = parseFloat(document.getElementById('weight').value);
+  if (!w || w <= 0) return;
+
+  const bcs = BCS_DATA.find(b => b.score === selectedBCS);
+  const breeds = petType === 'dog' ? DOG_BREEDS : CAT_BREEDS;
+
+  // Estimate ideal weight using BCS
+  // BCS 5 is ideal. Each point away is ~10% body fat change
+  const idealWeight = w / (1 + bcs.pct / 100);
+  const diff = w - idealWeight;
+  const diffPct = ((w - idealWeight) / idealWeight * 100);
+
+  let statusText, statusColor, emoji;
+  if (selectedBCS <= 3) { statusText = '저체중'; statusColor = '#3b82f6'; emoji = '🦴'; }
+  else if (selectedBCS <= 5) { statusText = '이상적'; statusColor = '#22c55e'; emoji = '✅'; }
+  else if (selectedBCS <= 7) { statusText = '과체중'; statusColor = '#f97316'; emoji = '⚠️'; }
+  else { statusText = '비만'; statusColor = '#ef4444'; emoji = '🔴'; }
+
+  document.getElementById('emoji').textContent = emoji;
+  document.getElementById('status').textContent = statusText;
+  document.getElementById('status').style.color = statusColor;
+
+  let detail = `BCS ${selectedBCS}/9 — ${bcs.label}`;
+  if (selectedBCS !== 5) {
+    detail += `<br>이상 체중 대비 <strong style="color:${statusColor}">${diff > 0 ? '+' : ''}${diff.toFixed(1)}kg (${diffPct > 0 ? '+' : ''}${diffPct.toFixed(0)}%)</strong>`;
+  }
+  document.getElementById('statusDetail').innerHTML = detail;
+
+  // Gauge (BCS 1~9 mapped to 0~100%)
+  const pct = ((selectedBCS - 1) / 8) * 100;
+  document.getElementById('gaugeMarker').style.left = pct + '%';
+
+  // Info grid
+  let breedInfo = '';
+  if (selectedBreed) {
+    breedInfo = `
+      <div class="info-item">
+        <div class="label">📋 품종 표준 체중</div>
+        <div class="value">${selectedBreed.min}~${selectedBreed.max} kg</div>
+      </div>
+      <div class="info-item">
+        <div class="label">${w >= selectedBreed.min && w <= selectedBreed.max ? '✅ 범위 내' : '⚠️ 범위 밖'}</div>
+        <div class="value" style="color:${w >= selectedBreed.min && w <= selectedBreed.max ? '#22c55e' : '#f97316'}">${selectedBreed.name}</div>
+      </div>
+    `;
+  }
+
+  document.getElementById('infoGrid').innerHTML = `
+    <div class="info-item">
+      <div class="label">현재 체중</div>
+      <div class="value">${w.toFixed(1)} kg</div>
+    </div>
+    <div class="info-item">
+      <div class="label">추정 이상 체중</div>
+      <div class="value" style="color:#22c55e">${idealWeight.toFixed(1)} kg</div>
+    </div>
+    ${breedInfo}
+    <div class="info-item">
+      <div class="label">${diff > 0.5 ? '🏋️ 감량 목표' : diff < -0.5 ? '🍖 증량 목표' : '👍 유지'}</div>
+      <div class="value">${Math.abs(diff) < 0.5 ? '현재 유지 🎉' : Math.abs(diff).toFixed(1) + 'kg ' + (diff > 0 ? '감량' : '증량')}</div>
+    </div>
+    <div class="info-item">
+      <div class="label">💡 팁</div>
+      <div class="value" style="font-size:11px;font-weight:500">${selectedBCS <= 3 ? '수의사 상담 권장' : selectedBCS <= 5 ? '건강한 체형이에요!' : selectedBCS <= 7 ? '사료량 10~15% 줄여보세요' : '수의사와 다이어트 계획을!'}</div>
+    </div>
+  `;
+}
+
+renderBreeds();
+renderBCS();
+calc();
+
+(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
+</body>
+</html>
