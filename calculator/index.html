@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -66,7 +66,7 @@
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .calc-result {
-    font-size: 36px; font-weight: 700; color: #fff;
+    font-size: 36px; font-weight: 700; color: var(--calc-result-text);
     margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     font-variant-numeric: tabular-nums;
   }
@@ -91,7 +91,7 @@
     font-family: inherit;
     user-select: none;
   }
-  .calc-btn:hover { background: #2a2a6a; }
+  .calc-btn:hover { background: var(--calc-btn-hover); }
   .calc-btn:active { background: var(--bg-btn-hover); }
 
   .calc-btn.op {
@@ -106,16 +106,16 @@
     color: var(--text-info);
     font-size: 16px;
   }
-  .calc-btn.fn:hover { background: #2a2a4a; }
+  .calc-btn.fn:hover { background: var(--calc-fn-hover); }
 
   .calc-btn.eq {
     background: var(--accent);
-    color: #fff;
+    color: var(--text-on-accent);
     font-size: 24px;
     font-weight: 700;
   }
   .calc-btn.eq:hover { background: var(--accent-hover); }
-  .calc-btn.eq:active { background: #7b52b9; }
+  .calc-btn.eq:active { background: var(--calc-eq-active); }
 
   .calc-btn.zero { grid-column: span 2; }
 
