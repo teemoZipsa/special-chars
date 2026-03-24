@@ -18,10 +18,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
 .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:540px;max-width:100%;overflow:hidden}
-.header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
-.header h1{font-size:16px;font-weight:600;color:var(--text-on-accent);letter-spacing:.5px}
-.back-btn{background:var(--bg-btn);border:none;color:var(--text-secondary);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
-.back-btn:hover{background:var(--bg-btn-hover);color:var(--text-on-accent)}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
 .content{padding:20px;display:flex;flex-direction:column;gap:14px}
 
 .drop-zone{border:2px dashed #2a2a5a;border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg-bar)}
@@ -86,8 +86,8 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 <body>
 <div class="app">
   <div class="header">
-    <h1>🖼️ 이미지 포맷 변환기</h1>
     <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>🖼️ 이미지 포맷 변환기</h1>
   </div>
   <div class="content">
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
