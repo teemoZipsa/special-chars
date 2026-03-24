@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>🗜️ 이미지 용량 줄이기 — 티모집사</title>
 <meta name="description" content="이미지 파일 용량을 브라우저에서 바로 줄이세요. 서버 전송 없이 100% 로컬 처리.">
 <meta property="og:title" content="🗜️ 이미지 용량 줄이기 — 티모집사">
@@ -16,9 +19,9 @@
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-  .app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:500px;max-width:100%;overflow:hidden}
-  .header{background:linear-gradient(135deg,#0f3460,#533483);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+  body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+  .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:500px;max-width:100%;overflow:hidden}
+  .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
   .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -27,27 +30,27 @@
   .drop-zone{
     border:2px dashed #2a2a5a;border-radius:12px;padding:40px 20px;
     text-align:center;cursor:pointer;transition:all .2s;
-    background:#1a1a3e;
+    background:var(--bg-bar);
   }
-  .drop-zone:hover,.drop-zone.dragover{border-color:#533483;background:#1e1e50}
+  .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:#1e1e50}
   .drop-zone .icon{font-size:36px;margin-bottom:8px}
-  .drop-zone .text{font-size:13px;color:#6666aa}
+  .drop-zone .text{font-size:13px;color:var(--calc-expr-text)}
   .drop-zone .sub{font-size:11px;color:#444466;margin-top:4px}
   .drop-zone input{display:none}
 
   .controls{display:none;gap:14px;flex-direction:column}
-  .control-row{display:flex;align-items:center;gap:12px;background:#1a1a3e;border-radius:10px;padding:12px 16px}
-  .control-row label{font-size:12px;color:#8888bb;font-weight:600;white-space:nowrap;min-width:60px}
-  .slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:#2a2a5a;border-radius:3px;outline:none}
-  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:#533483;border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
-  .slider::-moz-range-thumb{width:18px;height:18px;background:#533483;border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
+  .control-row{display:flex;align-items:center;gap:12px;background:var(--bg-bar);border-radius:10px;padding:12px 16px}
+  .control-row label{font-size:12px;color:var(--text-info);font-weight:600;white-space:nowrap;min-width:60px}
+  .slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:var(--bg-btn);border-radius:3px;outline:none}
+  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
+  .slider::-moz-range-thumb{width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid #7c5eb8}
   .val{font-size:14px;color:#c4b5fd;font-weight:700;min-width:48px;text-align:right}
-  .control-row input[type=number]{background:#12122e;border:1px solid #2a2a5a;border-radius:6px;color:#e0e0ff;padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit}
+  .control-row input[type=number]{background:#12122e;border:1px solid var(--border);border-radius:6px;color:#e0e0ff;padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit}
 
   .preview{display:none;gap:12px}
-  .preview-card{flex:1;background:#1a1a3e;border-radius:10px;padding:12px;text-align:center;min-width:0}
+  .preview-card{flex:1;background:var(--bg-bar);border-radius:10px;padding:12px;text-align:center;min-width:0}
   .preview-card img{max-width:100%;max-height:140px;border-radius:6px;margin-bottom:8px;object-fit:contain}
-  .preview-label{font-size:10px;color:#6666aa;margin-bottom:2px}
+  .preview-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:2px}
   .preview-size{font-size:14px;font-weight:700;color:#c4b5fd}
   .preview-dim{font-size:10px;color:#555580}
   .saved{font-size:14px;font-weight:700;color:#4ade80;text-align:center;padding:4px}
@@ -55,22 +58,22 @@
   .btn{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
   .btn-dl{background:linear-gradient(135deg,#533483,#6b44a3);color:#fff}
   .btn-dl:hover{opacity:.9}
-  .btn-reset{background:#1a1a3e;border:1px solid #2a2a5a;color:#8888bb;margin-top:4px}
+  .btn-reset{background:var(--bg-bar);border:1px solid var(--border);color:var(--text-info);margin-top:4px}
 
   .privacy{font-size:10px;color:#444466;text-align:center}
 
-  .footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
-  .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
-  .footer a:hover{color:#b0b0e0}
-  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-  .guide-section summary:hover{background:#2a2a5a}
-  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
+  .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:var(--text-guide)}
+  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+  .guide-section summary:hover{background:var(--bg-guide-hover)}
+  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
@@ -97,7 +100,7 @@
       <div class="control-row">
         <label>최대 가로</label>
         <input type="number" id="maxWidth" value="1920" min="100" max="10000" onchange="compress()">
-        <span class="val" style="min-width:auto;font-size:11px;color:#6666aa">px</span>
+        <span class="val" style="min-width:auto;font-size:11px;color:var(--calc-expr-text)">px</span>
       </div>
     </div>
 
@@ -228,5 +231,7 @@ function fmtBytes(b) {
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
 <meta name="google-site-verification" content="TyyNKYVi782xFUYEwSxrYkTFRbP7qeWK7TUds1zObD0" />
 <meta name="naver-site-verification" content="1240f9c95aabdaaf2a61568437d1a8cbc1749a0c" />
 <title>특수 문자 & 이모지 입력기</title>
@@ -23,8 +24,8 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Pretendard', -apple-system, sans-serif;
-    background: #1a1a2e;
-    color: #e0e0e0;
+    background: var(--bg-body);
+    color: var(--text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,9 +33,9 @@
     padding: 20px;
   }
   .app {
-    background: #16213e;
+    background: var(--bg-app);
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-lg);
     width: 720px;
     max-width: 100%;
     overflow: hidden;
@@ -42,14 +43,14 @@
     flex-direction: column;
   }
   .titlebar {
-    background: linear-gradient(135deg, #0f3460, #533483);
+    background: var(--bg-header);
     padding: 14px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     user-select: none;
   }
-  .titlebar h1 { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: 1px; }
+  .titlebar h1 { font-size: 16px; font-weight: 600; color: var(--text-on-accent); letter-spacing: 1px; }
   .titlebar .search-box {
     display: flex; align-items: center;
     background: rgba(255,255,255,0.15);
@@ -63,22 +64,22 @@
   .titlebar .search-box svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.6); }
 
   .recent-bar {
-    background: #1a1a3e; padding: 8px 16px;
+    background: var(--bg-bar); padding: 8px 16px;
     display: flex; align-items: center; gap: 6px;
-    min-height: 42px; border-bottom: 1px solid #2a2a5a;
+    min-height: 42px; border-bottom: 1px solid var(--border);
   }
-  .recent-bar .label { font-size: 11px; color: #8888bb; white-space: nowrap; margin-right: 4px; }
+  .recent-bar .label { font-size: 11px; color: var(--text-info); white-space: nowrap; margin-right: 4px; }
   .recent-bar .recent-chars { display: flex; gap: 2px; flex-wrap: nowrap; overflow-x: auto; }
-  .recent-bar .char-btn { background: #2a2a5a; border: 1px solid #3a3a6a; }
+  .recent-bar .char-btn { background: var(--bg-btn); border: 1px solid var(--border); }
 
   /* 탭 그룹 */
   .tab-groups {
-    background: #1e1e3a;
+    background: var(--bg-bar);
     padding: 6px 10px 0;
   }
   .tab-group-label {
     font-size: 10px;
-    color: #6666aa;
+    color: var(--text-info);
     padding: 6px 4px 3px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -93,28 +94,28 @@
   }
   .tab-divider {
     border: none;
-    border-top: 1px solid #3a3a6a;
+    border-top: 1px solid var(--border);
     margin: 2px 0;
   }
   .tab {
     padding: 7px 12px; font-size: 12px;
-    border: none; background: #2a2a5a; color: #aaa;
+    border: none; background: var(--bg-tab); color: var(--text-tab);
     border-radius: 8px 8px 0 0; cursor: pointer;
     transition: all 0.2s; white-space: nowrap;
   }
-  .tab:hover { background: #3a3a7a; color: #ddd; }
-  .tab.active { background: #533483; color: #fff; font-weight: 600; }
-  .tab.emoji-tab { background: #2a3a2a; }
-  .tab.emoji-tab:hover { background: #3a5a3a; }
-  .tab.emoji-tab.active { background: #e67e22; color: #fff; }
+  .tab:hover { background: var(--bg-tab-hover); color: var(--text-primary); }
+  .tab.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 600; }
+  .tab.emoji-tab { background: var(--bg-emoji-tab); }
+  .tab.emoji-tab:hover { background: var(--bg-emoji-tab-hover); }
+  .tab.emoji-tab.active { background: var(--bg-emoji-tab-active); color: var(--text-on-accent); }
 
   .grid-container {
     padding: 12px; height: 360px;
     overflow-y: auto; overflow-x: hidden;
   }
   .grid-container::-webkit-scrollbar { width: 6px; }
-  .grid-container::-webkit-scrollbar-track { background: #1a1a3e; }
-  .grid-container::-webkit-scrollbar-thumb { background: #533483; border-radius: 3px; }
+  .grid-container::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+  .grid-container::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
   .char-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
@@ -126,60 +127,60 @@
   .char-btn {
     width: 100%; aspect-ratio: 1;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px; background: #222250;
-    border: 1px solid #333366; border-radius: 6px;
-    color: #e0e0e0; cursor: pointer;
+    font-size: 18px; background: var(--bg-char-btn);
+    border: 1px solid var(--border-char); border-radius: 6px;
+    color: var(--text-primary); cursor: pointer;
     transition: all 0.15s; user-select: none; position: relative;
   }
   .char-btn:hover {
-    background: #533483; border-color: #7b52b9;
+    background: var(--bg-char-btn-hover); border-color: var(--border-hover);
     transform: scale(1.15); z-index: 2;
-    box-shadow: 0 4px 12px rgba(83,52,131,0.5);
+    box-shadow: var(--shadow-accent);
   }
-  .char-btn:active { transform: scale(0.95); background: #6b44a3; }
+  .char-btn:active { transform: scale(0.95); background: var(--accent-hover); }
   .char-btn.copied { background: #2ecc71 !important; border-color: #27ae60 !important; }
   .char-btn.emoji-cell {
-    font-size: 24px; background: #1e2e1e; border-color: #2a3a2a;
+    font-size: 24px; background: var(--bg-emoji-cell); border-color: var(--border-emoji);
   }
   .char-btn.emoji-cell:hover {
-    background: #e67e22; border-color: #f39c12;
+    background: var(--bg-emoji-hover); border-color: var(--border-emoji-hover);
     box-shadow: 0 4px 12px rgba(230,126,34,0.5);
   }
 
   .toast {
     position: fixed; bottom: 30px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: #533483; color: #fff;
+    background: var(--toast-bg); color: var(--text-on-accent);
     padding: 10px 24px; border-radius: 24px;
     font-size: 14px; font-weight: 500;
-    box-shadow: 0 4px 20px rgba(83,52,131,0.6);
+    box-shadow: var(--shadow-accent);
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0; pointer-events: none; z-index: 999;
   }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
   .bottom-bar {
-    background: #1a1a3e; padding: 10px 16px;
+    background: var(--bg-bar); padding: 10px 16px;
     display: flex; justify-content: space-between; align-items: center;
-    border-top: 1px solid #2a2a5a;
+    border-top: 1px solid var(--border);
   }
   .preview {
     font-size: 28px; width: 44px; height: 44px;
     display: flex; align-items: center; justify-content: center;
-    background: #222250; border-radius: 8px; border: 1px solid #333366;
+    background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);
   }
-  .bottom-bar .info { font-size: 11px; color: #8888bb; }
-  .bottom-bar .info span { color: #bb88ff; font-family: monospace; }
+  .bottom-bar .info { font-size: 11px; color: var(--text-info); }
+  .bottom-bar .info span { color: var(--text-code); font-family: monospace; }
   .action-btn {
     padding: 8px 20px; border: none; border-radius: 6px;
     font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
   }
-  .btn-clear { background: #2a2a5a; color: #ccc; }
-  .btn-clear:hover { background: #3a3a6a; }
+  .btn-clear { background: var(--btn-clear-bg); color: var(--btn-clear-text); }
+  .btn-clear:hover { background: var(--btn-clear-hover); }
 
   .sub-header {
-    grid-column: 1 / -1; font-size: 11px; color: #8888bb;
-    padding: 8px 4px 4px; border-bottom: 1px solid #2a2a5a; margin-bottom: 2px;
+    grid-column: 1 / -1; font-size: 11px; color: var(--text-info);
+    padding: 8px 4px 4px; border-bottom: 1px solid var(--border); margin-bottom: 2px;
   }
   .sub-header:first-child { padding-top: 0; }
 
@@ -195,18 +196,18 @@
   .back-btn:hover { background: rgba(255,255,255,0.22); color: #fff; }
 
 
-  .btn-copy { background: #533483; color: #fff; }
-  .btn-copy:hover { background: #6b44a3; }
+  .btn-copy { background: var(--btn-copy-bg); color: var(--btn-copy-text); }
+  .btn-copy:hover { background: var(--btn-copy-hover); }
 
-  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-  .guide-section summary:hover{background:#2a2a5a}
-  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+  .guide-section summary:hover{background:var(--bg-guide-hover)}
+  .guide-section[open] summary{background:var(--bg-guide-hover);border-bottom:1px solid var(--border)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:var(--shadow-accent);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
@@ -580,5 +581,7 @@ renderRecent();
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

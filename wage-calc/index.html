@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>💵 시급 ↔ 월급/연봉 환산기 — 티모집사</title>
 <meta name="description" content="시급, 월급, 연봉을 자유롭게 환산! 4대보험·프리랜서 세금 공제, 연장·야간 수당, 목표 금액 계산까지.">
 <meta property="og:title" content="💵 시급 ↔ 월급/연봉 환산기 — 티모집사">
@@ -16,28 +19,28 @@
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-  .app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:480px;max-width:100%;overflow:hidden}
-  .header{background:linear-gradient(135deg,#0f3460,#533483);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+  body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+  .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:480px;max-width:100%;overflow:hidden}
+  .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
   .header h1{font-size:15px;font-weight:600;color:#fff}
   .body{padding:16px;display:flex;flex-direction:column;gap:12px}
-  .section{background:#1a1a3e;border-radius:12px;padding:14px 16px;border:1px solid #2a2a5a}
-  .section-title{font-size:12px;font-weight:700;color:#8888bb;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .section{background:var(--bg-bar);border-radius:12px;padding:14px 16px;border:1px solid var(--border)}
+  .section-title{font-size:12px;font-weight:700;color:var(--text-info);margin-bottom:10px;display:flex;align-items:center;gap:6px}
   .field-row{display:flex;gap:8px;margin-bottom:8px}
   .field-row:last-child{margin-bottom:0}
   .field{flex:1;display:flex;flex-direction:column;gap:3px}
-  .field label{font-size:10px;color:#6666aa;font-weight:600}
-  .field input,.field select{background:#12122e;border:1px solid #2a2a5a;border-radius:8px;color:#e0e0ff;padding:9px 10px;font-size:14px;font-family:inherit;outline:none;width:100%}
-  .field input:focus{border-color:#533483}
+  .field label{font-size:10px;color:var(--calc-expr-text);font-weight:600}
+  .field input,.field select{background:#12122e;border:1px solid var(--border);border-radius:8px;color:#e0e0ff;padding:9px 10px;font-size:14px;font-family:inherit;outline:none;width:100%}
+  .field input:focus{border-color:var(--accent)}
   .field input::placeholder{color:#333355}
   .field select{cursor:pointer}
 
   .result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .r-card{background:linear-gradient(135deg,#1a1a50,#2a1a50);border:1px solid #3a2a6a;border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s}
   .r-card:hover{border-color:#7c5eb8;transform:translateY(-2px)}
-  .r-label{font-size:10px;color:#6666aa;margin-bottom:3px}
+  .r-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:3px}
   .r-value{font-size:15px;font-weight:800;color:#fff;word-break:break-all}
   .r-sub{font-size:9px;color:#555580;margin-top:2px}
 
@@ -52,7 +55,7 @@
   .min-wage button:hover{background:#3a5a3a}
 
   /* 목표 위젯 */
-  .goal-section{background:#1a1a3e;border:1px solid #2a2a5a;border-radius:12px;padding:14px 16px}
+  .goal-section{background:var(--bg-bar);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
   .goal-input{display:flex;gap:8px;margin-top:8px}
   .goal-input input{flex:1}
   .goal-result{display:none;margin-top:10px;background:#12122e;border-radius:10px;padding:12px;text-align:center;font-size:13px;line-height:1.6;color:#c4b5fd}
@@ -60,18 +63,18 @@
   .goal-result .emoji{font-size:20px}
 
   .hint{font-size:10px;color:#555580;text-align:center}
-  .footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
-  .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
-  .footer a:hover{color:#b0b0e0}
-  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-  .guide-section summary:hover{background:#2a2a5a}
-  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
+  .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:var(--text-guide)}
+  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+  .guide-section summary:hover{background:var(--bg-guide-hover)}
+  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
@@ -220,16 +223,16 @@
       <br>
       <strong>📊 연도별 최저시급</strong>
       <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:#222250;color:#b0b0e0"><th style="padding:6px;border:1px solid #333366">연도</th><th style="padding:6px;border:1px solid #333366">최저시급</th><th style="padding:6px;border:1px solid #333366">인상률</th><th style="padding:6px;border:1px solid #333366">월급(209h)</th></tr>
-        <tr><td style="padding:5px;border:1px solid #333366;text-align:center">2020</td><td style="padding:5px;border:1px solid #333366;text-align:center">8,590원</td><td style="padding:5px;border:1px solid #333366;text-align:center">2.9%</td><td style="padding:5px;border:1px solid #333366;text-align:center">1,795,310원</td></tr>
-        <tr><td style="padding:5px;border:1px solid #333366;text-align:center">2021</td><td style="padding:5px;border:1px solid #333366;text-align:center">8,720원</td><td style="padding:5px;border:1px solid #333366;text-align:center">1.5%</td><td style="padding:5px;border:1px solid #333366;text-align:center">1,822,480원</td></tr>
-        <tr><td style="padding:5px;border:1px solid #333366;text-align:center">2022</td><td style="padding:5px;border:1px solid #333366;text-align:center">9,160원</td><td style="padding:5px;border:1px solid #333366;text-align:center">5.1%</td><td style="padding:5px;border:1px solid #333366;text-align:center">1,914,440원</td></tr>
-        <tr><td style="padding:5px;border:1px solid #333366;text-align:center">2023</td><td style="padding:5px;border:1px solid #333366;text-align:center">9,620원</td><td style="padding:5px;border:1px solid #333366;text-align:center">5.0%</td><td style="padding:5px;border:1px solid #333366;text-align:center">2,010,580원</td></tr>
-        <tr><td style="padding:5px;border:1px solid #333366;text-align:center">2024</td><td style="padding:5px;border:1px solid #333366;text-align:center">9,860원</td><td style="padding:5px;border:1px solid #333366;text-align:center">2.5%</td><td style="padding:5px;border:1px solid #333366;text-align:center">2,060,740원</td></tr>
-        <tr><td style="padding:5px;border:1px solid #333366;text-align:center">2025</td><td style="padding:5px;border:1px solid #333366;text-align:center">10,030원</td><td style="padding:5px;border:1px solid #333366;text-align:center">1.7%</td><td style="padding:5px;border:1px solid #333366;text-align:center">2,096,270원</td></tr>
-        <tr style="background:#1e1e44"><td style="padding:5px;border:1px solid #333366;text-align:center;color:#c4b5fd;font-weight:700">2026</td><td style="padding:5px;border:1px solid #333366;text-align:center;color:#c4b5fd;font-weight:700">10,320원</td><td style="padding:5px;border:1px solid #333366;text-align:center;color:#4ade80">2.9%</td><td style="padding:5px;border:1px solid #333366;text-align:center;color:#c4b5fd;font-weight:700">2,156,880원</td></tr>
+        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid #333366">연도</th><th style="padding:6px;border:1px solid #333366">최저시급</th><th style="padding:6px;border:1px solid #333366">인상률</th><th style="padding:6px;border:1px solid #333366">월급(209h)</th></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2020</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8,590원</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2.9%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,795,310원</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2021</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8,720원</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.5%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,822,480원</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2022</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9,160원</td><td style="padding:5px;border:1px solid var(--border);text-align:center">5.1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,914,440원</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2023</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9,620원</td><td style="padding:5px;border:1px solid var(--border);text-align:center">5.0%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,010,580원</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2024</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9,860원</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2.5%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,060,740원</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2025</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10,030원</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.7%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,096,270원</td></tr>
+        <tr style="background:var(--bg-guide)"><td style="padding:5px;border:1px solid var(--border);text-align:center;color:#c4b5fd;font-weight:700">2026</td><td style="padding:5px;border:1px solid var(--border);text-align:center;color:#c4b5fd;font-weight:700">10,320원</td><td style="padding:5px;border:1px solid var(--border);text-align:center;color:#4ade80">2.9%</td><td style="padding:5px;border:1px solid var(--border);text-align:center;color:#c4b5fd;font-weight:700">2,156,880원</td></tr>
       </table>
-      <p style="font-size:11px;color:#6666aa">* 월급은 주 40시간(월 209시간) 기준, 주휴수당 포함</p>
+      <p style="font-size:11px;color:var(--calc-expr-text)">* 월급은 주 40시간(월 209시간) 기준, 주휴수당 포함</p>
       <br>
       <strong>Q. 4대보험 공제 후 실수령액은 어떻게 계산하나요?</strong>
       <p>근로자 부담 4대보험 요율은 약 9.39%입니다 (국민연금 4.5% + 건강보험 3.545% + 장기요양 0.455% + 고용보험 0.9%). 세전 월급에서 약 9.39%를 공제한 금액이 실수령액입니다. 이 계산기에서 '4대보험' 옵션을 선택하면 자동 반영됩니다.</p>
@@ -385,5 +388,7 @@ function copyVal(card) {
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

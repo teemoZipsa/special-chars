@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>📉 물타기/불타기 계산기 — 티모집사</title>
 <meta name="description" content="코인·주식 물타기 불타기 평단가 계산기. 추가 매수 시 평균 단가를 실시간으로 계산합니다.">
 <meta property="og:title" content="📉 물타기/불타기 계산기 — 티모집사">
@@ -18,17 +21,17 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{
     font-family:'Pretendard',-apple-system,sans-serif;
-    background:#0f0f23;color:#e0e0f0;
+    background:var(--bg-body);color:var(--text-primary);
     min-height:100vh;padding:20px;
     display:flex;justify-content:center;align-items:flex-start;
   }
   .app{
-    background:#16213e;border-radius:16px;
+    background:var(--bg-app);border-radius:16px;
     box-shadow:0 8px 32px rgba(0,0,0,0.5);
     width:480px;max-width:100%;overflow:hidden;
   }
   .header{
-    background:linear-gradient(135deg,#0f3460,#533483);
+    background:var(--bg-header);
     padding:12px 16px;display:flex;justify-content:space-between;align-items:center;
   }
   .back-btn{
@@ -45,11 +48,11 @@
 
   /* 섹션 */
   .section{
-    background:#1a1a3e;border-radius:12px;padding:14px 16px;
-    border:1px solid #2a2a5a;
+    background:var(--bg-bar);border-radius:12px;padding:14px 16px;
+    border:1px solid var(--border);
   }
   .section-title{
-    font-size:12px;font-weight:700;color:#8888bb;
+    font-size:12px;font-weight:700;color:var(--text-info);
     margin-bottom:10px;display:flex;align-items:center;gap:6px;
   }
   .section-title .badge{
@@ -62,30 +65,30 @@
   .field-row{display:flex;gap:10px;margin-bottom:8px}
   .field-row:last-child{margin-bottom:0}
   .field{flex:1;display:flex;flex-direction:column;gap:3px}
-  .field label{font-size:10px;color:#6666aa;font-weight:600}
+  .field label{font-size:10px;color:var(--calc-expr-text);font-weight:600}
   .field input{
-    background:#12122e;border:1px solid #2a2a5a;border-radius:8px;
+    background:#12122e;border:1px solid var(--border);border-radius:8px;
     color:#e0e0ff;padding:10px 12px;font-size:15px;font-family:inherit;
     outline:none;width:100%;
   }
-  .field input:focus{border-color:#533483}
+  .field input:focus{border-color:var(--accent)}
   .field input::placeholder{color:#333355}
 
   /* 수량↔금액 토글 */
   .toggle-row{
     display:flex;align-items:center;gap:8px;margin-bottom:8px;
   }
-  .toggle-label{font-size:11px;color:#6666aa}
+  .toggle-label{font-size:11px;color:var(--calc-expr-text)}
   .toggle-btn{
-    display:flex;background:#12122e;border:1px solid #2a2a5a;
+    display:flex;background:#12122e;border:1px solid var(--border);
     border-radius:8px;overflow:hidden;
   }
   .toggle-opt{
     padding:5px 12px;font-size:11px;cursor:pointer;
     font-family:inherit;border:none;background:none;
-    color:#6666aa;transition:all .15s;font-weight:600;
+    color:var(--calc-expr-text);transition:all .15s;font-weight:600;
   }
-  .toggle-opt.active{background:#533483;color:#fff}
+  .toggle-opt.active{background:var(--accent);color:#fff}
 
   /* 결과 */
   .result-section{
@@ -94,14 +97,14 @@
     padding:18px;
   }
   .result-title{
-    font-size:12px;font-weight:700;color:#8888bb;
+    font-size:12px;font-weight:700;color:var(--text-info);
     margin-bottom:12px;display:flex;align-items:center;gap:6px;
   }
 
   .result-main{
     text-align:center;margin-bottom:14px;
   }
-  .result-label{font-size:11px;color:#6666aa;margin-bottom:4px}
+  .result-label{font-size:11px;color:var(--calc-expr-text);margin-bottom:4px}
   .result-value{
     font-size:32px;font-weight:800;color:#fff;
     letter-spacing:-0.5px;
@@ -111,7 +114,7 @@
   }
   .change-down{color:#f87171}
   .change-up{color:#4ade80}
-  .change-same{color:#8888bb}
+  .change-same{color:var(--text-info)}
 
   .result-stats{
     display:grid;grid-template-columns:1fr 1fr;gap:8px;
@@ -120,7 +123,7 @@
     background:rgba(0,0,0,.2);border-radius:8px;
     padding:10px;text-align:center;
   }
-  .r-stat .r-label{font-size:10px;color:#6666aa;margin-bottom:3px}
+  .r-stat .r-label{font-size:10px;color:var(--calc-expr-text);margin-bottom:3px}
   .r-stat .r-value{font-size:14px;font-weight:700;color:#c4b5fd}
 
   /* 안내 */
@@ -130,24 +133,24 @@
   }
 
   .footer{
-    background:#1a1a3e;padding:10px 16px;
+    background:var(--bg-bar);padding:10px 16px;
     display:flex;justify-content:space-between;align-items:center;
-    border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa;
+    border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text);
   }
-  .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
-  .footer a:hover{color:#b0b0e0}
+  .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:var(--text-guide)}
 
   /* 애니메이션 */
   .result-value{transition:color .3s}
-  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-  .guide-section summary:hover{background:#2a2a5a}
-  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+  .guide-section summary:hover{background:var(--bg-guide-hover)}
+  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
@@ -372,5 +375,7 @@ function calc() {
 
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>🏷️ 할인/세금 계산기 — 티모집사</title>
 <meta name="description" content="할인율 적용 가격, 부가세 포함/미포함 금액을 실시간으로 계산합니다. 쇼핑, 견적, 세금 계산에 유용합니다.">
 <meta property="og:title" content="🏷️ 할인/세금 계산기 — 티모집사">
@@ -16,9 +19,9 @@
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-.app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:480px;max-width:100%;overflow:hidden}
-.header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:480px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
 .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
 .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
@@ -27,12 +30,12 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 .section-title{font-size:13px;color:#8888cc;font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
 .input-group{margin-bottom:14px}
 .input-group label{display:block;font-size:13px;color:#aab;margin-bottom:5px}
-.input-group input{width:100%;padding:12px 14px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:8px;color:#e0e0ff;font-size:16px;font-family:inherit;text-align:right}
-.input-group input:focus{outline:none;border-color:#533483}
+.input-group input{width:100%;padding:12px 14px;background:var(--bg-btn);border:1px solid var(--border);border-radius:8px;color:#e0e0ff;font-size:16px;font-family:inherit;text-align:right}
+.input-group input:focus{outline:none;border-color:var(--accent)}
 .input-group input::placeholder{color:#5555aa;text-align:left}
 .row{display:flex;gap:10px}
 .row .input-group{flex:1}
-.toggle-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#2a2a5a;border-radius:8px;margin-bottom:14px;cursor:pointer;user-select:none}
+.toggle-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg-btn);border-radius:8px;margin-bottom:14px;cursor:pointer;user-select:none}
 .toggle-row:hover{background:#333370}
 .toggle-label{font-size:14px;flex:1}
 .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
@@ -41,14 +44,14 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 .toggle .slider::before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
 .toggle input:checked+.slider{background:#533483}
 .toggle input:checked+.slider::before{transform:translateX(20px)}
-.result-box{background:#1a1a3e;border:1px solid #3a3a6a;border-radius:12px;padding:16px;margin-bottom:10px}
+.result-box{background:var(--bg-bar);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
 .result-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .result-item:last-child{border-bottom:none}
 .result-label{font-size:13px;color:#8888cc}
 .result-value{font-size:18px;font-weight:700;color:#e0e0ff}
 .result-value.highlight{color:#a78bfa;font-size:22px}
 .result-value.tax{color:#f97316}
-.copy-btn{width:100%;padding:12px;background:linear-gradient(135deg,#0f3460,#533483);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.copy-btn{width:100%;padding:12px;background:var(--bg-header);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
 .copy-btn:hover{opacity:.85}
 .copy-btn:active{transform:scale(.98)}
 .guide{margin-top:16px}
@@ -56,9 +59,9 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 .guide-content{font-size:12px;color:#777;line-height:1.8;padding:8px 0}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 </style>
 </head>
 <body>
@@ -228,5 +231,7 @@ calc();
 
 (function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
 </script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

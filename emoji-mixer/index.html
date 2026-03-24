@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>🎨 이모지 합치기 — 티모집사</title>
 <meta name="description" content="이모지 두 개를 합쳐 새로운 이모지를 만들어보세요! Google Emoji Kitchen 기반, 10만 가지 이상의 조합.">
 <meta property="og:title" content="🎨 이모지 합치기 — 티모집사">
@@ -16,9 +19,9 @@
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-.app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:500px;max-width:100%;overflow:hidden}
-.header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:500px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
 .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
 .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
@@ -26,32 +29,32 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 /* 조합 영역 */
 .combo-area{padding:20px 16px;text-align:center}
 .combo-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
-.emoji-slot{width:64px;height:64px;border-radius:16px;background:#1e1e44;border:2px dashed #3a3a6a;display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;transition:all .2s;user-select:none}
-.emoji-slot:hover{border-color:#533483;background:#252560}
-.emoji-slot.filled{border-style:solid;border-color:#533483}
+.emoji-slot{width:64px;height:64px;border-radius:16px;background:var(--bg-guide);border:2px dashed #3a3a6a;display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;transition:all .2s;user-select:none}
+.emoji-slot:hover{border-color:var(--accent);background:#252560}
+.emoji-slot.filled{border-style:solid;border-color:var(--accent)}
 .emoji-slot.active{border-color:#a78bfa;box-shadow:0 0 12px rgba(167,139,250,.3)}
-.combo-op{font-size:20px;font-weight:700;color:#6666aa}
+.combo-op{font-size:20px;font-weight:700;color:var(--calc-expr-text)}
 .result-area{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .result-img{width:160px;height:160px;object-fit:contain;border-radius:12px;display:none}
-.result-placeholder{font-size:14px;color:#6666aa;line-height:1.6}
+.result-placeholder{font-size:14px;color:var(--calc-expr-text);line-height:1.6}
 .result-loading{display:none}
 .result-loading .spinner{width:32px;height:32px;border:3px solid #2a2a5a;border-top-color:#533483;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.no-result{display:none;font-size:14px;color:#8888bb}
+.no-result{display:none;font-size:14px;color:var(--text-info)}
 .action-btns{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
 .act-btn{padding:8px 16px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:4px}
 .act-btn:disabled{opacity:.4;cursor:default}
-.btn-save{background:#533483;color:#fff}
-.btn-save:hover:not(:disabled){background:#6b44a3}
-.btn-copy{background:#1e1e44;color:#b0b0e0;border:1px solid #3a3a6a}
-.btn-copy:hover:not(:disabled){background:#2a2a5a}
-.btn-random{background:#0f3460;color:#b0b0e0;border:1px solid #1e4a7a}
+.btn-save{background:var(--accent);color:#fff}
+.btn-save:hover:not(:disabled){background:var(--accent-hover)}
+.btn-copy{background:var(--bg-guide);color:var(--text-guide);border:1px solid var(--border)}
+.btn-copy:hover:not(:disabled){background:var(--bg-guide-hover)}
+.btn-random{background:#0f3460;color:var(--text-guide);border:1px solid #1e4a7a}
 .btn-random:hover:not(:disabled){background:#154080}
-.btn-clear{background:#2a2a5a;color:#8888bb;border:1px solid #3a3a6a}
-.btn-clear:hover{background:#3a3a6a}
+.btn-clear{background:var(--bg-btn);color:var(--text-info);border:1px solid var(--border)}
+.btn-clear:hover{background:var(--bg-btn-hover)}
 
 /* 카테고리 탭 */
-.cat-tabs{display:flex;gap:0;background:#1e1e44;border:1px solid #333366;border-radius:10px;overflow:hidden;margin:0 16px 8px}
+.cat-tabs{display:flex;gap:0;background:var(--bg-guide);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:0 16px 8px}
 .cat-tab{flex:1;padding:8px 4px;text-align:center;font-size:18px;cursor:pointer;transition:all .2s;background:transparent;border:none}
 .cat-tab:hover{background:#252560}
 .cat-tab.active{background:#533483}
@@ -60,26 +63,26 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 .emoji-grid-wrap{padding:0 16px 16px;max-height:260px;overflow-y:auto}
 .emoji-grid-wrap::-webkit-scrollbar{width:6px}
 .emoji-grid-wrap::-webkit-scrollbar-track{background:transparent}
-.emoji-grid-wrap::-webkit-scrollbar-thumb{background:#2a2a5a;border-radius:3px}
+.emoji-grid-wrap::-webkit-scrollbar-thumb{background:var(--bg-btn);border-radius:3px}
 .emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
-.emoji-btn{width:40px;height:40px;border:none;background:#1a1a3e;border-radius:8px;font-size:22px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin:0 auto}
-.emoji-btn:hover{background:#2a2a5a;transform:scale(1.15)}
-.emoji-btn.selected{background:#533483;box-shadow:0 0 8px rgba(83,52,131,.5)}
+.emoji-btn{width:40px;height:40px;border:none;background:var(--bg-bar);border-radius:8px;font-size:22px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.emoji-btn:hover{background:var(--bg-btn);transform:scale(1.15)}
+.emoji-btn.selected{background:var(--accent);box-shadow:0 0 8px rgba(83,52,131,.5)}
 
 /* 초기 로딩 */
 .init-loading{padding:40px 16px;text-align:center}
 .init-loading .spinner-lg{width:40px;height:40px;border:3px solid #2a2a5a;border-top-color:#533483;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-.init-loading p{font-size:13px;color:#8888bb}
+.init-loading p{font-size:13px;color:var(--text-info)}
 
 /* 가이드 */
-.guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-.guide-section summary:hover{background:#2a2a5a}
-.guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
+.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary:hover{background:var(--bg-guide-hover)}
+.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
 .guide-section summary::-webkit-details-marker{display:none}
 .guide-section summary::after{content:'▼';font-size:10px;margin-left:auto;transition:transform .2s;color:#666}
 .guide-section[open] summary::after{transform:rotate(180deg)}
-.guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
 .guide-content strong{color:#c0c0e8}
 .guide-content ul{margin:8px 0;padding-left:20px}
 .guide-content li{margin-bottom:4px}
@@ -91,9 +94,9 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 @media(max-width:400px){
   .emoji-grid{grid-template-columns:repeat(7,1fr)}
@@ -131,7 +134,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#0f0f23;color:
         <div class="result-placeholder" id="placeholder">이모지 두 개를 선택하세요 ☝️</div>
         <div class="result-loading" id="resultLoading"><div class="spinner"></div></div>
         <img class="result-img" id="resultImg" alt="조합 결과">
-        <div class="no-result" id="noResult">조합 결과가 없습니다 😢<br><span style="font-size:12px;color:#6666aa">다른 이모지를 시도해보세요!</span></div>
+        <div class="no-result" id="noResult">조합 결과가 없습니다 😢<br><span style="font-size:12px;color:var(--calc-expr-text)">다른 이모지를 시도해보세요!</span></div>
       </div>
 
       <div class="action-btns">
@@ -280,7 +283,7 @@ async function loadData() {
     document.getElementById('mainContent').style.display = 'block';
     renderGrid('face');
   } catch(e) {
-    document.getElementById('initLoading').innerHTML = '<p style="color:#ff6b6b">데이터를 불러오지 못했습니다 😢<br><span style="font-size:12px;color:#8888bb">인터넷 연결을 확인하고 새로고침해주세요</span></p>';
+    document.getElementById('initLoading').innerHTML = '<p style="color:#ff6b6b">데이터를 불러오지 못했습니다 😢<br><span style="font-size:12px;color:var(--text-info)">인터넷 연결을 확인하고 새로고침해주세요</span></p>';
   }
 }
 
@@ -567,5 +570,7 @@ function showToast(msg) {
 // === 시작 ===
 loadData();
 </script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

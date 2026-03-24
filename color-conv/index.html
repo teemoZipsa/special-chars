@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
     <title>색상 코드 변환기 / Color Code Converter</title>
     <meta name="description" content="HEX, RGB, HSL 색상 코드를 실시간 변환합니다. 컬러 피커로 시각적 선택, 보색·유사색 추천">
     <meta property="og:title" content="색상 코드 변환기 / Color Code Converter — 티모집사">
@@ -16,9 +19,9 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Pretendard',-apple-system,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;display:flex;justify-content:center;padding:20px}
-        .app{background:#16213e;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
-        .header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+        body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;padding:20px}
+        .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
+        .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
         .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
         .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
         .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
@@ -27,48 +30,48 @@
         .preview-area{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
         .color-preview{flex:1;min-height:120px;border-radius:12px;border:2px solid #3a3a6a;transition:background .2s}
         .picker-wrap{display:flex;flex-direction:column;gap:8px;justify-content:center;align-items:center}
-        .picker-wrap label{font-size:11px;color:#8888bb}
+        .picker-wrap label{font-size:11px;color:var(--text-info)}
         input[type="color"]{width:60px;height:60px;border:none;border-radius:10px;cursor:pointer;background:transparent;padding:0}
         input[type="color"]::-webkit-color-swatch-wrapper{padding:2px}
-        input[type="color"]::-webkit-color-swatch{border-radius:8px;border:1px solid #3a3a6a}
+        input[type="color"]::-webkit-color-swatch{border-radius:8px;border:1px solid var(--border)}
 
-        .code-section{background:#1e1e44;border-radius:10px;padding:16px;margin-bottom:12px}
+        .code-section{background:var(--bg-guide);border-radius:10px;padding:16px;margin-bottom:12px}
         .code-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
         .code-row:last-child{margin-bottom:0}
-        .code-label{width:40px;font-size:12px;font-weight:700;color:#b0b0e0;text-align:right;flex-shrink:0}
-        .code-input{flex:1;padding:10px 12px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:8px;color:#e0e0ff;font-size:14px;font-family:'Pretendard',monospace}
-        .code-input:focus{outline:none;border-color:#533483}
-        .btn-copy-small{padding:8px 12px;background:#533483;color:#fff;border:none;border-radius:6px;font-size:11px;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
-        .btn-copy-small:hover{background:#6b44a3}
+        .code-label{width:40px;font-size:12px;font-weight:700;color:var(--text-guide);text-align:right;flex-shrink:0}
+        .code-input{flex:1;padding:10px 12px;background:var(--bg-btn);border:1px solid var(--border);border-radius:8px;color:#e0e0ff;font-size:14px;font-family:'Pretendard',monospace}
+        .code-input:focus{outline:none;border-color:var(--accent)}
+        .btn-copy-small{padding:8px 12px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:11px;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap}
+        .btn-copy-small:hover{background:var(--accent-hover)}
 
-        .related-section{background:#1e1e44;border-radius:10px;padding:16px;margin-bottom:12px}
-        .related-title{font-size:13px;font-weight:600;color:#b0b0e0;margin-bottom:10px}
+        .related-section{background:var(--bg-guide);border-radius:10px;padding:16px;margin-bottom:12px}
+        .related-title{font-size:13px;font-weight:600;color:var(--text-guide);margin-bottom:10px}
         .related-colors{display:flex;gap:8px;flex-wrap:wrap}
-        .related-chip{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#222250;border-radius:8px;border:1px solid #333366;cursor:pointer;transition:all .2s}
-        .related-chip:hover{border-color:#533483;transform:translateY(-1px)}
+        .related-chip{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg-input);border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all .2s}
+        .related-chip:hover{border-color:var(--accent);transform:translateY(-1px)}
         .chip-swatch{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,.1);flex-shrink:0}
         .chip-info{font-size:11px}
-        .chip-label{color:#8888bb;margin-bottom:1px}
+        .chip-label{color:var(--text-info);margin-bottom:1px}
         .chip-hex{color:#e0e0ff;font-weight:600;font-family:monospace}
 
-        .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-        .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-        .guide-section summary:hover{background:#2a2a5a}
-        .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-        .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+        .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+        .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+        .guide-section summary:hover{background:var(--bg-guide-hover)}
+        .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+        .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
         .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
 
-        .bottom-bar{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a}
-        .bottom-bar .info{font-size:11px;color:#8888bb}
+        .bottom-bar{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
+        .bottom-bar .info{font-size:11px;color:var(--text-info)}
         .action-btn{padding:8px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
-        .btn-clear{background:#2a2a5a;color:#b0b0e0}.btn-clear:hover{background:#3a3a6a}
-        .btn-copy{background:#533483;color:#fff}.btn-copy:hover{background:#6b44a3}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#533483;color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
+        .btn-clear{background:var(--bg-btn);color:var(--text-guide)}.btn-clear:hover{background:var(--bg-btn-hover)}
+        .btn-copy{background:var(--accent);color:#fff}.btn-copy:hover{background:var(--accent-hover)}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
         @media(max-width:640px){.preview-area{flex-direction:column}.color-preview{min-height:80px}.related-colors{flex-direction:column}}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
     </style>
 </head>
@@ -285,5 +288,7 @@ updateUI('init');
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>📏 글자 수 계산기 — 티모집사</title>
 <meta name="description" content="글자 수, 공백 제외, 단어 수, 줄 수, 바이트(UTF-8/EUC-KR)를 실시간으로 계산합니다.">
 <meta property="og:title" content="📏 글자 수 계산기 — 티모집사">
@@ -16,49 +19,49 @@
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',-apple-system,sans-serif;background:#1a1a2e;color:#e0e0e0;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px}
-  .app{background:#16213e;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
-  .header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+  body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px}
+  .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
+  .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
   .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
   .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
-  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#533483;color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#fff;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
   .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-  .bottom-bar{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a}
-  .bottom-bar .info{font-size:11px;color:#8888bb}
+  .bottom-bar{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
+  .bottom-bar .info{font-size:11px;color:var(--text-info)}
   .action-btn{padding:8px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-  .btn-clear{background:#2a2a5a;color:#ccc}.btn-clear:hover{background:#3a3a6a}
-  .btn-copy{background:#533483;color:#fff}.btn-copy:hover{background:#6b44a3}
+  .btn-clear{background:var(--bg-btn);color:var(--btn-clear-text)}.btn-clear:hover{background:var(--bg-btn-hover)}
+  .btn-copy{background:var(--accent);color:#fff}.btn-copy:hover{background:var(--accent-hover)}
 
   .counter-body{padding:12px;flex:1}
-  #counterInput{width:100%;height:200px;resize:vertical;background:#222250;border:1px solid #333366;border-radius:8px;color:#e0e0e0;font-size:14px;padding:12px;font-family:inherit;outline:none;line-height:1.6}
-  #counterInput:focus{border-color:#533483}
+  #counterInput{width:100%;height:200px;resize:vertical;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:14px;padding:12px;font-family:inherit;outline:none;line-height:1.6}
+  #counterInput:focus{border-color:var(--accent)}
   #counterInput::placeholder{color:#555588}
   .limit-bar{display:flex;gap:8px;margin-top:10px;align-items:center}
-  .limit-bar select,.limit-bar input{background:#2a2a5a;border:1px solid #3a3a6a;border-radius:6px;color:#e0e0e0;padding:6px 10px;font-size:12px;font-family:inherit;outline:none}
+  .limit-bar select,.limit-bar input{background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 10px;font-size:12px;font-family:inherit;outline:none}
   .limit-bar select{cursor:pointer}
   .limit-bar input{width:100px}
   .stat-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
-  .stat-card{background:#222250;border:1px solid #333366;border-radius:8px;padding:12px 8px;text-align:center}
+  .stat-card{background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center}
   .stat-value{font-size:24px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
-  .stat-label{font-size:11px;color:#8888bb;margin-top:4px}
-  .stat-sub{font-size:9px;color:#6666aa;margin-top:2px}
+  .stat-label{font-size:11px;color:var(--text-info);margin-top:4px}
+  .stat-sub{font-size:9px;color:var(--calc-expr-text);margin-top:2px}
   .progress-wrap{margin-top:12px}
-  .progress-bar{height:8px;background:#2a2a5a;border-radius:4px;overflow:hidden}
-  .progress-fill{height:100%;background:#533483;border-radius:4px;transition:width .2s,background-color .3s}
+  .progress-bar{height:8px;background:var(--bg-btn);border-radius:4px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .2s,background-color .3s}
   .progress-fill.warn{background:#e67e22}
   .progress-fill.over{background:#e74c3c}
-  .progress-text{font-size:11px;color:#8888bb;text-align:right;margin-top:4px}
+  .progress-text{font-size:11px;color:var(--text-info);text-align:right;margin-top:4px}
   @media(max-width:600px){.stat-cards{grid-template-columns:repeat(3,1fr)}}
-  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-  .guide-section summary:hover{background:#2a2a5a}
-  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+  .guide-section summary:hover{background:var(--bg-guide-hover)}
+  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
@@ -123,8 +126,13 @@
 <script>
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1500)}
 
+// 자동 저장: 페이지 로드 시 이전 입력 복원
+(function(){const saved=localStorage.getItem('charCounter_text');if(saved){document.getElementById('counterInput').value=saved;updateCounter()}})();
+
 function updateCounter(){
   const text=document.getElementById('counterInput').value;
+  // 자동 저장: 입력할 때마다 localStorage에 저장
+  try{localStorage.setItem('charCounter_text',text)}catch(e){}
   const chars=[...text].length;
   const noSpace=[...text.replace(/\s/g,'')].length;
   const words=text.trim()?text.trim().split(/\s+/).length:0;
@@ -158,7 +166,7 @@ function updateProgress(limitType,chars,utf8,euckr){
   document.getElementById('progressText').textContent=current.toLocaleString()+' / '+limit.toLocaleString()+(current>limit?' ⚠ 초과!':'');
 }
 
-function clearCounter(){document.getElementById('counterInput').value='';updateCounter();showToast('초기화 완료')}
+function clearCounter(){document.getElementById('counterInput').value='';try{localStorage.removeItem('charCounter_text')}catch(e){}updateCounter();showToast('초기화 완료')}
 
 function copyStats(){
   const text=document.getElementById('counterInput').value;
@@ -171,5 +179,7 @@ function copyStats(){
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

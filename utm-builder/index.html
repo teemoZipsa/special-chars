@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
     <title>UTM 파라미터 생성기 / UTM Builder</title>
     <meta name="description" content="마케팅 캠페인 URL에 UTM 추적 파라미터를 쉽게 추가하세요. Google Analytics 트래픽 소스 분석에 활용">
     <meta property="og:title" content="UTM 파라미터 생성기 / UTM Builder — 티모집사">
@@ -16,9 +19,9 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Pretendard',-apple-system,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;display:flex;justify-content:center;padding:20px}
-        .app{background:#16213e;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
-        .header{background:linear-gradient(135deg,#0f3460,#533483);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+        body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;padding:20px}
+        .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
+        .header{background:var(--bg-header);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
         .header h1{font-size:16px;font-weight:600;color:#fff;letter-spacing:1px}
         .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap;display:flex;align-items:center;gap:4px;font-family:inherit}
         .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
@@ -28,28 +31,28 @@
         .field-label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#b8b8e0;margin-bottom:6px}
         .field-label .required{color:#e74c7c;font-size:11px}
         .field-label .optional{color:#666;font-size:11px}
-        .field-input{width:100%;padding:10px 12px;background:#1e1e44;border:1.5px solid #333366;border-radius:8px;color:#e0e0e0;font-size:14px;font-family:inherit;transition:border-color .2s}
+        .field-input{width:100%;padding:10px 12px;background:var(--bg-guide);border:1.5px solid #333366;border-radius:8px;color:var(--text-primary);font-size:14px;font-family:inherit;transition:border-color .2s}
         .field-input:focus{outline:none;border-color:#7c5cbf}
         .field-input::placeholder{color:#555580}
         .field-input.error{border-color:#e74c7c}
 
         .presets{margin-bottom:16px}
-        .presets-label{font-size:12px;color:#8888bb;margin-bottom:8px}
+        .presets-label{font-size:12px;color:var(--text-info);margin-bottom:8px}
         .preset-btns{display:flex;flex-wrap:wrap;gap:6px}
-        .preset-btn{padding:6px 12px;background:#2a2a5a;border:1px solid #3a3a6a;border-radius:16px;color:#c0c0e8;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
+        .preset-btn{padding:6px 12px;background:var(--bg-btn);border:1px solid var(--border);border-radius:16px;color:#c0c0e8;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
         .preset-btn:hover{background:#3a3a7a;border-color:#5a5a9a}
-        .preset-btn.active{background:#533483;border-color:#7c5cbf;color:#fff}
+        .preset-btn.active{background:var(--accent);border-color:#7c5cbf;color:#fff}
 
-        .divider{height:1px;background:#2a2a5a;margin:16px 0}
+        .divider{height:1px;background:var(--bg-btn);margin:16px 0}
 
-        .result-section{background:#1e1e44;border-radius:10px;padding:16px;margin-bottom:12px}
-        .result-label{font-size:12px;color:#8888bb;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+        .result-section{background:var(--bg-guide);border-radius:10px;padding:16px;margin-bottom:12px}
+        .result-label{font-size:12px;color:var(--text-info);margin-bottom:8px;display:flex;align-items:center;gap:6px}
         .result-url{width:100%;padding:10px 12px;background:#151538;border:1.5px solid #333366;border-radius:8px;color:#7cc6fe;font-size:13px;font-family:'Pretendard',monospace;resize:none;min-height:60px;line-height:1.5}
         .result-url:focus{outline:none;border-color:#7c5cbf}
         .result-placeholder{color:#555580;font-size:13px;padding:10px 0}
 
         .param-table{width:100%;margin-top:12px;border-collapse:collapse}
-        .param-table th{text-align:left;font-size:11px;color:#8888bb;font-weight:500;padding:6px 8px;border-bottom:1px solid #2a2a5a}
+        .param-table th{text-align:left;font-size:11px;color:var(--text-info);font-weight:500;padding:6px 8px;border-bottom:1px solid var(--border)}
         .param-table td{font-size:12px;padding:6px 8px;border-bottom:1px solid #222250;color:#c0c0e8;word-break:break-all}
         .param-table td:first-child{color:#a78bfa;font-weight:500;white-space:nowrap}
         .param-table tr:last-child td{border-bottom:none}
@@ -63,30 +66,30 @@
         .guide-content strong{color:#c0c0e8}
         .guide-content ul{margin:8px 0;padding-left:20px}
         .guide-content li{margin-bottom:4px}
-        .guide-content code{background:#222250;padding:1px 6px;border-radius:4px;font-size:12px;color:#a78bfa}
+        .guide-content code{background:var(--bg-input);padding:1px 6px;border-radius:4px;font-size:12px;color:#a78bfa}
 
         .bottom-bar{background:#0f0f2a;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #222250}
         .bottom-bar .info{font-size:11px;color:#666}
         .action-btn{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
-        .btn-clear{background:#2a2a5a;color:#b8b8e0}
+        .btn-clear{background:var(--bg-btn);color:#b8b8e0}
         .btn-clear:hover{background:#3a3a7a}
-        .btn-copy{background:#533483;color:#fff}
-        .btn-copy:hover{background:#6b44a3}
+        .btn-copy{background:var(--accent);color:#fff}
+        .btn-copy:hover{background:var(--accent-hover)}
         .btn-copy:disabled{opacity:.4;cursor:not-allowed}
 
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
         .history-section{margin-top:12px}
-        .history-label{font-size:12px;color:#8888bb;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+        .history-label{font-size:12px;color:var(--text-info);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
         .history-clear{font-size:11px;color:#666;cursor:pointer;background:none;border:none;font-family:inherit;transition:color .2s}
         .history-clear:hover{color:#e74c7c}
         .history-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#151538;border-radius:6px;margin-bottom:4px;cursor:pointer;transition:background .2s}
         .history-item:hover{background:#222250}
         .history-item .hi-campaign{font-size:12px;color:#a78bfa;font-weight:500;flex-shrink:0}
         .history-item .hi-url{font-size:11px;color:#7cc6fe;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-        .history-item .hi-copy{flex-shrink:0;font-size:11px;color:#666;background:#2a2a5a;border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .2s}
-        .history-item .hi-copy:hover{background:#533483;color:#fff}
+        .history-item .hi-copy{flex-shrink:0;font-size:11px;color:#666;background:var(--bg-btn);border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .2s}
+        .history-item .hi-copy:hover{background:var(--accent);color:#fff}
 
         @media(max-width:640px){
             body{padding:10px}
@@ -98,9 +101,9 @@
             .preset-btns{gap:4px}
             .preset-btn{padding:5px 10px;font-size:11px}
         }
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
     </style>
 </head>
@@ -432,5 +435,7 @@ renderHistory();
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>

@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
 <title>📷 QR 코드 생성기 — 티모집사</title>
 <meta name="description" content="텍스트, URL, 연락처 등을 QR 코드로 즉시 생성하고 다운로드하세요.">
 <meta property="og:title" content="📷 QR 코드 생성기 — 티모집사">
@@ -17,38 +20,38 @@
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',sans-serif;background:#0f0f23;color:#e0e0f0;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-  .app{background:#16213e;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:440px;max-width:100%;overflow:hidden}
-  .header{background:linear-gradient(135deg,#0f3460,#533483);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+  body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+  .app{background:var(--bg-app);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5);width:440px;max-width:100%;overflow:hidden}
+  .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .back-btn{background:rgba(255,255,255,.12);border:none;color:#ddd;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
   .back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
   .header h1{font-size:15px;font-weight:600;color:#fff}
   .body{padding:16px;display:flex;flex-direction:column;gap:14px}
-  textarea{background:#1a1a3e;border:1px solid #2a2a5a;border-radius:10px;color:#e0e0ff;padding:14px;font-size:14px;font-family:inherit;outline:none;resize:vertical;min-height:100px;width:100%}
-  textarea:focus{border-color:#533483}
+  textarea{background:var(--bg-bar);border:1px solid var(--border);border-radius:10px;color:#e0e0ff;padding:14px;font-size:14px;font-family:inherit;outline:none;resize:vertical;min-height:100px;width:100%}
+  textarea:focus{border-color:var(--accent)}
   textarea::placeholder{color:#444466}
   .qr-box{display:none;background:#fff;border-radius:12px;padding:20px;text-align:center;align-self:center}
   .qr-box canvas{max-width:100%}
   .btn-row{display:flex;gap:8px}
   .btn{flex:1;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
   .btn-primary{background:linear-gradient(135deg,#533483,#6b44a3);color:#fff}
-  .btn-secondary{background:#1a1a3e;border:1px solid #2a2a5a;color:#8888bb}
+  .btn-secondary{background:var(--bg-bar);border:1px solid var(--border);color:var(--text-info)}
   .btn:hover{opacity:.85}
   .size-row{display:flex;align-items:center;gap:10px}
-  .size-row label{font-size:11px;color:#6666aa;font-weight:600;white-space:nowrap}
-  .size-row select{background:#1a1a3e;border:1px solid #2a2a5a;border-radius:6px;color:#e0e0ff;padding:6px 10px;font-size:12px;font-family:inherit;outline:none}
-  .footer{background:#1a1a3e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2a2a5a;font-size:11px;color:#6666aa}
-  .footer a{color:#8888bb;text-decoration:none;font-weight:600;transition:color .2s}
-  .footer a:hover{color:#b0b0e0}
-  .guide-section{margin:12px;border:1px solid #333366;border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#b0b0e0;list-style:none;display:flex;align-items:center;gap:6px;background:#1e1e44;transition:background .2s}
-  .guide-section summary:hover{background:#2a2a5a}
-  .guide-section[open] summary{background:#2a2a5a;border-bottom:1px solid #333366}
-  .guide-content{padding:12px 14px;font-size:12px;color:#8888bb;line-height:1.8}
+  .size-row label{font-size:11px;color:var(--calc-expr-text);font-weight:600;white-space:nowrap}
+  .size-row select{background:var(--bg-bar);border:1px solid var(--border);border-radius:6px;color:#e0e0ff;padding:6px 10px;font-size:12px;font-family:inherit;outline:none}
+  .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
+  .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+  .footer a:hover{color:var(--text-guide)}
+  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+  .guide-section summary:hover{background:var(--bg-guide-hover)}
+  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#533483;color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:#6b44a3}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
@@ -106,8 +109,14 @@
 </div>
 <script>
 let currentDataUrl = '';
+// 자동 저장: 페이지 로드 시 이전 입력 복원
+(function(){const saved=localStorage.getItem('qrCode_text');if(saved){document.getElementById('qrInput').value=saved;setTimeout(generate,0)}})();
+
 function generate() {
-  const text = document.getElementById('qrInput').value.trim();
+  const raw = document.getElementById('qrInput').value;
+  // 자동 저장
+  try{localStorage.setItem('qrCode_text',raw)}catch(e){}
+  const text = raw.trim();
   const box = document.getElementById('qrBox');
   if (!text) { box.style.display = 'none'; return; }
   const cellSize = parseInt(document.getElementById('qrSize').value);
@@ -157,5 +166,7 @@ async function copyQR() {
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js',{scope:'/'}).catch(function(){})}</script>
 </body>
 </html>
