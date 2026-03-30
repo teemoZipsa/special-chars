@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
+<title>✂️ 이미지 배경(누끼) 제거 도구 — 티모집사</title>
+<meta name="description" content="AI로 이미지 배경을 자동 제거(누끼). 서버 업로드 없이 브라우저에서 바로 처리. 무료, 무제한, 개인정보 걱정 없음.">
+<meta property="og:title" content="✂️ 이미지 배경(누끼) 제거 도구 — 티모집사">
+<meta property="og:description" content="AI 이미지 배경(누끼) 제거. 서버 전송 없이 100% 브라우저 처리. 무료 무제한.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/bg-remover/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/bg-remover/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+.app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:600px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.body{padding:16px;display:flex;flex-direction:column;gap:14px}
+
+/* 드롭존 */
+.dropzone{border:2.5px dashed var(--border);border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .3s;background:var(--bg-guide);position:relative}
+.dropzone:hover,.dropzone.dragover{border-color:var(--accent);background:var(--accent-bg)}
+.dropzone-icon{font-size:48px;margin-bottom:10px;display:block}
+.dropzone-text{font-size:14px;color:var(--text-info);font-weight:500;line-height:1.6}
+.dropzone-text strong{color:var(--accent)}
+.dropzone-sub{font-size:11px;color:var(--text-muted);margin-top:6px}
+.dropzone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* 프로그레스 */
+.progress-wrap{display:none;text-align:center;padding:20px 0}
+.progress-wrap.active{display:block}
+.progress-bar-bg{width:100%;height:8px;background:var(--bg-btn);border-radius:4px;overflow:hidden;margin:12px 0}
+.progress-bar{height:100%;background:var(--accent);border-radius:4px;transition:width .3s;width:0}
+.progress-text{font-size:13px;color:var(--text-info);font-weight:600}
+.progress-spinner{display:inline-block;width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 결과 영역 */
+.result-area{display:none}
+.result-area.active{display:block}
+
+/* 비교 뷰 */
+.compare-tabs{display:flex;gap:4px;background:var(--bg-bar);border-radius:10px;padding:4px;margin-bottom:10px}
+.compare-tab{flex:1;padding:9px 6px;border:none;border-radius:8px;background:transparent;color:var(--text-info);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
+.compare-tab.active{background:var(--accent);color:var(--text-on-accent);box-shadow:0 2px 8px rgba(83,52,131,.3)}
+.compare-tab:hover:not(.active){background:var(--bg-btn)}
+
+.preview-box{background:var(--bg-guide);border:1px solid var(--border);border-radius:10px;overflow:hidden;position:relative;min-height:200px;display:flex;align-items:center;justify-content:center}
+/* 체커보드 투명 배경 표시 */
+.preview-box.transparent{background-image:repeating-conic-gradient(var(--bg-btn) 0% 25%, transparent 0% 50%);background-size:20px 20px}
+.preview-box img{max-width:100%;max-height:450px;display:block;margin:0 auto}
+
+/* 슬라이더 비교 */
+.slider-wrap{position:relative;overflow:hidden;border-radius:10px;border:1px solid var(--border);touch-action:none}
+.slider-wrap img{display:block;width:100%;max-height:450px;object-fit:contain;pointer-events:none}
+.slider-overlay{position:absolute;top:0;left:0;bottom:0;overflow:hidden}
+.slider-overlay img{display:block;height:100%;max-height:450px;object-fit:contain;pointer-events:none}
+.slider-handle{position:absolute;top:0;bottom:0;width:4px;background:var(--accent);cursor:ew-resize;z-index:5}
+.slider-handle::after{content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--accent);color:var(--text-on-accent);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+/* 버튼 그룹 */
+.btn-group{display:flex;gap:8px}
+.action-btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;text-align:center}
+.btn-download{background:var(--bg-header);color:var(--text-on-accent)}
+.btn-download:hover{opacity:.85}
+.btn-reset{background:var(--bg-btn);color:var(--text-secondary);border:1px solid var(--border)}
+.btn-reset:hover{background:var(--bg-btn-hover)}
+
+/* 정보 뱃지 */
+.info-badge{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px;font-size:12px;color:var(--text-info)}
+.info-badge .badge-icon{font-size:16px;flex-shrink:0}
+.info-badge strong{color:var(--accent)}
+
+.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary:hover{background:var(--bg-guide-hover)}
+.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.4);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+@media(max-width:640px){
+  .scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}
+  .btn-group{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>✂️ 이미지 배경(누끼) 제거 도구</h1>
+  </div>
+  <div class="body">
+    <!-- 프라이버시 뱃지 -->
+    <div class="info-badge">
+      <span class="badge-icon">🔒</span>
+      <span>이미지가 서버로 전송되지 않습니다. <strong>100% 브라우저 처리</strong> · 개인정보 안전</span>
+    </div>
+
+    <!-- 업로드 영역 -->
+    <div class="dropzone" id="dropzone">
+      <input type="file" id="fileInput" accept="image/*">
+      <span class="dropzone-icon">🖼️</span>
+      <div class="dropzone-text">이미지를 <strong>드래그하거나 클릭</strong>하여 업로드</div>
+      <div class="dropzone-sub">JPG, PNG, WebP 지원 · 최대 10MB</div>
+    </div>
+
+    <!-- 프로그레스 -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-text" id="progressText"><span class="progress-spinner"></span>AI 모델 로딩 중...</div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="progressBar"></div></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px" id="progressSub">첫 실행 시 모델 다운로드(~40MB)에 시간이 걸릴 수 있습니다</div>
+    </div>
+
+    <!-- 결과 영역 -->
+    <div class="result-area" id="resultArea">
+      <div class="compare-tabs">
+        <button class="compare-tab active" onclick="setView('result')">✂️ 결과</button>
+        <button class="compare-tab" onclick="setView('original')">📷 원본</button>
+        <button class="compare-tab" onclick="setView('compare')">🔀 비교</button>
+      </div>
+
+      <!-- 결과 이미지 -->
+      <div class="preview-box transparent" id="resultView">
+        <img id="resultImg" alt="배경 제거 결과">
+      </div>
+
+      <!-- 원본 이미지 -->
+      <div class="preview-box" id="originalView" style="display:none">
+        <img id="originalImg" alt="원본 이미지">
+      </div>
+
+      <!-- 슬라이더 비교 -->
+      <div class="slider-wrap" id="compareView" style="display:none">
+        <img id="compareAfter" alt="배경 제거 결과">
+        <div class="slider-overlay" id="sliderOverlay">
+          <img id="compareBefore" alt="원본">
+        </div>
+        <div class="slider-handle" id="sliderHandle"></div>
+      </div>
+
+      <div style="height:10px"></div>
+
+      <div class="btn-group">
+        <button class="action-btn btn-download" onclick="downloadResult()">💾 PNG 다운로드</button>
+        <button class="action-btn btn-reset" onclick="resetAll()">🔄 다른 이미지</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="guide-section">
+    <summary>💡 사용 가이드</summary>
+    <div class="guide-content">
+      <p><b>누끼 따기란?</b></p>
+      <p>이미지에서 배경을 제거하고 피사체(인물, 제품 등)만 남기는 작업입니다.</p>
+      <br>
+      <p><b>이런 용도로 사용하세요:</b></p>
+      <p>• 쇼핑몰 상품 이미지 배경 제거</p>
+      <p>• 증명사진 배경 교체</p>
+      <p>• SNS용 스티커·프로필 이미지 제작</p>
+      <p>• 프레젠테이션·디자인 소재 준비</p>
+      <br>
+      <p><b>더 좋은 결과를 위해:</b></p>
+      <p>• 피사체와 배경의 색 차이가 클수록 좋습니다</p>
+      <p>• 고해상도 이미지가 더 정확합니다</p>
+      <p>• 복잡한 배경(머리카락 사이 등)도 AI가 처리합니다</p>
+      <br>
+      <p>🔒 <b>개인정보 보호:</b> 모든 처리가 브라우저에서 이루어지며, 이미지 데이터는 외부 서버로 전송되지 않습니다.</p>
+    </div>
+  </details>
+
+  <div class="footer"><span>AI 배경 제거 · 100% 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+
+<script type="module">
+import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm';
+
+let originalURL = null;
+let resultURL = null;
+let resultBlob = null;
+let fileName = 'image';
+
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const progressWrap = document.getElementById('progressWrap');
+const resultArea = document.getElementById('resultArea');
+
+// 드래그 앤 드롭
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) handleFile(file);
+});
+
+fileInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) handleFile(file);
+});
+
+async function handleFile(file) {
+  if (file.size > 10 * 1024 * 1024) {
+    showToast('⚠️ 파일 크기가 10MB를 초과합니다');
+    return;
+  }
+
+  fileName = file.name.replace(/\.[^/.]+$/, '');
+  
+  // 원본 URL 생성
+  if (originalURL) URL.revokeObjectURL(originalURL);
+  originalURL = URL.createObjectURL(file);
+
+  // UI 전환
+  dropzone.style.display = 'none';
+  progressWrap.classList.add('active');
+  resultArea.classList.remove('active');
+  updateProgress(0, 'AI 모델 로딩 중...');
+
+  try {
+    const blob = await removeBackground(file, {
+      progress: (key, current, total) => {
+        if (key === 'compute:inference') {
+          const pct = Math.round((current / total) * 100);
+          updateProgress(pct, '배경 제거 처리 중...');
+        } else if (key.startsWith('fetch:')) {
+          updateProgress(0, 'AI 모델 다운로드 중...');
+          document.getElementById('progressSub').textContent = '첫 실행 시 약 40MB 다운로드 (이후 캐시 사용)';
+        }
+      }
+    });
+
+    resultBlob = blob;
+    if (resultURL) URL.revokeObjectURL(resultURL);
+    resultURL = URL.createObjectURL(blob);
+
+    // 결과 표시
+    document.getElementById('resultImg').src = resultURL;
+    document.getElementById('originalImg').src = originalURL;
+    document.getElementById('compareAfter').src = resultURL;
+    document.getElementById('compareBefore').src = originalURL;
+
+    progressWrap.classList.remove('active');
+    resultArea.classList.add('active');
+    setView('result');
+    showToast('✅ 배경 제거 완료!');
+
+  } catch (err) {
+    console.error('Background removal error:', err);
+    progressWrap.classList.remove('active');
+    dropzone.style.display = '';
+    showToast('❌ 처리 중 오류가 발생했습니다');
+  }
+}
+
+function updateProgress(pct, text) {
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').innerHTML = '<span class="progress-spinner"></span>' + text + (pct > 0 ? ' ' + pct + '%' : '');
+}
+
+// 뷰 전환
+window.setView = function(view) {
+  document.querySelectorAll('.compare-tab').forEach((t, i) => {
+    const views = ['result', 'original', 'compare'];
+    t.classList.toggle('active', views[i] === view);
+  });
+  document.getElementById('resultView').style.display = view === 'result' ? '' : 'none';
+  document.getElementById('originalView').style.display = view === 'original' ? '' : 'none';
+  document.getElementById('compareView').style.display = view === 'compare' ? '' : 'none';
+  
+  if (view === 'compare') initSlider();
+};
+
+// 슬라이더 비교
+function initSlider() {
+  const wrap = document.getElementById('compareView');
+  const overlay = document.getElementById('sliderOverlay');
+  const handle = document.getElementById('sliderHandle');
+  let dragging = false;
+
+  function setPos(x) {
+    const rect = wrap.getBoundingClientRect();
+    let pct = ((x - rect.left) / rect.width) * 100;
+    pct = Math.max(0, Math.min(100, pct));
+    overlay.style.width = pct + '%';
+    handle.style.left = pct + '%';
+  }
+
+  // 초기 50%
+  setTimeout(() => setPos(wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2), 100);
+
+  handle.addEventListener('mousedown', () => dragging = true);
+  handle.addEventListener('touchstart', () => dragging = true, { passive: true });
+  document.addEventListener('mouseup', () => dragging = false);
+  document.addEventListener('touchend', () => dragging = false);
+  document.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+  document.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+  wrap.addEventListener('click', e => setPos(e.clientX));
+}
+
+// 다운로드
+window.downloadResult = function() {
+  if (!resultBlob) return;
+  const a = document.createElement('a');
+  a.href = resultURL;
+  a.download = fileName + '_nobg.png';
+  a.click();
+  showToast('💾 다운로드 완료!');
+};
+
+// 리셋
+window.resetAll = function() {
+  resultArea.classList.remove('active');
+  dropzone.style.display = '';
+  fileInput.value = '';
+  document.getElementById('progressSub').textContent = '첫 실행 시 모델 다운로드(~40MB)에 시간이 걸릴 수 있습니다';
+};
+
+// 토스트
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// Scroll top
+(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>
+</body>
+</html>
