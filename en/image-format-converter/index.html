@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>🖼️ 이미지 포맷 변환기 — 티모집사</title>
-<meta name="description" content="JPG, PNG, WebP, GIF 간 이미지 형식을 변환하세요. 서버 전송 없이 100% 브라우저 로컬 처리.">
-<meta property="og:title" content="🖼️ 이미지 포맷 변환기 — 티모집사">
-<meta property="og:description" content="JPG, PNG, WebP, GIF 간 이미지 형식을 변환하세요. 100% 브라우저 로컬 처리.">
+<title>🖼️ Image Format Converter — TeemoZipsa</title>
+<meta name="description" content="Convert image formats between JPG, PNG, WebP, etc. 100% local processing in your browser without server uploads.">
+<meta property="og:title" content="🖼️ Image Format Converter — TeemoZipsa">
+<meta property="og:description" content="Convert image formats between JPG, PNG, WebP, etc. 100% local processing in your browser without server uploads.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/image-format-converter/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/image-format-converter/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/image-format-converter/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/image-format-converter/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/image-format-converter/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/image-format-converter/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
 .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:540px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -39,7 +39,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
 .controls{display:none;gap:14px;flex-direction:column}
 .control-row{display:flex;align-items:center;gap:12px;background:var(--bg-bar);border-radius:10px;padding:12px 16px}
-.control-row label{font-size:12px;color:var(--text-info);font-weight:600;white-space:nowrap;min-width:60px}
+.control-row label{font-size:12px;color:var(--text-info);font-weight:600;white-space:nowrap;min-width:90px}
 
 .format-options{display:flex;gap:6px;flex:1;flex-wrap:wrap}
 .format-btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg-bar);color:var(--text-section);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
@@ -94,21 +94,21 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>🖼️ 이미지 포맷 변환기</h1>
-    <a href="/special-chars/en/image-format-converter/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>🖼️ Image Format Converter</h1>
+    <a href="/special-chars/image-format-converter/" class="back-btn">🌐 한국어</a>
   </div>
   <div class="content">
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
       <div class="icon">📁</div>
-      <div class="text">클릭하거나 이미지를 드래그하세요</div>
-      <div class="sub">JPG, PNG, WebP, GIF, BMP, SVG 지원</div>
+      <div class="text">Click or Drag image here</div>
+      <div class="sub">Supports JPG, PNG, WebP, GIF, BMP, SVG</div>
       <input type="file" id="fileInput" accept="image/*" onchange="handleFile(this.files[0])">
     </div>
 
     <div class="controls" id="controls">
       <div class="control-row">
-        <label>출력 포맷</label>
+        <label>Output Format</label>
         <div class="format-options" id="formatOptions">
           <button class="format-btn" data-format="image/jpeg" onclick="setFormat(this)">JPG</button>
           <button class="format-btn active" data-format="image/png" onclick="setFormat(this)">PNG</button>
@@ -116,7 +116,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
         </div>
       </div>
       <div class="control-row" id="qualityRow">
-        <label>품질</label>
+        <label>Quality</label>
         <input type="range" class="slider" id="qualitySlider" min="10" max="100" value="90" oninput="onQualityChange()">
         <div class="val" id="qualityVal">90%</div>
       </div>
@@ -124,14 +124,14 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
     <div class="preview" id="preview">
       <div class="preview-card">
-        <div class="preview-label">원본</div>
+        <div class="preview-label">Original</div>
         <img id="origImg">
         <div class="preview-format" id="origFormat"></div>
         <div class="preview-size" id="origSize"></div>
         <div class="preview-dim" id="origDim"></div>
       </div>
       <div class="preview-card">
-        <div class="preview-label">변환 결과</div>
+        <div class="preview-label">Converted</div>
         <img id="convImg">
         <div class="preview-format" id="convFormat"></div>
         <div class="preview-size" id="convSize"></div>
@@ -141,28 +141,28 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
     <div class="saved" id="savedInfo" style="display:none"></div>
 
-    <button class="btn btn-dl" id="dlBtn" style="display:none" onclick="download()">⬇️ 변환된 이미지 다운로드</button>
-    <button class="btn btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">🗑️ 초기화</button>
+    <button class="btn btn-dl" id="dlBtn" style="display:none" onclick="download()">⬇️ Download Converted Image</button>
+    <button class="btn btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">🗑️ Reset</button>
 
-    <div class="privacy">⚠️ 100% 브라우저 로컬 처리 — 이미지는 서버로 전송되지 않습니다</div>
+    <div class="privacy">⚠️ 100% Local Browser Processing — Images are never sent to a server</div>
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용법 안내</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
-      <p><b>지원 형식:</b></p>
-      <p>• <b>JPG</b> — 사진에 적합, 파일 크기 작음 (손실 압축)</p>
-      <p>• <b>PNG</b> — 투명 배경 지원, 선명한 그래픽에 적합 (무손실)</p>
-      <p>• <b>WebP</b> — 최신 포맷, JPG보다 25-35% 작은 용량</p>
+      <p><b>Supported Formats:</b></p>
+      <p>• <b>JPG</b> — Best for photos, small file size (lossy compression)</p>
+      <p>• <b>PNG</b> — Supports transparent backgrounds, ideal for graphics (lossless)</p>
+      <p>• <b>WebP</b> — Modern format, 25-35% smaller than JPG</p>
       <br>
-      <p><b>품질 설정:</b></p>
-      <p>• JPG/WebP: 품질 슬라이더로 파일 크기와 화질 조절</p>
-      <p>• PNG: 무손실이므로 품질 설정 불필요</p>
+      <p><b>Quality Settings:</b></p>
+      <p>• JPG/WebP: Adjust file size and quality with the quality slider</p>
+      <p>• PNG: Lossless format, no quality setting needed</p>
       <br>
-      <p>⚠️ GIF 애니메이션은 첫 프레임만 변환됩니다.</p>
+      <p>⚠️ For animated GIFs, only the first frame is converted.</p>
     </div>
   </details>
-    <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>100% Local Browser Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -185,7 +185,7 @@ dropZone.addEventListener('drop',e=>{
 });
 
 function handleFile(file){
-  if(!file||!file.type.startsWith('image/')){showToast('이미지 파일을 선택하세요');return;}
+  if(!file||!file.type.startsWith('image/')){showToast('Please select an image file.');return;}
   originalFile=file;
 
   const reader=new FileReader();
@@ -274,7 +274,7 @@ function convertImage(img){
   ctx.drawImage(img,0,0);
 
   canvas.toBlob(function(blob){
-    if(!blob){showToast('변환 실패');return;}
+    if(!blob){showToast('Conversion failed.');return;}
     convertedBlob=blob;
     if(convertedUrl) URL.revokeObjectURL(convertedUrl);
     convertedUrl=URL.createObjectURL(blob);
@@ -290,15 +290,15 @@ function convertImage(img){
     const pct=((diff/originalFile.size)*100).toFixed(1);
     const savedEl=document.getElementById('savedInfo');
     if(diff<0){
-      savedEl.textContent=`📉 ${formatSize(Math.abs(diff))} 감소 (${Math.abs(pct)}% ↓)`;
+      savedEl.textContent=`📉 Reduced by ${formatSize(Math.abs(diff))} (${Math.abs(pct)}% ↓)`;
       savedEl.style.color='';
       savedEl.className='saved success';
     } else if(diff>0){
-      savedEl.textContent=`📈 ${formatSize(diff)} 증가 (${pct}% ↑)`;
+      savedEl.textContent=`📈 Increased by ${formatSize(diff)} (${pct}% ↑)`;
       savedEl.style.color='';
       savedEl.className='saved warning';
     } else {
-      savedEl.textContent='용량 동일';
+      savedEl.textContent='Same size';
       savedEl.style.color='';
       savedEl.className='saved';
     }
@@ -307,14 +307,14 @@ function convertImage(img){
 }
 
 function download(){
-  if(!convertedBlob){showToast('변환된 이미지가 없습니다');return;}
+  if(!convertedBlob){showToast('No converted image to download.');return;}
   const ext=selectedFormat.split('/')[1];
   const name=originalFile.name.replace(/\.[^.]+$/,'')+'.'+(ext==='jpeg'?'jpg':ext);
   const a=document.createElement('a');
   a.href=convertedUrl;
   a.download=name;
   a.click();
-  showToast('다운로드 시작! ⬇️');
+  showToast('Download started! ⬇️');
 }
 
 function resetAll(){

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,22 +8,22 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>💰 복리 계산기 — 티모집사</title>
-<meta name="description" content="원금과 수익률을 넣고, 매 거래마다 복리로 얼마나 불어나는지 한눈에! 단타·투자 복리 시뮬레이션.">
-<meta property="og:title" content="💰 복리 계산기 — 티모집사">
-<meta property="og:description" content="원금과 수익률을 넣고, 매 거래마다 복리로 얼마나 불어나는지 한눈에! 단타·투자 복리 시뮬레이션.">
+<title>💰 Compound Interest Calculator — TeemoZipsa</title>
+<meta name="description" content="Visualize the magic of compound interest across multiple trades or investment periods. Simple and fast compound growth simulator.">
+<meta property="og:title" content="💰 Compound Interest Calculator — TeemoZipsa">
+<meta property="og:description" content="Visualize the magic of compound interest across multiple trades or investment periods. Simple and fast compound growth simulator.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/compound-interest/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/compound-interest/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/compound-interest/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/compound-interest/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/compound-interest/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/compound-interest/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
   body{
-    font-family:'Pretendard',-apple-system,sans-serif;
+    font-family:'Inter',-apple-system,sans-serif;
     background:var(--bg-body);color:var(--text-primary);
     min-height:100vh;padding:20px;
     display:flex;justify-content:center;align-items:flex-start;
@@ -120,7 +120,7 @@
   .trade-item:hover{background:var(--bg-item-hover)}
   .trade-num{
     font-size:11px;color:var(--calc-expr-text);font-weight:700;
-    min-width:32px;text-align:center;
+    min-width:36px;text-align:center;
   }
   .trade-info{flex:1;min-width:0}
   .trade-amount{
@@ -164,41 +164,41 @@
 
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>💰 복리 계산기</h1>
-    <a href="/special-chars/en/compound-interest/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>💰 Compound Interest Calculator</h1>
+    <a href="/special-chars/compound-interest/" class="back-btn">🌐 한국어</a>
   </div>
 
   <div class="inputs">
     <div class="input-group">
-      <label>💵 원금 (원)</label>
-      <input type="text" id="principal" value="1,000,000" oninput="formatMoney(this)">
+      <label>💵 Initial Principal</label>
+      <input type="text" id="principal" value="1,000" oninput="formatMoney(this)">
     </div>
     <div class="input-row">
       <div class="input-group">
-        <label>📈 시도당 수익률 (%)</label>
+        <label>📈 Interest Rate / Period (%)</label>
         <input type="number" id="rate" placeholder="10" step="0.1" value="10">
       </div>
       <div class="input-group">
-        <label>🔄 반복 횟수</label>
+        <label>🔄 Number of Periods</label>
         <input type="number" id="times" placeholder="10" min="1" max="200" value="10">
       </div>
     </div>
-    <button class="calc-btn" onclick="calculate()">🚀 복리의 마법 보기</button>
+    <button class="calc-btn" onclick="calculate()">🚀 Calculate Compound Magic</button>
   </div>
 
   <div class="summary" id="summary">
     <div class="summary-cards">
       <div class="s-card">
-        <div class="s-label">시작 원금</div>
+        <div class="s-label">Started With</div>
         <div class="s-value" id="sumPrincipal">-</div>
       </div>
       <div class="s-card">
-        <div class="s-label">최종 금액</div>
+        <div class="s-label">Final Amount</div>
         <div class="s-value profit" id="sumTotal">-</div>
       </div>
       <div class="s-card">
-        <div class="s-label">총 수익률</div>
+        <div class="s-label">Total Return</div>
         <div class="s-value rate" id="sumRate">-</div>
       </div>
     </div>
@@ -207,70 +207,59 @@
   <div class="buffett-msg" id="buffettMsg"></div>
 
   <div class="chart-wrap" id="chartWrap">
-    <div class="chart-title">📊 시도별 자산 변화</div>
+    <div class="chart-title">📊 Asset Growth Chart</div>
     <div class="chart" id="chart"></div>
   </div>
 
   <div class="trades-wrap" id="tradesWrap">
-    <div class="trades-title">📋 시도별 상세</div>
+    <div class="trades-title">📋 Period Details</div>
     <div class="trades-list" id="tradesList"></div>
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
       <ol>
-        <li>원금, 연 수익률(%), 투자 기간(년)을 입력하세요.</li>
-        <li>월 적립금을 추가하면 적립식 복리 계산도 가능합니다.</li>
-        <li>차트로 원금 대비 이자 성장을 한눈에 확인할 수 있습니다.</li>
+        <li>Enter your initial principal, expected interest rate per period, and the number of periods (e.g. trades, months, or years).</li>
+        <li>The results will instantly show your exponential growth through the power of compounding.</li>
+        <li>Check the interactive chart to visualize the growth curve and see period-by-period details.</li>
       </ol>
     </div>
   </details>
   <details class="guide-section">
-    <summary>💡 자주 묻는 질문</summary>
+    <summary>💡 FAQ</summary>
     <div class="guide-content">
-      <strong>Q. 단리와 복리의 차이는 무엇인가요?</strong>
-      <p>단리는 원금에 대해서만 이자를 계산하는 방식이고, 복리는 원금+이자(즉, 불어난 금액)에 대해 이자를 계산하는 방식입니다. 예를 들어 100만원을 연 10% 단리로 3년 투자하면 130만원이지만, 복리로는 133.1만원이 됩니다. 기간이 길어질수록 복리의 효과는 기하급수적으로 커집니다.</p>
+      <strong>Q. What is the difference between simple and compound interest?</strong>
+      <p>Simple interest calculates interest only on the principal amount. Compound interest calculates interest on the principal AND the accumulated interest from previous periods. Over time, compounding creates exponential growth (often called "the eighth wonder of the world").</p>
       <br>
-      <strong>Q. 72법칙이란 무엇인가요?</strong>
-      <p>72를 연 수익률(%)로 나누면 원금이 2배가 되는 대략적인 기간(년)을 알 수 있는 간편 공식입니다. 아래 표를 참고하세요:</p>
+      <strong>Q. What is the Rule of 72?</strong>
+      <p>The Rule of 72 is a quick mental math formula: divide 72 by the annual return rate to estimate how many years it will take to double your money. Check the table below:</p>
       <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">연 수익률</th><th style="padding:6px;border:1px solid var(--border)">2배 기간</th><th style="padding:6px;border:1px solid var(--border)">연 수익률</th><th style="padding:6px;border:1px solid var(--border)">2배 기간</th></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">72년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12년</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">36년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9년</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2년</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">4%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">18년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6년</td></tr>
+        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Rate</th><th style="padding:6px;border:1px solid var(--border)">Years to Double</th><th style="padding:6px;border:1px solid var(--border)">Rate</th><th style="padding:6px;border:1px solid var(--border)">Years to Double</th></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">72 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12 years</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">36 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9 years</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2 years</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">4%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">18 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6 years</td></tr>
       </table>
       <br>
-      <strong>Q. 월복리와 연복리 중 어느 것이 더 유리한가요?</strong>
-      <p>같은 연 수익률이라면 월복리가 연복리보다 약간 더 유리합니다. 예를 들어 연 12% 수익률일 때, 연복리는 1년 후 112만원이지만 월복리(월 1%씩)는 약 112.68만원이 됩니다. 이는 이자가 더 자주 원금에 합산되어 "이자에 이자"가 더 빨리 붙기 때문입니다. 이 계산기는 시도 단위 복리를 적용하므로, 월 수익률을 넣으면 월복리 시뮬레이션이 됩니다.</p>
+      <strong>Q. Is daily/monthly compounding better than annual?</strong>
+      <p>Yes. The more frequently interest is compounded, the higher your effective yield will be, because "interest on interest" applies sooner. Since this calculator operates on "periods," you can simulate monthly compounding by simply entering your monthly interest rate (e.g. 1% a month for 12 periods, instead of 12% a year for 1 period).</p>
     </div>
   </details>
-    <div class="footer"><span>복리 효과 시뮬레이션</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>Compound Effect Simulator</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <script>
 function formatMoney(el) {
   let v = el.value.replace(/[^0-9]/g, '');
-  if (v) el.value = parseInt(v).toLocaleString('ko-KR');
+  if (v) el.value = parseInt(v).toLocaleString('en-US');
   else el.value = '';
 }
 function parseMoney(id) {
   return parseInt(document.getElementById(id).value.replace(/[^0-9]/g, '')) || 0;
 }
-function fmtWon(n) {
-  if (n >= 1e12) {
-    const jo = Math.floor(n / 1e12);
-    const eok = Math.floor((n % 1e12) / 1e8);
-    return eok > 0 ? `${jo.toLocaleString()}조 ${eok.toLocaleString()}억` : `${jo.toLocaleString()}조`;
-  }
-  if (n >= 1e8) {
-    const eok = Math.floor(n / 1e8);
-    const man = Math.floor((n % 1e8) / 1e4);
-    return man > 0 ? `${eok.toLocaleString()}억 ${man.toLocaleString()}만` : `${eok.toLocaleString()}억`;
-  }
-  if (n >= 1e4) return `${Math.floor(n / 1e4).toLocaleString()}만`;
-  return Math.round(n).toLocaleString() + '원';
+function fmtNum(n) {
+  return Math.round(n).toLocaleString('en-US');
 }
 
 function calculate() {
@@ -294,21 +283,21 @@ function calculate() {
   const totalRate = ((totalProfit / principal) * 100).toFixed(1);
 
   // 요약
-  document.getElementById('sumPrincipal').textContent = fmtWon(principal);
-  document.getElementById('sumTotal').textContent = fmtWon(finalAmount);
+  document.getElementById('sumPrincipal').textContent = fmtNum(principal);
+  document.getElementById('sumTotal').textContent = fmtNum(finalAmount);
   document.getElementById('sumRate').textContent = '+' + totalRate + '%';
   document.getElementById('summary').style.display = 'block';
 
   // 이스터에그
   const msg = document.getElementById('buffettMsg');
   if (finalAmount >= principal * 10) {
-    msg.textContent = '🤑 자산 10배! 워렌 버핏도 울고 갑니다! 복리는 인류 최대의 발명! 💸🔥';
+    msg.textContent = '🤑 10x growth! Warren Buffett would be proud! Compounding is the eighth wonder of the world! 💸🔥';
     msg.style.display = 'block';
   } else if (finalAmount >= principal * 5) {
-    msg.textContent = '🚀 자산 5배 돌파! 복리의 마법이 실현되고 있습니다!';
+    msg.textContent = '🚀 5x your initial investment! The magic of compounding is real!';
     msg.style.display = 'block';
   } else if (finalAmount >= principal * 2) {
-    msg.textContent = '✨ 원금 2배 달성! 이게 바로 복리의 힘!';
+    msg.textContent = '✨ Your money doubled! This is the power of compounding!';
     msg.style.display = 'block';
   } else {
     msg.style.display = 'none';
@@ -344,13 +333,13 @@ function renderChart(data) {
     const tooltip = document.createElement('div');
     tooltip.className = 'bar-tooltip';
     tooltip.textContent = d.round === 0
-      ? `시작: ${d.amount.toLocaleString()}원`
-      : `${d.round}회: ${d.amount.toLocaleString()}원 (+${d.gain.toLocaleString()})`;
+      ? `Start: ${fmtNum(d.amount)}`
+      : `P${d.round}: ${fmtNum(d.amount)} (+${fmtNum(d.gain)})`;
     bar.appendChild(tooltip);
 
     const label = document.createElement('div');
     label.className = 'bar-label';
-    label.textContent = d.round === 0 ? '시작' : d.round + '회';
+    label.textContent = d.round === 0 ? 'Start' : 'P' + d.round;
 
     wrap.appendChild(bar);
     wrap.appendChild(label);
@@ -372,20 +361,20 @@ function renderTrades(data, principal) {
 
     if (d.round === 0) {
       item.innerHTML = `
-        <div class="trade-num">시작</div>
+        <div class="trade-num">Start</div>
         <div class="trade-info">
-          <div class="trade-amount">${d.amount.toLocaleString()}원</div>
-          <div class="trade-detail">초기 원금</div>
+          <div class="trade-amount">${fmtNum(d.amount)}</div>
+          <div class="trade-detail">Initial Principal</div>
         </div>
       `;
     } else {
       item.innerHTML = `
-        <div class="trade-num">${d.round}회</div>
+        <div class="trade-num">P${d.round}</div>
         <div class="trade-info">
-          <div class="trade-amount">${d.amount.toLocaleString()}원</div>
-          <div class="trade-detail">이번 수익 +${d.gain.toLocaleString()}원 · 원금 대비 +${totalRate}%</div>
+          <div class="trade-amount">${fmtNum(d.amount)}</div>
+          <div class="trade-detail">Profit +${fmtNum(d.gain)} · Total Return +${totalRate}%</div>
         </div>
-        <div class="trade-gain">+${d.gain.toLocaleString()}</div>
+        <div class="trade-gain">+${fmtNum(d.gain)}</div>
       `;
     }
     list.appendChild(item);
@@ -395,7 +384,7 @@ function renderTrades(data, principal) {
 document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 </script>
 
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
 <script src="/special-chars/theme-toggle.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>

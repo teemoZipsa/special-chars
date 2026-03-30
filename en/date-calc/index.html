@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>📅 날짜/D-Day 계산기 — 티모집사</title>
-<meta name="description" content="D-Day 계산, 두 날짜 사이 일수, 날짜 더하기·빼기를 실시간으로 계산합니다.">
-<meta property="og:title" content="📅 날짜/D-Day 계산기 — 티모집사">
-<meta property="og:description" content="D-Day 계산, 두 날짜 사이 일수, 날짜 더하기·빼기를 실시간으로 계산합니다.">
+<title>📅 Date / D-Day Calculator — TeemoZipsa</title>
+<meta name="description" content="Calculate D-Day countdowns, days between dates, and add/subtract days in real-time.">
+<meta property="og:title" content="📅 Date / D-Day Calculator — TeemoZipsa">
+<meta property="og:description" content="Calculate D-Day countdowns, days between dates, and add/subtract days in real-time.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/date-calc/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/date-calc/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/date-calc/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/date-calc/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/date-calc/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/date-calc/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px}
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px}
   .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
   .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -40,7 +40,7 @@
   .date-section{margin-bottom:16px}
   .date-section-title{font-size:13px;font-weight:600;color:var(--text-guide);margin-bottom:8px;display:flex;align-items:center;gap:6px}
   .date-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
-  .date-row label{font-size:12px;color:var(--text-info);min-width:42px}
+  .date-row label{font-size:12px;color:var(--text-info);min-width:60px;white-space:nowrap;}
   .date-row input[type="date"],.date-row input[type="number"]{background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 10px;font-size:13px;flex:1;font-family:inherit;outline:none}
   .date-row input[type="date"]:focus,.date-row input[type="number"]:focus{border-color:var(--accent)}
   .date-row input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.7)}
@@ -72,62 +72,62 @@
 
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>📅 날짜/D-Day 계산기</h1>
-    <a href="/special-chars/en/date-calc/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>📅 Date / D-Day Calculator</h1>
+    <a href="/special-chars/date-calc/" class="back-btn">🌐 한국어</a>
   </div>
 
   <div class="counter-body">
     <div class="date-section">
-      <div class="date-section-title">📆 D-Day 계산</div>
-      <div class="date-row"><label>시작일</label><input type="date" id="ddayStart"></div>
-      <div class="date-row"><label>목표일</label><input type="date" id="ddayEnd"></div>
+      <div class="date-section-title">📆 D-Day Countdown</div>
+      <div class="date-row"><label>Start</label><input type="date" id="ddayStart"></div>
+      <div class="date-row"><label>Target</label><input type="date" id="ddayEnd"></div>
       <div class="checkbox-row">
         <input type="checkbox" id="ddayInclusive">
-        <label for="ddayInclusive">시작일을 1일로 포함 (초일 산입)</label>
-        <span title="체크하면 시작일을 D-1이 아닌 D-Day 1일째로 계산합니다.&#10;예: 1월1일~1월3일 → 체크 시 3일, 미체크 시 2일&#10;기념일·만일 계산에는 체크, 업무 D-Day는 미체크 권장" style="cursor:help;color:var(--text-info);">ⓘ</span>
+        <label for="ddayInclusive">Include start date as day 1</label>
+        <span title="Check to count the start date as day 1 instead of day 0.&#10;e.g., Jan 1 to Jan 3 → 3 days if checked, 2 days if unchecked.&#10;Recommended for anniversaries." style="cursor:help;color:var(--text-info);">ⓘ</span>
       </div>
       <div class="date-result-card" id="ddayResult">
         <div class="date-result-value" id="ddayValue">-</div>
-        <div class="date-result-sub" id="ddaySub">날짜를 선택하세요</div>
+        <div class="date-result-sub" id="ddaySub">Select dates</div>
       </div>
     </div>
 
     <hr class="section-divider">
 
     <div class="date-section">
-      <div class="date-section-title">🧮 날짜 계산 (기준일 ± 일수)</div>
-      <div class="date-row"><label>기준일</label><input type="date" id="dateBase"></div>
-      <div class="date-row"><label>일수</label><input type="number" id="dateDays" placeholder="예: 100, -30"></div>
+      <div class="date-section-title">🧮 Date Math (Base Date ± Days)</div>
+      <div class="date-row"><label>Base Date</label><input type="date" id="dateBase"></div>
+      <div class="date-row"><label>Days</label><input type="number" id="dateDays" placeholder="e.g. 100, -30"></div>
       <div class="quick-buttons">
-        <button class="quick-btn" onclick="applyQuick(7)">+7일</button>
-        <button class="quick-btn" onclick="applyQuick(30)">+30일</button>
-        <button class="quick-btn" onclick="applyQuick(100)">+100일</button>
-        <button class="quick-btn" onclick="applyQuick(365)">+1년</button>
-        <button class="quick-btn" onclick="applyQuick(-7)">-7일</button>
-        <button class="quick-btn" onclick="applyQuick(-30)">-30일</button>
-        <button class="quick-btn" onclick="applyQuick(-100)">-100일</button>
-        <button class="quick-btn" onclick="applyQuick(-365)">-1년</button>
+        <button class="quick-btn" onclick="applyQuick(7)">+7 days</button>
+        <button class="quick-btn" onclick="applyQuick(30)">+30 days</button>
+        <button class="quick-btn" onclick="applyQuick(100)">+100 days</button>
+        <button class="quick-btn" onclick="applyQuick(365)">+1 year</button>
+        <button class="quick-btn" onclick="applyQuick(-7)">-7 days</button>
+        <button class="quick-btn" onclick="applyQuick(-30)">-30 days</button>
+        <button class="quick-btn" onclick="applyQuick(-100)">-100 days</button>
+        <button class="quick-btn" onclick="applyQuick(-365)">-1 year</button>
       </div>
       <div class="date-result-card" id="dateAddResult">
         <div class="date-result-value" id="dateAddValue">-</div>
-        <div class="date-result-sub" id="dateAddSub">기준일과 일수를 입력하세요</div>
+        <div class="date-result-sub" id="dateAddSub">Enter base date and days to adjust</div>
       </div>
     </div>
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
       <ol>
-        <li>D-Day 계산: 시작일과 목표일을 선택하면 남은 일수가 자동 계산됩니다.</li>
-        <li>기념일 계산 시 "초일 산입" 체크를 권장합니다 (시작일 = 1일째).</li>
-        <li>날짜 계산: 기준일과 일수를 입력하거나 퀵 버튼(+7일, +100일 등)을 클릭하세요.</li>
-        <li>"결과 복사" 버튼으로 계산 결과를 복사할 수 있습니다.</li>
+        <li>D-Day Countdown: Select start and end dates to calculate the difference.</li>
+        <li>For anniversaries, it is recommended to check "Include start date as day 1".</li>
+        <li>Date Math: Enter a base date and adjust by days (or use quick buttons).</li>
+        <li>You can copy the results if needed.</li>
       </ol>
     </div>
   </details>
-    <div class="footer"><span>실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>Real-time calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -138,29 +138,29 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 function calcDday(){
   const start=document.getElementById('ddayStart').value;
   const end=document.getElementById('ddayEnd').value;
-  if(!start||!end){document.getElementById('ddayValue').textContent='-';document.getElementById('ddaySub').textContent='날짜를 선택하세요';return}
+  if(!start||!end){document.getElementById('ddayValue').textContent='-';document.getElementById('ddaySub').textContent='Select dates';return}
   const s=new Date(start),e=new Date(end);
   let diff=Math.round((e-s)/86400000);
   const inclusive=document.getElementById('ddayInclusive').checked;
   if(inclusive)diff+=1;
   const absD=Math.abs(diff);
-  if(inclusive){document.getElementById('ddayValue').textContent=`${absD}일`}
+  if(inclusive){document.getElementById('ddayValue').textContent=`${absD} days`}
   else{if(diff===0)document.getElementById('ddayValue').textContent='D-Day';else if(diff>0)document.getElementById('ddayValue').textContent=`D-${diff}`;else document.getElementById('ddayValue').textContent=`D+${Math.abs(diff)}`}
   const weeks=Math.floor(absD/7);const remain=absD%7;const months=Math.floor(absD/30);
-  let sub=`${absD}일`;if(weeks>0)sub+=` = ${weeks}주 ${remain}일`;if(months>0)sub+=` ≈ ${months}개월`;
+  let sub=`${absD} days`;if(weeks>0)sub+=` = ${weeks} weeks ${remain} days`;if(months>0)sub+=` ≈ ${months} months`;
   document.getElementById('ddaySub').textContent=sub;
 }
 
 function calcDateAdd(){
   const base=document.getElementById('dateBase').value;
   const days=parseInt(document.getElementById('dateDays').value);
-  if(!base||isNaN(days)){document.getElementById('dateAddValue').textContent='-';document.getElementById('dateAddSub').textContent='기준일과 일수를 입력하세요';return}
+  if(!base||isNaN(days)){document.getElementById('dateAddValue').textContent='-';document.getElementById('dateAddSub').textContent='Enter base date and days to adjust';return}
   const d=new Date(base);d.setDate(d.getDate()+days);
   const yyyy=d.getFullYear();const mm=String(d.getMonth()+1).padStart(2,'0');const dd=String(d.getDate()).padStart(2,'0');
-  const weekdays=['일','월','화','수','목','금','토'];const dayName=weekdays[d.getDay()];
+  const weekdays=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];const dayName=weekdays[d.getDay()];
   document.getElementById('dateAddValue').textContent=`${yyyy}-${mm}-${dd} (${dayName})`;
   const sign=days>=0?'+':'';
-  document.getElementById('dateAddSub').textContent=`${base} 부터 ${sign}${days}일`;
+  document.getElementById('dateAddSub').textContent=`${sign}${days} days from ${base}`;
 }
 
 function applyQuick(days){
@@ -171,10 +171,10 @@ function applyQuick(days){
 function clearDateCalc(){
   document.getElementById('ddayStart').value='';document.getElementById('ddayEnd').value='';
   document.getElementById('ddayInclusive').checked=false;
-  document.getElementById('ddayValue').textContent='-';document.getElementById('ddaySub').textContent='날짜를 선택하세요';
+  document.getElementById('ddayValue').textContent='-';document.getElementById('ddaySub').textContent='Select dates';
   document.getElementById('dateBase').value='';document.getElementById('dateDays').value='';
-  document.getElementById('dateAddValue').textContent='-';document.getElementById('dateAddSub').textContent='기준일과 일수를 입력하세요';
-  showToast('초기화 완료');
+  document.getElementById('dateAddValue').textContent='-';document.getElementById('dateAddSub').textContent='Enter base date and days to adjust';
+  showToast('Reset complete');
 }
 
 function copyDateResult(){
@@ -182,9 +182,9 @@ function copyDateResult(){
   const ddaySub=document.getElementById('ddaySub').textContent;
   const dateAdd=document.getElementById('dateAddValue').textContent;
   const dateAddSub=document.getElementById('dateAddSub').textContent;
-  let text='';if(dday!=='-')text+=`D-Day: ${dday} (${ddaySub})\n`;if(dateAdd!=='-')text+=`날짜 계산: ${dateAdd} (${dateAddSub})`;
-  if(!text){showToast('복사할 결과가 없습니다');return}
-  navigator.clipboard.writeText(text.trim()).then(()=>showToast('결과가 복사되었습니다!'));
+  let text='';if(dday!=='-')text+=`D-Day: ${dday} (${ddaySub})\n`;if(dateAdd!=='-')text+=`Date Math: ${dateAdd} (${dateAddSub})`;
+  if(!text){showToast('Nothing to copy');return}
+  navigator.clipboard.writeText(text.trim()).then(()=>showToast('Result copied!'));
 }
 
 document.getElementById('ddayStart').addEventListener('change',calcDday);
@@ -193,7 +193,7 @@ document.getElementById('ddayInclusive').addEventListener('change',calcDday);
 document.getElementById('dateBase').addEventListener('change',calcDateAdd);
 document.getElementById('dateDays').addEventListener('input',calcDateAdd);
 </script>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
 <script src="/special-chars/theme-toggle.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>

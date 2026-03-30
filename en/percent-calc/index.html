@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>🔢 퍼센트 계산기 — 티모집사</title>
-<meta name="description" content="퍼센트 계산을 쉽고 빠르게! A의 B%는? A에서 B로 몇 % 변화? A는 B의 몇 %? 할인율, 증가율, 비율 계산을 한 번에.">
-<meta property="og:title" content="🔢 퍼센트 계산기 — 티모집사">
-<meta property="og:description" content="퍼센트 계산을 쉽고 빠르게! 할인율, 증가율, 비율 계산을 한 번에.">
+<title>🔢 Percentage Calculator — TeemoZipsa</title>
+<meta name="description" content="Fast and easy percentage calculations! Find X% of Y, percentage increase/decrease, or what percentage X is of Y. Calculate discounts, margins, and ratios instantly.">
+<meta property="og:title" content="🔢 Percentage Calculator — TeemoZipsa">
+<meta property="og:description" content="Fast and easy percentage calculations! Find X% of Y, percentage increase/decrease, or what percentage X is of Y.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/percent-calc/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/percent-calc/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/percent-calc/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/percent-calc/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/percent-calc/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/percent-calc/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
 .app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:540px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
 .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -81,29 +81,29 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>🔢 퍼센트 계산기</h1>
-    <a href="/special-chars/en/percent-calc/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>🔢 Percentage Calculator</h1>
+    <a href="/special-chars/percent-calc/" class="back-btn">🌐 한국어</a>
   </div>
 
   <div class="body">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab(0)">A의 B%</button>
-      <button class="tab" onclick="switchTab(1)">변화율</button>
-      <button class="tab" onclick="switchTab(2)">비율</button>
-      <button class="tab" onclick="switchTab(3)">역산</button>
+      <button class="tab active" onclick="switchTab(0)">X% of Y</button>
+      <button class="tab" onclick="switchTab(1)">Change (%)</button>
+      <button class="tab" onclick="switchTab(2)">Ratio</button>
+      <button class="tab" onclick="switchTab(3)">Reverse</button>
     </div>
 
     <!-- 모드 0: A의 B%는? -->
     <div class="calc-card" id="mode0">
-      <div class="calc-title">A의 B%는 얼마?</div>
-      <div class="calc-desc">예: 50,000원의 15%는?</div>
+      <div class="calc-title">What is X% of Y?</div>
+      <div class="calc-desc">e.g. What is 15% of 50,000?</div>
       <div class="input-row">
-        <label>값 A</label>
+        <label>Value (Y)</label>
         <input type="number" id="m0a" placeholder="50000" oninput="calc0()">
       </div>
       <div class="input-row">
-        <label>퍼센트</label>
+        <label>Percent (X)</label>
         <input type="number" id="m0b" placeholder="15" oninput="calc0()">
         <span class="unit">%</span>
       </div>
@@ -117,84 +117,84 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
         <button class="quick-btn" onclick="setQuick(0,'m0b',50)">50%</button>
       </div>
       <div class="result-box empty" id="r0">
-        <div class="result-value">숫자를 입력하세요</div>
+        <div class="result-value">Enter numbers</div>
       </div>
     </div>
 
     <!-- 모드 1: 변화율 -->
     <div class="calc-card" id="mode1" style="display:none">
-      <div class="calc-title">A에서 B로 몇 % 변화?</div>
-      <div class="calc-desc">예: 40,000원 → 52,000원이면 몇 % 올랐나?</div>
+      <div class="calc-title">Percentage change from A to B?</div>
+      <div class="calc-desc">e.g. From $40 to $52, how much did it increase?</div>
       <div class="input-row">
-        <label>이전 값</label>
+        <label>Original Value</label>
         <input type="number" id="m1a" placeholder="40000" oninput="calc1()">
       </div>
       <div class="input-row">
-        <label>이후 값</label>
+        <label>New Value</label>
         <input type="number" id="m1b" placeholder="52000" oninput="calc1()">
       </div>
       <div class="result-box empty" id="r1">
-        <div class="result-value">숫자를 입력하세요</div>
+        <div class="result-value">Enter numbers</div>
       </div>
     </div>
 
     <!-- 모드 2: 비율 -->
     <div class="calc-card" id="mode2" style="display:none">
-      <div class="calc-title">A는 B의 몇 %?</div>
-      <div class="calc-desc">예: 35명은 200명의 몇 %?</div>
+      <div class="calc-title">A is what percent of B?</div>
+      <div class="calc-desc">e.g. 35 is what percent of 200?</div>
       <div class="input-row">
-        <label>부분 (A)</label>
+        <label>Part (A)</label>
         <input type="number" id="m2a" placeholder="35" oninput="calc2()">
       </div>
       <div class="input-row">
-        <label>전체 (B)</label>
+        <label>Whole (B)</label>
         <input type="number" id="m2b" placeholder="200" oninput="calc2()">
       </div>
       <div class="result-box empty" id="r2">
-        <div class="result-value">숫자를 입력하세요</div>
+        <div class="result-value">Enter numbers</div>
       </div>
     </div>
 
     <!-- 모드 3: 역산 -->
     <div class="calc-card" id="mode3" style="display:none">
-      <div class="calc-title">B%를 적용하면 A가 되는 원래 값은?</div>
-      <div class="calc-desc">예: 20% 할인돼서 40,000원이면 원가는?</div>
+      <div class="calc-title">What was the original value if A is after a B% change?</div>
+      <div class="calc-desc">e.g. If $40 is after a 20% discount, what was the original price?</div>
       <div class="input-row">
-        <label>결과 값</label>
+        <label>Final Value</label>
         <input type="number" id="m3a" placeholder="40000" oninput="calc3()">
       </div>
       <div class="input-row">
-        <label>적용된 %</label>
+        <label>Applied %</label>
         <input type="number" id="m3b" placeholder="20" oninput="calc3()">
-        <span class="unit">% 할인</span>
+        <span class="unit">% Discount</span>
       </div>
       <div class="quick-btns">
-        <button class="quick-btn" onclick="setM3Type('discount')">할인 (−)</button>
-        <button class="quick-btn" onclick="setM3Type('markup')">인상 (+)</button>
+        <button class="quick-btn" onclick="setM3Type('discount')">Discount (−)</button>
+        <button class="quick-btn" onclick="setM3Type('markup')">Markup (+)</button>
       </div>
       <div class="result-box empty" id="r3">
-        <div class="result-value">숫자를 입력하세요</div>
+        <div class="result-value">Enter numbers</div>
       </div>
     </div>
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
-      <p><b>모드 설명:</b></p>
-      <p>• <b>A의 B%</b> — 특정 값의 퍼센트 계산 (예: 할인 금액, 팁 계산)</p>
-      <p>• <b>변화율</b> — 두 값 사이의 증감률 (예: 가격 변동, 성장률)</p>
-      <p>• <b>비율</b> — 전체 중 부분의 비율 (예: 득표율, 달성률)</p>
-      <p>• <b>역산</b> — 퍼센트가 적용된 결과에서 원래 값 역추적</p>
+      <p><b>Modes:</b></p>
+      <p>• <b>X% of Y</b> — Calculate a specific percentage of a value (e.g. tip or tax).</p>
+      <p>• <b>Change (%)</b> — Percentage increase or decrease between two numbers (e.g. price change, growth).</p>
+      <p>• <b>Ratio</b> — What percentage a part is of a whole (e.g. test score, progress).</p>
+      <p>• <b>Reverse</b> — Find the original value before a percentage was added or subtracted.</p>
       <br>
-      <p>💡 결과 영역을 클릭하면 값이 복사됩니다.</p>
+      <p>💡 Click the result area to copy the value.</p>
     </div>
   </details>
-    <div class="footer"><span>실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>Real-time calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 
 <script>
 let currentTab = 0;
@@ -207,8 +207,8 @@ function switchTab(idx) {
 }
 
 function fmt(n) {
-  if (isNaN(n) || !isFinite(n)) return '계산 불가';
-  return n.toLocaleString('ko-KR', {maximumFractionDigits:4});
+  if (isNaN(n) || !isFinite(n)) return 'Cannot calculate';
+  return n.toLocaleString('en-US', {maximumFractionDigits:4});
 }
 
 function setResult(boxId, value, label, detail) {
@@ -224,7 +224,7 @@ function setResult(boxId, value, label, detail) {
 function setEmpty(boxId) {
   const box = document.getElementById(boxId);
   box.classList.add('empty');
-  box.innerHTML = '<div class="result-value">숫자를 입력하세요</div>';
+  box.innerHTML = '<div class="result-value">Enter numbers</div>';
 }
 
 function calc0() {
@@ -232,7 +232,7 @@ function calc0() {
   const b = parseFloat(document.getElementById('m0b').value);
   if (isNaN(a) || isNaN(b)) { setEmpty('r0'); return; }
   const result = a * b / 100;
-  setResult('r0', fmt(result), `${fmt(a)}의 ${fmt(b)}%`, `${fmt(a)} − ${fmt(result)} = ${fmt(a - result)} (할인 적용 시)`);
+  setResult('r0', fmt(result), `${fmt(b)}% of ${fmt(a)}`, `${fmt(a)} − ${fmt(result)} = ${fmt(a - result)} (${fmt(b)}% off)`);
 }
 
 function calc1() {
@@ -240,10 +240,10 @@ function calc1() {
   const b = parseFloat(document.getElementById('m1b').value);
   if (isNaN(a) || isNaN(b) || a === 0) { setEmpty('r1'); return; }
   const pct = ((b - a) / Math.abs(a)) * 100;
-  const diff = b - a;
+  const diff = Math.abs(b - a);
   const arrow = pct >= 0 ? '📈' : '📉';
   const sign = pct >= 0 ? '+' : '';
-  setResult('r1', `${sign}${fmt(pct)}%`, `${arrow} ${fmt(Math.abs(diff))} ${pct >= 0 ? '증가' : '감소'}`, `${fmt(a)} → ${fmt(b)}`);
+  setResult('r1', `${sign}${fmt(pct)}%`, `${arrow} ${fmt(diff)} ${pct >= 0 ? 'Increase' : 'Decrease'}`, `${fmt(a)} → ${fmt(b)}`);
 }
 
 function calc2() {
@@ -251,7 +251,7 @@ function calc2() {
   const b = parseFloat(document.getElementById('m2b').value);
   if (isNaN(a) || isNaN(b) || b === 0) { setEmpty('r2'); return; }
   const pct = (a / b) * 100;
-  setResult('r2', `${fmt(pct)}%`, `${fmt(a)} ÷ ${fmt(b)} × 100`, `${fmt(a)}은(는) ${fmt(b)}의 ${fmt(pct)}%`);
+  setResult('r2', `${fmt(pct)}%`, `${fmt(a)} ÷ ${fmt(b)} × 100`, `${fmt(a)} is ${fmt(pct)}% of ${fmt(b)}`);
 }
 
 function calc3() {
@@ -261,10 +261,10 @@ function calc3() {
   let original;
   if (m3type === 'discount') {
     original = a / (1 - b/100);
-    setResult('r3', fmt(original), `원래 가격 (${b}% 할인 전)`, `${fmt(original)} × ${100-b}% = ${fmt(a)}`);
+    setResult('r3', fmt(original), `Original value (before ${b}% discount)`, `${fmt(original)} × ${100-b}% = ${fmt(a)}`);
   } else {
     original = a / (1 + b/100);
-    setResult('r3', fmt(original), `원래 가격 (${b}% 인상 전)`, `${fmt(original)} × ${100+b}% = ${fmt(a)}`);
+    setResult('r3', fmt(original), `Original value (before ${b}% markup)`, `${fmt(original)} × ${100+b}% = ${fmt(a)}`);
   }
 }
 
@@ -277,13 +277,13 @@ function setQuick(mode, inputId, val) {
 function setM3Type(type) {
   m3type = type;
   const unitEl = document.querySelector('#mode3 .unit');
-  unitEl.textContent = type === 'discount' ? '% 할인' : '% 인상';
+  unitEl.textContent = type === 'discount' ? '% Discount' : '% Markup';
   calc3();
 }
 
 function copyVal(val) {
   const clean = val.replace(/,/g, '');
-  navigator.clipboard.writeText(clean).then(() => showToast('결과가 복사되었습니다! 📋'));
+  navigator.clipboard.writeText(clean).then(() => showToast('Result copied! 📋'));
 }
 
 function showToast(msg) {

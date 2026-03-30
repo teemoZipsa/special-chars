@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>✂️ 이미지 배경(누끼) 제거 도구 — 티모집사</title>
-<meta name="description" content="AI로 이미지 배경을 자동 제거(누끼). 서버 업로드 없이 브라우저에서 바로 처리. 무료, 무제한, 개인정보 걱정 없음.">
-<meta property="og:title" content="✂️ 이미지 배경(누끼) 제거 도구 — 티모집사">
-<meta property="og:description" content="AI 이미지 배경(누끼) 제거. 서버 전송 없이 100% 브라우저 처리. 무료 무제한.">
+<title>✂️ AI Background Remover — TeemoZipsa</title>
+<meta name="description" content="Automatically remove image backgrounds using AI. 100% free, unlimited, and runs locally in your browser so your images stay private.">
+<meta property="og:title" content="✂️ AI Background Remover — TeemoZipsa">
+<meta property="og:description" content="Automatically remove image backgrounds using AI. 100% free, unlimited, and runs locally in your browser.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/bg-remover/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/bg-remover/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/bg-remover/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/bg-remover/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/bg-remover/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/bg-remover/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
 .app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:600px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -108,59 +108,59 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>✂️ 이미지 배경(누끼) 제거 도구</h1>
-    <a href="/special-chars/en/bg-remover/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>✂️ AI Background Remover</h1>
+    <a href="/special-chars/bg-remover/" class="back-btn">🌐 한국어</a>
   </div>
   <div class="body">
     <!-- 프라이버시 뱃지 -->
     <div class="info-badge">
       <span class="badge-icon">🔒</span>
-      <span>이미지가 서버로 전송되지 않습니다. <strong>100% 브라우저 처리</strong> · 개인정보 안전</span>
+      <span>Your images are never sent to a server. <strong>100% local browser processing</strong> ensures complete privacy.</span>
     </div>
 
     <!-- 업로드 영역 -->
     <div class="dropzone" id="dropzone">
       <input type="file" id="fileInput" accept="image/*">
       <span class="dropzone-icon">🖼️</span>
-      <div class="dropzone-text">이미지를 <strong>드래그하거나 클릭</strong>하여 업로드</div>
-      <div class="dropzone-sub">JPG, PNG, WebP 지원 · 최대 10MB</div>
+      <div class="dropzone-text"><strong>Drag & drop</strong> or <strong>click</strong> to upload an image</div>
+      <div class="dropzone-sub">Supports JPG, PNG, WebP · Max 10MB</div>
     </div>
     <div class="info-badge" id="dataWarning" style="display:none;border-color:#e67e22;background:rgba(230,126,34,.08)">
       <span class="badge-icon">📱</span>
-      <span>첫 사용 시 AI 모델(~40MB)을 다운로드합니다. <strong style="color:#e67e22">Wi-Fi 환경을 권장</strong>합니다. (이후 캐시 사용)</span>
+      <span>The AI model (~40MB) downloads on first use. <strong style="color:#e67e22">Wi-Fi is recommended.</strong> (Cached afterwards)</span>
     </div>
 
     <!-- 프로그레스 -->
     <div class="progress-wrap" id="progressWrap">
-      <div class="progress-text" id="progressText"><span class="progress-spinner"></span>AI 모델 로딩 중...</div>
+      <div class="progress-text" id="progressText"><span class="progress-spinner"></span>Loading AI model...</div>
       <div class="progress-bar-bg"><div class="progress-bar" id="progressBar"></div></div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:4px" id="progressSub">첫 실행 시 모델 다운로드(~40MB)에 시간이 걸릴 수 있습니다</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px" id="progressSub">Downloading the AI model (~40MB) may take a moment on first use.</div>
     </div>
 
     <!-- 결과 영역 -->
     <div class="result-area" id="resultArea">
       <div class="compare-tabs">
-        <button class="compare-tab active" onclick="setView('result')">✂️ 결과</button>
-        <button class="compare-tab" onclick="setView('original')">📷 원본</button>
-        <button class="compare-tab" onclick="setView('compare')">🔀 비교</button>
+        <button class="compare-tab active" onclick="setView('result')">✂️ Result</button>
+        <button class="compare-tab" onclick="setView('original')">📷 Original</button>
+        <button class="compare-tab" onclick="setView('compare')">🔀 Compare</button>
       </div>
 
       <!-- 결과 이미지 -->
       <div class="preview-box transparent" id="resultView">
-        <img id="resultImg" alt="배경 제거 결과">
+        <img id="resultImg" alt="Background removal result">
       </div>
 
       <!-- 원본 이미지 -->
       <div class="preview-box" id="originalView" style="display:none">
-        <img id="originalImg" alt="원본 이미지">
+        <img id="originalImg" alt="Original image">
       </div>
 
       <!-- 슬라이더 비교 -->
       <div class="slider-wrap" id="compareView" style="display:none">
-        <img id="compareAfter" alt="배경 제거 결과">
+        <img id="compareAfter" alt="Background removal result">
         <div class="slider-overlay" id="sliderOverlay">
-          <img id="compareBefore" alt="원본">
+          <img id="compareBefore" alt="Original">
         </div>
         <div class="slider-handle" id="sliderHandle"></div>
       </div>
@@ -168,38 +168,38 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       <div style="height:10px"></div>
 
       <div class="btn-group">
-        <button class="action-btn btn-download" onclick="downloadResult()">💾 PNG 다운로드</button>
-        <button class="action-btn btn-reset" onclick="resetAll()">🔄 다른 이미지</button>
+        <button class="action-btn btn-download" onclick="downloadResult()">💾 Download PNG</button>
+        <button class="action-btn btn-reset" onclick="resetAll()">🔄 Choose another image</button>
       </div>
     </div>
   </div>
 
   <details class="guide-section">
-    <summary>💡 사용 가이드</summary>
+    <summary>💡 How to Use</summary>
     <div class="guide-content">
-      <p><b>누끼 따기란?</b></p>
-      <p>이미지에서 배경을 제거하고 피사체(인물, 제품 등)만 남기는 작업입니다.</p>
+      <p><b>What is this?</b></p>
+      <p>This tool instantly removes the background from your photos, leaving only the main subject (people, products, etc.) on a transparent background.</p>
       <br>
-      <p><b>이런 용도로 사용하세요:</b></p>
-      <p>• 쇼핑몰 상품 이미지 배경 제거</p>
-      <p>• 증명사진 배경 교체</p>
-      <p>• SNS용 스티커·프로필 이미지 제작</p>
-      <p>• 프레젠테이션·디자인 소재 준비</p>
+      <p><b>Great for:</b></p>
+      <p>• E-commerce product shots</p>
+      <p>• Profile pictures and ID photos</p>
+      <p>• Creating stickers for social media</p>
+      <p>• Presentation and design assets</p>
       <br>
-      <p><b>더 좋은 결과를 위해:</b></p>
-      <p>• 피사체와 배경의 색 차이가 클수록 좋습니다</p>
-      <p>• 고해상도 이미지가 더 정확합니다</p>
-      <p>• 복잡한 배경(머리카락 사이 등)도 AI가 처리합니다</p>
+      <p><b>Pro tips for the best results:</b></p>
+      <p>• Ensure high contrast between the subject and the background.</p>
+      <p>• Higher resolution images yield sharper edges.</p>
+      <p>• Our AI can handle complex details like hair and fur.</p>
       <br>
-      <p>🔒 <b>개인정보 보호:</b> 모든 처리가 브라우저에서 이루어지며, 이미지 데이터는 외부 서버로 전송되지 않습니다.</p>
+      <p>🔒 <b>Privacy First:</b> All processing happens securely in your own browser. Your images never leave your device.</p>
     </div>
   </details>
 
-  <div class="footer"><span>AI 배경 제거 · 100% 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+  <div class="footer"><span>AI Background Removal · 100% Local Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 
 <script type="module">
 import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm';
@@ -248,13 +248,13 @@ function checkMobileData() {
 
 async function handleFile(file) {
   if (file.size > 10 * 1024 * 1024) {
-    showToast('⚠️ 파일 크기가 10MB를 초과합니다');
+    showToast('⚠️ File size exceeds 10MB limit.');
     return;
   }
 
   // 모바일 데이터 경고
   if (checkMobileData()) {
-    const ok = confirm('📱 모바일 데이터로 접속 중입니다.\n\n첫 사용 시 AI 모델(약 40MB)을 다운로드합니다.\nWi-Fi 환경에서 사용하시는 것을 권장합니다.\n\n계속 진행하시겠습니까?');
+    const ok = confirm('📱 You are on a cellular connection.\n\nThe AI model (~40MB) needs to download on first use.\nWi-Fi is highly recommended.\n\nDo you want to continue?');
     if (!ok) return;
   }
 
@@ -269,17 +269,17 @@ async function handleFile(file) {
   document.getElementById('dataWarning').style.display = 'none';
   progressWrap.classList.add('active');
   resultArea.classList.remove('active');
-  updateProgress(0, 'AI 모델 로딩 중...');
+  updateProgress(0, 'Loading AI model...');
 
   try {
     const blob = await removeBackground(file, {
       progress: (key, current, total) => {
         if (key === 'compute:inference') {
           const pct = Math.round((current / total) * 100);
-          updateProgress(pct, '배경 제거 처리 중...');
+          updateProgress(pct, 'Removing background...');
         } else if (key.startsWith('fetch:')) {
-          updateProgress(0, 'AI 모델 다운로드 중...');
-          document.getElementById('progressSub').textContent = '첫 실행 시 약 40MB 다운로드 (이후 캐시 사용)';
+          updateProgress(0, 'Downloading AI model...');
+          document.getElementById('progressSub').textContent = 'Downloading ~40MB on first use (cached afterwards)';
         }
       }
     });
@@ -297,13 +297,13 @@ async function handleFile(file) {
     progressWrap.classList.remove('active');
     resultArea.classList.add('active');
     setView('result');
-    showToast('✅ 배경 제거 완료!');
+    showToast('✅ Background removed successfully!');
 
   } catch (err) {
     console.error('Background removal error:', err);
     progressWrap.classList.remove('active');
     dropzone.style.display = '';
-    showToast('❌ 처리 중 오류가 발생했습니다');
+    showToast('❌ An error occurred during processing.');
   }
 }
 
@@ -359,7 +359,7 @@ window.downloadResult = function() {
   a.href = resultURL;
   a.download = fileName + '_nobg.png';
   a.click();
-  showToast('💾 다운로드 완료!');
+  showToast('💾 Download complete!');
 };
 
 // 리셋
@@ -367,7 +367,7 @@ window.resetAll = function() {
   resultArea.classList.remove('active');
   dropzone.style.display = '';
   fileInput.value = '';
-  document.getElementById('progressSub').textContent = '첫 실행 시 모델 다운로드(~40MB)에 시간이 걸릴 수 있습니다';
+  document.getElementById('progressSub').textContent = 'Downloading the AI model (~40MB) may take a moment on first use.';
 };
 
 // 토스트

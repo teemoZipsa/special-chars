@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>📊 BMI 계산기 — 티모집사</title>
-<meta name="description" content="BMI(체질량지수) 계산기. 키와 몸무게를 입력하면 BMI 수치와 비만도 판정을 즉시 확인할 수 있습니다. 대한비만학회 기준.">
-<meta property="og:title" content="📊 BMI 계산기 — 티모집사">
-<meta property="og:description" content="BMI(체질량지수) 계산기. 키와 몸무게로 비만도를 즉시 확인하세요.">
+<title>📊 BMI Calculator — TeemoZipsa</title>
+<meta name="description" content="BMI (Body Mass Index) Calculator. Enter your height and weight to instantly check your BMI and weight category based on WHO standards.">
+<meta property="og:title" content="📊 BMI Calculator — TeemoZipsa">
+<meta property="og:description" content="BMI (Body Mass Index) Calculator. Enter your height and weight to instantly check your BMI and weight category.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/bmi-calc/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/bmi-calc/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/bmi-calc/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/bmi-calc/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/bmi-calc/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/bmi-calc/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
 .app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -78,20 +78,20 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>📊 BMI 계산기</h1>
-    <a href="/special-chars/en/bmi-calc/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>📊 BMI Calculator</h1>
+    <a href="/special-chars/bmi-calc/" class="back-btn">🌐 한국어</a>
   </div>
   <div class="body">
     <div class="input-group">
-      <label>키 (cm)</label>
+      <label>Height (cm)</label>
       <div class="input-row">
         <input type="number" id="height" value="170" min="50" max="250" step="1" oninput="calc()">
         <span class="unit">cm</span>
       </div>
     </div>
     <div class="input-group">
-      <label>몸무게 (kg)</label>
+      <label>Weight (kg)</label>
       <div class="input-row">
         <input type="number" id="weight" value="65" min="10" max="300" step="0.1" oninput="calc()">
         <span class="unit">kg</span>
@@ -101,104 +101,104 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <div class="result-card" id="resultCard">
       <div class="result-emoji" id="emoji">⏳</div>
       <div class="result-bmi" id="bmiValue">-</div>
-      <div class="result-label" id="bmiLabel">입력하세요</div>
+      <div class="result-label" id="bmiLabel">Enter values</div>
     </div>
 
     <div class="gauge-wrap">
       <div class="gauge-bar"><div class="gauge-marker" id="gaugeMarker" style="left:30%"></div></div>
       <div class="gauge-labels">
-        <span>저체중</span><span>정상</span><span>과체중</span><span>비만</span><span>고도비만</span>
+        <span>Underweight</span><span>Normal</span><span>Overweight</span><span>Obese</span><span>Severe</span>
       </div>
     </div>
 
     <div class="info-grid" id="infoGrid"></div>
 
     <table class="bmi-table" id="bmiTable">
-      <thead><tr><th>구분</th><th>BMI 범위</th><th>상태</th></tr></thead>
+      <thead><tr><th>Category</th><th>BMI Range</th><th>Status</th></tr></thead>
       <tbody>
-        <tr data-range="under"><td>저체중</td><td>18.5 미만</td><td>🔵</td></tr>
-        <tr data-range="normal"><td>정상</td><td>18.5 ~ 22.9</td><td>🟢</td></tr>
-        <tr data-range="over"><td>과체중 (비만 전단계)</td><td>23.0 ~ 24.9</td><td>🟡</td></tr>
-        <tr data-range="obese1"><td>1단계 비만</td><td>25.0 ~ 29.9</td><td>🟠</td></tr>
-        <tr data-range="obese2"><td>2단계 비만</td><td>30.0 ~ 34.9</td><td>🔴</td></tr>
-        <tr data-range="obese3"><td>3단계 비만 (고도)</td><td>35.0 이상</td><td>🔴</td></tr>
+        <tr data-range="under"><td>Underweight</td><td>&lt; 18.5</td><td>🔵</td></tr>
+        <tr data-range="normal"><td>Normal weight</td><td>18.5 ~ 24.9</td><td>🟢</td></tr>
+        <tr data-range="over"><td>Overweight</td><td>25.0 ~ 29.9</td><td>🟡</td></tr>
+        <tr data-range="obese1"><td>Obesity Class I</td><td>30.0 ~ 34.9</td><td>🟠</td></tr>
+        <tr data-range="obese2"><td>Obesity Class II</td><td>35.0 ~ 39.9</td><td>🔴</td></tr>
+        <tr data-range="obese3"><td>Obesity Class III</td><td>&ge; 40.0</td><td>🔴</td></tr>
       </tbody>
     </table>
   </div>
 
   <details class="guide-section">
-    <summary>📖 BMI란?</summary>
+    <summary>📖 What is BMI?</summary>
     <div class="guide-content">
-      <p><b>BMI (Body Mass Index, 체질량지수)</b>는 키와 몸무게를 이용해 체지방 정도를 간접적으로 측정하는 지표입니다.</p>
-      <p><b>계산 공식:</b> BMI = 몸무게(kg) ÷ 키(m)²</p>
+      <p><b>BMI (Body Mass Index)</b> is a simple measure that uses your height and weight to estimate your total body fat.</p>
+      <p><b>Formula:</b> BMI = Weight (kg) ÷ [Height (m)]²</p>
       <br>
-      <p>⚠️ BMI는 근육량, 체지방률, 나이, 성별을 반영하지 않으므로 참고용으로만 활용하세요.</p>
-      <p>💡 위 기준은 <b>대한비만학회</b> 아시아-태평양 기준입니다 (서양 기준과 다릅니다).</p>
+      <p>⚠️ Note: BMI does not account for muscle mass, bone density, age, or gender. It should be used as a general screening tool, not a diagnostic one.</p>
+      <p>💡 The ranges above use the standard <b>WHO (World Health Organization)</b> criteria for adults.</p>
     </div>
   </details>
 
-    <div class="footer"><span>대한비만학회 기준</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>WHO Standards</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 
 <script>
 const RANGES = [
-  { max: 18.5, name: '저체중', emoji: '🔵', color: '#3b82f6', range: 'under', tip: '영양 섭취를 늘려보세요' },
-  { max: 23, name: '정상', emoji: '🟢', color: '#22c55e', range: 'normal', tip: '건강한 상태입니다!' },
-  { max: 25, name: '과체중', emoji: '🟡', color: '#facc15', range: 'over', tip: '생활 습관 점검을 권장합니다' },
-  { max: 30, name: '1단계 비만', emoji: '🟠', color: '#f97316', range: 'obese1', tip: '체중 관리가 필요합니다' },
-  { max: 35, name: '2단계 비만', emoji: '🔴', color: '#ef4444', range: 'obese2', tip: '전문의 상담을 권장합니다' },
-  { max: 999, name: '3단계 비만', emoji: '🔴', color: '#dc2626', range: 'obese3', tip: '전문의 상담이 필요합니다' },
+  { max: 18.5, name: 'Underweight', emoji: '🔵', color: '#3b82f6', range: 'under', tip: 'Consider increasing your calorie intake safely' },
+  { max: 25.0, name: 'Normal weight', emoji: '🟢', color: '#22c55e', range: 'normal', tip: 'Great job! Keep up the healthy lifestyle' },
+  { max: 30.0, name: 'Overweight', emoji: '🟡', color: '#facc15', range: 'over', tip: 'Consider a balanced diet and regular exercise' },
+  { max: 35.0, name: 'Obesity Class I', emoji: '🟠', color: '#f97316', range: 'obese1', tip: 'Consider weight management strategies' },
+  { max: 40.0, name: 'Obesity Class II', emoji: '🔴', color: '#ef4444', range: 'obese2', tip: 'Consulting a healthcare provider is recommended' },
+  { max: 999.0, name: 'Obesity Class III', emoji: '🔴', color: '#dc2626', range: 'obese3', tip: 'Consulting a healthcare provider is highly recommended' },
 ];
 
 function calc() {
   const h = parseFloat(document.getElementById('height').value) / 100; // m
   const w = parseFloat(document.getElementById('weight').value);
-  
+
   if (!h || !w || h <= 0 || w <= 0) return;
-  
+
   const bmi = w / (h * h);
   const range = RANGES.find(r => bmi < r.max);
-  
+
   // Result card
   document.getElementById('bmiValue').textContent = bmi.toFixed(1);
   document.getElementById('bmiLabel').textContent = range.name;
   document.getElementById('bmiLabel').style.color = range.color;
   document.getElementById('bmiValue').style.color = range.color;
   document.getElementById('emoji').textContent = range.emoji;
-  
+
   // Gauge marker (BMI 15~40 mapped to 0~100%)
   const pct = Math.max(0, Math.min(100, ((bmi - 15) / 25) * 100));
   document.getElementById('gaugeMarker').style.left = pct + '%';
-  
+
   // Highlight table row
   document.querySelectorAll('.bmi-table tbody tr').forEach(tr => {
     tr.classList.toggle('current', tr.dataset.range === range.range);
   });
-  
-  // Info grid
+
+  // Info grid (WHO values)
   const normalMin = 18.5 * h * h;
-  const normalMax = 22.9 * h * h;
-  const idealWeight = 22 * h * h;
+  const normalMax = 24.9 * h * h;
+  const idealWeight = 22 * h * h; // standard BMI 22
   const diffToIdeal = w - idealWeight;
-  
+
   document.getElementById('infoGrid').innerHTML = `
     <div class="info-item">
-      <div class="label">정상 체중 범위</div>
+      <div class="label">Normal weight range</div>
       <div class="value">${normalMin.toFixed(1)} ~ ${normalMax.toFixed(1)} kg</div>
     </div>
     <div class="info-item">
-      <div class="label">표준 체중 (BMI 22)</div>
+      <div class="label">Ideal weight (BMI 22)</div>
       <div class="value">${idealWeight.toFixed(1)} kg</div>
     </div>
     <div class="info-item">
-      <div class="label">표준 대비</div>
+      <div class="label">Difference from ideal</div>
       <div class="value" style="color:${diffToIdeal > 0 ? '#f97316' : diffToIdeal < -3 ? '#3b82f6' : '#22c55e'}">${diffToIdeal > 0 ? '+' : ''}${diffToIdeal.toFixed(1)} kg</div>
     </div>
     <div class="info-item">
-      <div class="label">💡 팁</div>
+      <div class="label">💡 Tip</div>
       <div class="value" style="font-size:12px;font-weight:500">${range.tip}</div>
     </div>
   `;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,23 +8,23 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>📄 PDF 도구 — 티모집사</title>
-<meta name="description" content="PDF 합치기, 나누기, 회전, 순서 변경, 워터마크 추가를 브라우저에서 바로. 서버 전송 없이 100% 로컬 처리.">
-<meta property="og:title" content="📄 PDF 도구 — 티모집사">
-<meta property="og:description" content="PDF 합치기, 나누기, 회전, 순서 변경, 워터마크 추가를 브라우저에서 바로. 서버 전송 없이 100% 로컬 처리.">
+<title>📄 PDF Tools — TeemoZipsa</title>
+<meta name="description" content="Merge, split, rotate, reorder, and watermark PDFs directly in your browser. 100% local processing securely without server uploads.">
+<meta property="og:title" content="📄 PDF Tools — TeemoZipsa">
+<meta property="og:description" content="Merge, split, rotate, reorder, and watermark PDFs directly in your browser. 100% local processing securely without server uploads.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/pdf-tool/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/pdf-tool/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/pdf-tool/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/pdf-tool/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/pdf-tool/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/pdf-tool/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" onerror="document.getElementById('cdnError').style.display='block'"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js" onerror="document.getElementById('cdnError').style.display='block'"></script>
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
 .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:720px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -70,7 +70,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .quick-btn:hover{background:var(--bg-btn-hover);border-color:#5a5a9a}
 
 .control-row{display:flex;align-items:center;gap:12px;background:var(--bg-bar);border-radius:10px;padding:12px 16px;margin-bottom:8px}
-.control-row label{font-size:12px;color:var(--text-info);font-weight:600;white-space:nowrap;min-width:70px}
+.control-row label{font-size:12px;color:var(--text-info);font-weight:600;white-space:nowrap;min-width:90px}
 .slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:var(--bg-btn);border-radius:3px;outline:none}
 .slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid var(--border-hover)}
 .slider::-moz-range-thumb{width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid var(--border-hover)}
@@ -152,157 +152,157 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 </style>
 </head>
 <body>
-<div id="cdnError" style="display:none;background:#ff4444;color:var(--text-on-accent);text-align:center;padding:12px;font-size:14px;">외부 라이브러리 로드에 실패했습니다. 인터넷 연결을 확인하고 새로고침 해주세요.</div>
+<div id="cdnError" style="display:none;background:#ff4444;color:var(--text-on-accent);text-align:center;padding:12px;font-size:14px;">Failed to load external libraries. Please check your internet connection and refresh the page.</div>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>📄 PDF 도구</h1>
-    <a href="/special-chars/en/pdf-tool/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>📄 PDF Tools</h1>
+    <a href="/special-chars/pdf-tool/" class="back-btn">🌐 한국어</a>
   </div>
 
   <div class="tool-body">
     <div class="mode-tabs">
-      <button class="mode-tab active" data-tab="merge">📎 <span class="tab-label">합치기</span></button>
-      <button class="mode-tab" data-tab="split">✂️ <span class="tab-label">나누기</span></button>
-      <button class="mode-tab" data-tab="rotate">🔄 <span class="tab-label">회전</span></button>
-      <button class="mode-tab" data-tab="reorder">↕️ <span class="tab-label">순서</span></button>
-      <button class="mode-tab" data-tab="watermark">💧 <span class="tab-label">워터마크</span></button>
+      <button class="mode-tab active" data-tab="merge">📎 <span class="tab-label">Merge</span></button>
+      <button class="mode-tab" data-tab="split">✂️ <span class="tab-label">Split</span></button>
+      <button class="mode-tab" data-tab="rotate">🔄 <span class="tab-label">Rotate</span></button>
+      <button class="mode-tab" data-tab="reorder">↕️ <span class="tab-label">Reorder</span></button>
+      <button class="mode-tab" data-tab="watermark">💧 <span class="tab-label">Watermark</span></button>
     </div>
 
     <!-- Merge Panel -->
     <div class="tab-panel active" id="mergePanel">
       <div class="drop-zone" id="mergeDropZone">
         <div class="icon">📁</div>
-        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
-        <div class="sub">여러 파일 선택 가능 · 서버 전송 없음</div>
+        <div class="text">Click or Drag PDF files here</div>
+        <div class="sub">Select multiple files · No server uploads</div>
         <input type="file" accept=".pdf" multiple id="mergeFileInput">
       </div>
       <div class="file-list" id="mergeFileList"></div>
-      <button class="btn btn-primary" id="mergeBtn" style="display:none" onclick="doMerge()">📎 합치기</button>
-      <div class="loading" id="mergeLoading"><span class="spinner"></span>처리 중...</div>
+      <button class="btn btn-primary" id="mergeBtn" style="display:none" onclick="doMerge()">📎 Merge PDFs</button>
+      <div class="loading" id="mergeLoading"><span class="spinner"></span>Processing...</div>
     </div>
 
     <!-- Split Panel -->
     <div class="tab-panel" id="splitPanel">
       <div class="drop-zone" id="splitDropZone">
         <div class="icon">📁</div>
-        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
-        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <div class="text">Click or Drag a PDF file here</div>
+        <div class="sub">Files are not sent to any server</div>
         <input type="file" accept=".pdf" id="splitFileInput">
       </div>
       <div class="info-bar" id="splitInfo" style="display:none;margin-top:12px">
-        📄 총 <span class="highlight" id="splitPageCount">0</span>페이지
+        📄 Total <span class="highlight" id="splitPageCount">0</span> pages
       </div>
       <div class="field-group" id="splitRangeGroup" style="display:none;margin-top:12px">
-        <div class="field-label">📑 페이지 범위 입력</div>
-        <input type="text" class="field-input" id="splitRange" placeholder="예: 1-3, 5, 7-10">
+        <div class="field-label">📑 Enter Page Range</div>
+        <input type="text" class="field-input" id="splitRange" placeholder="e.g: 1-3, 5, 7-10">
         <div class="quick-btns">
-          <button class="quick-btn" onclick="splitAll()">전체 페이지 개별 분리</button>
-          <button class="quick-btn" onclick="splitOdd()">홀수 페이지</button>
-          <button class="quick-btn" onclick="splitEven()">짝수 페이지</button>
+          <button class="quick-btn" onclick="splitAll()">Select all pages individually</button>
+          <button class="quick-btn" onclick="splitOdd()">Odd pages</button>
+          <button class="quick-btn" onclick="splitEven()">Even pages</button>
         </div>
       </div>
-      <button class="btn btn-primary" id="splitBtn" style="display:none" onclick="doSplit()">✂️ 나누기</button>
-      <div class="loading" id="splitLoading"><span class="spinner"></span>처리 중...</div>
+      <button class="btn btn-primary" id="splitBtn" style="display:none" onclick="doSplit()">✂️ Split PDF</button>
+      <div class="loading" id="splitLoading"><span class="spinner"></span>Processing...</div>
     </div>
 
     <!-- Rotate Panel -->
     <div class="tab-panel" id="rotatePanel">
       <div class="drop-zone" id="rotateDropZone">
         <div class="icon">📁</div>
-        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
-        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <div class="text">Click or Drag a PDF file here</div>
+        <div class="sub">Files are not sent to any server</div>
         <input type="file" accept=".pdf" id="rotateFileInput">
       </div>
       <div id="rotateControls" style="display:none;margin-top:12px">
         <div class="btn-row">
-          <button class="btn btn-secondary" onclick="rotateAll(90)">🔄 전체 시계 방향 90°</button>
-          <button class="btn btn-secondary" onclick="rotateAll(-90)">🔄 전체 반시계 90°</button>
+          <button class="btn btn-secondary" onclick="rotateAll(90)">🔄 All clockwise 90°</button>
+          <button class="btn btn-secondary" onclick="rotateAll(-90)">🔄 All counter-clockwise 90°</button>
         </div>
         <div class="thumb-grid" id="rotateThumbs"></div>
-        <button class="btn btn-primary" onclick="doRotate()">✅ 적용</button>
+        <button class="btn btn-primary" onclick="doRotate()">✅ Apply</button>
       </div>
-      <div class="loading" id="rotateLoading"><span class="spinner"></span>처리 중...</div>
+      <div class="loading" id="rotateLoading"><span class="spinner"></span>Processing...</div>
     </div>
 
     <!-- Reorder Panel -->
     <div class="tab-panel" id="reorderPanel">
       <div class="drop-zone" id="reorderDropZone">
         <div class="icon">📁</div>
-        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
-        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <div class="text">Click or Drag a PDF file here</div>
+        <div class="sub">Files are not sent to any server</div>
         <input type="file" accept=".pdf" id="reorderFileInput">
       </div>
       <div id="reorderControls" style="display:none;margin-top:12px">
-        <div class="info-bar" style="margin-bottom:12px">💡 카드를 드래그하여 순서를 변경하세요</div>
+        <div class="info-bar" style="margin-bottom:12px">💡 Drag and drop cards to reorder pages</div>
         <div class="thumb-grid" id="reorderThumbs"></div>
-        <button class="btn btn-primary" onclick="doReorder()">✅ 적용</button>
+        <button class="btn btn-primary" onclick="doReorder()">✅ Apply</button>
       </div>
-      <div class="loading" id="reorderLoading"><span class="spinner"></span>처리 중...</div>
+      <div class="loading" id="reorderLoading"><span class="spinner"></span>Processing...</div>
     </div>
 
     <!-- Watermark Panel -->
     <div class="tab-panel" id="watermarkPanel">
       <div class="drop-zone" id="watermarkDropZone">
         <div class="icon">📁</div>
-        <div class="text">PDF 파일을 여기에 드래그하거나 클릭하세요</div>
-        <div class="sub">파일이 서버로 전송되지 않습니다</div>
+        <div class="text">Click or Drag a PDF file here</div>
+        <div class="sub">Files are not sent to any server</div>
         <input type="file" accept=".pdf" id="watermarkFileInput">
       </div>
       <div id="watermarkControls" style="display:none;margin-top:12px">
         <div class="field-group">
-          <div class="field-label">💧 워터마크 텍스트</div>
+          <div class="field-label">💧 Watermark Text</div>
           <input type="text" class="field-input" id="wmText" value="CONFIDENTIAL" oninput="updateWmPreview()">
         </div>
         <div class="control-row">
-          <label>글자 크기</label>
+          <label>Font Size</label>
           <input type="range" class="slider" id="wmSize" min="20" max="80" value="50" oninput="document.getElementById('wmSizeVal').textContent=this.value+'px';updateWmPreview()">
           <span class="val" id="wmSizeVal">50px</span>
         </div>
         <div class="control-row">
-          <label>투명도</label>
+          <label>Opacity</label>
           <input type="range" class="slider" id="wmOpacity" min="5" max="50" value="15" oninput="document.getElementById('wmOpacityVal').textContent=(this.value/100).toFixed(2);updateWmPreview()">
           <span class="val" id="wmOpacityVal">0.15</span>
         </div>
         <div class="control-row">
-          <label>회전 각도</label>
+          <label>Rotation Angle</label>
           <input type="number" id="wmAngle" value="-45" min="-90" max="90" style="background:var(--bg-input);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:6px 8px;font-size:13px;width:80px;outline:none;font-family:inherit" oninput="updateWmPreview()">
           <span class="val" style="min-width:auto;font-size:11px;color:var(--calc-expr-text)">°</span>
         </div>
         <div class="watermark-preview" id="wmPreview"></div>
-        <button class="btn btn-primary" onclick="doWatermark()">✅ 적용</button>
+        <button class="btn btn-primary" onclick="doWatermark()">✅ Apply</button>
       </div>
-      <div class="loading" id="watermarkLoading"><span class="spinner"></span>처리 중...</div>
+      <div class="loading" id="watermarkLoading"><span class="spinner"></span>Processing...</div>
     </div>
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
       <ul>
-        <li><strong>📎 합치기</strong> — 여러 PDF 파일을 하나로 합칩니다. 드래그로 순서를 변경할 수 있습니다.</li>
-        <li><strong>✂️ 나누기</strong> — PDF에서 원하는 페이지만 추출합니다. 범위(1-3), 개별(5), 혼합(1-3, 5, 7-10) 입력이 가능합니다.</li>
-        <li><strong>🔄 회전</strong> — 각 페이지를 개별 또는 전체 회전합니다. 클릭할 때마다 90°씩 회전합니다.</li>
-        <li><strong>↕️ 순서 변경</strong> — 페이지 썸네일을 드래그하여 원하는 순서로 재배치합니다.</li>
-        <li><strong>💧 워터마크</strong> — 모든 페이지에 텍스트 워터마크를 추가합니다. 크기, 투명도, 각도를 조절할 수 있습니다.</li>
+        <li><strong>📎 Merge</strong> — Combine multiple PDF files into one. You can drag and drop to reorder files.</li>
+        <li><strong>✂️ Split</strong> — Extract specific pages from a PDF. Enter a range (1-3), specific pages (5), or a mix (1-3, 5, 7-10).</li>
+        <li><strong>🔄 Rotate</strong> — Rotate individual pages or all pages at once. Each click rotates 90°.</li>
+        <li><strong>↕️ Reorder</strong> — Drag and drop page thumbnails to rearrange them into your desired order.</li>
+        <li><strong>💧 Watermark</strong> — Add a text watermark to every page. Adjust its size, opacity, and rotation angle.</li>
       </ul>
     </div>
   </details>
 
   <details class="guide-section">
-    <summary>❓ 자주 묻는 질문</summary>
+    <summary>❓ FAQ</summary>
     <div class="guide-content">
       <ul>
-        <li><strong>파일이 서버로 전송되나요?</strong><br>아닙니다. 모든 처리는 브라우저에서만 이루어지며, 파일이 외부로 전송되지 않습니다.</li>
-        <li><strong>파일 크기 제한이 있나요?</strong><br>서버 제한은 없지만, 브라우저 메모리에 따라 매우 큰 파일(수백 MB)은 처리가 느려질 수 있습니다.</li>
-        <li><strong>어떤 PDF 파일이든 지원되나요?</strong><br>대부분의 표준 PDF를 지원합니다. 암호화되거나 보호된 PDF는 처리가 제한될 수 있습니다.</li>
+        <li><strong>Are my files sent to a server?</strong><br>No. All processing happens locally in your web browser. Your PDFs are never uploaded anywhere.</li>
+        <li><strong>Is there a file size limit?</strong><br>There is no hard limit, but performance depends on your device's memory. Very large files (hundreds of MBs) may process slowly or cause crashes.</li>
+        <li><strong>Are all PDFs supported?</strong><br>Most standard PDFs are supported. However, encrypted or password-protected PDFs cannot be processed.</li>
       </ul>
     </div>
   </details>
-  <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+  <div class="footer"><span>100% Local Browser Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<button class="scroll-top-btn" id="scrollTopBtn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Top">↑</button>
 
 <script>
 /* ===== PDF.js worker setup ===== */
@@ -423,7 +423,7 @@ function renderMergeList() {
 }
 
 async function doMerge() {
-  if (mergeFiles.length < 2) return showToast('2개 이상의 파일을 추가하세요');
+  if (mergeFiles.length < 2) return showToast('Please add 2 or more files.');
   setLoading('mergeLoading', true);
   try {
     const merged = await PDFDocument.create();
@@ -435,9 +435,9 @@ async function doMerge() {
     }
     const result = await merged.save();
     downloadPdf(result, 'merged.pdf');
-    showToast('합치기 완료!');
+    showToast('Merge complete!');
   } catch (e) {
-    showToast('오류: ' + e.message);
+    showToast('Error: ' + e.message);
   }
   setLoading('mergeLoading', false);
 }
@@ -457,7 +457,7 @@ setupDropZone('splitDropZone', 'splitFileInput', async files => {
     document.getElementById('splitRangeGroup').style.display = 'block';
     document.getElementById('splitBtn').style.display = 'block';
     document.getElementById('splitRange').value = '1-' + splitPageTotal;
-  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  } catch (e) { showToast('Could not read the PDF file.'); }
 }, false);
 
 function splitAll() { document.getElementById('splitRange').value = Array.from({ length: splitPageTotal }, (_, i) => i + 1).join(', '); }
@@ -484,7 +484,7 @@ function parseRange(str, max) {
 async function doSplit() {
   if (!splitPdfBytes) return;
   const pages = parseRange(document.getElementById('splitRange').value, splitPageTotal);
-  if (!pages.length) return showToast('유효한 페이지를 입력하세요');
+  if (!pages.length) return showToast('Please enter a valid page range.');
   setLoading('splitLoading', true);
   try {
     const src = await PDFDocument.load(splitPdfBytes);
@@ -493,8 +493,8 @@ async function doSplit() {
     copied.forEach(p => out.addPage(p));
     const result = await out.save();
     downloadPdf(result, 'split.pdf');
-    showToast('나누기 완료! (' + pages.length + '페이지)');
-  } catch (e) { showToast('오류: ' + e.message); }
+    showToast('Split complete! (' + pages.length + ' pages)');
+  } catch (e) { showToast('Error: ' + e.message); }
   setLoading('splitLoading', false);
 }
 
@@ -516,11 +516,11 @@ setupDropZone('rotateDropZone', 'rotateFileInput', async files => {
       const canvas = await renderThumb(rotatePdfBytes, i + 1);
       const card = document.createElement('div');
       card.className = 'thumb-card';
-      card.innerHTML = `<button class="thumb-btn" data-i="${i}" title="회전">🔄</button><span class="rotate-badge" id="rBadge${i}"></span>`;
+      card.innerHTML = `<button class="thumb-btn" data-i="${i}" title="Rotate">🔄</button><span class="rotate-badge" id="rBadge${i}"></span>`;
       card.insertBefore(canvas, card.firstChild.nextSibling);
       const pn = document.createElement('div');
       pn.className = 'page-num';
-      pn.textContent = (i + 1) + '페이지';
+      pn.textContent = 'Page ' + (i + 1);
       card.appendChild(pn);
       card.querySelector('.thumb-btn').addEventListener('click', () => {
         rotateAngles[i] = (rotateAngles[i] + 90) % 360;
@@ -532,7 +532,7 @@ setupDropZone('rotateDropZone', 'rotateFileInput', async files => {
       grid.appendChild(card);
     }
     document.getElementById('rotateControls').style.display = 'block';
-  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  } catch (e) { showToast('Could not read the PDF file.'); }
   setLoading('rotateLoading', false);
 }, false);
 
@@ -557,8 +557,8 @@ async function doRotate() {
     });
     const result = await doc.save();
     downloadPdf(result, 'rotated.pdf');
-    showToast('회전 적용 완료!');
-  } catch (e) { showToast('오류: ' + e.message); }
+    showToast('Rotation applied!');
+  } catch (e) { showToast('Error: ' + e.message); }
   setLoading('rotateLoading', false);
 }
 
@@ -585,7 +585,7 @@ setupDropZone('reorderDropZone', 'reorderFileInput', async files => {
       card.appendChild(canvas);
       const pn = document.createElement('div');
       pn.className = 'page-num';
-      pn.textContent = (i + 1) + '페이지';
+      pn.textContent = 'Page ' + (i + 1);
       card.appendChild(pn);
       card.addEventListener('dragstart', e => {
         e.dataTransfer.setData('text/plain', card.dataset.page);
@@ -612,7 +612,7 @@ setupDropZone('reorderDropZone', 'reorderFileInput', async files => {
       grid.appendChild(card);
     }
     document.getElementById('reorderControls').style.display = 'block';
-  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  } catch (e) { showToast('Could not read the PDF file.'); }
   setLoading('reorderLoading', false);
 }, false);
 
@@ -628,8 +628,8 @@ async function doReorder() {
     copied.forEach(p => out.addPage(p));
     const result = await out.save();
     downloadPdf(result, 'reordered.pdf');
-    showToast('순서 변경 완료!');
-  } catch (e) { showToast('오류: ' + e.message); }
+    showToast('Reordering complete!');
+  } catch (e) { showToast('Error: ' + e.message); }
   setLoading('reorderLoading', false);
 }
 
@@ -644,7 +644,7 @@ setupDropZone('watermarkDropZone', 'watermarkFileInput', async files => {
     await PDFDocument.load(wmPdfBytes);
     document.getElementById('watermarkControls').style.display = 'block';
     await updateWmPreview();
-  } catch (e) { showToast('PDF를 읽을 수 없습니다'); }
+  } catch (e) { showToast('Could not read the PDF file.'); }
   setLoading('watermarkLoading', false);
 }, false);
 
@@ -698,8 +698,8 @@ async function doWatermark() {
     });
     const result = await doc.save();
     downloadPdf(result, 'watermarked.pdf');
-    showToast('워터마크 적용 완료!');
-  } catch (e) { showToast('오류: ' + e.message); }
+    showToast('Watermark applied!');
+  } catch (e) { showToast('Error: ' + e.message); }
   setLoading('watermarkLoading', false);
 }
 
@@ -728,17 +728,17 @@ function resetAll() {
   document.getElementById('wmOpacity').value = 15;
   document.getElementById('wmOpacityVal').textContent = '0.15';
   document.getElementById('wmAngle').value = -45;
-  showToast('초기화 완료');
+  showToast('Reset complete.');
 }
 
-/* ===== 스크롤 탑 버튼 ===== */
+/* ===== Scroll to top ===== */
 const scrollBtn = document.getElementById('scrollTopBtn');
 window.addEventListener('scroll', () => {
   scrollBtn.classList.toggle('visible', window.scrollY > 300);
 });
 scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-/* ===== 탭 드래그 스크롤 ===== */
+/* ===== Tab drag to scroll ===== */
 const modeTabsEl = document.querySelector('.mode-tabs');
 let isDown = false, startX, sLeft;
 modeTabsEl.style.cursor = 'grab';

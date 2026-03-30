@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-    <title>타임존 변환기 / Timezone Converter</title>
-    <meta name="description" content="세계 주요 도시의 시간을 실시간 변환합니다. 서머타임 자동 반영, 시차 확인">
-    <meta property="og:title" content="타임존 변환기 / Timezone Converter — 티모집사">
-    <meta property="og:description" content="세계 주요 도시의 시간을 실시간 변환합니다. 서머타임 자동 반영, 시차 확인">
+    <title>🌍 Timezone Converter — TeemoZipsa</title>
+    <meta name="description" content="Real-time time conversion across major cities worldwide. Automatic DST applied, check time differences easily.">
+    <meta property="og:title" content="🌍 Timezone Converter — TeemoZipsa">
+    <meta property="og:description" content="Real-time time conversion across major cities worldwide. Automatic DST applied, check time differences easily.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://teemozipsa.github.io/special-chars/timezone-conv/">
+    <meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/timezone-conv/">
     <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-    <link rel="canonical" href="https://teemozipsa.github.io/special-chars/timezone-conv/">
+    <link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/timezone-conv/">
     <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/timezone-conv/">
     <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/timezone-conv/">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
     <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:start;padding:20px}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:start;padding:20px}
         .app{background:var(--bg-app);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:720px;max-width:100%;overflow:hidden;display:flex;flex-direction:column}
         .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
         .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -78,14 +78,14 @@
 <body>
 <div class="app">
     <div class="header">
-        <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-        <h1>🌍 타임존 변환기</h1>
-        <a href="/special-chars/en/timezone-conv/" class="back-btn">🌐 English</a>
+        <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+        <h1>🌍 Timezone Converter</h1>
+        <a href="/special-chars/timezone-conv/" class="back-btn">🌐 한국어</a>
     </div>
     <div class="counter-body">
         <!-- FROM -->
         <div class="tz-card">
-            <div class="tz-label">🔵 기준 시간 (FROM)</div>
+            <div class="tz-label">🔵 Source Time (FROM)</div>
             <select class="tz-select" id="fromTz" onchange="convert()">
             </select>
             <div class="tz-datetime">
@@ -95,13 +95,13 @@
         </div>
 
         <div class="swap-row">
-            <button class="btn-now" onclick="setNow()">⏰ 현재 시간</button>
-            <button class="btn-swap" onclick="swapTz()">↕ 전환</button>
+            <button class="btn-now" onclick="setNow()">⏰ Current Time</button>
+            <button class="btn-swap" onclick="swapTz()">↕ Swap</button>
         </div>
 
         <!-- TO -->
         <div class="tz-card">
-            <div class="tz-label">🔴 변환 시간 (TO)</div>
+            <div class="tz-label">🔴 Converted Time (TO)</div>
             <select class="tz-select" id="toTz" onchange="convert()">
             </select>
             <div class="tz-result" id="toResult">--:--</div>
@@ -117,46 +117,46 @@
     </div>
 
     <details class="guide-section">
-        <summary>📖 사용 방법</summary>
+        <summary>📖 How to Use</summary>
         <div class="guide-content">
             <ol>
-                <li>'현재 시간' 버튼을 누르거나 날짜/시간을 직접 입력하세요</li>
-                <li>FROM(기준)과 TO(변환) 타임존을 각각 선택하세요</li>
-                <li>자동으로 변환된 시간과 시차가 표시됩니다</li>
-                <li>'↕ 전환' 버튼으로 FROM/TO를 쉽게 바꿀 수 있습니다</li>
+                <li>Click the 'Current Time' button or enter the date and time directly.</li>
+                <li>Select the FROM and TO timezones.</li>
+                <li>The converted time and time difference will be automatically displayed.</li>
+                <li>Use the '↕ Swap' button to easily swap the FROM and TO timezones.</li>
             </ol>
-            <p style="margin-top:8px">💡 서머타임(DST)은 브라우저의 IANA 타임존 DB를 사용하여 자동 반영됩니다.</p>
+            <p style="margin-top:8px">💡 DST (Daylight Saving Time) is handled automatically using the browser's internal IANA timezone database.</p>
         </div>
     </details>
-    <div class="footer"><span>서머타임 자동 반영</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>Auto DST Detection</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const TIMEZONES = [
-    { id:'Asia/Seoul', label:'🇰🇷 서울', abbr:'KST' },
-    { id:'Asia/Tokyo', label:'🇯🇵 도쿄', abbr:'JST' },
-    { id:'Asia/Shanghai', label:'🇨🇳 베이징/상하이', abbr:'CST' },
-    { id:'Asia/Taipei', label:'🇹🇼 타이베이', abbr:'CST' },
-    { id:'Asia/Hong_Kong', label:'🇭🇰 홍콩', abbr:'HKT' },
-    { id:'Asia/Singapore', label:'🇸🇬 싱가포르', abbr:'SGT' },
-    { id:'Asia/Bangkok', label:'🇹🇭 방콕', abbr:'ICT' },
-    { id:'Asia/Ho_Chi_Minh', label:'🇻🇳 호치민', abbr:'ICT' },
-    { id:'Asia/Kolkata', label:'🇮🇳 뭄바이/델리', abbr:'IST' },
-    { id:'Asia/Dubai', label:'🇦🇪 두바이', abbr:'GST' },
-    { id:'Australia/Sydney', label:'🇦🇺 시드니', abbr:'AEST/AEDT' },
-    { id:'Pacific/Auckland', label:'🇳🇿 오클랜드', abbr:'NZST/NZDT' },
-    { id:'Europe/London', label:'🇬🇧 런던', abbr:'GMT/BST' },
-    { id:'Europe/Paris', label:'🇫🇷 파리', abbr:'CET/CEST' },
-    { id:'Europe/Berlin', label:'🇩🇪 베를린', abbr:'CET/CEST' },
-    { id:'Europe/Moscow', label:'🇷🇺 모스크바', abbr:'MSK' },
-    { id:'America/New_York', label:'🇺🇸 뉴욕', abbr:'EST/EDT' },
-    { id:'America/Chicago', label:'🇺🇸 시카고', abbr:'CST/CDT' },
-    { id:'America/Denver', label:'🇺🇸 덴버', abbr:'MST/MDT' },
-    { id:'America/Los_Angeles', label:'🇺🇸 로스앤젤레스', abbr:'PST/PDT' },
-    { id:'America/Anchorage', label:'🇺🇸 앵커리지', abbr:'AKST/AKDT' },
-    { id:'Pacific/Honolulu', label:'🇺🇸 호놀룰루', abbr:'HST' },
-    { id:'America/Sao_Paulo', label:'🇧🇷 상파울루', abbr:'BRT' }
+    { id:'Asia/Seoul', label:'🇰🇷 Seoul', abbr:'KST' },
+    { id:'Asia/Tokyo', label:'🇯🇵 Tokyo', abbr:'JST' },
+    { id:'Asia/Shanghai', label:'🇨🇳 Beijing/Shanghai', abbr:'CST' },
+    { id:'Asia/Taipei', label:'🇹🇼 Taipei', abbr:'CST' },
+    { id:'Asia/Hong_Kong', label:'🇭🇰 Hong Kong', abbr:'HKT' },
+    { id:'Asia/Singapore', label:'🇸🇬 Singapore', abbr:'SGT' },
+    { id:'Asia/Bangkok', label:'🇹🇭 Bangkok', abbr:'ICT' },
+    { id:'Asia/Ho_Chi_Minh', label:'🇻🇳 Ho Chi Minh', abbr:'ICT' },
+    { id:'Asia/Kolkata', label:'🇮🇳 Mumbai/Delhi', abbr:'IST' },
+    { id:'Asia/Dubai', label:'🇦🇪 Dubai', abbr:'GST' },
+    { id:'Australia/Sydney', label:'🇦🇺 Sydney', abbr:'AEST/AEDT' },
+    { id:'Pacific/Auckland', label:'🇳🇿 Auckland', abbr:'NZST/NZDT' },
+    { id:'Europe/London', label:'🇬🇧 London', abbr:'GMT/BST' },
+    { id:'Europe/Paris', label:'🇫🇷 Paris', abbr:'CET/CEST' },
+    { id:'Europe/Berlin', label:'🇩🇪 Berlin', abbr:'CET/CEST' },
+    { id:'Europe/Moscow', label:'🇷🇺 Moscow', abbr:'MSK' },
+    { id:'America/New_York', label:'🇺🇸 New York', abbr:'EST/EDT' },
+    { id:'America/Chicago', label:'🇺🇸 Chicago', abbr:'CST/CDT' },
+    { id:'America/Denver', label:'🇺🇸 Denver', abbr:'MST/MDT' },
+    { id:'America/Los_Angeles', label:'🇺🇸 Los Angeles', abbr:'PST/PDT' },
+    { id:'America/Anchorage', label:'🇺🇸 Anchorage', abbr:'AKST/AKDT' },
+    { id:'Pacific/Honolulu', label:'🇺🇸 Honolulu', abbr:'HST' },
+    { id:'America/Sao_Paulo', label:'🇧🇷 Sao Paulo', abbr:'BRT' }
 ];
 
 function initSelects() {
@@ -226,7 +226,7 @@ function convert() {
     // Display
     document.getElementById('toResult').textContent = toParts.time;
 
-    const days = ['일','월','화','수','목','금','토'];
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const toD = new Date(toParts.date);
     const dayName = days[toD.getDay()];
     document.getElementById('toResultDate').textContent = `${toParts.date} (${dayName})`;
@@ -240,9 +240,9 @@ function convert() {
     const diffH = diffMin / 60;
     const fromInfo = TIMEZONES.find(t => t.id === fromTz);
     const absDiffH = Math.abs(diffH);
-    const diffLabel = diffH > 0 ? `${absDiffH}시간 빠름` : diffH < 0 ? `${absDiffH}시간 느림` : '같은 시간대';
-    document.getElementById('diffText').textContent = `시차: ${diffH >= 0 ? '+' : ''}${diffH}시간`;
-    document.getElementById('diffSub').textContent = `${fromInfo ? fromInfo.label : fromTz} 기준 ${diffLabel}`;
+    const diffLabel = diffH > 0 ? `${absDiffH}h ahead` : diffH < 0 ? `${absDiffH}h behind` : 'Same timezone';
+    document.getElementById('diffText').textContent = `Diff: ${diffH >= 0 ? '+' : ''}${diffH}h`;
+    document.getElementById('diffSub').textContent = `${diffLabel} compared to ${fromInfo ? fromInfo.label : fromTz}`;
     document.getElementById('diffBanner').style.display = 'block';
 }
 
@@ -263,7 +263,7 @@ function swapTz() {
     fromSel.value = toSel.value;
     toSel.value = tmp;
     convert();
-    showToast('타임존이 전환되었습니다');
+    showToast('Timezones swapped');
 }
 
 function resetAll() {
@@ -275,12 +275,12 @@ function resetAll() {
     document.getElementById('toResultDate').textContent = '';
     document.getElementById('toResultInfo').textContent = '';
     document.getElementById('diffBanner').style.display = 'none';
-    showToast('초기화되었습니다');
+    showToast('Reset successful');
 }
 
 function copyResult() {
     const result = document.getElementById('toResult').textContent;
-    if (result === '--:--') { showToast('먼저 시간을 입력하세요'); return; }
+    if (result === '--:--') { showToast('Please enter a time first'); return; }
     const fromTz = TIMEZONES.find(t => t.id === document.getElementById('fromTz').value);
     const toTz = TIMEZONES.find(t => t.id === document.getElementById('toTz').value);
     const fromDate = document.getElementById('fromDate').value;
@@ -288,7 +288,7 @@ function copyResult() {
     const toResultDate = document.getElementById('toResultDate').textContent;
     const diff = document.getElementById('diffText').textContent;
     const text = `${fromTz ? fromTz.label : ''} ${fromDate} ${fromTime}\n→ ${toTz ? toTz.label : ''} ${toResultDate} ${result}\n${diff}`;
-    navigator.clipboard.writeText(text).then(() => showToast('결과가 복사되었습니다'));
+    navigator.clipboard.writeText(text).then(() => showToast('Result copied!'));
 }
 
 function showToast(msg) {
@@ -301,7 +301,7 @@ function showToast(msg) {
 
 initSelects();
 </script>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
 <script src="/special-chars/theme-toggle.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>

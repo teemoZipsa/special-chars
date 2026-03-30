@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,20 +8,20 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>🔥 칼로리 계산기 — 티모집사</title>
-<meta name="description" content="기초대사량(BMR), 1일 권장 칼로리, 다이어트 목표 칼로리 및 탄단지 황금 비율을 계산해 드립니다.">
-<meta property="og:title" content="🔥 칼로리 계산기 — 티모집사">
-<meta property="og:description" content="기초대사량(BMR), 1일 권장 칼로리, 다이어트 목표 칼로리 및 탄단지 황금 비율을 계산해 드립니다.">
+<title>🔥 Calorie Calculator — TeemoZipsa</title>
+<meta name="description" content="Calculate your BMR, daily calorie needs (TDEE), and macro-nutrients (carbs, protein, fat) for weight loss, maintenance, or muscle gain.">
+<meta property="og:title" content="🔥 Calorie Calculator — TeemoZipsa">
+<meta property="og:description" content="Calculate your BMR, daily calorie needs (TDEE), and macro-nutrients (carbs, protein, fat) for weight loss, maintenance, or muscle gain.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/calorie-calc/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/calorie-calc/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/calorie-calc/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/calorie-calc/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/calorie-calc/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/calorie-calc/">
 <style>
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+  body{font-family:'Inter',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
   .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
   .header{background:linear-gradient(135deg,#ff4b2b,#ff416c);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
@@ -79,34 +79,34 @@
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>🔥 칼로리 계산기</h1>
-    <a href="/special-chars/en/calorie-calc/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>🔥 Calorie Calculator</h1>
+    <a href="/special-chars/calorie-calc/" class="back-btn">🌐 한국어</a>
   </div>
   <div class="body">
     <!-- 입력 -->
     <div class="section">
-      <div class="section-title">👤 내 정보 입력</div>
+      <div class="section-title">👤 Personal Info</div>
       <div class="field-row">
         <div class="field" style="flex:1.2">
-          <label>성별</label>
+          <label>Gender</label>
           <div class="gender-toggle">
-            <button class="gender-btn active" id="btn-m" onclick="setGender('m')">남성</button>
-            <button class="gender-btn" id="btn-f" onclick="setGender('f')">여성</button>
+            <button class="gender-btn active" id="btn-m" onclick="setGender('m')">Male</button>
+            <button class="gender-btn" id="btn-f" onclick="setGender('f')">Female</button>
           </div>
         </div>
         <div class="field">
-          <label>나이 (만)</label>
+          <label>Age (years)</label>
           <input type="number" id="age" value="25" min="1" max="120" oninput="calc()">
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label>키 (cm)</label>
+          <label>Height (cm)</label>
           <input type="number" id="height" value="170" min="100" max="250" oninput="calc()">
         </div>
         <div class="field">
-          <label>몸무게 (kg)</label>
+          <label>Weight (kg)</label>
           <input type="number" id="weight" value="65" min="30" max="200" oninput="calc()">
         </div>
       </div>
@@ -114,26 +114,26 @@
 
     <!-- 활동량 및 목표 -->
     <div class="section">
-      <div class="section-title">🏃 활동량 및 목표</div>
+      <div class="section-title">🏃 Activity & Goal</div>
       <div class="field-row">
         <div class="field">
-          <label>평소 활동량</label>
+          <label>Activity Level</label>
           <select id="activity" onchange="calc()">
-            <option value="1.2">거의 운동하지 않음 (앉아서 생활)</option>
-            <option value="1.375">가벼운 활동 (주 1~3일 가벼운 운동)</option>
-            <option value="1.55" selected>보통 활동 (주 3~5일 운동)</option>
-            <option value="1.725">매우 활동적 (주 6~7일 강도 높은 운동)</option>
-            <option value="1.9">극도로 활동적 (육체노동, 매일 2회 운동)</option>
+            <option value="1.2">Sedentary (little to no exercise)</option>
+            <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+            <option value="1.55" selected>Moderately active (moderate exercise 3-5 days)</option>
+            <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
+            <option value="1.9">Extra active (very hard exercise/physical job)</option>
           </select>
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label>나의 목표</label>
+          <label>My Goal</label>
           <select id="goal" onchange="calc()">
-            <option value="lose">다이어트 (체중 감량, -500kcal)</option>
-            <option value="maintain" selected>현재 체중 유지</option>
-            <option value="gain">벌크업 (체중 증량, +500kcal)</option>
+            <option value="lose">Weight Loss (-500kcal)</option>
+            <option value="maintain" selected>Maintain Weight</option>
+            <option value="gain">Weight Gain / Bulk Up (+500kcal)</option>
           </select>
         </div>
       </div>
@@ -141,9 +141,9 @@
 
     <!-- 결과 -->
     <div class="result-box">
-      <div class="result-title" id="res-title">하루 목표 칼로리 (유지)</div>
+      <div class="result-title" id="res-title">Daily Target Calories (Maintain)</div>
       <div class="result-value" id="res-cal">0 <span>kcal</span></div>
-      <div class="result-desc">기초대사량(BMR): <span id="res-bmr">0</span> kcal</div>
+      <div class="result-desc">Basal Metabolic Rate (BMR): <span id="res-bmr">0</span> kcal</div>
 
       <div class="progress-container">
         <div class="progress-bar"></div>
@@ -151,56 +151,56 @@
 
       <div class="macros-grid">
         <div class="macro-card">
-          <div class="m-label m-carbs">탄수화물 (50%)</div>
+          <div class="m-label m-carbs">Carbs (50%)</div>
           <div class="m-val" id="m-c">0<span class="m-g">g</span></div>
         </div>
         <div class="macro-card">
-          <div class="m-label m-protein">단백질 (30%)</div>
+          <div class="m-label m-protein">Protein (30%)</div>
           <div class="m-val" id="m-p">0<span class="m-g">g</span></div>
         </div>
         <div class="macro-card">
-          <div class="m-label m-fat">지방 (20%)</div>
+          <div class="m-label m-fat">Fat (20%)</div>
           <div class="m-val" id="m-f">0<span class="m-g">g</span></div>
         </div>
       </div>
-      <div class="result-desc" style="margin-top:8px" id="macro-desc">다이어트를 위한 균형 잡힌 비율입니다.</div>
+      <div class="result-desc" style="margin-top:8px" id="macro-desc">Balanced macro ratio for weight maintenance. (Carbs 5 : Pro 3 : Fat 2)</div>
     </div>
   </div>
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
       <ol>
-        <li>성별, 나이, 키, 몸무게, 활동량을 입력하세요.</li>
-        <li>기초대사량(BMR)과 하루 권장 칼로리가 자동 계산됩니다.</li>
-        <li>다이어트 목표에 맞는 탄수화물·단백질·지방 비율도 확인할 수 있습니다.</li>
+        <li>Enter your gender, age, weight, height and activity level.</li>
+        <li>Your BMR and daily recommended calories (TDEE) will be calculated instantly.</li>
+        <li>You'll also see the recommended macro ratios (carbs, protein, fat) based on your chosen goal.</li>
       </ol>
     </div>
   </details>
   <details class="guide-section">
-    <summary>💡 자주 묻는 질문</summary>
+    <summary>💡 FAQ</summary>
     <div class="guide-content">
-      <strong>Q. 기초대사량(BMR)이란 무엇인가요?</strong>
-      <p>기초대사량(Basal Metabolic Rate)은 생명을 유지하기 위해 최소한으로 필요한 에너지입니다. 숨쉬기, 심장 박동, 체온 유지 등 기본적인 생체 활동에 소모되는 칼로리로, 하루 종일 누워만 있어도 소비되는 에너지량입니다. 이 계산기는 가장 정확하다고 알려진 Mifflin-St Jeor 공식을 사용합니다.</p>
+      <strong>Q. What is BMR?</strong>
+      <p>Basal Metabolic Rate (BMR) is the amount of energy you expend while at rest. Even if you sleep all day, your body burns this amount of calories just to keep your heart beating and lungs breathing. We use the highly accurate Mifflin-St Jeor equation.</p>
       <br>
-      <strong>📊 활동계수 참고표</strong>
+      <strong>📊 Activity Level Multiplier</strong>
       <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">활동 수준</th><th style="padding:6px;border:1px solid var(--border)">계수</th><th style="padding:6px;border:1px solid var(--border)">설명</th></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">거의 운동 안 함</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.2</td><td style="padding:5px;border:1px solid var(--border)">사무직, 재택근무</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">가벼운 활동</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.375</td><td style="padding:5px;border:1px solid var(--border)">주 1~3일 가벼운 운동</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">보통 활동</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.55</td><td style="padding:5px;border:1px solid var(--border)">주 3~5일 중간 강도 운동</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">매우 활동적</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.725</td><td style="padding:5px;border:1px solid var(--border)">주 6~7일 고강도 운동</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">극도로 활동적</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.9</td><td style="padding:5px;border:1px solid var(--border)">육체노동 + 매일 2회 운동</td></tr>
+        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Level</th><th style="padding:6px;border:1px solid var(--border)">Multiplier</th><th style="padding:6px;border:1px solid var(--border)">Description</th></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border)">Sedentary</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.2</td><td style="padding:5px;border:1px solid var(--border)">Office job, work from home</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border)">Lightly active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.375</td><td style="padding:5px;border:1px solid var(--border)">Light exercise 1-3 days/wk</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border)">Moderately active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.55</td><td style="padding:5px;border:1px solid var(--border)">Moderate exercise 3-5 days/wk</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border)">Very active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.725</td><td style="padding:5px;border:1px solid var(--border)">Hard exercise 6-7 days/wk</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border)">Extra active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.9</td><td style="padding:5px;border:1px solid var(--border)">Physical job + daily exercise</td></tr>
       </table>
-      <p style="font-size:11px;color:var(--calc-expr-text)">* TDEE(총 에너지 소비량) = BMR × 활동계수</p>
+      <p style="font-size:11px;color:var(--calc-expr-text)">* TDEE (Total Daily Energy Expenditure) = BMR × Multiplier</p>
       <br>
-      <strong>Q. 다이어트 시 하루 칼로리를 얼마나 줄여야 하나요?</strong>
-      <p>일반적으로 TDEE(유지 칼로리)에서 하루 500kcal을 줄이면 일주일에 약 0.5kg 감량이 가능합니다. 1,000kcal 이상 급격한 칼로리 제한은 근손실과 요요 현상을 유발할 수 있으므로 권장하지 않습니다. 남성은 최소 1,500kcal, 여성은 최소 1,200kcal 이하로 내려가지 않는 것이 안전합니다.</p>
+      <strong>Q. How many calories should I cut to lose weight?</strong>
+      <p>A 500kcal daily deficit from your TDEE will usually result in about 0.5kg (1 lb) of weight loss per week. We do not recommend dropping below 1,500kcal for men or 1,200kcal for women, as drastic calorie reduction can cause muscle loss and metabolic slowdown.</p>
       <br>
-      <strong>Q. 탄단지 비율은 어떻게 정하나요?</strong>
-      <p>목표에 따라 다릅니다. 체중 유지: 탄수화물 50% / 단백질 30% / 지방 20% (5:3:2). 다이어트: 탄수화물 40% / 단백질 40% / 지방 20% (4:4:2) — 단백질을 높여 근손실을 방지합니다. 벌크업: 탄수화물 50% / 단백질 30% / 지방 20%로 충분한 에너지와 단백질을 확보합니다.</p>
+      <strong>Q. How are macro ratios calculated?</strong>
+      <p>For Maintenance: Carbs 50% / Protein 30% / Fat 20%. For Weight Loss: Carbs 40% / Protein 40% / Fat 20% (higher protein prevents muscle loss). For Weight Gain: Carbs 50% / Protein 30% / Fat 20%.</p>
     </div>
   </details>
-    <div class="footer"><span>해리스-베네딕트 공식 기반</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>Mifflin-St Jeor formula</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <script>
@@ -227,22 +227,22 @@ function calc() {
   let tdee = bmr * act;
 
   let targetCal = tdee;
-  let titleStr = "하루 목표 칼로리 (유지)";
+  let titleStr = "Daily Target Calories (Maintain)";
   
   // Macros ratios
   let pC = 0.5, pP = 0.3, pF = 0.2; // default maintain
-  let mDesc = "일반적인 체중 유지를 위한 균형 잡힌 비율입니다. (탄5:단3:지2)";
+  let mDesc = "Balanced macro ratio for weight maintenance. (Carbs 5 : Pro 3 : Fat 2)";
 
   if(goal === 'lose') {
     targetCal = tdee - 500;
-    titleStr = "하루 목표 칼로리 (다이어트)";
+    titleStr = "Daily Target Calories (Loss)";
     pC = 0.4; pP = 0.4; pF = 0.2;
-    mDesc = "다이어트를 위한 고단백 비율입니다. (탄4:단4:지2)";
+    mDesc = "High protein macros to prevent muscle loss. (Carbs 4 : Pro 4 : Fat 2)";
   } else if(goal === 'gain') {
     targetCal = tdee + 500;
-    titleStr = "하루 목표 칼로리 (벌크업)";
+    titleStr = "Daily Target Calories (Gain)";
     pC = 0.5; pP = 0.3; pF = 0.2;
-    mDesc = "벌크업을 위한 충분한 탄수화물 비율입니다. (탄5:단3:지2)";
+    mDesc = "High carb macros for energy and muscle gain. (Carbs 5 : Pro 3 : Fat 2)";
   }
 
   // Minimum safe calories
@@ -263,16 +263,16 @@ function calc() {
   document.getElementById('m-f').innerHTML = Math.round(fat) + "<span class='m-g'>g</span>";
 
   // Update UI Labels
-  document.querySelector('.m-carbs').innerText = `탄수화물 (${Math.round(pC*100)}%)`;
-  document.querySelector('.m-protein').innerText = `단백질 (${Math.round(pP*100)}%)`;
-  document.querySelector('.m-fat').innerText = `지방 (${Math.round(pF*100)}%)`;
+  document.querySelector('.m-carbs').innerText = `Carbs (${Math.round(pC*100)}%)`;
+  document.querySelector('.m-protein').innerText = `Protein (${Math.round(pP*100)}%)`;
+  document.querySelector('.m-fat').innerText = `Fat (${Math.round(pF*100)}%)`;
   document.getElementById('macro-desc').innerText = mDesc;
 }
 
 // init
 calc();
 </script>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
 <script src="/special-chars/theme-toggle.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>

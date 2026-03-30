@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>⏱️ 타이머/스톱워치 — 티모집사</title>
-<meta name="description" content="카운트다운 타이머와 스톱워치를 한 곳에서. 랩 기록, 알림음 지원. 공부, 운동, 요리에 활용하세요.">
-<meta property="og:title" content="⏱️ 타이머/스톱워치 — 티모집사">
-<meta property="og:description" content="카운트다운 타이머와 스톱워치를 한 곳에서. 랩 기록, 알림음 지원.">
+<title>⏱️ Timer / Stopwatch — TeemoZipsa</title>
+<meta name="description" content="Online countdown timer and stopwatch with laps and audio alarms. Perfect for study, workout, or cooking.">
+<meta property="og:title" content="⏱️ Timer / Stopwatch — TeemoZipsa">
+<meta property="og:description" content="Online countdown timer and stopwatch with laps and audio alarms. Perfect for study, workout, or cooking.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/timer/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/timer/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/timer/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/timer/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/timer/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/timer/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
 .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
 .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:15px;font-weight:600;color:#fff}
@@ -95,14 +95,14 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>⏱️ 타이머/스톱워치</h1>
-    <a href="/special-chars/en/timer/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>⏱️ Timer / Stopwatch</h1>
+    <a href="/special-chars/timer/" class="back-btn">🌐 한국어</a>
   </div>
 
   <div class="mode-tabs" role="tablist">
-    <button class="mode-tab active" role="tab" aria-selected="true" onclick="switchMode('timer')">⏳ 타이머</button>
-    <button class="mode-tab" role="tab" aria-selected="false" onclick="switchMode('stopwatch')">⏱️ 스톱워치</button>
+    <button class="mode-tab active" role="tab" aria-selected="true" onclick="switchMode('timer')">⏳ Timer</button>
+    <button class="mode-tab" role="tab" aria-selected="false" onclick="switchMode('stopwatch')">⏱️ Stopwatch</button>
   </div>
 
   <div class="content">
@@ -115,53 +115,53 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       <div class="timer-inputs">
         <div class="tfield">
           <input type="number" id="tHour" value="0" min="0" max="99" oninput="clampInput(this,99)">
-          <span>시간</span>
+          <span>Hrs</span>
         </div>
         <div class="tfield">
           <input type="number" id="tMin" value="5" min="0" max="59" oninput="clampInput(this,59)">
-          <span>분</span>
+          <span>Min</span>
         </div>
         <div class="tfield">
           <input type="number" id="tSec" value="0" min="0" max="59" oninput="clampInput(this,59)">
-          <span>초</span>
+          <span>Sec</span>
         </div>
       </div>
       <div class="quick-btns">
-        <button class="quick-btn" onclick="setQuick(1)">1분</button>
-        <button class="quick-btn" onclick="setQuick(3)">3분</button>
-        <button class="quick-btn" onclick="setQuick(5)">5분</button>
-        <button class="quick-btn" onclick="setQuick(10)">10분</button>
-        <button class="quick-btn" onclick="setQuick(15)">15분</button>
-        <button class="quick-btn" onclick="setQuick(25)">25분</button>
-        <button class="quick-btn" onclick="setQuick(30)">30분</button>
-        <button class="quick-btn" onclick="setQuick(60)">1시간</button>
+        <button class="quick-btn" onclick="setQuick(1)">1m</button>
+        <button class="quick-btn" onclick="setQuick(3)">3m</button>
+        <button class="quick-btn" onclick="setQuick(5)">5m</button>
+        <button class="quick-btn" onclick="setQuick(10)">10m</button>
+        <button class="quick-btn" onclick="setQuick(15)">15m</button>
+        <button class="quick-btn" onclick="setQuick(25)">25m</button>
+        <button class="quick-btn" onclick="setQuick(30)">30m</button>
+        <button class="quick-btn" onclick="setQuick(60)">1h</button>
       </div>
     </div>
 
     <!-- 컨트롤 -->
     <div class="controls">
-      <button class="ctrl-btn btn-reset" id="btnReset" onclick="doReset()" title="리셋">↺</button>
+      <button class="ctrl-btn btn-reset" id="btnReset" onclick="doReset()" title="Reset">↺</button>
       <button class="ctrl-btn btn-start" id="btnStart" onclick="doStartStop()">▶</button>
-      <button class="ctrl-btn btn-lap" id="btnLap" onclick="doLap()" title="랩" style="display:none">🏁</button>
+      <button class="ctrl-btn btn-lap" id="btnLap" onclick="doLap()" title="Lap" style="display:none">🏁</button>
     </div>
 
     <div class="laps" id="lapsContainer"></div>
   </div>
 
   <details class="guide">
-    <summary>💡 사용 가이드</summary>
+    <summary>💡 How to Use</summary>
     <div class="guide-content">
-      • <b>타이머:</b> 시/분/초를 설정하고 시작하면 카운트다운됩니다. 완료 시 알림음이 울립니다.<br>
-      • <b>스톱워치:</b> 시작 버튼으로 시간을 측정하고, 🏁 버튼으로 랩 기록을 남길 수 있습니다.<br>
-      • 빠른 설정 버튼으로 자주 쓰는 시간을 바로 입력할 수 있습니다.<br>
-      • 25분 타이머 = 뽀모도로 기법에 활용하세요!
+      • <b>Timer:</b> Set the hours, minutes, and seconds, then click Start. An alarm will sound when the time is up.<br>
+      • <b>Stopwatch:</b> Click Start to measure time. Use the 🏁 button to record laps.<br>
+      • Use quick buttons (e.g., 5m, 1h) to set common times instantly.<br>
+      • Try the 25m timer for Pomodoro sessions!
     </div>
   </details>
-    <div class="footer"><span>백그라운드 알림 지원</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>Supports background audio alarms</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 
 <script>
 let mode = 'timer'; // 'timer' | 'stopwatch'
@@ -256,9 +256,10 @@ function updateDisplay() {
 
   // Update document title
   if (running) {
-    document.title = f.main + (f.ms || '') + ' — 타이머';
+    const titleSuffix = mode === 'timer' ? ' — Timer' : ' — Stopwatch';
+    document.title = f.main + (f.ms || '') + titleSuffix;
   } else {
-    document.title = '⏱️ 타이머/스톱워치 — 티모집사';
+    document.title = '⏱️ Timer / Stopwatch — TeemoZipsa';
   }
 }
 
@@ -294,7 +295,7 @@ function doStartStop() {
         document.getElementById('btnStart').classList.remove('running');
         updateDisplay();
         playAlarm();
-        showToast('⏰ 타이머 완료!');
+        showToast('⏰ Timer Complete!');
         return;
       }
       updateDisplay();
@@ -308,7 +309,7 @@ function doStartStop() {
       const f = formatTime(current, true);
       document.getElementById('display').textContent = f.main;
       document.getElementById('displayMs').textContent = f.ms;
-      if (running) document.title = f.main + f.ms + ' — 스톱워치';
+      if (running) document.title = f.main + f.ms + ' — Stopwatch';
     }, 30);
   }
 
@@ -325,7 +326,7 @@ function doReset() {
   document.getElementById('lapsContainer').innerHTML = '';
   document.getElementById('btnStart').textContent = '▶';
   document.getElementById('btnStart').classList.remove('running');
-  document.title = '⏱️ 타이머/스톱워치 — 티모집사';
+  document.title = '⏱️ Timer / Stopwatch — TeemoZipsa';
   updateDisplay();
 }
 
@@ -344,7 +345,7 @@ function renderLaps() {
     const diff = i === 0 ? laps[0] : laps[i] - laps[i - 1];
     const el = document.createElement('div');
     el.className = 'lap-item';
-    el.innerHTML = `<span class="lap-num">랩 ${i + 1}</span><span class="lap-time">${formatTime(laps[i], true).main}${formatTime(laps[i], true).ms}</span><span class="lap-diff">+${formatTime(diff, true).main}${formatTime(diff, true).ms}</span>`;
+    el.innerHTML = `<span class="lap-num">Lap ${i + 1}</span><span class="lap-time">${formatTime(laps[i], true).main}${formatTime(laps[i], true).ms}</span><span class="lap-diff">+${formatTime(diff, true).main}${formatTime(diff, true).ms}</span>`;
     container.appendChild(el);
   }
 }

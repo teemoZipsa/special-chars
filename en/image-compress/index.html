@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
@@ -8,21 +8,21 @@
 <link rel="stylesheet" href="/special-chars/theme.css">
 <link rel="manifest" href="/special-chars/manifest.json">
 <link rel="apple-touch-icon" href="/special-chars/favicon.png">
-<title>🗜️ 이미지 용량 줄이기 — 티모집사</title>
-<meta name="description" content="이미지 파일 용량을 브라우저에서 바로 줄이세요. 서버 전송 없이 100% 로컬 처리.">
-<meta property="og:title" content="🗜️ 이미지 용량 줄이기 — 티모집사">
-<meta property="og:description" content="이미지 파일 용량을 브라우저에서 바로 줄이세요. 서버 전송 없이 100% 로컬 처리.">
+<title>🗜️ Image Compressor — TeemoZipsa</title>
+<meta name="description" content="Compress image file size instantly in your browser. 100% local processing with zero server uploads.">
+<meta property="og:title" content="🗜️ Image Compressor — TeemoZipsa">
+<meta property="og:description" content="Compress image file size instantly in your browser. 100% local processing with zero server uploads.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teemozipsa.github.io/special-chars/image-compress/">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/image-compress/">
 <meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
-<link rel="canonical" href="https://teemozipsa.github.io/special-chars/image-compress/">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/image-compress/">
 <link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/image-compress/">
 <link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/image-compress/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
 <style>
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Pretendard',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+  body{font-family:'Inter',sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
   .app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:500px;max-width:100%;overflow:hidden}
   .header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
   .back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
@@ -83,26 +83,26 @@
 <body>
 <div class="app">
   <div class="header">
-    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
-    <h1>🗜️ 이미지 용량 줄이기</h1>
-    <a href="/special-chars/en/image-compress/" class="back-btn">🌐 English</a>
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>🗜️ Image Compressor</h1>
+    <a href="/special-chars/image-compress/" class="back-btn">🌐 한국어</a>
   </div>
   <div class="body">
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
       <div class="icon">📁</div>
-      <div class="text">클릭하거나 이미지를 여기에 드래그</div>
-      <div class="sub">JPG, PNG, WEBP 지원 · 서버 전송 없음</div>
+      <div class="text">Click or Drag image here</div>
+      <div class="sub">Supports JPG, PNG, WebP · No server uploads</div>
       <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" onchange="handleFile(this.files[0])">
     </div>
 
     <div class="controls" id="controls">
       <div class="control-row">
-        <label>품질</label>
+        <label>Quality</label>
         <input type="range" class="slider" id="quality" min="10" max="100" value="70" oninput="updateQualLabel();compress()">
         <span class="val" id="qualVal">70%</span>
       </div>
       <div class="control-row">
-        <label>최대 가로</label>
+        <label>Max Width</label>
         <input type="number" id="maxWidth" value="1920" min="100" max="10000" onchange="compress()">
         <span class="val" style="min-width:auto;font-size:11px;color:var(--calc-expr-text)">px</span>
       </div>
@@ -110,13 +110,13 @@
 
     <div class="preview" id="preview">
       <div class="preview-card">
-        <div class="preview-label">원본</div>
+        <div class="preview-label">Original</div>
         <img id="origImg">
         <div class="preview-size" id="origSize">-</div>
         <div class="preview-dim" id="origDim">-</div>
       </div>
       <div class="preview-card">
-        <div class="preview-label">압축 후</div>
+        <div class="preview-label">Compressed</div>
         <img id="compImg">
         <div class="preview-size" id="compSize">-</div>
         <div class="preview-dim" id="compDim">-</div>
@@ -124,23 +124,23 @@
     </div>
     <div class="saved" id="saved"></div>
 
-    <button class="btn btn-dl" id="dlBtn" style="display:none" onclick="download()">📥 압축 이미지 다운로드</button>
-    <button class="btn btn-reset" id="resetBtn" style="display:none" onclick="reset()">🔄 다른 이미지</button>
+    <button class="btn btn-dl" id="dlBtn" style="display:none" onclick="download()">📥 Download Compressed Image</button>
+    <button class="btn btn-reset" id="resetBtn" style="display:none" onclick="reset()">🔄 Choose another image</button>
 
-    <div class="privacy">🔒 이미지는 서버로 전송되지 않으며, 브라우저에서만 처리됩니다.</div>
+    <div class="privacy">🔒 Your images are processed entirely in your browser and are never uploaded.</div>
   </div>
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 How to Use</summary>
     <div class="guide-content">
       <ol>
-        <li>"이미지 선택" 버튼을 클릭하거나 이미지를 드래그 앤 드롭하세요.</li>
-        <li>품질 슬라이더로 압축률을 조절합니다 (낮을수록 용량이 줄어듭니다).</li>
-        <li>압축된 이미지의 용량을 확인하고 다운로드 버튼을 클릭하세요.</li>
-        <li>모든 처리는 브라우저에서 이루어지며, 서버에 업로드되지 않습니다.</li>
+        <li>Click to select an image or drag and drop it into the box.</li>
+        <li>Adjust the quality slider (lower quality reduces file size more).</li>
+        <li>Check the compressed size and click the Download button.</li>
+        <li>All processing is strictly local. Your images are secure and never uploaded.</li>
       </ol>
     </div>
   </details>
-    <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    <div class="footer"><span>100% Local Browser Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 <script>
 let origFile = null, compressedBlob = null, origImg = new Image();
@@ -195,10 +195,10 @@ function compress() {
     const saved = ((1 - blob.size / origFile.size) * 100).toFixed(1);
     const savedEl = document.getElementById('saved');
     if (saved > 0) {
-      savedEl.textContent = `🎉 ${saved}% 줄었습니다! (${fmtBytes(origFile.size)} → ${fmtBytes(blob.size)})`;
+      savedEl.textContent = `🎉 Reduced by ${saved}%! (${fmtBytes(origFile.size)} → ${fmtBytes(blob.size)})`;
       savedEl.style.color = 'var(--text-success)';
     } else {
-      savedEl.textContent = `⚠️ 원본보다 커졌습니다. 품질을 낮춰보세요.`;
+      savedEl.textContent = `⚠️ File size increased. Try lowering the quality.`;
       savedEl.style.color = 'var(--text-error, #f87171)';
     }
   }, 'image/jpeg', quality);
@@ -230,7 +230,7 @@ function fmtBytes(b) {
   return (b/1048576).toFixed(2) + ' MB';
 }
 </script>
-<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+<button class="scroll-top-btn" aria-label="Top">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
 <script src="/special-chars/theme-toggle.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>
