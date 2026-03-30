@@ -2,7 +2,7 @@
  * 티모집사 Service Worker
  * sw.js — 오프라인 지원 + 캐싱
  */
-const CACHE_NAME = 'teemozipsa-v1';
+const CACHE_NAME = 'teemozipsa-v1.1';
 
 // 프리캐싱할 핵심 리소스
 const PRECACHE_URLS = [
