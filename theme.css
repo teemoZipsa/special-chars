@@ -115,18 +115,18 @@ html[data-theme="dark"] {
   --text-muted: #8888bb;
   --text-on-accent: #ffffff;
 
-  --accent: #533483;
-  --accent-hover: #6b44a3;
+  --accent: #a78bfa;
+  --accent-hover: #c4b5fd;
   --accent-light: #2a2a5a;
-  --accent-bg: rgba(83, 52, 131, 0.2);
+  --accent-bg: rgba(167, 139, 250, 0.15);
 
   --border: #333366;
-  --border-hover: #7b52b9;
+  --border-hover: #a78bfa;
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-accent: 0 4px 16px rgba(83, 52, 131, 0.4);
+  --shadow-accent: 0 4px 16px rgba(167, 139, 250, 0.3);
 
   /* 도구 페이지용 */
   --bg-bar: #1a1a3e;
@@ -141,29 +141,29 @@ html[data-theme="dark"] {
   --text-code: #bb88ff;
   --bg-tab: #2a2a5a;
   --bg-tab-hover: #3a3a7a;
-  --bg-tab-active: #533483;
+  --bg-tab-active: #7c3aed;
   --text-tab: #aaaaaa;
   --text-tab-active: #ffffff;
   --bg-emoji-tab: #2a3a2a;
   --bg-emoji-tab-hover: #3a5a3a;
   --bg-emoji-tab-active: #e67e22;
   --bg-char-btn: #222250;
-  --bg-char-btn-hover: #533483;
+  --bg-char-btn-hover: #7c3aed;
   --border-char: #333366;
   --bg-emoji-cell: #1e2e1e;
   --border-emoji: #2a3a2a;
   --bg-emoji-hover: #e67e22;
   --border-emoji-hover: #f39c12;
-  --toast-bg: #533483;
+  --toast-bg: #7c3aed;
   --scrollbar-track: #1a1a3e;
-  --scrollbar-thumb: #533483;
+  --scrollbar-thumb: #7c3aed;
   --progress-bg: #2a2a5a;
   --btn-clear-bg: #2a2a5a;
   --btn-clear-text: #cccccc;
   --btn-clear-hover: #3a3a6a;
-  --btn-copy-bg: #533483;
+  --btn-copy-bg: #7c3aed;
   --btn-copy-text: #ffffff;
-  --btn-copy-hover: #6b44a3;
+  --btn-copy-hover: #8b5cf6;
 
   /* 성공/긍정 상태 */
   --bg-success: #1a2a1a;
@@ -179,7 +179,7 @@ html[data-theme="dark"] {
   --text-placeholder: #444466;
   --bg-item-hover: #1e2250;
   --bg-item-final: #1e1e50;
-  --border-final: #533483;
+  --border-final: #7c3aed;
 
   /* 계산기용 */
   --calc-btn-bg: #222250;
@@ -191,9 +191,9 @@ html[data-theme="dark"] {
   --calc-fn-bg: #1e1e3a;
   --calc-fn-text: #8888bb;
   --calc-fn-hover: #2a2a4a;
-  --calc-eq-bg: #533483;
-  --calc-eq-hover: #6b44a3;
-  --calc-eq-active: #7b52b9;
+  --calc-eq-bg: #7c3aed;
+  --calc-eq-hover: #8b5cf6;
+  --calc-eq-active: #a78bfa;
   --calc-display-bg: #1a1a3e;
   --calc-expr-text: #6666aa;
   --calc-result-text: #ffffff;
