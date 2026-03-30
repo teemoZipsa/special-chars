@@ -117,10 +117,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       </div>
     </div>
 
-    <div class="input-group">
-      <label>체형 상태 (BCS) <span class="bcs-label-auto" style="display:none;color:var(--accent);font-size:10px;font-weight:400">— 품종+체중 기반 자동 계산</span></label>
-      <div class="bcs-selector" id="bcsSelector"></div>
-    </div>
+    <!-- BCS 입력부 제거됨 -->
 
     <div class="result-card" id="resultCard">
       <div class="result-emoji" id="emoji">⚖️</div>
@@ -138,17 +135,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <div class="info-grid" id="infoGrid"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 BCS란?</summary>
-    <div class="guide-content">
-      <strong>BCS (Body Condition Score)</strong>는 반려동물의 체형을 1~9단계로 평가하는 수의학 표준 지표입니다.<br><br>
-      • <strong>1~3</strong>: 저체중 — 갈비뼈가 눈에 보이거나 쉽게 만져짐<br>
-      • <strong>4~5</strong>: 이상적 — 갈비뼈가 살짝 만져지고 허리 라인이 보임<br>
-      • <strong>6~7</strong>: 과체중 — 갈비뼈가 잘 안 만져지고 허리 라인 불분명<br>
-      • <strong>8~9</strong>: 비만 — 갈비뼈가 안 느껴지고 배가 처짐<br><br>
-      ⚠️ 정확한 평가는 수의사와 상담하세요.
-    </div>
-  </details>
+    <!-- BCS 가이드 제거됨 -->
 
   <details class="guide-section">
     <summary>❓ 자주 묻는 질문</summary>
@@ -160,7 +147,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     </div>
   </details>
 
-  <div class="footer"><span>BCS 기반 체형 평가</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+  <div class="footer"><span>품종별 표준 체중 비교 도구</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -168,7 +155,6 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
 <script>
 let petType = 'dog';
-let selectedBCS = 5;
 let selectedBreed = null;
 
 const DOG_BREEDS = [
@@ -308,17 +294,7 @@ const CAT_BREEDS = [
   { name: '픽시밥', min: 4, max: 8 },
 ];
 
-const BCS_DATA = [
-  { score: 1, emoji: '🦴', label: '매우 마름', pct: -30, color: '#3b82f6' },
-  { score: 2, emoji: '🦴', label: '마름', pct: -20, color: '#60a5fa' },
-  { score: 3, emoji: '🏃', label: '약간 마름', pct: -10, color: '#34d399' },
-  { score: 4, emoji: '👍', label: '약간 날씬', pct: -5, color: '#22c55e' },
-  { score: 5, emoji: '✅', label: '이상적', pct: 0, color: '#22c55e' },
-  { score: 6, emoji: '⚠️', label: '약간 과체중', pct: 10, color: '#facc15' },
-  { score: 7, emoji: '⚠️', label: '과체중', pct: 20, color: '#f97316' },
-  { score: 8, emoji: '🔴', label: '비만', pct: 30, color: '#ef4444' },
-  { score: 9, emoji: '🔴', label: '고도비만', pct: 40, color: '#dc2626' },
-];
+const BCS_DATA = [];
 
 function setType(t) {
   petType = t;
@@ -364,69 +340,31 @@ function selectBreed(idx) {
   calc();
 }
 
-function renderBCS(locked) {
-  const el = document.getElementById('bcsSelector');
-  el.innerHTML = BCS_DATA.map(b => {
-    const isActive = b.score === selectedBCS;
-    const disabled = locked ? ' style="pointer-events:none;opacity:' + (isActive ? '1' : '0.4') + '"' : '';
-    return `<button class="bcs-btn${isActive ? ' active' : ''}"${disabled} onclick="setBCS(${b.score})"><span class="bcs-emoji">${b.emoji}</span>${b.score}</button>`;
-  }).join('');
-  // Show auto label
-  const label = document.querySelector('.bcs-label-auto');
-  if (label) label.style.display = locked ? '' : 'none';
-}
-
-function setBCS(score) {
-  if (selectedBreed) return; // locked when breed selected
-  selectedBCS = score;
-  renderBCS(false);
-  calc();
-}
-
-function calcBCSFromBreed(w, breed) {
-  const mid = (breed.min + breed.max) / 2;
-  const range = breed.max - breed.min;
-  if (w < breed.min * 0.8) return 1;
-  if (w < breed.min * 0.9) return 2;
-  if (w < breed.min) return 3;
-  if (w < mid - range * 0.1) return 4;
-  if (w <= mid + range * 0.1) return 5;
-  if (w <= breed.max) return 5;
-  if (w <= breed.max * 1.1) return 6;
-  if (w <= breed.max * 1.2) return 7;
-  if (w <= breed.max * 1.35) return 8;
-  return 9;
-}
-
 function calc() {
   const w = parseFloat(document.getElementById('weight').value);
   if (!w || w <= 0) return;
 
-  const breeds = petType === 'dog' ? DOG_BREEDS : CAT_BREEDS;
-
-  // Auto-set BCS if breed selected
-  if (selectedBreed) {
-    selectedBCS = calcBCSFromBreed(w, selectedBreed);
+  if (!selectedBreed) {
+    document.getElementById('emoji').textContent = '🤷';
+    document.getElementById('status').textContent = '품종을 선택하세요';
+    document.getElementById('statusDetail').textContent = '표준 체중과 비교하기 위해 위에서 품종을 먼저 검색하고 선택해주세요.';
+    document.getElementById('infoGrid').innerHTML = '';
+    const labelSpans = document.querySelectorAll('.gauge-labels span');
+    labelSpans.forEach(s => s.style.fontWeight = 'normal');
+    document.getElementById('gaugeMarker').style.display = 'none';
+    return;
   }
-  const bcs = BCS_DATA.find(b => b.score === selectedBCS);
-  renderBCS(!!selectedBreed);
+  
+  document.getElementById('gaugeMarker').style.display = 'block';
 
   // Determine ideal weight
-  let idealWeight, idealSource;
-  if (selectedBreed) {
-    // Use breed midpoint as ideal
-    idealWeight = (selectedBreed.min + selectedBreed.max) / 2;
-    idealSource = selectedBreed.name + ' 기준';
-  } else {
-    // Estimate from BCS: BCS 5 is ideal, each point ~10% body fat
-    idealWeight = w / (1 + bcs.pct / 100);
-    idealSource = 'BCS 추정';
-  }
-
+  const idealWeight = (selectedBreed.min + selectedBreed.max) / 2;
+  const idealSource = selectedBreed.name + ' 기준';
+  
   const diff = w - idealWeight;
   const diffPct = ((w - idealWeight) / idealWeight * 100);
 
-  // Combined assessment: BCS + weight comparison
+  // Combined assessment
   let statusText, statusColor, emoji, tip;
 
   // Weight sanity check
@@ -438,11 +376,8 @@ function calc() {
     statusColor = '#ef4444';
     emoji = '❓';
     tip = petType === 'dog' ? '강아지 체중이 ' + maxSane + 'kg 이상입니다. 입력을 확인해주세요.' : '고양이 체중이 ' + maxSane + 'kg 이상입니다. 입력을 확인해주세요.';
-  } else if (selectedBreed) {
-    // Breed-based assessment (weight vs standard range)
-    const overPct = ((w - selectedBreed.max) / selectedBreed.max) * 100;
-    const underPct = ((selectedBreed.min - w) / selectedBreed.min) * 100;
-
+  } else {
+    // Breed-based assessment
     if (w < selectedBreed.min * 0.8) {
       statusText = '심각한 저체중';
       statusColor = '#3b82f6'; emoji = '🦴';
@@ -450,42 +385,36 @@ function calc() {
     } else if (w < selectedBreed.min) {
       statusText = '저체중';
       statusColor = '#60a5fa'; emoji = '🦴';
-      tip = '사료량을 늘려보세요';
+      tip = '사료량을 약간 늘려보세요';
     } else if (w <= selectedBreed.max) {
       statusText = '이상적';
       statusColor = '#22c55e'; emoji = '✅';
-      tip = '건강한 체중이에요!';
+      tip = '건강한 정상 체중이에요!';
     } else if (w <= selectedBreed.max * 1.15) {
       statusText = '약간 과체중';
       statusColor = '#facc15'; emoji = '⚠️';
-      tip = '사료량을 5~10% 줄여보세요';
+      tip = '사료량을 약간 줄여보세요';
     } else if (w <= selectedBreed.max * 1.3) {
       statusText = '과체중';
       statusColor = '#f97316'; emoji = '⚠️';
-      tip = '사료량 10~15% 줄이고 운동량을 늘려보세요';
+      tip = '사료량을 줄이고 운동량을 늘려보세요';
     } else {
       statusText = '비만';
       statusColor = '#ef4444'; emoji = '🔴';
       tip = '수의사와 다이어트 계획을 세워보세요';
     }
-  } else {
-    // BCS-only assessment (no breed selected)
-    if (selectedBCS <= 3) { statusText = '저체중'; statusColor = '#3b82f6'; emoji = '🦴'; tip = '수의사 상담 권장'; }
-    else if (selectedBCS <= 5) { statusText = '이상적'; statusColor = '#22c55e'; emoji = '✅'; tip = '건강한 체형이에요!'; }
-    else if (selectedBCS <= 7) { statusText = '과체중'; statusColor = '#f97316'; emoji = '⚠️'; tip = '사료량 10~15% 줄여보세요'; }
-    else { statusText = '비만'; statusColor = '#ef4444'; emoji = '🔴'; tip = '수의사와 다이어트 계획을!'; }
   }
 
   document.getElementById('emoji').textContent = emoji;
   document.getElementById('status').textContent = statusText;
   document.getElementById('status').style.color = statusColor;
 
-  let detail = `BCS ${selectedBCS}/9 — ${bcs.label}`;
+  let detail = '';
   if (selectedBreed && !weightInsane) {
     if (w >= selectedBreed.min && w <= selectedBreed.max) {
-      detail += `<br>📋 ${selectedBreed.name} 표준 범위 내 ✅`;
+      detail = `📋 ${selectedBreed.name} 표준 범위 내 ✅`;
     } else {
-      detail += `<br>📋 ${selectedBreed.name} 표준: ${selectedBreed.min}~${selectedBreed.max}kg`;
+      detail = `📋 ${selectedBreed.name} 표준: ${selectedBreed.min}~${selectedBreed.max}kg`;
       detail += `<br>표준 대비 <strong style="color:${statusColor}">${diff > 0 ? '+' : ''}${diff.toFixed(1)}kg</strong>`;
     }
   } else if (weightInsane) {
@@ -493,32 +422,27 @@ function calc() {
   }
   document.getElementById('statusDetail').innerHTML = detail;
 
-  // Gauge: use weight-based position if breed selected, else BCS
-  let gaugePct;
+  // Gauge: use weight-based position relative to breed standard
+  let gaugePct = 50;
   if (selectedBreed && !weightInsane) {
     const mid = (selectedBreed.min + selectedBreed.max) / 2;
     const range = selectedBreed.max - selectedBreed.min;
-    gaugePct = ((w - (selectedBreed.min - range)) / (range * 3)) * 100;
+    gaugePct = 50 + ((w - mid) / (range * 2)) * 100;
     gaugePct = Math.max(0, Math.min(100, gaugePct));
-  } else {
-    gaugePct = ((selectedBCS - 1) / 8) * 100;
   }
   document.getElementById('gaugeMarker').style.left = gaugePct + '%';
 
   // Info grid
-  let breedInfo = '';
-  if (selectedBreed) {
-    breedInfo = `
-      <div class="info-item">
-        <div class="label">📋 품종 표준 체중</div>
-        <div class="value">${selectedBreed.min}~${selectedBreed.max} kg</div>
-      </div>
-      <div class="info-item">
-        <div class="label">${w >= selectedBreed.min && w <= selectedBreed.max ? '✅ 범위 내' : '⚠️ 범위 밖'}</div>
-        <div class="value" style="color:${w >= selectedBreed.min && w <= selectedBreed.max ? '#22c55e' : '#f97316'}">${selectedBreed.name}</div>
-      </div>
-    `;
-  }
+  let breedInfo = `
+    <div class="info-item">
+      <div class="label">📋 품종 표준 체중</div>
+      <div class="value">${selectedBreed.min}~${selectedBreed.max} kg</div>
+    </div>
+    <div class="info-item">
+      <div class="label">${w >= selectedBreed.min && w <= selectedBreed.max ? '✅ 범위 내' : '⚠️ 범위 밖'}</div>
+      <div class="value" style="color:${w >= selectedBreed.min && w <= selectedBreed.max ? '#22c55e' : '#f97316'}">${selectedBreed.name}</div>
+    </div>
+  `;
 
   document.getElementById('infoGrid').innerHTML = `
     <div class="info-item">
@@ -536,13 +460,12 @@ function calc() {
     </div>
     <div class="info-item">
       <div class="label">💡 팁</div>
-      <div class="value" style="font-size:11px;font-weight:500">${tip}</div>
+      <div class="value" style="font-size:11px;font-weight:500">${tip || ''}</div>
     </div>
   `;
 }
 
 renderBreeds();
-renderBCS();
 calc();
 
 (function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
