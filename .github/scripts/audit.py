@@ -55,7 +55,11 @@ for f in tools:
 
     # 7. meta description 확인
     if '<meta name="description"' not in content:
-        warnings.append(f"[{tool}] ⚠️ meta description이 없습니다")
+        errors.append(f"[{tool}] ❌ meta description이 없습니다")
+
+    # 10. 구글 애드센스 확인
+    if 'ca-pub-3501868770820650' not in content:
+        errors.append(f"[{tool}] ❌ 구글 애드센스 코드가 누락되었습니다")
 
     # 8. 더 많은 도구 링크 확인
     if '더 많은 도구' not in content:
@@ -69,7 +73,7 @@ if os.path.exists(sitemap_path):
     for f in tools:
         tool = os.path.basename(os.path.dirname(f))
         if f'/special-chars/{tool}/' not in sitemap:
-            warnings.append(f"[{tool}] ⚠️ sitemap.xml에 등록되지 않았습니다")
+            errors.append(f"[{tool}] ❌ sitemap.xml에 등록되지 않았습니다")
 else:
     errors.append("[sitemap] ❌ sitemap.xml 파일이 없습니다")
 
