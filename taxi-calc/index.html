@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<link rel="manifest" href="/special-chars/manifest.json">
+<link rel="apple-touch-icon" href="/special-chars/favicon.png">
+<title>🚕 택시비 계산기 — 티모집사</title>
+<meta name="description" content="전국 시도별 택시 요금을 빠르게 계산합니다. 거리 입력만으로 예상 택시비를 확인하세요. 심야할증, 중형/대형/모범 택시 지원.">
+<meta property="og:title" content="🚕 택시비 계산기 — 티모집사">
+<meta property="og:description" content="전국 지역별 택시 요금 계산. 거리·심야할증·차종 반영.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/taxi-calc/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/taxi-calc/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+.app{background:var(--bg-app);border-radius:12px;box-shadow:var(--shadow-lg);width:520px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.section-title{font-size:12px;color:var(--text-info);font-weight:700;letter-spacing:.5px;margin-bottom:2px}
+.input-group{display:flex;flex-direction:column;gap:4px}
+.input-group label{font-size:12px;color:var(--text-info);font-weight:600}
+.input-row{display:flex;align-items:center;gap:8px}
+.input-row input,.input-row select{flex:1;padding:10px 12px;background:var(--bg-guide);border:1.5px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:15px;font-family:inherit;font-weight:600;outline:none;transition:border-color .2s}
+.input-row input:focus,.input-row select:focus{border-color:var(--accent)}
+.input-row .unit{font-size:13px;color:var(--text-info);font-weight:600;white-space:nowrap;min-width:28px}
+.tabs{display:flex;gap:4px;background:var(--bg-bar);border-radius:10px;padding:4px}
+.tab{flex:1;padding:10px 6px;border:none;border-radius:8px;background:transparent;color:var(--text-info);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
+.tab.active{background:var(--accent);color:var(--text-on-accent);box-shadow:0 2px 8px rgba(83,52,131,.3)}
+.tab:hover:not(.active){background:var(--bg-btn)}
+.toggle-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg-guide);border:1px solid var(--border);border-radius:10px;cursor:pointer;user-select:none}
+.toggle-row .toggle-label{font-size:13px;font-weight:600;color:var(--text-secondary);flex:1}
+.toggle-row .toggle-sub{font-size:11px;color:var(--text-muted)}
+.toggle-switch{width:44px;height:24px;background:var(--bg-btn);border-radius:12px;position:relative;transition:background .3s;flex-shrink:0}
+.toggle-switch::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;left:2px;transition:transform .3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle-switch.on{background:var(--accent)}
+.toggle-switch.on::after{transform:translateX(20px)}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.summary-card{background:var(--accent-bg);border:1.5px solid var(--accent);border-radius:10px;padding:14px 10px;text-align:center}
+.summary-card.highlight{background:var(--accent);border-color:var(--accent);grid-column:1/-1}
+.summary-card.highlight .s-value{color:var(--text-on-accent)}
+.summary-card.highlight .s-label{color:rgba(255,255,255,.8)}
+.summary-card.highlight .s-sub{color:rgba(255,255,255,.7)}
+.s-label{font-size:11px;color:var(--text-info);margin-bottom:4px}
+.s-value{font-size:22px;font-weight:800;color:var(--accent)}
+.s-sub{font-size:11px;color:var(--text-info);margin-top:2px}
+.detail-box{background:var(--bg-guide);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+.detail-row:last-child{border-bottom:none}
+.detail-label{color:var(--text-info)}
+.detail-value{font-weight:700;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.copy-btn{width:100%;padding:11px;background:var(--bg-header);color:var(--text-on-accent);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.copy-btn:hover{opacity:.85}
+.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary:hover{background:var(--bg-guide-hover)}
+.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
+.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.4);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+@media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}.summary{grid-template-columns:1fr}.summary-card.highlight{grid-column:auto}.s-value{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>🚕 택시비 계산기</h1>
+  </div>
+  <div class="body">
+    <!-- 지역 선택 -->
+    <div class="input-group">
+      <label>지역 선택</label>
+      <div class="input-row">
+        <select id="region" onchange="calc()"></select>
+      </div>
+    </div>
+    <!-- 차종 -->
+    <div>
+      <div class="section-title">차종</div>
+      <div class="tabs" id="typeTabs">
+        <button class="tab active" onclick="setType(0)">🚕 중형</button>
+        <button class="tab" onclick="setType(1)">🚐 대형/모범</button>
+      </div>
+    </div>
+    <!-- 거리 -->
+    <div class="input-group">
+      <label>예상 이동 거리</label>
+      <div class="input-row">
+        <input type="number" id="distance" value="10" min="0.1" step="0.5" oninput="calc()">
+        <span class="unit">km</span>
+      </div>
+    </div>
+    <!-- 심야할증 -->
+    <div class="toggle-row" onclick="toggleNight()">
+      <div>
+        <div class="toggle-label">🌙 심야 할증</div>
+        <div class="toggle-sub" id="nightInfo">22:00 ~ 04:00</div>
+      </div>
+      <div class="toggle-switch" id="nightToggle"></div>
+    </div>
+    <!-- 왕복 -->
+    <div class="toggle-row" onclick="toggleRound()">
+      <div>
+        <div class="toggle-label">🔄 왕복 계산</div>
+        <div class="toggle-sub">편도 요금 × 2</div>
+      </div>
+      <div class="toggle-switch" id="roundToggle"></div>
+    </div>
+    <!-- 인원수 -->
+    <div class="input-group">
+      <label>인원수 (N빵)</label>
+      <div class="input-row">
+        <input type="number" id="people" value="1" min="1" max="10" oninput="calc()">
+        <span class="unit">명</span>
+      </div>
+    </div>
+
+    <!-- 결과 -->
+    <div class="summary" id="summary"></div>
+    <div class="detail-box" id="detailBox"></div>
+    <button class="copy-btn" onclick="copyResult()">📋 결과 복사</button>
+  </div>
+
+  <details class="guide-section">
+    <summary>📊 지역별 요금표</summary>
+    <div class="guide-content" id="rateInfo"></div>
+  </details>
+
+  <details class="guide-section">
+    <summary>💡 택시비 안내</summary>
+    <div class="guide-content">
+      <p><b>• 요금 구조:</b> 기본요금(기본거리) + 거리추가요금 + 시간추가요금(정차 시)</p>
+      <p><b>• 심야할증:</b> 보통 22:00~04:00, 지역별로 20~40% 할증</p>
+      <p><b>• 시계외할증:</b> 행정구역 벗어날 시 추가 (본 계산기에는 미반영)</p>
+      <p><b>• 참고:</b> 실제 요금은 교통 상황(정차 시간)에 따라 달라질 수 있습니다</p>
+      <p><b>• 본 계산기는 거리 기준 예상 요금이며, 참고용입니다</b></p>
+    </div>
+  </details>
+
+  <div class="footer"><span>전국 택시비 · 실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="scroll-top-btn" aria-label="맨 위로">↑</button>
+
+<script>
+// === 전국 택시 요금 데이터 (2026.03 기준) ===
+const REGIONS = {
+  '서울': {
+    mid: { base: 4800, baseDist: 1600, distPer: 131, distFee: 100, timePer: 30, timeFee: 100 },
+    big: { base: 7000, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2, peakRate: 0.4, peakStart: 23, peakEnd: 2 },
+    nightBig: { rate: 0.2 }
+  },
+  '인천': {
+    mid: { base: 4800, baseDist: 1600, distPer: 135, distFee: 100, timePer: 33, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2, peakRate: 0.4, peakStart: 23, peakEnd: 2 },
+    nightBig: { rate: 0.2 }
+  },
+  '경기': {
+    mid: { base: 4800, baseDist: 1600, distPer: 131, distFee: 100, timePer: 30, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 23, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '부산': {
+    mid: { base: 4800, baseDist: 2000, distPer: 132, distFee: 100, timePer: 31, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '대구': {
+    mid: { base: 4500, baseDist: 1700, distPer: 130, distFee: 100, timePer: 31, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '광주': {
+    mid: { base: 4800, baseDist: 1700, distPer: 132, distFee: 100, timePer: 31, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '대전': {
+    mid: { base: 4300, baseDist: 1600, distPer: 133, distFee: 100, timePer: 34, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 23, end: 4, rate: 0.2, peakRate: 0.3, peakStart: 0, peakEnd: 2 },
+    nightBig: { rate: 0.2 }
+  },
+  '울산': {
+    mid: { base: 4500, baseDist: 2000, distPer: 125, distFee: 100, timePer: 30, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '세종': {
+    mid: { base: 4000, baseDist: 1600, distPer: 97, distFee: 100, timePer: 29, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.3 },
+    nightBig: { rate: 0.2 }
+  },
+  '강원': {
+    mid: { base: 4600, baseDist: 1600, distPer: 131, distFee: 100, timePer: 31, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '충북': {
+    mid: { base: 4000, baseDist: 1800, distPer: 127, distFee: 100, timePer: 32, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '충남': {
+    mid: { base: 4000, baseDist: 1400, distPer: 127, distFee: 100, timePer: 35, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '전북': {
+    mid: { base: 4300, baseDist: 1600, distPer: 134, distFee: 100, timePer: 32, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '전남': {
+    mid: { base: 4300, baseDist: 1600, distPer: 130, distFee: 100, timePer: 30, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '경북': {
+    mid: { base: 4500, baseDist: 1700, distPer: 128, distFee: 100, timePer: 30, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '경남': {
+    mid: { base: 4000, baseDist: 1600, distPer: 130, distFee: 100, timePer: 31, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  },
+  '제주': {
+    mid: { base: 4300, baseDist: 1800, distPer: 126, distFee: 100, timePer: 31, timeFee: 100 },
+    big: { base: 6500, baseDist: 3000, distPer: 151, distFee: 200, timePer: 36, timeFee: 200 },
+    night: { start: 22, end: 4, rate: 0.2 },
+    nightBig: { rate: 0.2 }
+  }
+};
+
+let taxiType = 0; // 0=중형, 1=대형
+let isNight = false;
+let isRound = false;
+
+// 드롭다운 채우기
+const regionSel = document.getElementById('region');
+for (const r of Object.keys(REGIONS)) {
+  const o = document.createElement('option');
+  o.value = r; o.textContent = r;
+  regionSel.appendChild(o);
+}
+
+function setType(idx) {
+  taxiType = idx;
+  document.querySelectorAll('#typeTabs .tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  calc();
+}
+function toggleNight() {
+  isNight = !isNight;
+  document.getElementById('nightToggle').classList.toggle('on', isNight);
+  calc();
+}
+function toggleRound() {
+  isRound = !isRound;
+  document.getElementById('roundToggle').classList.toggle('on', isRound);
+  calc();
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+function calcFare() {
+  const region = REGIONS[regionSel.value];
+  const dist = parseFloat(document.getElementById('distance').value) * 1000 || 0; // m
+  const data = taxiType === 0 ? region.mid : region.big;
+  const nightData = taxiType === 0 ? region.night : region.night;
+  const nightRate = taxiType === 0 ? (nightData.peakRate || nightData.rate) : (region.nightBig?.rate || 0.2);
+  const normalNightRate = nightData.rate || 0.2;
+
+  let fare = data.base;
+  let extraDist = dist - data.baseDist;
+
+  if (extraDist > 0) {
+    const ticks = Math.floor(extraDist / data.distPer);
+    fare += ticks * data.distFee;
+  }
+
+  // 심야 할증 (단순화: 평균 할증률 적용)
+  let nightSurcharge = 0;
+  let appliedNightRate = 0;
+  if (isNight) {
+    appliedNightRate = taxiType === 0 ? (nightData.peakRate || nightData.rate) : (region.nightBig?.rate || 0.2);
+    nightSurcharge = Math.round(fare * appliedNightRate);
+  }
+
+  const totalOneway = fare + nightSurcharge;
+  const total = isRound ? totalOneway * 2 : totalOneway;
+
+  return {
+    baseFare: data.base,
+    baseDist: data.baseDist,
+    distExtra: Math.max(0, fare - data.base),
+    nightSurcharge: isRound ? nightSurcharge * 2 : nightSurcharge,
+    nightRate: appliedNightRate,
+    oneway: totalOneway,
+    total,
+    distPer: data.distPer,
+    distFee: data.distFee
+  };
+}
+
+function calc() {
+  const result = calcFare();
+  const people = Math.max(1, parseInt(document.getElementById('people').value) || 1);
+  const perPerson = Math.ceil(result.total / people);
+  const dist = parseFloat(document.getElementById('distance').value) || 0;
+  const regionName = regionSel.value;
+
+  // 심야 정보
+  const r = REGIONS[regionName];
+  const n = r.night;
+  document.getElementById('nightInfo').textContent =
+    `${n.start}:00 ~ ${String(n.end).padStart(2,'0')}:00 (할증 ${Math.round((n.peakRate||n.rate)*100)}%)`;
+
+  // Summary
+  let html = `
+    <div class="summary-card highlight">
+      <div class="s-label">예상 택시비${isRound?' (왕복)':''}</div>
+      <div class="s-value">${fmt(result.total)}<span style="font-size:14px;font-weight:600"> 원</span></div>
+      ${people>1?`<div class="s-sub">1인당 ${fmt(perPerson)}원 (${people}명)</div>`:''}
+    </div>
+    <div class="summary-card">
+      <div class="s-label">기본요금</div>
+      <div class="s-value">${fmt(result.baseFare)}</div>
+      <div class="s-sub">${(result.baseDist/1000).toFixed(1)}km까지</div>
+    </div>
+    <div class="summary-card">
+      <div class="s-label">km당 비용</div>
+      <div class="s-value">${fmt(dist>0?result.oneway/dist:0)}</div>
+      <div class="s-sub">원/km</div>
+    </div>`;
+  document.getElementById('summary').innerHTML = html;
+
+  // Detail
+  const types = ['중형택시','대형/모범택시'];
+  let detail = `
+    <div class="detail-row"><span class="detail-label">지역</span><span class="detail-value">${regionName}</span></div>
+    <div class="detail-row"><span class="detail-label">차종</span><span class="detail-value">${types[taxiType]}</span></div>
+    <div class="detail-row"><span class="detail-label">이동 거리</span><span class="detail-value">${dist} km</span></div>
+    <div class="detail-row"><span class="detail-label">기본요금</span><span class="detail-value">${fmt(result.baseFare)} 원 (${(result.baseDist/1000).toFixed(1)}km)</span></div>
+    <div class="detail-row"><span class="detail-label">거리 추가요금</span><span class="detail-value">${fmt(result.distExtra)} 원</span></div>
+    <div class="detail-row"><span class="detail-label">추가요금 단위</span><span class="detail-value">${result.distPer}m당 ${result.distFee}원</span></div>`;
+
+  if (isNight) {
+    detail += `<div class="detail-row"><span class="detail-label">🌙 심야할증 (${Math.round(result.nightRate*100)}%)</span><span class="detail-value" style="color:#e67e22">+${fmt(result.nightSurcharge)} 원</span></div>`;
+  }
+  if (isRound) {
+    detail += `<div class="detail-row"><span class="detail-label">🔄 왕복</span><span class="detail-value">편도 ${fmt(result.oneway)}원 × 2</span></div>`;
+  }
+
+  detail += `<div class="detail-row"><span class="detail-label">합계</span><span class="detail-value" style="color:var(--accent);font-size:15px;font-weight:800">${fmt(result.total)} 원</span></div>`;
+
+  if (people > 1) {
+    detail += `<div class="detail-row"><span class="detail-label">1인당 (${people}명)</span><span class="detail-value" style="color:var(--accent)">${fmt(perPerson)} 원</span></div>`;
+  }
+
+  document.getElementById('detailBox').innerHTML = detail;
+
+  // 요율표
+  renderRateInfo();
+}
+
+function renderRateInfo() {
+  const name = regionSel.value;
+  const r = REGIONS[name];
+  const m = r.mid;
+  const b = r.big;
+  const n = r.night;
+
+  document.getElementById('rateInfo').innerHTML = `
+    <p><b>${name} 택시 요금 (2026년 기준)</b></p>
+    <table style="width:100%;border-collapse:collapse;font-size:11px;margin-top:8px">
+      <tr style="background:var(--bg-btn)"><th style="padding:6px;border:1px solid var(--border)">구분</th><th style="padding:6px;border:1px solid var(--border)">중형</th><th style="padding:6px;border:1px solid var(--border)">대형/모범</th></tr>
+      <tr><td style="padding:6px;border:1px solid var(--border)">기본요금</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${fmt(m.base)}원 (${(m.baseDist/1000).toFixed(1)}km)</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${fmt(b.base)}원 (${(b.baseDist/1000).toFixed(1)}km)</td></tr>
+      <tr><td style="padding:6px;border:1px solid var(--border)">거리요금</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${m.distPer}m당 ${m.distFee}원</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${b.distPer}m당 ${b.distFee}원</td></tr>
+      <tr><td style="padding:6px;border:1px solid var(--border)">시간요금</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${m.timePer}초당 ${m.timeFee}원</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${b.timePer}초당 ${b.timeFee}원</td></tr>
+      <tr><td style="padding:6px;border:1px solid var(--border)">심야할증</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${n.start}~${String(n.end).padStart(2,'0')}시 (${Math.round((n.peakRate||n.rate)*100)}%)</td><td style="padding:6px;border:1px solid var(--border);text-align:center">${n.start}~${String(n.end).padStart(2,'0')}시 (${Math.round((r.nightBig?.rate||0.2)*100)}%)</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:10px;color:var(--text-muted)">* 시·군별로 세부 요금이 다를 수 있습니다. 참고용입니다.</p>`;
+}
+
+function copyResult() {
+  const result = calcFare();
+  const dist = document.getElementById('distance').value;
+  const people = Math.max(1, parseInt(document.getElementById('people').value)||1);
+  const types = ['중형','대형/모범'];
+  const lines = [
+    '🚕 택시비 계산 결과',
+    '━━━━━━━━━━━━━━━',
+    `지역: ${regionSel.value}`,
+    `차종: ${types[taxiType]}`,
+    `거리: ${dist}km${isRound?' (왕복)':''}`,
+    isNight?`심야할증: ${Math.round(result.nightRate*100)}%`:'',
+    `예상요금: ${fmt(result.total)}원`,
+    people>1?`1인당: ${fmt(Math.ceil(result.total/people))}원 (${people}명)`:''
+  ].filter(Boolean);
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>showToast('📋 결과가 복사되었습니다'));
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2000)}
+
+// 초기 계산
+calc();
+
+(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>
+</body>
+</html>
