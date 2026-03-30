@@ -123,6 +123,10 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       <div class="dropzone-text">이미지를 <strong>드래그하거나 클릭</strong>하여 업로드</div>
       <div class="dropzone-sub">JPG, PNG, WebP 지원 · 최대 10MB</div>
     </div>
+    <div class="info-badge" id="dataWarning" style="display:none;border-color:#e67e22;background:rgba(230,126,34,.08)">
+      <span class="badge-icon">📱</span>
+      <span>첫 사용 시 AI 모델(~40MB)을 다운로드합니다. <strong style="color:#e67e22">Wi-Fi 환경을 권장</strong>합니다. (이후 캐시 사용)</span>
+    </div>
 
     <!-- 프로그레스 -->
     <div class="progress-wrap" id="progressWrap">
@@ -222,10 +226,33 @@ fileInput.addEventListener('change', e => {
   if (file) handleFile(file);
 });
 
+// 모바일 데이터 감지 및 경고
+function checkMobileData() {
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (conn && (conn.type === 'cellular' || conn.effectiveType === '3g' || conn.effectiveType === '2g')) {
+    return true;
+  }
+  return false;
+}
+
+// 첫 사용 시 모바일 데이터 경고 표시
+(function() {
+  if (checkMobileData()) {
+    const w = document.getElementById('dataWarning');
+    if (w) w.style.display = '';
+  }
+})();
+
 async function handleFile(file) {
   if (file.size > 10 * 1024 * 1024) {
     showToast('⚠️ 파일 크기가 10MB를 초과합니다');
     return;
+  }
+
+  // 모바일 데이터 경고
+  if (checkMobileData()) {
+    const ok = confirm('📱 모바일 데이터로 접속 중입니다.\n\n첫 사용 시 AI 모델(약 40MB)을 다운로드합니다.\nWi-Fi 환경에서 사용하시는 것을 권장합니다.\n\n계속 진행하시겠습니까?');
+    if (!ok) return;
   }
 
   fileName = file.name.replace(/\.[^/.]+$/, '');
@@ -236,6 +263,7 @@ async function handleFile(file) {
 
   // UI 전환
   dropzone.style.display = 'none';
+  document.getElementById('dataWarning').style.display = 'none';
   progressWrap.classList.add('active');
   resultArea.classList.remove('active');
   updateProgress(0, 'AI 모델 로딩 중...');
