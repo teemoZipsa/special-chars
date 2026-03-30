@@ -839,6 +839,15 @@ calcTranspose();
 
 // 스크롤 버튼
 (function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
+
+// Tab drag to scroll
+const _tabs = document.getElementById('mainTabs');
+let _isDown = false, _startX, _sLeft;
+_tabs.style.cursor = 'grab';
+_tabs.addEventListener('mousedown', e => { _isDown = true; _tabs.style.cursor = 'grabbing'; _startX = e.pageX - _tabs.offsetLeft; _sLeft = _tabs.scrollLeft; });
+_tabs.addEventListener('mouseleave', () => { _isDown = false; _tabs.style.cursor = 'grab'; });
+_tabs.addEventListener('mouseup', () => { _isDown = false; _tabs.style.cursor = 'grab'; });
+_tabs.addEventListener('mousemove', e => { if(!_isDown) return; e.preventDefault(); const x = e.pageX - _tabs.offsetLeft; _tabs.scrollLeft = _sLeft - (x - _startX) * 1.5; });
 </script>
 <script src="/special-chars/theme-toggle.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>
