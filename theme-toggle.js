@@ -54,7 +54,9 @@
   function isPortalPage() {
     var path = window.location.pathname;
     return path === '/' || path === '/index.html' || path === '/about.html' || path === '/privacy.html'
-      || path.endsWith('/teemoZipsa.github.io/') || path.endsWith('/teemoZipsa.github.io/index.html');
+      || path === '/en/' || path === '/en/index.html' || path === '/en/about.html' || path === '/en/privacy.html'
+      || path.endsWith('/teemoZipsa.github.io/') || path.endsWith('/teemoZipsa.github.io/index.html')
+      || path.endsWith('/teemoZipsa.github.io/en/') || path.endsWith('/teemoZipsa.github.io/en/index.html');
   }
 
   function createToggleButton() {
