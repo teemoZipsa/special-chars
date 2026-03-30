@@ -137,6 +137,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <!-- 결과 -->
     <div class="summary" id="summary"></div>
     <div class="detail-box" id="detailBox"></div>
+    <div id="grandTotalBox"></div>
     <button class="copy-btn" onclick="copyResult()">📋 결과 복사</button>
   </div>
 
@@ -352,13 +353,8 @@ function calc() {
   document.getElementById('nightInfo').textContent =
     `${n.start}:00~${String(n.end).padStart(2,'0')}:00 (${Math.round((n.peakRate||n.rate)*100)}%)`;
 
-  // Summary
+  // Summary (Top cards)
   let html = `
-    <div class="summary-card highlight">
-      <div class="s-label">예상 택시비${isRound?' (왕복)':''}</div>
-      <div class="s-value">${fmt(result.total)}<span style="font-size:14px;font-weight:600"> 원</span></div>
-      ${people>1?`<div class="s-sub">1인당 ${fmt(perPerson)}원 (${people}명)</div>`:''}
-    </div>
     <div class="summary-card">
       <div class="s-label">기본요금</div>
       <div class="s-value">${fmt(result.baseFare)}</div>
@@ -366,7 +362,7 @@ function calc() {
     </div>
     <div class="summary-card">
       <div class="s-label">km당 비용</div>
-      <div class="s-value">${fmt(dist>0?result.oneway/dist:0)}</div>
+      <div class="s-value">${fmt(dist>0?Math.round(result.oneway/dist):0)}</div>
       <div class="s-sub">원/km</div>
     </div>`;
   document.getElementById('summary').innerHTML = html;
@@ -388,13 +384,15 @@ function calc() {
     detail += `<div class="detail-row"><span class="detail-label">🔄 왕복</span><span class="detail-value">편도 ${fmt(result.oneway)}원 × 2</span></div>`;
   }
 
-  detail += `<div class="detail-row"><span class="detail-label">합계</span><span class="detail-value" style="color:var(--accent);font-size:15px;font-weight:800">${fmt(result.total)} 원</span></div>`;
-
-  if (people > 1) {
-    detail += `<div class="detail-row"><span class="detail-label">1인당 (${people}명)</span><span class="detail-value" style="color:var(--accent)">${fmt(perPerson)} 원</span></div>`;
-  }
-
   document.getElementById('detailBox').innerHTML = detail;
+
+  // Grand Total Box (Bottom highlight)
+  document.getElementById('grandTotalBox').innerHTML = `
+    <div class="summary-card highlight" style="width: 100%; border-radius: 12px; padding: 18px 14px;">
+      <div class="s-label" style="font-size: 13px;">예상 택시비${isRound?' (왕복)':''}</div>
+      <div class="s-value" style="font-size: 26px; margin: 4px 0;">${fmt(result.total)}<span style="font-size:16px;font-weight:600;color:var(--text-on-accent)"> 원</span></div>
+      ${people>1?`<div class="s-sub" style="font-size:13px; margin-top:6px;">1인당 ${fmt(perPerson)}원 (${people}명)</div>`:''}
+    </div>`;
 
   // 요율표
   renderRateInfo();
