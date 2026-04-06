@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<title>⏳ Server Time Checker — TeemoZipsa</title>
+<meta name="description" content="A tool to check the exact server time of any website down to the millisecond. Essential for ticketing and registration.">
+<meta property="og:title" content="⏳ Server Time Checker — TeemoZipsa">
+<meta property="og:description" content="Check the precise server time of any website.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/en/server-time/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/en/server-time/">
+<link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/server-time/">
+<link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/server-time/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:520px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.content{padding:24px 20px}
+.input-group{display:flex;gap:8px;margin-bottom:20px}
+.url-input{flex:1;background:var(--bg-btn);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:15px;color:var(--text-primary);outline:none;transition:border-color .2s;font-family:inherit}
+.url-input:focus{border-color:var(--accent)}
+.fetch-btn{background:var(--accent);color:var(--text-on-accent);border:none;border-radius:8px;padding:0 20px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit}
+.fetch-btn:hover{background:var(--accent-hover)}
+.display-box{background:var(--bg-btn);border:1px solid var(--border);border-radius:12px;padding:32px 20px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
+.target-name{font-size:13px;color:var(--text-muted);margin-bottom:8px;font-weight:600}
+.time-display{font-size:52px;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums;color:var(--text-primary);display:flex;align-items:baseline;justify-content:center;gap:4px}
+.time-ms{font-size:24px;color:var(--text-info);font-weight:600}
+.date-display{font-size:14px;color:var(--text-secondary);margin-top:8px}
+.status-badge{position:absolute;top:12px;right:14px;font-size:11px;font-weight:600;padding:4px 8px;border-radius:12px;background:var(--bg-bar);color:var(--text-muted)}
+.status-badge.syncing{color:#f59e0b}
+.status-badge.success{color:#10b981;background:rgba(16,185,129,0.1)}
+.status-badge.error{color:#ef4444;background:rgba(239,68,68,0.1)}
+.options{display:flex;justify-content:center;gap:16px;margin-bottom:16px}
+.opt-label{font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:6px;cursor:pointer}
+.quick-urls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.q-btn{background:var(--bg-bar);border:1px solid var(--border);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;transition:all .2s;font-family:inherit}
+.q-btn:hover{background:var(--bg-btn);color:var(--text-primary)}
+.guide{padding:0 20px 20px}
+.guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
+.guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+.ripple {
+  position: absolute; border-radius: 50%; opacity: 0; pointer-events: none;
+  border: 2px solid var(--accent); left: 50%; top: 50%; transform: translate(-50%, -50%);
+}
+@keyframes rip{ 0%{width:0;height:0;opacity:.5} 100%{width:400px;height:400px;opacity:0} }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/en/" class="back-btn">← All Tools</a>
+    <h1>⏳ Server Time Checker</h1>
+    <a href="/special-chars/server-time/" class="back-btn">🌐 한국어</a>
+  </div>
+  <div class="content">
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px">Enter the ticketing/registration URL (Default: Local device time)</p>
+    <form class="input-group" onsubmit="event.preventDefault(); syncTime();">
+      <input type="text" id="urlInput" class="url-input" placeholder="e.g. https://www.ticketmaster.com">
+      <button type="submit" class="fetch-btn">Check</button>
+    </form>
+    
+    <div class="quick-urls">
+      <button class="q-btn" onclick="setQuick('https://www.ticketmaster.com')">Ticketmaster</button>
+      <button class="q-btn" onclick="setQuick('https://www.livenation.com')">Live Nation</button>
+      <button class="q-btn" onclick="setQuick('https://www.apple.com')">Apple</button>
+      <button class="q-btn" onclick="setQuick('https://www.amazon.com')">Amazon</button>
+    </div>
+
+    <div class="display-box" id="displayBox">
+      <div id="rippleEff" class="ripple"></div>
+      <div class="status-badge" id="statusBadge">Local Clock</div>
+      <div class="target-name" id="targetName">Current Mode: Local Device Time</div>
+      <div class="time-display">
+        <span id="hhmmss">00:00:00</span>
+        <span class="time-ms" id="ms">.000</span>
+      </div>
+      <div class="date-display" id="dateStr">- Running -</div>
+    </div>
+    
+    <div class="options">
+      <label class="opt-label"><input type="checkbox" id="sndTick"> Click every sec</label>
+      <label class="opt-label"><input type="checkbox" id="sndAlarm" checked> Chime on 00s</label>
+      <label class="opt-label"><input type="checkbox" id="showMs" checked> Show ms</label>
+    </div>
+  </div>
+
+  <details class="guide">
+    <summary>💡 How to use & Tips</summary>
+    <div class="guide-content">
+      • Fetches the exact internal time of the targeted website.<br>
+      • On success, a <b>[Synced]</b> badge appears, and the clock is calibrated.<br>
+      • For sites blocking requests (CORS), we use a backup proxy to minimize the offset.<br>
+      • <b>Warning beep at 59s, big chime at 00s</b> so you can focus on the screen without looking at the clock.
+    </div>
+  </details>
+  <div class="footer"><span>Timing is everything. Good luck!</span><a href="https://teemozipsa.github.io/en/">😺 More tools</a></div>
+</div>
+
+<script>
+let timeOffset = 0; // ms offset between local and server
+let targetMode = false;
+let lastSec = -1;
+
+function setQuick(u) {
+  document.getElementById('urlInput').value = u;
+  syncTime();
+}
+
+// Audio helpers
+let audioCtx;
+function getCtx() {
+  if(!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function beep(freq, duration, vol=0.1, type='sine') {
+  try {
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  } catch(e){}
+}
+
+function alarmEffect() {
+  const rp = document.getElementById('rippleEff');
+  rp.style.animation = 'none';
+  void rp.offsetWidth;
+  rp.style.animation = 'rip 1s ease-out forwards';
+}
+
+function playAlarmAt(s) {
+  const tickOn = document.getElementById('sndTick').checked;
+  const alarmOn = document.getElementById('sndAlarm').checked;
+  
+  if (s !== lastSec) {
+    if (alarmOn && s === 0) {
+      beep(880, 0.4, 0.3, 'square');
+      setTimeout(()=>beep(880, 0.6, 0.3, 'square'), 200);
+      alarmEffect();
+    } else if (alarmOn && s === 59) {
+      beep(1200, 0.2, 0.2, 'triangle');
+    } else if (alarmOn && s === 58) {
+      beep(1000, 0.1, 0.1, 'triangle');
+    } else if (tickOn) {
+      beep(600, 0.05, 0.05);
+    }
+    lastSec = s;
+  }
+}
+
+async function syncTime() {
+  getCtx(); // init audio
+  let val = document.getElementById('urlInput').value.trim();
+  const badge = document.getElementById('statusBadge');
+  const tname = document.getElementById('targetName');
+  
+  if(!val) {
+    targetMode = false; timeOffset = 0;
+    badge.className = 'status-badge'; badge.textContent = 'Local Clock';
+    tname.textContent = 'Current Mode: Local Device Time';
+    return;
+  }
+  if(!/^https?:\/\//i.test(val)) val = 'https://' + val;
+
+  tname.textContent = 'Syncing: ' + val;
+  badge.className = 'status-badge syncing'; badge.textContent = 'Syncing...';
+  
+  const startLocal = performance.now();
+  try {
+    let res = await fetch(val, { method:'HEAD', cache:'no-store' }).catch(e => null);
+    
+    if(!res || !res.headers.get('Date')) {
+      const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(val);
+      res = await fetch(proxyUrl, { method:'HEAD', cache:'no-store' });
+    }
+
+    const dateStr = res.headers.get('Date');
+    if(!dateStr) throw new Error("No Date header");
+    
+    const serverTime = new Date(dateStr).getTime();
+    const endLocal = performance.now();
+    const rtt = endLocal - startLocal;
+    
+    const estimatedLocalEquiv = Date.now() - (rtt/2);
+    timeOffset = serverTime - estimatedLocalEquiv;
+    targetMode = true;
+
+    tname.textContent = 'Synced Target: ' + new URL(val).hostname;
+    badge.className = 'status-badge success'; badge.textContent = 'Synced (offset ' + Math.round(timeOffset) + 'ms)';
+  } catch(e) {
+    timeOffset = 0; targetMode = false;
+    tname.textContent = 'Error: ' + new URL(val).hostname;
+    badge.className = 'status-badge error'; badge.textContent = 'CORS Blocked or Timeout';
+  }
+}
+
+function updateClock() {
+  const showMsCheck = document.getElementById('showMs').checked;
+  const now = new Date(Date.now() + timeOffset);
+  
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const ms = String(now.getMilliseconds()).padStart(3,'0');
+  
+  document.getElementById('hhmmss').textContent = `${h}:${m}:${s}`;
+  document.getElementById('ms').textContent = showMsCheck ? `.${ms}` : '';
+  
+  const dateOpts = { year:'numeric', month:'long', day:'numeric', weekday:'long' };
+  document.getElementById('dateStr').textContent = now.toLocaleDateString('en-US', dateOpts);
+  
+  playAlarmAt(now.getSeconds());
+  
+  if (targetMode) document.title = `${h}:${m}:${s} — Server Time`;
+  else document.title = `⏳ Server Time Checker — TeemoZipsa`;
+
+  requestAnimationFrame(updateClock);
+}
+requestAnimationFrame(updateClock);
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>
+</body>
+</html>

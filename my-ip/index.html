@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/special-chars/favicon.png">
+<link rel="stylesheet" href="/special-chars/theme.css">
+<title>🌐 내 IP 확인기 — 티모집사</title>
+<meta name="description" content="현재 접속 중인 내 공인 IP 주소(IPv4/IPv6)와 접속 국가, 브라우저 정보를 즉시 확인하고 복사하세요.">
+<meta property="og:title" content="🌐 내 IP 확인기 — 티모집사">
+<meta property="og:description" content="클릭 한 번으로 내 공인 IP 주소를 쉽고 빠르게 확인하세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teemozipsa.github.io/special-chars/my-ip/">
+<meta property="og:image" content="https://teemozipsa.github.io/special-chars/favicon.png">
+<link rel="canonical" href="https://teemozipsa.github.io/special-chars/my-ip/">
+<link rel="alternate" hreflang="ko" href="https://teemozipsa.github.io/special-chars/my-ip/">
+<link rel="alternate" hreflang="en" href="https://teemozipsa.github.io/special-chars/en/my-ip/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501868770820650" crossorigin="anonymous"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
+.app{background:var(--bg-app);border-radius:16px;box-shadow:var(--shadow-lg);width:480px;max-width:100%;overflow:hidden}
+.header{background:var(--bg-header);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:600;color:#fff}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;text-decoration:none;transition:background .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.back-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.content{padding:24px 20px}
+
+.ip-hero{background:var(--bg-btn);border:1px solid var(--border);border-radius:12px;padding:32px 20px;text-align:center;margin-bottom:20px;position:relative}
+.ip-label{font-size:13px;color:var(--text-muted);font-weight:700;margin-bottom:8px}
+.ip-value{font-size:42px;font-weight:800;letter-spacing:1px;color:var(--accent);word-break:break-all;line-height:1.2;margin-bottom:16px;font-variant-numeric:tabular-nums}
+.ip-type-badge{display:inline-block;background:var(--bg-bar);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;color:var(--text-secondary);margin-bottom:8px}
+
+.copy-btn{background:var(--bg-bar);border:1px solid var(--border);color:var(--text-primary);padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
+.copy-btn:hover{background:var(--bg-btn-hover);border-color:var(--text-muted)}
+.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981}
+
+.detail-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px}
+.detail-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.detail-item:last-child{border-bottom:none;padding-bottom:0}
+.detail-item:first-child{padding-top:0}
+.d-label{color:var(--text-muted);font-weight:600}
+.d-value{color:var(--text-primary);font-weight:500;text-align:right;max-width:65%;word-break:break-all}
+
+.loading-spinner{display:inline-block;width:30px;height:30px;border:3px solid rgba(99,102,241,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.guide{padding:0 20px 20px}
+.guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
+.guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
+.footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
+.footer a:hover{color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="https://teemozipsa.github.io/" class="back-btn">← 도구 모음</a>
+    <h1>🌐 내 IP 확인기</h1>
+    <a href="/special-chars/en/my-ip/" class="back-btn">🌐 English</a>
+  </div>
+  
+  <div class="content">
+    <div class="ip-hero" id="ipContain">
+      <div id="loader" class="loading-spinner"></div>
+      <div id="ipContent" style="display:none">
+        <div class="ip-type-badge" id="ipType">IPv4</div>
+        <div class="ip-label">현재 접속 중인 공인 IP 주소</div>
+        <div class="ip-value" id="myIp">...</div>
+        <button class="copy-btn" id="copyBtn" onclick="copyIp()"><span>📋</span> IP 복사하기</button>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-item">
+        <span class="d-label">접속 국가</span>
+        <span class="d-value" id="locStr">...</span>
+      </div>
+      <div class="detail-item">
+        <span class="d-label">통신 프로토콜</span>
+        <span class="d-value" id="httpStr">...</span>
+      </div>
+      <div class="detail-item">
+        <span class="d-label">사용 브라우저</span>
+        <span class="d-value" id="uaStr">...</span>
+      </div>
+    </div>
+  </div>
+
+  <details class="guide">
+    <summary>💡 IP 주소란?</summary>
+    <div class="guide-content">
+      • <b>IP (Internet Protocol) 주소</b>는 인터넷 상에서 내 컴퓨터나 스마트폰이 위치한 곳을 나타내는 고유 주소입니다.<br>
+      • 본 페이지에 표시되는 주소는 공유기 내부의 사설 IP(ex: 192.168.x.x)가 아닌, 외부로 노출되는 <b>공인 IP(Public IP)</b>입니다.<br>
+      • <b>IPv4와 IPv6란?</b> IPv4는 4자리 숫자로 된 구형 체계이며, IPv6는 주소 고갈을 막고자 도입된 훨씬 길고 복잡한 신형 체계입니다. 통신사의 설정에 따라 어느 주소가 뜰지 결정됩니다.
+    </div>
+  </details>
+  <div class="footer"><span>보안과 네트워크 확인에 필수!</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+</div>
+
+<script>
+async function fetchIpInfo() {
+  try {
+    const res = await fetch('https://cloudflare.com/cdn-cgi/trace');
+    const text = await res.text();
+    const data = {};
+    text.split('\n').filter(Boolean).forEach(line => {
+      const [k, v] = line.split('=');
+      if (k) data[k] = v;
+    });
+
+    const ip = data.ip || '알 수 없음';
+    const loc = data.loc || '알 수 없음';
+    const http = data.http || 'HTTP';
+    const ua = data.uag || navigator.userAgent;
+    const isV6 = ip.includes(':');
+
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('ipContent').style.display = 'block';
+
+    document.getElementById('myIp').textContent = ip;
+    document.getElementById('ipType').textContent = isV6 ? 'IPv6 프로토콜' : 'IPv4 프로토콜';
+    
+    // Country code to Region Name conversion (Basic)
+    const regionNames = new Intl.DisplayNames(['ko'], {type: 'region'});
+    let locKor = loc;
+    try { locKor = regionNames.of(loc) + ` (${loc})`; } catch(e){}
+    
+    document.getElementById('locStr').textContent = locKor;
+    document.getElementById('httpStr').textContent = http;
+    
+    // Simplify UA slightly
+    let uaSimple = '기타 웹 브라우저';
+    if(ua.includes('Chrome')) uaSimple = 'Google Chrome';
+    else if(ua.includes('Safari') && !ua.includes('Chrome')) uaSimple = 'Apple Safari';
+    else if(ua.includes('Firefox')) uaSimple = 'Mozilla Firefox';
+    else if(ua.includes('Edge')) uaSimple = 'Microsoft Edge';
+    
+    const os = ua.includes('Windows') ? 'Windows' : ua.includes('Mac') ? 'macOS/iOS' : ua.includes('Android') ? 'Android' : 'Linux';
+    
+    document.getElementById('uaStr').textContent = `${uaSimple} (${os})`;
+
+  } catch(e) {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('myIp').textContent = '연결 오류';
+  }
+}
+
+function copyIp() {
+  const ip = document.getElementById('myIp').textContent;
+  if(ip === '연결 오류' || ip === '...') return;
+  navigator.clipboard.writeText(ip);
+  const btn = document.getElementById('copyBtn');
+  btn.innerHTML = '<span>✅</span> 복사 완료!';
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.innerHTML = '<span>📋</span> IP 복사하기';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+fetchIpInfo();
+</script>
+<script src="/special-chars/theme-toggle.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/special-chars/sw.js').catch(function(){})}</script>
+</body>
+</html>
