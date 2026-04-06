@@ -103,36 +103,44 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
 <script>
 async function fetchIpInfo() {
+  let ip = '알 수 없음', loc = '알 수 없음', http = 'HTTP', ua = navigator.userAgent;
   try {
-    const res = await fetch('https://cloudflare.com/cdn-cgi/trace');
-    const text = await res.text();
-    const data = {};
-    text.split('\n').filter(Boolean).forEach(line => {
-      const [k, v] = line.split('=');
-      if (k) data[k] = v;
-    });
+    try {
+      const res = await fetch('https://cloudflare.com/cdn-cgi/trace');
+      const text = await res.text();
+      text.split('\n').filter(Boolean).forEach(line => {
+        const [k, v] = line.split('=');
+        if (k === 'ip') ip = v;
+        if (k === 'loc') loc = v;
+        if (k === 'http') http = v;
+        if (k === 'uag') ua = v;
+      });
+    } catch(err) {
+      // Fallback
+      console.warn("Cloudflare proxy blocked, trying fallback", err);
+      const res = await fetch('https://api64.ipify.org?format=json');
+      const json = await res.json();
+      ip = json.ip;
+    }
 
-    const ip = data.ip || '알 수 없음';
-    const loc = data.loc || '알 수 없음';
-    const http = data.http || 'HTTP';
-    const ua = data.uag || navigator.userAgent;
     const isV6 = ip.includes(':');
 
     document.getElementById('loader').style.display = 'none';
     document.getElementById('ipContent').style.display = 'block';
 
     document.getElementById('myIp').textContent = ip;
+    document.getElementById('myIp').style.fontSize = ip.length > 20 ? '28px' : '42px';
     document.getElementById('ipType').textContent = isV6 ? 'IPv6 프로토콜' : 'IPv4 프로토콜';
     
-    // Country code to Region Name conversion (Basic)
     const regionNames = new Intl.DisplayNames(['ko'], {type: 'region'});
     let locKor = loc;
-    try { locKor = regionNames.of(loc) + ` (${loc})`; } catch(e){}
+    if (loc !== '알 수 없음') {
+      try { locKor = regionNames.of(loc) + ` (${loc})`; } catch(e){}
+    }
     
     document.getElementById('locStr').textContent = locKor;
     document.getElementById('httpStr').textContent = http;
     
-    // Simplify UA slightly
     let uaSimple = '기타 웹 브라우저';
     if(ua.includes('Chrome')) uaSimple = 'Google Chrome';
     else if(ua.includes('Safari') && !ua.includes('Chrome')) uaSimple = 'Apple Safari';
@@ -140,12 +148,13 @@ async function fetchIpInfo() {
     else if(ua.includes('Edge')) uaSimple = 'Microsoft Edge';
     
     const os = ua.includes('Windows') ? 'Windows' : ua.includes('Mac') ? 'macOS/iOS' : ua.includes('Android') ? 'Android' : 'Linux';
-    
     document.getElementById('uaStr').textContent = `${uaSimple} (${os})`;
 
   } catch(e) {
     document.getElementById('loader').style.display = 'none';
-    document.getElementById('myIp').textContent = '연결 오류';
+    document.getElementById('ipContent').style.display = 'block';
+    document.getElementById('myIp').textContent = '연결 오류(광고 차단기 확인)';
+    document.getElementById('myIp').style.fontSize = '24px';
   }
 }
 
