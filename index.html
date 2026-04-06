@@ -65,139 +65,49 @@
   .header .search-box input::placeholder { color: rgba(255,255,255,0.5); }
   .header .search-box svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.6); }
 
-  .recent-bar {
-    background: var(--bg-bar); padding: 8px 16px;
-    display: flex; align-items: center; gap: 6px; justify-content: space-between;
-    min-height: 42px; border-bottom: 1px solid var(--border);
-  }
-  .recent-left { display: flex; align-items: center; gap: 6px; flex: 1; overflow: hidden; }
-  .recent-bar .label { font-size: 11px; color: var(--text-info); white-space: nowrap; flex-shrink: 0; }
-  .recent-bar .recent-chars { display: flex; gap: 2px; flex-wrap: nowrap; overflow-x: auto; flex: 1; }
-  .recent-bar .recent-chars::-webkit-scrollbar { height: 4px; }
-  .recent-bar .recent-chars::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .recent-bar .char-btn { background: var(--bg-btn); border: 1px solid var(--border); flex-shrink:0; }
-
-  /* 탭 그룹 */
-  .tab-groups {
-    background: var(--bg-bar);
-    padding: 6px 10px 0;
-  }
-  .tab-group-label {
-    font-size: 10px;
-    color: var(--text-info);
-    padding: 6px 4px 3px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-  }
-  .tab-group-label:first-child { padding-top: 2px; }
-  .tab-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding-bottom: 4px;
-  }
-  .tab-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 2px 0;
-  }
-  .tab {
-    padding: 7px 12px; font-size: 12px;
-    border: none; background: var(--bg-tab); color: var(--text-tab);
-    border-radius: 8px 8px 0 0; cursor: pointer;
-    transition: all 0.2s; white-space: nowrap;
-  }
-  .tab:hover { background: var(--bg-tab-hover); color: var(--text-primary); }
-  .tab.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 600; }
-  .tab.emoji-tab { background: var(--bg-emoji-tab); }
-  .tab.emoji-tab:hover { background: var(--bg-emoji-tab-hover); }
-  .tab.emoji-tab.active { background: var(--bg-emoji-tab-active); color: var(--text-on-accent); }
-
-  .grid-container {
-    padding: 12px; height: 360px;
-    overflow-y: auto; overflow-x: hidden;
-  }
-  .grid-container::-webkit-scrollbar { width: 6px; }
-  .grid-container::-webkit-scrollbar-track { background: var(--scrollbar-track); }
-  .grid-container::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
-  .char-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
-    gap: 3px;
-  }
-  .char-grid.emoji-mode {
-    grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
-  }
-  .char-btn {
-    width: 100%; aspect-ratio: 1;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; background: var(--bg-char-btn);
-    border: 1px solid var(--border-char); border-radius: 6px;
-    color: var(--text-primary); cursor: pointer;
-    transition: all 0.15s; user-select: none; position: relative;
-  }
-  .char-btn:hover {
-    background: var(--bg-char-btn-hover); border-color: var(--border-hover);
-    transform: scale(1.15); z-index: 2;
-    box-shadow: var(--shadow-accent);
-  }
-  .char-btn:active { transform: scale(0.95); background: var(--accent-hover); }
-  .char-btn.copied { background: #2ecc71 !important; border-color: #27ae60 !important; }
-  .char-btn.emoji-cell {
-    font-size: 24px; background: var(--bg-emoji-cell); border-color: var(--border-emoji);
-  }
-  .char-btn.emoji-cell:hover {
-    background: var(--bg-emoji-hover); border-color: var(--border-emoji-hover);
-    box-shadow: 0 4px 12px rgba(230,126,34,0.5);
-  }
-
-  .toast {
-    position: fixed; bottom: 30px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--toast-bg); color: var(--text-on-accent);
-    padding: 10px 24px; border-radius: 24px;
-    font-size: 14px; font-weight: 500;
-    box-shadow: var(--shadow-accent);
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0; pointer-events: none; z-index: 999;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-  .bottom-bar {
+  .workspace-panel {
     background: var(--bg-bar); padding: 12px 16px;
-    display: flex; gap: 12px; align-items: stretch;
-    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 10px;
+    border-bottom: 1px solid var(--border);
   }
-  .preview {
-    font-size: 28px; width: 50px; height: 50px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);
+  .workspace-panel .info-row {
+    font-size: 11px; color: var(--text-info); display: flex; justify-content: space-between; margin-bottom: 2px;
   }
-  .bottom-inputs {
-    flex: 1; display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .info-row {
-    font-size: 11px; color: var(--text-info); display: flex; justify-content: space-between; margin-bottom: 4px;
-  }
-  .info-row span { color: var(--text-code); font-family: monospace; }
+  .workspace-panel .info-row span { color: var(--text-code); font-family: monospace; }
   .multi-input-box {
-    display: flex; gap: 6px;
+    display: flex; gap: 6px; align-items: stretch; height: 38px;
   }
   .multi-input {
-    flex: 1; padding: 6px 10px; border-radius: 6px;
+    flex: 1; padding: 0 12px; border-radius: 6px;
     border: 1px solid var(--border); background: var(--bg-body); color: var(--text-primary);
-    font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s;
+    font-size: 15px; font-family: inherit; outline: none; transition: border-color 0.2s;
   }
   .multi-input:focus { border-color: var(--accent); }
   .action-btn {
-    padding: 6px 14px; border: none; border-radius: 6px;
+    padding: 0 16px; border: none; border-radius: 6px;
     font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    display: flex; align-items: center; justify-content: center;
   }
   .btn-accent { background: var(--accent); color: var(--text-on-accent); }
   .btn-accent:hover { background: var(--accent-hover); }
   .btn-clear { background: var(--btn-clear-bg); color: var(--btn-clear-text); }
   .btn-clear:hover { background: var(--btn-clear-hover); }
+
+  .recent-row {
+    display: flex; align-items: center; gap: 8px; justify-content: space-between;
+  }
+  .recent-left { display: flex; align-items: center; gap: 8px; flex: 1; overflow: hidden; }
+  .recent-label { font-size: 11px; color: var(--text-info); white-space: nowrap; flex-shrink: 0; font-weight: 600; }
+  .recent-chars { display: flex; gap: 4px; flex-wrap: nowrap; overflow-x: auto; flex: 1; padding-bottom: 2px; }
+  .recent-chars::-webkit-scrollbar { height: 4px; }
+  .recent-chars::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .char-btn-small { 
+    background: var(--bg-btn); border: 1px solid var(--border); flex-shrink:0; 
+    width: 28px; height: 28px; font-size: 14px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-primary);
+    transition: all 0.15s;
+  }
+  .char-btn-small:hover { background: var(--bg-btn-hover); transform: scale(1.1); box-shadow: var(--shadow-sm); z-index: 2; }
+
 
   .sub-header {
     grid-column: 1 / -1; font-size: 11px; color: var(--text-info);
@@ -248,12 +158,25 @@
   </div>
 
   <div id="tool-special-chars">
-    <div class="recent-bar">
-      <div class="recent-left">
-        <span class="label">최근 ▸</span>
-        <div class="recent-chars" id="recentChars"></div>
+    <!-- 통합 워크스페이스 패널 -->
+    <div class="workspace-panel">
+      <div class="info-row">
+        <span>✅ 기호를 클릭하면 자동으로 창에 추가되며 하나씩 클립보드에 복사됩니다.</span>
+        <span>유니코드: <strong id="codeInfo">-</strong></span>
       </div>
-      <button class="action-btn btn-clear" style="padding: 4px 8px; font-size: 11px;" onclick="clearRecent()">전체 삭제</button>
+      <div class="multi-input-box">
+        <input type="text" id="multiInput" class="multi-input" placeholder="이곳에 문자가 조합됩니다...">
+        <button class="action-btn btn-accent" onclick="copyMultiInput()">전체 복사</button>
+        <button class="action-btn btn-clear" onclick="clearMultiInput()">지우기</button>
+      </div>
+      
+      <div class="recent-row">
+        <div class="recent-left">
+          <span class="recent-label">최근 사용 ▸</span>
+          <div class="recent-chars" id="recentChars"></div>
+        </div>
+        <button class="action-btn btn-clear" style="padding: 0 12px; height: 28px; font-size: 11px;" onclick="clearRecent()">기록 삭제</button>
+      </div>
     </div>
 
     <div class="tab-groups" id="tabBar"></div>
@@ -272,20 +195,6 @@
         </ol>
       </div>
     </details>
-
-    <div class="bottom-bar">
-      <div class="preview" id="preview"></div>
-      <div class="bottom-inputs">
-        <div class="info-row">
-          <span>클릭 시 복사 및 조합창에 추가됨 | 유니코드: <strong id="codeInfo">-</strong></span>
-        </div>
-        <div class="multi-input-box">
-          <input type="text" id="multiInput" class="multi-input" placeholder="문자 조합창...">
-          <button class="action-btn btn-accent" onclick="copyMultiInput()">전체 복사</button>
-          <button class="action-btn btn-clear" onclick="clearMultiInput()">지우기</button>
-        </div>
-      </div>
-    </div>
   </div>
   <div class="footer"><span>클릭 한 번으로 복사</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
@@ -689,7 +598,6 @@ function renderGrid(filter = '') {
       btn.textContent = ch;
       btn.title = `${ch}  (U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')})`;
       btn.onmouseenter = () => {
-        document.getElementById('preview').textContent = ch;
         document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
       };
       btn.onclick = () => copyChar(ch, btn);
@@ -740,12 +648,10 @@ function renderRecent() {
   container.innerHTML = '';
   recentChars.forEach(ch => {
     const btn = document.createElement('button');
-    btn.className = 'char-btn';
+    btn.className = 'char-btn-small';
     btn.textContent = ch;
-    btn.style.cssText = 'width:32px;height:32px;font-size:16px;flex-shrink:0;aspect-ratio:auto;';
     btn.onclick = () => copyChar(ch, btn);
     btn.onmouseenter = () => {
-      document.getElementById('preview').textContent = ch;
       document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
     };
     container.appendChild(btn);
@@ -853,7 +759,6 @@ function filterChars() {
         btn.textContent = ch;
         btn.title = `${ch}  (U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')})`;
         btn.onmouseenter = () => {
-          document.getElementById('preview').textContent = ch;
           document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
         };
         btn.onclick = () => copyChar(ch, btn);
@@ -896,7 +801,6 @@ function filterChars() {
           btn.textContent = ch;
           btn.title = `${ch}  (U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')})`;
           btn.onmouseenter = () => {
-            document.getElementById('preview').textContent = ch;
             document.getElementById('codeInfo').textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
           };
           btn.onclick = () => copyChar(ch, btn);
