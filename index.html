@@ -890,6 +890,34 @@ renderTabs();
 renderGrid();
 renderRecent();
 
+// 거슬림 없는 부드러운 드래그 스크롤 (마우스용)
+const recentSlider = document.getElementById('recentChars');
+let isDown = false, isDragging = false, startX, scrollLeft;
+recentSlider.addEventListener('mousedown', (e) => {
+  isDown = true;
+  isDragging = false;
+  startX = e.pageX - recentSlider.offsetLeft;
+  scrollLeft = recentSlider.scrollLeft;
+});
+recentSlider.addEventListener('mouseleave', () => { isDown = false; });
+recentSlider.addEventListener('mouseup', () => { isDown = false; });
+recentSlider.addEventListener('mousemove', (e) => {
+  if (!isDown) return;
+  const x = e.pageX - recentSlider.offsetLeft;
+  const walk = (x - startX) * 1.5;
+  if (Math.abs(walk) > 5) isDragging = true;
+  recentSlider.scrollLeft = scrollLeft - walk;
+  if (isDragging) e.preventDefault();
+});
+// 드래그 중 실수로 버튼이 복사(클릭)되는 것 방지
+recentSlider.addEventListener('click', (e) => {
+  if (isDragging) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, true);
+
+
 </script>
 <button class="scroll-top-btn" aria-label="맨 위로">↑</button>
 <script>(function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
