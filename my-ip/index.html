@@ -83,7 +83,10 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
         <div class="ip-type-badge" id="ipType">IPv4</div>
         <div class="ip-label">현재 접속 중인 공인 IP 주소</div>
         <div class="ip-value" id="myIp">...</div>
-        <button class="copy-btn" id="copyBtn" onclick="copyIp()"><span>📋</span> IP 복사하기</button>
+        <div style="display:flex; justify-content:center; gap:8px;">
+          <button class="copy-btn" id="copyBtn" onclick="copyIp()"><span>📋</span> IP 복사하기</button>
+          <button class="copy-btn" style="background:var(--bg-card); color:var(--text-secondary); border-color:var(--border);" onclick="refreshIp()" id="refreshBtn" title="새로고침"><span>🔄</span></button>
+        </div>
       </div>
     </div>
 
@@ -138,6 +141,13 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 </div>
 
 <script>
+function refreshIp() {
+  document.getElementById('loader').style.display = 'inline-block';
+  document.getElementById('ipContent').style.display = 'none';
+  document.getElementById('reportBox').classList.remove('show');
+  fetchIpInfo();
+}
+
 async function fetchIpInfo() {
   let ip = '알 수 없음', loc = '알 수 없음', http = 'HTTP', ua = navigator.userAgent;
   try {
@@ -152,11 +162,17 @@ async function fetchIpInfo() {
         if (k === 'uag') ua = v;
       });
     } catch(err) {
-      // Fallback
       console.warn("Cloudflare proxy blocked, trying fallback", err);
-      const res = await fetch('https://api64.ipify.org?format=json');
-      const json = await res.json();
-      ip = json.ip;
+      try {
+        const res = await fetch('https://api.country.is');
+        const json = await res.json();
+        ip = json.ip;
+        loc = json.country || '알 수 없음';
+      } catch(e2) {
+        const res = await fetch('https://api64.ipify.org?format=json');
+        const json = await res.json();
+        ip = json.ip;
+      }
     }
 
     const isV6 = ip.includes(':');
