@@ -70,11 +70,29 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
 .privacy{font-size:10px;color:var(--text-placeholder);text-align:center}
 
-.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-btn)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+  /* 동적 리포트 & 가이드 표준 CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin-top: 16px; padding: 20px; background: var(--bg-bar); border: 1px solid var(--border); border-radius: 12px; }
+  .report-box h3 { font-size: 15px; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .report-box p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 8px; }
+  .report-box .highlight { color: var(--accent); font-weight: 600; }
+  .guide-section { margin: 24px 12px 12px; padding: 24px 20px; background: var(--bg-bar); border-radius: 12px; border: 1px solid var(--border); }
+  .guide-section h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+  .guide { margin-bottom: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .guide summary { padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; }
+  .guide summary::-webkit-details-marker { display: none; }
+  .guide summary::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+  .guide[open] summary::after { transform: rotate(180deg); }
+  .guide-content { padding: 0 16px 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .guide-content h3 { font-size: 14px; color: var(--text-primary); margin: 12px 0 8px; }
+  .guide-content p { margin-bottom: 12px; }
+  .guide-content ul, .guide-content ol { padding-left: 20px; margin-bottom: 12px; }
+  .guide-content li { margin-bottom: 4px; }
+  .related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+  .related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: 12px; background: var(--bg-btn); color: var(--text-secondary); padding: 6px 12px; border-radius: 16px; text-decoration: none; border: 1px solid var(--border); transition: all 0.2s; }
+  .tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
@@ -145,23 +163,54 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <button class="btn btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">🗑️ 초기화</button>
 
     <div class="privacy">⚠️ 100% 브라우저 로컬 처리 — 이미지는 서버로 전송되지 않습니다</div>
+    
+    <!-- 동적 이미지 변환 분석 리포트 -->
+    <div id="reportContainer" class="report-box" style="display:none; animation: fadeIn 0.5s ease;"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 사용법 안내</summary>
-    <div class="guide-content">
-      <p><b>지원 형식:</b></p>
-      <p>• <b>JPG</b> — 사진에 적합, 파일 크기 작음 (손실 압축)</p>
-      <p>• <b>PNG</b> — 투명 배경 지원, 선명한 그래픽에 적합 (무손실)</p>
-      <p>• <b>WebP</b> — 최신 포맷, JPG보다 25-35% 작은 용량</p>
-      <br>
-      <p><b>품질 설정:</b></p>
-      <p>• JPG/WebP: 품질 슬라이더로 파일 크기와 화질 조절</p>
-      <p>• PNG: 무손실이므로 품질 설정 불필요</p>
-      <br>
-      <p>⚠️ GIF 애니메이션은 첫 프레임만 변환됩니다.</p>
+  <section class="guide-section">
+    <h2>💡 무료 이미지 확장자 포맷 변환 가이드</h2>
+    
+    <details class="guide" open>
+      <summary>이미지 확장자별 변환은 어떤 차이가 있나요?</summary>
+      <div class="guide-content">
+        <p>각 웹 이미지 확장자는 고유의 압축 기술(Algorithm)과 사용처 타겟을 가집니다.</p>
+        <ul>
+          <li><b>JPG (JPEG):</b> 풍경 사진, 극사실주의 스틸컷 등 색감이 다양한 객체에 적합합니다. 용량이 가벼운 손실 압축 방식을 사용합니다.</li>
+          <li><b>PNG:</b> 일러스트레이터 원화, 로고, 글씨가 많은 스크린샷 캡쳐본에 가장 탁월한 무손실 압축 포맷입니다. 투명 배경(누끼 영역)을 완벽히 보존합니다.</li>
+          <li><b>WebP:</b> 구글에서 적극 권장하는 차세대 차세대 웹 그래픽 포맷입니다. PNG의 투명도 보존 장점과 JPG의 용량 절감 장점을 둘 다 갖춰 평균 25~35% 작은 용량을 자랑합니다.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>품질 설정 등은 어떻게 진행하나요?</summary>
+      <div class="guide-content">
+        <p><b>[품질 슬라이더 조절 기법]</b></p>
+        <ul>
+          <li><b>JPG / WebP:</b> 이 두 가지 포맷을 타겟으로 선택하시면 품질(Quality) 슬라이더 컨트롤러가 활성화됩니다. 수치가 높을수록 화질은 선명하나 용량이 기하급수적으로 늘며, 반대의 경우 픽셀 열화 현상(깍두기)이 눈에 띌 수 있습니다. 대개 SEO 최적화 목적으로는 <b>75~85% 셋업 구간</b>을 추천합니다.</li>
+          <li><b>PNG:</b> 태생적으로 무손실 압축을 기반으로 설계되었기에 품질 바가 자동 비활성화됩니다. 원본 수준의 퀄리티를 강제 유지합니다.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>업로드된 저의 개인 사진은 서버에 기록되나요?</summary>
+      <div class="guide-content">
+        <p>전혀 기록되지 않습니다. 타 웹서비스에서는 원본을 업로드해 서버의 라이브러리(ImageMagick 등)를 거치는 핑퐁을 하지만, 본 서비스는 당신의 기기(스마트폰/PC 브라우저) 내에서 오프라인 모드처럼 동작합니다. <br>따라서 신분증, 결제 이력, 사생활이 담긴 기밀 이미지를 완전한 오프라인 환경에 맞먹는 수준으로 안전하게 컨버팅할 수 있습니다.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ 함께 쓰면 좋은 파일 관리 모음</h3>
+      <div class="tags">
+        <a href="/special-chars/image-compress/" class="tag">이미지 용량 극압축기</a>
+        <a href="/special-chars/bg-remover/" class="tag">AI 배경 제거 누끼머신</a>
+        <a href="/special-chars/pdf-tool/" class="tag">PDF 추출 및 분할</a>
+        <a href="/special-chars/calculators/" class="tag">재무/생활 일반 계산기</a>
+      </div>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -303,7 +352,56 @@ function convertImage(img){
       savedEl.className='saved';
     }
     savedEl.style.display='block';
+
+    updateReport(originalFile, blob, selectedFormat, img.width, img.height, pct, diff);
   }, selectedFormat, selectedFormat==='image/png'?undefined:quality);
+}
+
+function updateReport(origFile, convBlob, format, w, h, pct, diff) {
+  const container = document.getElementById('reportContainer');
+  if (!container) return;
+  
+  if (!origFile || !convBlob) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+
+  let formatFeedback = '';
+  const isJpg = format === 'image/jpeg';
+  const isPng = format === 'image/png';
+  const isWebp = format === 'image/webp';
+  
+  if (isPng) {
+    formatFeedback = '선택하신 옵션에 따라 <span class="highlight">무손실(Lossless) 압축 포맷인 PNG로 변환 렌더링</span>되었습니다. 이미지의 투명도(Alpha Channel)가 완벽하게 보존되며, 텍스트나 로고, 라인 일러스트레이션 등 픽셀 경계선에서 가장 높은 샤프니스 품질을 보여줍니다.';
+  } else if (isWebp) {
+    formatFeedback = '<span class="highlight">차세대 고효율 웹 표준 포맷인 WebP로 인코딩</span> 완료되었습니다. 기존 디거시 레거시 포맷 대비 화질 저하를 시각적으로 최소화하면서도 극강의 압축률을 자랑하여 최신 브라우저 크롬/사파리 기반의 쾌속 모바일 로딩 환경에 최적화된 결과물입니다.';
+  } else {
+    formatFeedback = '<span class="highlight">호환성이 가장 뛰어난 표준 손실형 압축 형식인 JPG(JPEG)로 변환 트랜스코딩</span> 처리되었습니다. 투명한 배경 데이터 레이어는 브라우저 엔진에 의해 자동적으로 흰색 캔버스로 병합되어 구버전 웹브라우저 및 외부 어플 호환성을 극한으로 끌어올렸습니다.';
+  }
+  
+  let resFeedback = `현재 원본 스케일 해상도인 가로 ${w}px, 세로 ${h}px 사이즈 캔버스 비율을 물리적으로 축소하지 않고 유지하며, 포맷 인코더 엔진만 브릿지 스왑하여 블록 데이터 스트럭쳐 셋플러를 재구성하였습니다.`;
+  
+  let resultMsg = '';
+  if (diff < 0) {
+    resultMsg = `디지털 분석 백그라운드 연산 결과 총 <span class="highlight">${Math.abs(pct)}% (크기 기준: ${formatSize(Math.abs(diff))})</span>의 용량이 성공적으로 트림 감축되었습니다. 새로운 모바일 업로드 환경에 훨씬 적합한 가벼운 최종 리소스를 획득하셨습니다.`;
+  } else if (diff > 0) {
+    resultMsg = `<span style="color:var(--text-error, #f87171)">[오버플로우 용량 증가 알람]:</span> 지정 변환된 타겟 포맷의 헤비한 인코딩 밀도 스키마로 인해, 기존 콤팩트한 원본 객체 대비 <span class="highlight">${pct}% (크기 기준: ${formatSize(diff)})</span> 용량이 역으로 증가했습니다. 기존 파일 압축이 이미 최상으로 설계되어 있었거나, 무손실(PNG) 포맷으로 지정하여 메타 데이터가 확장 파생되었을 확률이 가장 높습니다.`;
+  } else {
+    resultMsg = `변환 결과 바이너리 용량의 변화량이 거의 0%에 수렴하며 완벽히 동일합니다. 오프라인 내부 프로세스를 통해 포맷 확장자의 메타 변경에만 성공했습니다.`;
+  }
+
+  container.innerHTML = `
+    <h3>📊 실시간 포맷 트랜스퍼 최적화 분석 리포트</h3>
+    <p><b>처리 파일명 정보:</b> ${origFile.name} ➔ ${format.split('/')[1].toUpperCase()}</p>
+    <p><b>포맷 최적화 전략 로직:</b> ${formatFeedback}</p>
+    <p><b>픽셀 및 해상도 진단:</b> ${resFeedback}</p>
+    <p><b>최종 스코어(로딩 속도 이점):</b> ${resultMsg}</p>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);">
+      <p style="margin-bottom:0; color:var(--text-info);">💡 <b>테크니컬 웹 꿀팁 백서:</b> 티스토리 블로그나 네이버 카페 등 굴지의 메인 검색엔진(구글 등) 플랫폼에 최상단 1등으로 노출되기 위해서는 모바일 페이지 렌더링 속도(LCP) 지표가 무엇보다 핵심적으로 중요합니다. 최근 구글 최상위 SEO 가이드 정책에서는 WebP나 퀄리티가 고도로 최적화된 최신 이미지 포맷의 사용을 랭킹 로직상 매우 강력하게 권장하고 있으니 업로드 시 적극 활용하시기 바랍니다.</p>
+    </div>
+  `;
 }
 
 function download(){
@@ -326,6 +424,7 @@ function resetAll(){
   document.getElementById('dlBtn').style.display='none';
   document.getElementById('resetBtn').style.display='none';
   document.getElementById('savedInfo').style.display='none';
+  if(document.getElementById('reportContainer')){ document.getElementById('reportContainer').style.display = 'none'; }
 }
 
 function formatSize(bytes){

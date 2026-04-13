@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -89,6 +89,22 @@
 
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:var(--text-on-accent);padding:10px 24px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+        .report-box {background:var(--bg-guide);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--accent);animation:fadeIn .5s ease-in-out;margin-top:16px;}
+        .report-box h3 {font-size:14px;font-weight:700;color:var(--accent);margin-bottom:4px}
+        .report-box p {font-size:13px;color:var(--text-secondary);line-height:1.6}
+        .report-box strong {color:var(--text-primary);font-weight:600}
+
+        .related-tools {background:var(--bg-guide);border-radius:12px;padding:20px;margin:20px 16px}
+        .related-tools h3 {font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .related-tools .tool-list {display:flex;flex-direction:column;gap:8px}
+        .related-tools .tool-list a {display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-app);border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;color:var(--text-primary);border:1px solid var(--border);transition:all .2s}
+        .related-tools .tool-list a:hover {background:var(--bg-btn);border-color:var(--accent);color:var(--accent);transform:translateX(4px)}
+
+        @keyframes fadeIn {
+            from { opacity:0; transform:translateY(10px) }
+            to { opacity:1; transform:translateY(0) }
+        }
 
         @media(max-width:640px){
             body{padding:10px}
@@ -190,37 +206,35 @@
             </div>
             <div class="result-detail" id="resultDetail"></div>
             <div class="result-holidays" id="resultHolidays"></div>
+            <div class="report-box" id="analysisReport" style="display:none;"></div>
         </div>
     </div>
 
-    <details class="guide-section">
-        <summary>📖 사용 방법</summary>
+    <details class="guide-section" open>
+        <summary>📖 영업일(근무일) 계산기 활용 가이드 및 상식</summary>
         <div class="guide-content">
-            <strong>모드 1: 시작일 + 영업일</strong>
-            <ul>
-                <li>시작일로부터 N영업일 후(또는 전) 날짜를 계산합니다</li>
-                <li>음수를 입력하면 과거 방향으로 계산합니다 (예: -5영업일)</li>
-            </ul>
+            <strong>Q. 영업일(Business Day)이란 정확히 무엇인가요?</strong>
+            <p>보통 주말(토, 일요일)과 법정 공휴일을 제외하고 관공서 및 주요 금융기관(은행 등)이 실제 근무하는 날짜를 뜻합니다. 계약서 상의 '3영업일 이내 송금', 은행 대출 심사 기한, 온라인 쇼핑몰의 배송 일정 안내(평일 기준 N일) 등에 엄격히 적용됩니다.</p>
             <br>
-            <strong>모드 2: 두 날짜 사이</strong>
-            <ul>
-                <li>두 날짜 사이의 영업일 수를 계산합니다</li>
-            </ul>
+            <strong>Q. 공휴일 제외 옵션은 어떻게 동작하나요?</strong>
+            <p>신정, 삼일절, 어린이날, 현충일, 광복절 등 양력 고정 휴일은 물론이고, <strong>설날, 추석, 부처님오신날 등 매년 양력 날짜가 바뀌는 음력 변동 공휴일과 최근 지정된 대체공휴일까지 브라우저 자체 데이터(2024~2027년)에 기반하여 연산 배제 처리</strong>합니다.</p>
             <br>
-            <strong>옵션</strong>
-            <ul>
-                <li><strong>공휴일 제외</strong>: 한국 법정 공휴일(설날, 추석, 어린이날 등)을 영업일에서 제외합니다</li>
-                <li><strong>토요일 포함</strong>: 토요일을 영업일로 포함합니다 (일부 업종용)</li>
-                <li>일요일은 항상 비영업일로 처리됩니다</li>
-            </ul>
+            <strong>Q. 토요일 포함 옵션은 언제 쓰나요?</strong>
+            <p>공무원이나 일반 사무직은 주 5일제가 기본이라 토요일을 쉬지만, 제조업체나 일부 물류·운송 업종, 혹은 주말 근무가 포함된 스케줄러를 쓰는 부서는 토요일을 정상 근로일로 치는 경우가 잦습니다. 이 옵션을 켜면 일요일만 주휴일로 치고 토요일을 영업일 카운트에 포함시킵니다.</p>
             <br>
-            <strong>참고</strong>
-            <ul>
-                <li>대체공휴일은 2024~2027년 주요 확정분을 반영합니다</li>
-                <li>임시공휴일(선거일 등)은 포함되지 않을 수 있습니다</li>
-            </ul>
+            <p style="color:var(--text-muted);font-size:11px;">※ 행정 처리 기한(가령 취득세 납부기한 60일 등)은 영업일이 아닌 '단순 일수(디데이)'로 산정되므로 <b>날짜/디데이 계산기</b>를 이용하셔야 합니다. 본 계산 도구는 금융/계약 관련 '근무일수' 추정에 가장 적합합니다. 임시공휴일(돌발적인 선거일 등)은 사전 예측 데이터에 누락될 수 있으니 참고 바랍니다.</p>
         </div>
     </details>
+
+    <div class="related-tools">
+      <h3>🔗 연관 생활 도구</h3>
+      <div class="tool-list">
+        <a href="/special-chars/date-calc/"><span>📅 디데이/단순 날짜 지정 계산기</span><span>바로가기 →</span></a>
+        <a href="/special-chars/wage-calc/"><span>💰 알바/급여(주휴수당) 계산기</span><span>바로가기 →</span></a>
+        <a href="/special-chars/char-counter/"><span>📝 자소서 글자수/맞춤법 검사기</span><span>바로가기 →</span></a>
+      </div>
+    </div>
+
     <div class="footer"><span>공휴일 자동 반영</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -456,7 +470,28 @@ function showResult(targetDate, startDate, bizDays, totalDays, weekendDays, holi
                 uniqueHolidays.push(h);
             }
         });
-        holidayEl.innerHTML = '📌 제외된 공휴일: ' + uniqueHolidays.map(h => {
+
+        // SEO Dynamic Insight Start
+        const reportBox = document.getElementById('analysisReport');
+        reportBox.style.display = 'flex';
+        
+        let msg = `<h3>💡 맞춤형 영업일 분석 리포트</h3>`;
+        if (type === 'add') {
+            const inputDays = parseInt(document.getElementById('bizDays').value);
+            msg += `<p>지정하신 시작일로부터 <strong>${Math.abs(inputDays)}영업일 ${inputDays>0?'후':'이전'}</strong>의 캘린더 날짜를 연산했습니다. `;
+            msg += `순수 근무일 ${bizDays}일을 확보하거나 달성하기 위해, 실제 달력상으로는 <strong>총 ${totalDays}일의 리드타임(소요 기간)이 발생</strong>합니다. </p>`;
+        } else {
+            msg += `<p>지정하신 두 날짜(시작일과 종료일)의 다차원적 기간 편차는 <strong>실제 통상 캘린더 기준 총 ${totalDays}일</strong>입니다. `;
+            msg += `이 중에서 휴일 요건 필터링을 거친 결과, <strong>실질적인 순 근무(영업) 일수는 ${bizDays}일</strong>로 확정되었습니다. </p>`;
+        }
+        
+        msg += `<p>상세히 들여다보면 이 기간 내에는 <strong>주말(토/일)이 ${weekendDays}일</strong> 포함되어 있으며, 한국 법정 공휴일 지정일이 <strong>${uniqueHolidays.length}일</strong> 겹쳐 이를 구조에서 제외 처리(${document.getElementById('excludeHolidays').checked ? '활성화' : '비활성'})한 결괏값입니다. `;
+        msg += `선박 운송(Shipping) 납기 관리나 금융 대출 실행의 이자 기산일 산정, 무역 B2B 대금 회수 디데이 관리에 이처럼 정확한 날짜 지표를 활용하시면 워크플로우 효율성을 크게 개선할 수 있습니다.</p>`;
+        
+        reportBox.innerHTML = msg;
+        // SEO Dynamic Insight End
+
+        holidayEl.innerHTML = '📌 기간 내 제외된 공휴일: ' + uniqueHolidays.map(h => {
             const m = h.date.getMonth() + 1;
             const d = h.date.getDate();
             return `<span class="holiday-chip">${m}/${d} ${h.name}</span>`;
@@ -473,6 +508,8 @@ function clearAll() {
         if (el) el.value = '';
     });
     document.getElementById('resultSection').classList.remove('show');
+    const reportBox = document.getElementById('analysisReport');
+    if(reportBox) reportBox.style.display = 'none';
     document.getElementById('bottomInfo').textContent = mode === 'add' ? '시작일과 영업일 수를 입력하세요' : '두 날짜를 선택하세요';
     showToast('초기화되었습니다');
 }

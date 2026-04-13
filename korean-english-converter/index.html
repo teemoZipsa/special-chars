@@ -51,11 +51,30 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .example-chip{background:var(--bg-bar);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text-section);cursor:pointer;transition:all .2s;font-family:inherit}
 .example-chip:hover{background:var(--bg-hover);border-color:var(--accent);color:var(--text-amount)}
 .example-chip span{color:var(--text-muted);margin:0 4px}
-.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
+.guide-section{margin:12px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-bar);transition:all .3s ease}
+.guide-section summary{padding:14px 18px;cursor:pointer;font-size:14px;font-weight:700;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:8px;background:var(--bg-guide);transition:background .2s}
+.guide-section summary::before{content:'▶';font-size:11px;color:var(--accent);transition:transform .3s}
+.guide-section[open] summary::before{transform:rotate(90deg)}
 .guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+.guide-section[open] summary{border-bottom:1px solid var(--border)}
+.guide-content{padding:20px;font-size:13px;color:var(--text-info);line-height:1.7}
+.guide-block{margin-bottom:18px}
+.guide-block:last-child{margin-bottom:0}
+.guide-block h3{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.tags-container{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;padding-top:16px;border-top:1px dashed var(--border);align-items:center}
+.tag-title{font-size:12px;font-weight:600;color:var(--text-muted)}
+.related-tag{background:var(--bg-btn);color:var(--text-amount);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;text-decoration:none;transition:all .2s;border:1px solid var(--border)}
+.related-tag:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px)}
+.report-container{margin-top:16px;background:var(--bg-bar);border:1px solid var(--border);border-radius:12px;padding:16px;animation:fadeIn .4s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.report-title{font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.report-box{background:var(--bg-body);border-radius:8px;padding:14px;border:1px solid var(--border)}
+.report-list{list-style:none;margin:0;padding:0}
+.report-list li{position:relative;padding-left:14px;margin-bottom:8px;font-size:13px;color:var(--text-info)}
+.report-list li::before{content:'•';position:absolute;left:0;color:var(--accent);font-weight:bold}
+.report-list li:last-child{margin-bottom:0}
+.report-list li a{color:var(--accent);text-decoration:none;font-weight:600;transition:opacity .2s}
+.report-list li a:hover{opacity:.8;text-decoration:underline}
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
 .footer a:hover{color:var(--text-guide)}
@@ -103,6 +122,12 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       <button class="btn btn-clear" onclick="clearAll()">🗑️ 초기화</button>
     </div>
 
+    <!-- 동적 분석 리포트 영역 -->
+    <div class="report-container" id="reportContainer" style="display:none;">
+      <div class="report-title">📊 실시간 타이핑 분석 리포트</div>
+      <div class="report-box" id="reportBox"></div>
+    </div>
+
     <div class="examples" id="examples">
       <div class="examples-title">💡 예시 (클릭하면 입력됩니다)</div>
       <div class="example-chips" id="exampleChips"></div>
@@ -110,15 +135,28 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용법 안내</summary>
+    <summary>📖 한영 타자 변환기 완벽 사용 가이드 및 Q&A</summary>
     <div class="guide-content">
-      <p><b>영타 → 한글:</b> 한/영 전환을 깜빡하고 영문 상태로 한글을 타이핑했을 때 사용합니다.</p>
-      <p>예) <code>dkssud</code> → <code>안녕</code></p>
-      <br>
-      <p><b>한타 → 영어:</b> 한글 상태에서 영어를 타이핑했을 때 사용합니다.</p>
-      <p>예) <code>ㅗ디ㅣㅐ</code> → <code>hello</code></p>
-      <br>
-      <p>⚠️ 100% 브라우저 로컬 처리 — 입력한 텍스트는 어디에도 전송되지 않습니다.</p>
+      <div class="guide-block">
+        <h3>💡 한영 타자 변환율 및 정확도는 어떻게 되나요?</h3>
+        <p>본 변환기는 한글 자소(자음과 모음)의 조합 패턴을 분석하여 오타를 교정합니다. 영타로 잘못 친 텍스트나 한글 상태에서 입력된 영문을 100% 브라우저 내에서 즉각적으로 복원해 줍니다. 타이핑 실수가 발생했을 때 가장 빠르고 정확하게 본래의 문장으로 되돌릴 수 있는 최적의 한영 변환 도구입니다.</p>
+      </div>
+
+      <div class="guide-block">
+        <h3>🔒 변환된 텍스트는 안전하게 보호되나요?</h3>
+        <p>네, 안전합니다. 모든 입력 내용과 변환 결과는 사용자 기기(웹 브라우저)에서만 암호화 없이 로컬 연산으로 처리됩니다. 외부 서버로 전송되는 데이터가 일절 없으므로 이메일, 비밀번호, 결제 정보 등 보안이 중요한 개인정보나 기밀 문서 내용도 철저히 보장되며 안심하고 변환할 수 있습니다.</p>
+      </div>
+
+      <div class="guide-block">
+        <h3>🚀 장문이나 특수문자가 포함된 문장도 변환 가능한가요?</h3>
+        <p>물론입니다. 글자 수 제한 없이 변환이 가능하며, 키보드에 매핑되지 않은 특수문자(!@# 등), 숫자, 그리고 띄어쓰기는 본래의 입력 형태 그대로 유지하면서 오직 문자 영역에 대해서만 한/영 전환 로직을 반영하여 원본의 의도를 훼손하지 않고 완벽하게 변환을 지원합니다.</p>
+      </div>
+      
+      <div class="tags-container">
+        <span class="tag-title">관련 유틸리티 도구:</span>
+        <a href="https://teemozipsa.github.io/special-chars/word-counter/" class="related-tag">글자수 계산기</a>
+        <a href="https://teemozipsa.github.io/special-chars/base64-tool/" class="related-tag">Base64 인코더/디코더</a>
+      </div>
     </div>
   </details>
     <div class="footer"><span>실시간 변환</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
@@ -369,15 +407,37 @@ function useExample(text){
   convert();
 }
 
+function updateReport(resultLen, modeLabel) {
+  const container = document.getElementById('reportContainer');
+  const box = document.getElementById('reportBox');
+  if (resultLen === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+  
+  box.innerHTML = `
+    <ul class="report-list">
+      <li><strong>변환 모드:</strong> <code>${modeLabel}</code> 형태로 텍스트를 파싱하여 최적의 결과를 찾았습니다.</li>
+      <li><strong>글자수 분석:</strong> 총 <strong>${resultLen.toLocaleString()}</strong>자의 텍스트가 대기 시간 없이 실시간으로 교정되었습니다.</li>
+      <li><strong>로컬 보안:</strong> 현재 이 한영 변환 과정은 외부 서버 통신 없이 사용자 브라우저 보안 샌드박스 내부에서 100% 로컬로 연산되며 어떠한 데이터도 수집되지 않습니다.</li>
+      <li><strong>추가 추천:</strong> 장문 오타 교정 작업 후 글자 수 확인이 필요하다면 <a href="https://teemozipsa.github.io/special-chars/word-counter/">글자수 계산기</a>를 함께 활용해 보세요.</li>
+    </ul>
+  `;
+}
+
 function convert(){
   const input=document.getElementById('inputText').value;
   const resultEl=document.getElementById('resultText');
   if(!input){
     resultEl.innerHTML='<span class="result-placeholder">입력하면 자동으로 변환됩니다</span>';
+    updateReport(0, '');
     return;
   }
   const result=mode==='engToKor'?engToKor(input):korToEng(input);
   resultEl.textContent=result;
+  updateReport(result.length, mode === 'engToKor' ? '영타 → 한글' : '한타 → 영어');
 }
 
 function copyResult(){
@@ -389,6 +449,7 @@ function copyResult(){
 function clearAll(){
   document.getElementById('inputText').value='';
   document.getElementById('resultText').innerHTML='<span class="result-placeholder">입력하면 자동으로 변환됩니다</span>';
+  updateReport(0, '');
 }
 
 function showToast(msg){

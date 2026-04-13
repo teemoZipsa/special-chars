@@ -56,14 +56,26 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .drop-zone input{display:none}
 .preview-img{max-width:100%;max-height:200px;border-radius:8px;margin:12px auto;display:block}
 .copy-row{display:flex;gap:8px;margin-bottom:14px}
-.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
+.report-box {margin-top:16px; margin-bottom:14px; padding:16px; background:rgba(83,52,131,0.05); border-left:4px solid var(--accent); border-radius:8px; font-size:13px; line-height:1.6; color:var(--text-primary); display:none;}
+.report-box.show {display:block; animation:fadeIn 0.4s;}
+@keyframes fadeIn {from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+
+.guide-section{margin:12px; padding:16px; border:1px solid var(--border); border-radius:8px; background:var(--bg-app); margin-top:20px;}
+.guide-title{font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:12px;}
+.guide-item{margin-bottom:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-guide); overflow:hidden;}
+.guide-item summary{padding:12px; font-size:13px; font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; color:var(--text-guide);}
+.guide-item summary::after{content:'▼'; font-size:10px; color:var(--text-info); transition:transform 0.2s;}
+.guide-item[open] summary::after{transform:rotate(180deg);}
+.guide-item[open] summary{border-bottom:1px solid var(--border); background:var(--bg-btn);}
+.guide-item .guide-content{padding:12px; font-size:13px; color:var(--text-info); line-height:1.6;}
+.related-tools{margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
+.tag-container{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+.tool-tag{padding:6px 12px; background:rgba(83,52,131,0.1); color:var(--accent); border-radius:16px; font-size:11px; font-weight:600; text-decoration:none; transition:all 0.2s;}
+.tool-tag:hover{background:var(--accent); color:var(--text-on-accent);}
+
+.footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
-.footer a:hover{color:var(--text-guide)}
+.footer a:hover{color:var(--text-secondary)}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:var(--text-primary);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
@@ -130,23 +142,40 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       </div>
     </div>
   </div>
+  
+  <div id="reportBox" class="report-box" style="margin-left:20px; margin-right:20px;"></div>
 
-  <details class="guide-section">
-    <summary>📖 사용법 안내</summary>
-    <div class="guide-content">
-      <p><b>텍스트 모드:</b></p>
-      <p>• 인코딩: 일반 텍스트를 Base64로 변환합니다</p>
-      <p>• 디코딩: Base64 문자열을 원본 텍스트로 복원합니다</p>
-      <p>• 한글, 이모지 등 유니코드 문자도 지원합니다 (UTF-8)</p>
-      <br>
-      <p><b>이미지 모드:</b></p>
-      <p>• 이미지 파일을 Base64 데이터 URL로 변환합니다</p>
-      <p>• HTML/CSS에서 인라인 이미지로 사용할 수 있습니다</p>
-      <br>
-      <p>⚠️ 100% 브라우저 로컬 처리 — 데이터는 어디에도 전송되지 않습니다.</p>
+  <div class="guide-section">
+    <div class="guide-title">🤔 Base64 인코딩 관련 Q&A</div>
+    <details class="guide-item">
+      <summary>Base64 인코딩이란 무엇인가요?</summary>
+      <div class="guide-content">
+        컴퓨터 분야에서 쓰이는 Base64(베이스 64) 코딩 기법은 8비트 이진 데이터(예: 이미지 파일, 실행파일, 일반 문자열 등)를 화면에 표시되는 문자 코드표(ASCII)의 일반적인 64개 아스키 문자로 변환하여 나타내는 방식입니다. 이렇게 변환하면 시스템 독립적으로 데이터를 안전하게 전송하거나 저장할 수 있습니다.
+      </div>
+    </details>
+    <details class="guide-item">
+      <summary>Base64는 암호화 방식인가요?</summary>
+      <div class="guide-content">
+        <strong>아닙니다.</strong> Base64는 '인코딩(Encoding)' 방식일 뿐, 보안을 위한 '암호화(Encryption)'가 아닙니다. 누구나 Base64 문자열을 원본 데이터로 다시 디코딩할 수 있으므로, 비밀번호나 개인정보 같은 민감한 데이터는 Base64로만 처리해서 노출하면 안전하지 않습니다. 반드시 강력한 암호화 알고리즘 처리를 별도로 해야 합니다.
+      </div>
+    </details>
+    <details class="guide-item">
+      <summary>이미지를 Base64로 언제 주로 변환하나요?</summary>
+      <div class="guide-content">
+        HTML 문서 내에 작은 크기의 로고 이미지나 아이콘을 삽입할 때 주로 사용됩니다.<br/>
+        문서 내에 <code>&lt;img src="data:image/png;base64,...(데이터)..." /&gt;</code> 형태로 포함시키면 별도의 이미지 파일을 다운로드하기 위한 추가적인 네트워크 HTTP 요청이 발생하지 않아 페이지 로딩 속도를 일부 개선하는 데 도움을 줍니다. 단, 이미지 용량이 너무 크면 문서의 텍스트 크기가 과도하게 커질 수 있으므로 수 킬로바이트 이하의 소형 이미지에 권장됩니다.
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <div class="guide-title" style="font-size:12px; margin-bottom:8px;">🛠 연관 도구 추천</div>
+      <div class="tag-container">
+        <a href="/special-chars/password-gen/" class="tool-tag">비밀번호 생성기</a>
+        <a href="/special-chars/color-conv/" class="tool-tag">색상 코드 변환기</a>
+      </div>
     </div>
-  </details>
-    <div class="footer"><span>100% 브라우저 로컬 처리</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+  </div>
+    <div class="footer"><span>100% 브라우저 로컬 처리 (서버 미전송)</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -162,6 +191,7 @@ function setMode(m){
   });
   document.getElementById('textMode').style.display=m==='text'?'block':'none';
   document.getElementById('imageMode').style.display=m==='image'?'block':'none';
+  document.getElementById('reportBox').classList.remove('show');
 }
 
 // UTF-8 safe Base64
@@ -183,8 +213,10 @@ function encode(){
   const input=document.getElementById('inputText').value;
   if(!input){showToast('텍스트를 입력하세요');return;}
   try{
-    document.getElementById('outputText').value=utf8ToBase64(input);
+    const result=utf8ToBase64(input);
+    document.getElementById('outputText').value=result;
     showToast('인코딩 완료! 🔒');
+    updateReport({type:'encode', length:result.length});
   }catch(e){showToast('인코딩 실패: '+e.message);}
 }
 
@@ -199,7 +231,22 @@ function decode(){
       document.getElementById('outputText').value=result;
     }
     showToast('디코딩 완료! 🔓');
-  }catch(e){showToast('유효하지 않은 Base64 문자열입니다');}
+    updateReport({type:'decode', length:result.length});
+  }catch(e){showToast('유효하지 않은 Base64 문자열이거나 지원하지 않는 형식입니다.');}
+}
+
+function updateReport(data) {
+  const box = document.getElementById('reportBox');
+  let text = '';
+  if(data.type === 'encode') {
+    text = `🔒 <b>Base64 텍스트 인코딩 분석</b><br/>원본 텍스트가 총 <b>${data.length.toLocaleString()}자</b>의 Base64 데이터 문자열로 변환되었습니다. 생성된 Base64 코드는 ASCII 문자셋으로만 이루어져 있어 이메일이나 API 전송 환경에서 데이터 손실 없이 안전하게 전송할 수 있습니다.`;
+  } else if(data.type === 'decode') {
+    text = `🔓 <b>Base64 텍스트 디코딩 분석</b><br/>입력하신 Base64 데이터가 성공적으로 파싱되어 총 <b>${data.length.toLocaleString()}자</b>의 원본 UTF-8 텍스트로 복원(디코딩)되었습니다.`;
+  } else if(data.type === 'image') {
+    text = `🖼️ <b>Base64 이미지 변환 완료</b><br/>업로드된 이미지가 Data URI Scheme 형태의 Base64 코드로 변환되었습니다. 변환된 코드의 용량은 약 <b>${data.kb} KB</b>입니다. 이 코드를 복사하여 브라우저 주소창이나 HTML <code>&lt;img src=""&gt;</code> 속성에 붙여넣으면 이미지가 즉시 렌더링됩니다.`;
+  }
+  box.innerHTML = text;
+  box.classList.add('show');
 }
 
 function swapText(){
@@ -222,6 +269,7 @@ function copyOutput(){
 function clearText(){
   document.getElementById('inputText').value='';
   document.getElementById('outputText').value='';
+  document.getElementById('reportBox').classList.remove('show');
 }
 
 // 이미지 모드
@@ -238,12 +286,14 @@ function handleFile(file){
   const reader=new FileReader();
   reader.onload=function(e){
     const dataUrl=e.target.result;
+    const kbText = (dataUrl.length/1024).toFixed(1);
     document.getElementById('previewImg').src=dataUrl;
     document.getElementById('previewImg').style.display='block';
     document.getElementById('imageBase64').textContent=dataUrl;
-    document.getElementById('b64Length').textContent=`${(dataUrl.length/1024).toFixed(1)} KB`;
+    document.getElementById('b64Length').textContent=`${kbText} KB`;
     document.getElementById('imageResult').style.display='block';
     showToast('이미지 변환 완료!');
+    updateReport({type:'image', kb:kbText});
   };
   reader.readAsDataURL(file);
 }
@@ -258,6 +308,7 @@ function clearImage(){
   document.getElementById('previewImg').style.display='none';
   document.getElementById('imageResult').style.display='none';
   document.getElementById('fileInput').value='';
+  document.getElementById('reportBox').classList.remove('show');
 }
 
 function showToast(msg){

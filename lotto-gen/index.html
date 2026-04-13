@@ -66,6 +66,22 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .copy-btn{background:var(--bg-bar);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:11px;color:var(--text-muted);cursor:pointer}
 .copy-btn:hover{background:var(--bg-btn-hover)}
 
+.report-box {background:var(--bg-guide);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--accent);animation:fadeIn .5s ease-in-out;margin-bottom:20px;}
+.report-box h3 {font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.report-box p {font-size:13px;color:var(--text-secondary);line-height:1.6}
+.report-box strong {color:var(--text-primary);font-weight:600}
+
+.related-tools {background:var(--bg-guide);border-radius:12px;padding:20px;margin:20px}
+.related-tools h3 {font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.related-tools .tool-list {display:flex;flex-direction:column;gap:8px}
+.related-tools .tool-list a {display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-app);border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;color:var(--text-primary);border:1px solid var(--border);transition:all .2s}
+.related-tools .tool-list a:hover {background:var(--bg-btn);border-color:var(--accent);color:var(--accent);transform:translateX(4px)}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px) }
+  to { opacity:1; transform:translateY(0) }
+}
+
 .guide{padding:0 20px 20px}
 .guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
 .guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
@@ -112,21 +128,43 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
       </div>
     </div>
 
+    <!-- 신규 동적 리포트 박스 -->
+    <div class="report-box" id="analysisReport" style="display:none;"></div>
+
     <div class="history" id="historyBox" style="display:none">
       <div class="history-title">추첨 이력 (최대 10개)</div>
       <div class="hist-list" id="histList"></div>
     </div>
   </div>
 
-  <details class="guide">
-    <summary>💡 사용 가이드</summary>
+  <details class="guide" open>
+    <summary>💡 로또 번호 추첨 가이드 및 통계 상식</summary>
     <div class="guide-content">
-      • <b>추첨:</b> 1부터 45까지 숫자 중 중복 없이 6개를 무작위로 뽑습니다.<br>
-      • <b>고정수 설정:</b> 번호를 1번 클릭하면 파란색으로 변하며, 다음 추첨 시 무조건 포함됩니다. (최대 5개)<br>
-      • <b>제외수 설정:</b> 파란색 번호를 한 번 더 클릭하면 빨간색으로 변하며, 추첨에서 완전 배제됩니다.<br>
-      • <b>공 색상 규칙:</b> 1~10 노란색, 11~20 파란색, 21~30 빨간색, 31~40 회색, 41~45 초록색 (동행복권 기준)
+      <strong>Q. 자동 생성은 완전히 무작위인가요?</strong>
+      <p>네, 자바스크립트의 난수 생성 알고리즘(Fisher-Yates Shuffle)을 적용하여 1부터 45까지의 숫자 중 중복 없이 완전히 독립적인 확률로 6개를 추출합니다. 하지만 사용자가 <strong>고정수(반드시 포함)</strong>나 <strong>제외수(절대 미포함)</strong>를 지정하면 해당 조건이 최우선적으로 적용되어 커스텀 로또 세트를 구성할 수 있습니다.</p>
+      <br>
+      <strong>Q. 고정수와 제외수는 어떻게 쓰나요?</strong>
+      <p>보통 꿈에서 본 숫자나, 지난 회차 당첨 번호를 배제하고 싶을 때 유용합니다.<br>
+      • <b>고정수 설정 (최대 5개):</b> 번호를 한 번 클릭하면 파란색으로 지정되며 매번 생성 무리에 포함됩니다.<br>
+      • <b>제외수 설정 (무제한):</b> 파란색인 번호를 한 번 더 클릭하면 빨간색으로 지정되어 추첨 풀에서 완전히 삭제됩니다.<br>
+      • 한 번 더 클릭하면 기본 상태로 돌아옵니다.</p>
+      <br>
+      <strong>Q. 로또 당첨 확률은 얼마인가요?</strong>
+      <p>로또 6/45의 1등 당첨 확률은 <strong>1/8,145,060</strong> (약 814만 분의 1)입니다. 벼락 맞을 확률보다도 희박하지만, 매주 약 10명 내외의 1등 당첨자가 나오는 것은 그만큼 전국적으로 수천만 게임이 판매되기 때문입니다. 건전한 소액 구매를 통해 삶의 작은 즐거움을 느끼시기를 권장합니다.</p>
+      <br>
+      <p style="color:var(--text-muted);font-size:11px;">※ 공 색상 규칙(동행복권 기준): 1~10 노란색, 11~20 파란색, 21~30 빨간색, 31~40 회색, 41~45 초록색</p>
     </div>
   </details>
+
+  <div class="related-tools">
+    <h3>🔗 연관 생활 도구</h3>
+    <div class="tool-list">
+      <a href="/special-chars/date-calc/"><span>📅 디데이/날짜 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/zodiac-calc/"><span>🔮 띠/만세력 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/sub-calc/"><span>💸 구독료 다이어트 계산기</span><span>바로가기 →</span></a>
+    </div>
+  </div>
+
   <div class="footer"><span>대박을 기원합니다! 🍀</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -218,6 +256,32 @@ function generate() {
   
   renderBalls(result);
   addHistory(result);
+  
+  // Analytics for SEO text
+  const report = document.getElementById('analysisReport');
+  report.style.display = 'flex';
+  
+  const sum = result.reduce((a,b)=>a+b, 0);
+  const oddCount = result.filter(n=>n%2!==0).length;
+  const evenCount = 6 - oddCount;
+  const highCount = result.filter(n=>n>22).length;
+  const lowCount = 6 - highCount;
+  
+  let msg = `<h3>💡 생성된 로또 번호 패턴 분석</h3>`;
+  msg += `<p>이번에 생성된 행운의 6자리 번호는 <strong>[${result.join(', ')}]</strong>입니다. `;
+  
+  if(fixedNums.size > 0 || exNums.size > 0) {
+      msg += `고객님께서 직접 지정하신 <strong>고정수 ${fixedNums.size}개</strong>와 <strong>제외수 ${exNums.size}개</strong>의 필터링 조건이 추출 알고리즘에 엄격하게 반영되었습니다. `;
+  } else {
+      msg += `완전한 무작위(Random) 난수 발생 알고리즘을 통해 필터링 편견 없이 순수 100% 랜덤 추출되었습니다. `;
+  }
+  
+  msg += `</p><p>통계적 흥미를 위해 이번 번호 세트의 패턴을 분석해 보면, <strong>짝수와 홀수의 비율은 ${evenCount}:${oddCount}</strong>로 구성되었으며, 1~22가 속하는 <strong>저고비율(낮은 수와 높은 수 비율)은 ${lowCount}:${highCount}</strong>입니다. `;
+  msg += `또한 선택된 6개 복권 숫자의 <strong>총합은 ${sum}</strong>을 기록했습니다. (역대 로또 1등 당첨 번호의 숫자 총합은 대체로 120~180 사이에 가장 많이 밀집되는 통계적 경향이 있으니 단순 참고용 패턴으로 확인해 보세요.)</p>`;
+  
+  msg += `<p>위의 [번호 추첨하기] 버튼을 반복해서 누르시면 바로 아래 '추첨 이력 기록'란에 최대 10세트의 번호가 누적 보관되어 쉽게 비교하고 텍스트로 복사하실 수 있습니다. 동행복권의 당첨 기운이 깃들길 응원합니다!</p>`;
+  
+  report.innerHTML = msg;
 }
 
 function renderBalls(nums) {

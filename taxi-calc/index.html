@@ -61,6 +61,24 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .detail-value{font-weight:700;color:var(--text-primary);font-variant-numeric:tabular-nums}
 .copy-btn{width:100%;padding:11px;background:var(--bg-header);color:var(--text-on-accent);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
 .copy-btn:hover{opacity:.85}
+.copy-btn:active{transform:scale(.98)}
+
+.report-box {background:var(--bg-guide);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--accent);animation:fadeIn .5s ease-in-out;margin-top:10px}
+.report-box h3 {font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.report-box p {font-size:13px;color:var(--text-secondary);line-height:1.6}
+.report-box strong {color:var(--text-primary);font-weight:600}
+
+.related-tools {background:var(--bg-guide);border-radius:12px;padding:20px;margin:0 12px 12px}
+.related-tools h3 {font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.related-tools .tool-list {display:flex;flex-direction:column;gap:8px}
+.related-tools .tool-list a {display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-app);border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;color:var(--text-primary);border:1px solid var(--border);transition:all .2s}
+.related-tools .tool-list a:hover {background:var(--bg-btn);border-color:var(--accent);color:var(--accent);transform:translateX(4px)}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px) }
+  to { opacity:1; transform:translateY(0) }
+}
+
 .guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
 .guide-section summary:hover{background:var(--bg-guide-hover)}
@@ -136,28 +154,53 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 
     <!-- 결과 -->
     <div class="summary" id="summary"></div>
-    <div class="detail-box" id="detailBox"></div>
-    <div id="grandTotalBox"></div>
-    <button class="copy-btn" onclick="copyResult()">📋 결과 복사</button>
+    <div class="detail-box" id="detailBox" style="margin-top:14px"></div>
+    <div id="grandTotalBox" style="margin-top:14px"></div>
+
+    <div class="report-box" id="analysisReport" style="display:none;"></div>
+
+    <button class="copy-btn" onclick="copyResult()" style="margin-top:14px">📋 결과 복사</button>
   </div>
 
+  <details class="guide-section" open>
+    <summary>💡 택시 이용 및 요금 절약 Q&A</summary>
+    <div class="guide-content">
+      <strong>Q. 시외 할증은 언제부터 붙나요?</strong>
+      <p>대부분의 택시는 사업 구역(시 단위)을 넘어가면 <strong>시계외 할증(약 20~30%)</strong>이 적용됩니다. 심야 시간에 시계를 넘어가게 되면 <strong>[심야 할증 + 시계외 할증]</strong>이 중복 적용되어 요금이 최소 40% 이상 폭주할 수 있으니 장거리 이동 시 주의가 필요합니다.</p>
+      <br>
+      <strong>Q. 차가 막히면 택시 요금이 왜 더 빨리 오르나요?</strong>
+      <p>현행 택시 요금은 '거리 요금'과 '시간 요금'이 병행하여 올라가는 <strong>거리·시간 병산제</strong>를 채택하고 있습니다. 기준 속도(보통 시속 15km) 이하로 서행하거나 신호에 걸려 정차해 있을 때는 <strong>시간 요금(초당 일정 금액)</strong>이 추가로 차감되어 거리가 늘지 않아도 요금이 상승하게 됩니다.</p>
+      <br>
+      <strong>Q. 카카오 T 등 호출 수수료는 택시비와 별개인가요?</strong>
+      <p>네, 별개입니다. 본 계산기는 호출 플랫폼의 수수료(콜비)를 제외한 순수 미터기 예상 요금만 산출합니다. 블루, 벤티와 같은 특수 호출의 경우 시간대에 따라 천차만별의 호출 수수료가 배정되므로, 미터기 요금 + 콜비를 합산하여 예산을 짜는 것이 현명합니다.</p>
+    </div>
+  </details>
+
   <details class="guide-section">
-    <summary>📊 지역별 요금표</summary>
+    <summary>📊 지역별 요금표 (2026년 기준)</summary>
     <div class="guide-content" id="rateInfo"></div>
   </details>
 
   <details class="guide-section">
-    <summary>💡 택시비 안내</summary>
+    <summary>📖 택시비 요금 구조 기초 안내</summary>
     <div class="guide-content">
-      <p><b>• 요금 구조:</b> 기본요금(기본거리) + 거리추가요금 + 시간추가요금(정차 시)</p>
-      <p><b>• 심야할증:</b> 보통 22:00~04:00, 지역별로 20~40% 할증</p>
-      <p><b>• 시계외할증:</b> 행정구역 벗어날 시 추가 (본 계산기에는 미반영)</p>
-      <p><b>• 참고:</b> 실제 요금은 교통 상황(정차 시간)에 따라 달라질 수 있습니다</p>
-      <p><b>• 본 계산기는 거리 기준 예상 요금이며, 참고용입니다</b></p>
+      <p><b>• 요금 산정 방식:</b> 기본요금(기본거리) + 추가거리요금 + 시간추가요금(서행/정차 시)</p>
+      <p><b>• 심야 폭증 주의:</b> 보통 밤 10시부터 새벽 4시까지 세분화 적용되며, 피크 시간대(예: 밤 11시 ~ 새벽 2시)엔 관할 구역에 따라 최대 40% 할증 구간이 있습니다.</p>
+      <p><b>• 시계외 할증 부담:</b> 행정구역을 벗어날 경우 미터기가 올라가는 속도가 완전히 달라집니다. (시외 할증은 본 기초 계산기에는 구조상 반영되지 않았습니다.)</p>
+      <p><b>• 공지:</b> 본 계산 결과는 최적의 도로 상황을 가정한 거리 기준 단순 예상 요금이므로, 교통 체증 등 실운행 컨디션에 따라 편차가 명확히 존재합니다.</p>
     </div>
   </details>
 
-  <div class="footer"><span>전국 택시비 · 실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+  <div class="related-tools">
+    <h3>🔗 맞춤형 교통/생활 계산기</h3>
+    <div class="tool-list">
+      <a href="/special-chars/fuel-calc/"><span>⛽ 유류비 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/broker-fee-calc/"><span>🏠 부동산 중개보수 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/sub-calc/"><span>💸 구독료 계산기</span><span>바로가기 →</span></a>
+    </div>
+  </div>
+
+  <div class="footer"><span>전국 시·도 택시비 · 실시간 요금 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -393,6 +436,28 @@ function calc() {
       <div class="s-value" style="font-size: 26px; margin: 4px 0;">${fmt(result.total)}<span style="font-size:16px;font-weight:600;color:var(--text-on-accent)"> 원</span></div>
       ${people>1?`<div class="s-sub" style="font-size:13px; margin-top:6px;">1인당 ${fmt(perPerson)}원 (${people}명)</div>`:''}
     </div>`;
+
+  // Dynamic Report Logic
+  const report = document.getElementById('analysisReport');
+  report.style.display = 'flex';
+  
+  let msg = `<h3>💡 택시 운임 심층 분석 리포트</h3>`;
+  
+  msg += `<p>선택하신 <strong>${regionName}</strong> 지역의 <strong>${types[taxiType]}</strong> 요금 체계를 기준으로 <strong>${dist}km</strong>의 ${isRound ? '왕복' : '편도'} 탑승 경로를 1차 분석한 결과, 기본 요금 ${fmt(result.baseFare)}원을 바탕으로 총 <strong>${fmt(result.total)}원</strong> 수준의 예상 운임표가 산출되었습니다.</p>`;
+  
+  if (isNight) {
+      msg += `<p>현재 지자체에서 고시한 <strong>심야 할증 타임 구간(실적요율 대비 ${Math.round(result.nightRate*100)}%)</strong>에 해당되어 할증 수수료만으로 무려 <strong>+${fmt(result.nightSurcharge)}원</strong>이 추가로 부과합산되었습니다. (단, 피크타임 및 할증 체계는 지자체 조례에 따라 변동될 수 있습니다)</p>`;
+  } else {
+      msg += `<p>현재는 야간 할증이 적용되지 않는 시간대로 산정되었습니다. 다만, 22시(지역에 따라 23시) 이후 자정을 넘기게 되어 정차하게 된다면 순식간에 요금 폭탄을 맞을 가능성이 있기 때문에 탑승 시간에 주의를 요합니다.</p>`;
+  }
+  
+  if (people > 1) {
+      msg += `<p>동반 탑승자 <strong>${people}명</strong>과 운임을 공동 분담(N빵 정산)할 경우 개인당 1/N 몫인 <strong>${fmt(perPerson)}원</strong> 금액씩 배분하여 이체 요청을 하시면 됩니다. 다만 정차 및 교통 체증에 따른 시간 요금이 추가로 합산될 현실적인 여지가 있으니, 위 금액보다 10% 이상 융통성 있게 여유액을 걷으시는 것이 바람직합니다.</p>`;
+  } else {
+      msg += `<p>나 홀로 단독 승차 시 미터기 요금 전액을 온전히 감당해야 합니다. 출발지나 목적지가 현재 사업 구역 경계를 넘어가거나, 신호 대기 및 막히는 구간으로 인해 '시간 요금'이 계속 누적된다면 실제 비용은 위 예상 금액을 가볍게 상회할 수 있으니 지갑을 조금 더 두둑하게 챙기시는 것을 권장해 드립니다.</p>`;
+  }
+  
+  report.innerHTML = msg;
 
   // 요율표
   renderRateInfo();
