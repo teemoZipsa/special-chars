@@ -58,11 +58,25 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .bmi-table tr.current{background:var(--accent-bg);font-weight:700}
 .bmi-table tr.current td{color:var(--accent)}
 
-.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin-top: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
@@ -124,18 +138,43 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
         <tr data-range="obese3"><td>Obesity Class III</td><td>&ge; 40.0</td><td>🔴</td></tr>
       </tbody>
     </table>
+    <div id="reportBox" class="report-box" style="display:none;"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 What is BMI?</summary>
-    <div class="guide-content">
-      <p><b>BMI (Body Mass Index)</b> is a simple measure that uses your height and weight to estimate your total body fat.</p>
-      <p><b>Formula:</b> BMI = Weight (kg) ÷ [Height (m)]²</p>
-      <br>
-      <p>⚠️ Note: BMI does not account for muscle mass, bone density, age, or gender. It should be used as a general screening tool, not a diagnostic one.</p>
-      <p>💡 The ranges above use the standard <b>WHO (World Health Organization)</b> criteria for adults.</p>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to BMI Calculator</h2>
+    
+    <details class="guide" open>
+      <summary>1. What exactly is BMI?</summary>
+      <div class="guide-content">
+        <p><strong>BMI (Body Mass Index)</strong> is a standardized metric used to estimate total body fat based on a person's height and weight. It acts as a quick screening tool for weight categories that may lead to health problems, rather than a diagnostic tool for body fatness or health.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Are these categories applicable to everyone?</summary>
+      <div class="guide-content">
+        <p>While the World Health Organization (WHO) provides these general guidelines for adults, BMI has limitations. It does not distinguish between muscle and fat mass, meaning athletes or highly muscular individuals might score as "overweight" while maintaining a very low body fat percentage. It also doesn't consider age or gender-specific fat distribution.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Why is "Ideal weight" set to BMI 22?</summary>
+      <div class="guide-content">
+        <p>Statistically, a BMI of 22 is often correlated with the lowest rates of morbidity and mortality in general population studies. This tool calculates the distance from your current weight to a theoretical weight that would yield a solid BMI of 22 for your specific height.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Useful Health & Lifestyle Calculators</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/calorie-calc/" class="tool-card">🔥 Calorie Calculator</a>
+      <a href="/special-chars/en/pet-bmi-calc/" class="tool-card">🐶 Pet BMI Calculator</a>
+      <a href="/special-chars/en/pet-food-calc/" class="tool-card">🥫 Pet Food Calculator</a>
+      <a href="/special-chars/en/pet-age-calc/" class="tool-card">🐾 Pet Age Calculator</a>
     </div>
-  </details>
+  </section>
 
     <div class="footer"><span>WHO Standards</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
@@ -202,6 +241,13 @@ function calc() {
       <div class="value" style="font-size:12px;font-weight:500">${range.tip}</div>
     </div>
   `;
+
+  // Dynamic Report
+  const inputHeight = document.getElementById('height').value;
+  const inputWeight = document.getElementById('weight').value;
+  const reportBox = document.getElementById('reportBox');
+  reportBox.innerHTML = `<strong>Health Analysis:</strong> Based on the height of ${inputHeight}cm and weight of ${inputWeight}kg, your BMI is exactly <strong>${bmi.toFixed(1)}</strong>. This falls into the <strong>${range.name}</strong> category.`;
+  reportBox.style.display = 'block';
 }
 
 function showToast(msg) {

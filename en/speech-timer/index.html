@@ -122,12 +122,27 @@
   }
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:var(--text-guide)}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  .guide-section{padding:16px;background:var(--bg-body);max-width:100%}
+  .guide-section h2{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-app);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-placeholder);transition:transform .2s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-btn)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-secondary);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-body)}
+  .guide-content p{margin-bottom:8px}
+  .guide-content p:last-child{margin-bottom:0}
+  .guide-content ul, .guide-content ol{padding-left:20px;margin-bottom:8px}
+  .guide-content li{margin-bottom:4px}
+  
+  .related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+  .related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+  .tool-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+  .tool-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  .tool-icon { font-size: 24px; margin-bottom: 8px; }
+  .tool-name { font-size: 12px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -189,39 +204,69 @@
     </div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Paste your speech script in the text area.</li>
-        <li>Adjust the speaking speed (characters per minute) to automatically estimate the time.</li>
-        <li>Average English speaking speed is about 130-160 words per minute.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Speech Timing</h2>
+    
+    <details class="guide" open>
+      <summary>1. How to Use</summary>
+      <div class="guide-content">
+        <ol>
+          <li>Paste your speech script in the text area.</li>
+          <li>Adjust the speaking speed (characters per minute) to automatically estimate the time.</li>
+          <li>Average English speaking speed is about 130-160 words per minute.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. What is the ideal speaking speed?</summary>
+      <div class="guide-content">
+        <p>For general presentations, 300-350 characters per minute is typical. TED-style talks use ~250 chars/min (slower), while news anchors read at 380-420 chars/min. The most comfortable speed for audiences is 300-330 chars/min.</p>
+        <br>
+        <strong>📊 Script Length Guide by Speech Duration</strong>
+        <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
+          <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Duration</th><th style="padding:6px;border:1px solid var(--border)">Slow (250c/m)</th><th style="padding:6px;border:1px solid var(--border)">Normal (330c/m)</th><th style="padding:6px;border:1px solid var(--border)">Fast (400c/m)</th></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">250 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">330 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">400 c</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">750 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">990 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,200 c</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">5 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,250 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,650 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,000 c</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">10 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,500 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">3,300 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">4,000 c</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">20 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">5,000 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6,600 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8,000 c</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. How to avoid going over time?</summary>
+      <div class="guide-content">
+        <p>① Prepare your script at 90% of the target length (leave buffer time). ② Rehearse at least twice — nerves can speed you up or cause pauses. ③ Put key points first so the most important message gets delivered even if time runs short.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>4. How many minutes is one A4 page?</summary>
+      <div class="guide-content">
+        <p>A full A4 page in 10pt font contains about 1,500-1,800 characters (without spaces). At normal speed (330 chars/min), this equals roughly 5 minutes of speaking.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Utility Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/timer/" class="tool-card">
+          <span class="tool-icon">⏱️</span>
+          <span class="tool-name">Online Timer</span>
+        </a>
+        <a href="/special-chars/en/prompt-gen/" class="tool-card">
+          <span class="tool-icon">🤖</span>
+          <span class="tool-name">AI Prompt Gen</span>
+        </a>
+        <a href="/special-chars/en/char-counter/" class="tool-card">
+          <span class="tool-icon">📝</span>
+          <span class="tool-name">Char Counter</span>
+        </a>
+      </div>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <strong>Q. What is the ideal speaking speed?</strong>
-      <p>For general presentations, 300-350 characters per minute is typical. TED-style talks use ~250 chars/min (slower), while news anchors read at 380-420 chars/min. The most comfortable speed for audiences is 300-330 chars/min.</p>
-      <br>
-      <strong>📊 Script Length Guide by Speech Duration</strong>
-      <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Duration</th><th style="padding:6px;border:1px solid var(--border)">Slow (250c/m)</th><th style="padding:6px;border:1px solid var(--border)">Normal (330c/m)</th><th style="padding:6px;border:1px solid var(--border)">Fast (400c/m)</th></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">250 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">330 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">400 c</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">750 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">990 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,200 c</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">5 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,250 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1,650 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,000 c</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">10 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">2,500 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">3,300 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">4,000 c</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">20 min</td><td style="padding:5px;border:1px solid var(--border);text-align:center">5,000 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6,600 c</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8,000 c</td></tr>
-      </table>
-      <br>
-      <strong>Q. How to avoid going over time?</strong>
-      <p>① Prepare your script at 90% of the target length (leave buffer time). ② Rehearse at least twice — nerves can speed you up or cause pauses. ③ Put key points first so the most important message gets delivered even if time runs short.</p>
-      <br>
-      <strong>Q. How many minutes is one A4 page?</strong>
-      <p>A full A4 page in 10pt font contains about 1,500-1,800 characters (without spaces). At normal speed (330 chars/min), this equals roughly 5 minutes of speaking.</p>
-    </div>
-  </details>
+  </section>
     <div class="footer"><span>Avg. speaking speed: ~330 chars/min</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

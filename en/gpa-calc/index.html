@@ -65,14 +65,32 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .btn-reset{background:var(--bg-btn);color:var(--text-secondary);border:1px solid var(--border)}
 .btn-reset:hover{background:var(--bg-btn-hover)}
 
-.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-.guide-content table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-.guide-content table th{background:var(--bg-btn);padding:6px;border:1px solid var(--border);color:var(--text-secondary);font-weight:600}
-.guide-content table td{padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box{margin:16px;padding:16px;background:var(--bg-input);border:1px solid var(--accent);border-radius:8px;color:var(--text-primary);font-size:13px;line-height:1.6;display:none;animation:fadeIn .3s}
+.report-box strong{color:var(--accent)}
+.guide-section{margin:24px 12px 12px;padding:24px 20px;background:var(--bg-bar);border-radius:12px;border:1px solid var(--border)}
+.guide-section h2{font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:16px;display:flex;align-items:center;gap:8px;line-height:1.4}
+.guide{margin-bottom:12px;background:var(--bg-app);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide summary{padding:14px 16px;font-size:14px;font-weight:600;color:var(--text-primary);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;line-height:1.4;transition:background .2s}
+.guide summary:hover{background:var(--bg-guide)}
+.guide summary::-webkit-details-marker{display:none}
+.guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .2s;flex-shrink:0}
+.guide[open] summary{background:var(--bg-guide);border-bottom:1px solid var(--border)}
+.guide[open] summary::after{transform:rotate(180deg)}
+.guide-content{padding:16px;font-size:13px;color:var(--text-secondary);line-height:1.6}
+.guide-content p{margin-bottom:12px}
+.guide-content ul,.guide-content ol{padding-left:20px;margin-bottom:12px}
+.guide-content li{margin-bottom:4px}
+.guide-content strong{color:var(--accent)}
+.related-tools{margin-top:24px;padding-top:20px;border-top:1px dashed var(--border)}
+.related-tools h3{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.tool-card{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;text-decoration:none;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:70px}
+.tool-card:hover{background:var(--bg-guide);border-color:var(--accent);transform:translateY(-2px)}
+.tool-card .icon{font-size:20px;display:block}
+.tool-card .title{font-size:12px;font-weight:600;color:var(--text-secondary);display:block;line-height:1.3}
+.tool-card:hover .title{color:var(--accent)}
 
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
@@ -128,26 +146,53 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
     </div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 Grade Conversion Table</summary>
-    <div class="guide-content">
-      <table>
-        <tr><th>Grade</th><th>4.5 Scale</th><th>4.3 Scale</th><th>4.0 Scale</th></tr>
-        <tr><td>A+</td><td>4.5</td><td>4.3</td><td>4.0</td></tr>
-        <tr><td>A0</td><td>4.0</td><td>4.0</td><td>4.0</td></tr>
-        <tr><td>B+</td><td>3.5</td><td>3.3</td><td>3.0</td></tr>
-        <tr><td>B0</td><td>3.0</td><td>3.0</td><td>3.0</td></tr>
-        <tr><td>C+</td><td>2.5</td><td>2.3</td><td>2.0</td></tr>
-        <tr><td>C0</td><td>2.0</td><td>2.0</td><td>2.0</td></tr>
-        <tr><td>D+</td><td>1.5</td><td>1.3</td><td>1.0</td></tr>
-        <tr><td>D0</td><td>1.0</td><td>1.0</td><td>1.0</td></tr>
-        <tr><td>F</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-      </table>
-      <br>
-      <p>💡 P (Pass) is excluded from GPA calculation.</p>
-      <p>💡 Calculates the overall GPA across all courses.</p>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to GPA Calculator</h2>
+    
+    <details class="guide" open>
+      <summary>1. How do I calculate my college GPA?</summary>
+      <div class="guide-content">
+        <p>Your Grade Point Average (GPA) is determined by multiplying the credit hours for each course by the grade points earned, summing them up, and dividing by the total credits. Our calculator does all this for you instantly. Simply select your university's <strong>GPA scale</strong>, add your courses, enter the credits, and pick your letter grade (A+, B, etc.).</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. What is the difference between 4.5, 4.3, and 4.0 scales?</summary>
+      <div class="guide-content">
+        <p>Universities globally use different grading scales. The 4.0 scale is heavily standard in the US, where an 'A' equals 4.0. The 4.3 and 4.5 scales are widely used in Asia and specific institutions, allowing for an A+ grade to exceed 4.0. You can toggle between tracking systems using the buttons above.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Universal Grade Conversion Table</summary>
+      <div class="guide-content">
+        <p>Use the table below to see how standard letter grades translate into grade points across different scales.</p>
+        <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
+          <tr><th style="background:var(--bg-btn);padding:6px;border:1px solid var(--border);color:var(--text-secondary);font-weight:600">Grade</th><th style="background:var(--bg-btn);padding:6px;border:1px solid var(--border);color:var(--text-secondary);font-weight:600">4.5 Scale</th><th style="background:var(--bg-btn);padding:6px;border:1px solid var(--border);color:var(--text-secondary);font-weight:600">4.3 Scale</th><th style="background:var(--bg-btn);padding:6px;border:1px solid var(--border);color:var(--text-secondary);font-weight:600">4.0 Scale</th></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">A+</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">4.5</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">4.3</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">4.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">A0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">4.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">4.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">4.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">B+</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">3.5</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">3.3</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">3.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">B0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">3.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">3.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">3.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">C+</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">2.5</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">2.3</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">2.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">C0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">2.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">2.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">2.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">D+</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">1.5</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">1.3</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">1.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">D0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">1.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">1.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">1.0</td></tr>
+          <tr><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">F</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">0.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">0.0</td><td style="padding:6px;border:1px solid var(--border);text-align:center;color:var(--text-info)">0.0</td></tr>
+        </table>
+        <p><em>* P (Pass) grades are safely ignored and do not affect your overall percentage or GPA limit.</em></p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Utility Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/percent-calc/" class="tool-card"><span class="icon">📊</span><span class="title">Percentage</span></a>
+        <a href="/special-chars/en/discount-calc/" class="tool-card"><span class="icon">🛍️</span><span class="title">Discount</span></a>
+        <a href="/special-chars/en/timer/" class="tool-card"><span class="icon">⏳</span><span class="title">Online Timer</span></a>
+        <a href="/special-chars/en/calculator/" class="tool-card"><span class="icon">🧮</span><span class="title">Calculator</span></a>
+      </div>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>4.5 / 4.3 / 4.0 Scale</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

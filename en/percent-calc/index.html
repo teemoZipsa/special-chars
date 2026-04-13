@@ -56,11 +56,22 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .quick-btn{padding:6px 12px;background:var(--bg-btn);border:1px solid var(--border);border-radius:16px;color:var(--text-secondary);font-size:11px;cursor:pointer;transition:all .2s;font-family:inherit;font-weight:500}
 .quick-btn:hover{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
 
-.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+  /* 가이드 & 관련 도구 (표준) */
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
@@ -178,18 +189,44 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
     </div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <p><b>Modes:</b></p>
-      <p>• <b>X% of Y</b> — Calculate a specific percentage of a value (e.g. tip or tax).</p>
-      <p>• <b>Change (%)</b> — Percentage increase or decrease between two numbers (e.g. price change, growth).</p>
-      <p>• <b>Ratio</b> — What percentage a part is of a whole (e.g. test score, progress).</p>
-      <p>• <b>Reverse</b> — Find the original value before a percentage was added or subtracted.</p>
-      <br>
-      <p>💡 Click the result area to copy the value.</p>
-    </div>
-  </details>
+    <section class="guide-section">
+      <h2>💡 Percentage Calculator FAQ</h2>
+      
+      <details class="guide" open>
+        <summary>📖 How to Use the 4 Modes</summary>
+        <div class="guide-content">
+          <ul>
+            <li><strong>X% of Y:</strong> Calculate a specific percentage of a value (e.g., finding the tip or tax amount).</li>
+            <li><strong>Change (%):</strong> Find the percentage increase or decrease between two numbers (e.g., measuring price changes or growth).</li>
+            <li><strong>Ratio:</strong> Determine what percentage a part is of a whole (e.g., calculating test scores or project progress).</li>
+            <li><strong>Reverse:</strong> Find the original value before a percentage was added or subtracted (e.g., finding the pre-discount price).</li>
+          </ul>
+        </div>
+      </details>
+      
+      <details class="guide">
+        <summary>✂️ How do I use the quick input buttons?</summary>
+        <div class="guide-content">
+          <p>We've provided quick-select buttons for common percentages (5%, 10%, 15%, etc.) and operations (Discount vs. Markup) to speed up your calculations. In "X% of Y" mode, just click a button to instantly apply that percentage.</p>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary>📋 How do I copy the results?</summary>
+        <div class="guide-content">
+          <p>Simply click anywhere inside the result box. The calculated value will be automatically copied to your clipboard without any formatting, ready to paste.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="related-tools">
+      <h2>🔗 Related Tools</h2>
+      <div class="tools-grid">
+        <a href="/special-chars/en/wage-calc/" class="tool-card">💵 Wage Calculator</a>
+        <a href="/special-chars/en/sub-calc/" class="tool-card">💳 Subscription Cost Calc</a>
+        <a href="/special-chars/en/timer/" class="tool-card">⏱️ Timer & Stopwatch</a>
+      </div>
+    </section>
     <div class="footer"><span>Real-time calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

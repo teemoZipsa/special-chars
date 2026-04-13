@@ -56,11 +56,31 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .drop-zone input{display:none}
 .preview-img{max-width:100%;max-height:200px;border-radius:8px;margin:12px auto;display:block}
 .copy-row{display:flex;gap:8px;margin-bottom:14px}
-.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin-top: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+.guide-section { margin: 24px 12px 12px; padding: 24px 20px; background: var(--bg-bar); border-radius: 12px; border: 1px solid var(--border); }
+.guide-section h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+.guide { margin-bottom: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.guide summary { padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; background: var(--bg-guide); transition: background 0.2s; }
+.guide summary:hover { background: var(--bg-guide-hover); }
+.guide summary::-webkit-details-marker { display: none; }
+.guide summary::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+.guide[open] summary { background: var(--bg-btn); border-bottom: 1px solid var(--border); }
+.guide[open] summary::after { transform: rotate(180deg); }
+.guide-content { padding: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.guide-content h3 { font-size: 14px; color: var(--text-primary); margin: 12px 0 8px; }
+.guide-content p { margin-bottom: 12px; }
+.guide-content ul, .guide-content ol { padding-left: 20px; margin-bottom: 12px; }
+.guide-content li { margin-bottom: 4px; }
+.related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+.related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.tool-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text-secondary); transition: all 0.2s; text-align: center; gap: 6px; }
+.tool-card:hover { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); transform: translateY(-2px); }
+.tool-icon { font-size: 20px; }
+.tool-name { font-size: 11px; font-weight: 600; }
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
 .footer a:hover{color:var(--text-guide)}
@@ -129,23 +149,55 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
         </div>
       </div>
     </div>
+    <div id="reportBox" class="report-box" style="display:none;"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <p><b>Text Mode:</b></p>
-      <p>• Encode: Converts normal text into a Base64 string.</p>
-      <p>• Decode: Restores a Base64 string back to original text.</p>
-      <p>• Fully supports Unicode characters including emojis (UTF-8).</p>
-      <br>
-      <p><b>Image Mode:</b></p>
-      <p>• Converts an image file into a Base64 Data URL.</p>
-      <p>• Can be used as inline images in HTML/CSS.</p>
-      <br>
-      <p>⚠️ 100% Client-side Processing — no data is sent to the server.</p>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Base64 Encoder/Decoder</h2>
+    
+    <details class="guide" open>
+      <summary>1. What is Base64 encoding used for?</summary>
+      <div class="guide-content">
+        <p>Base64 is a data representation format that translates binary data or unprintable characters into a standard ASCII string. It is widely used to embed images directly into HTML/CSS files (Data URIs), safely transmit data over HTTP, or store complex data in JSON format without breaking the syntax.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Is my text or image uploaded to a server?</summary>
+      <div class="guide-content">
+        <p><strong>Absolutely not.</strong> All encoding and decoding operations in this tool are executed <strong>100% on your device</strong> using JavaScript running inside your browser. No text data or image files are ever uploaded or saved to any external server.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Why do emojis or foreign characters sometimes break when decoding?</summary>
+      <div class="guide-content">
+        <p>This happens when the Base64 string was not encoded using a UTF-8 aware mechanism. Our tool leverages a modern engine that seamlessly converts strings to UTF-8 bytes before encoding, ensuring that emojis, Korean, Chinese, and other Unicode characters remain perfectly intact upon decoding.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Useful Developer & Text Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/char-counter/" class="tool-card">
+          <span class="tool-icon">📏</span>
+          <span class="tool-name">Char Counter</span>
+        </a>
+        <a href="/special-chars/en/color-conv/" class="tool-card">
+          <span class="tool-icon">🎨</span>
+          <span class="tool-name">Color Converter</span>
+        </a>
+        <a href="/special-chars/en/password-gen/" class="tool-card">
+          <span class="tool-icon">🔑</span>
+          <span class="tool-name">Password Gen</span>
+        </a>
+        <a href="/special-chars/en/image-format-converter/" class="tool-card">
+          <span class="tool-icon">🖼️</span>
+          <span class="tool-name">Image Converter</span>
+        </a>
+      </div>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>100% Local Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
@@ -183,8 +235,10 @@ function encode(){
   const input=document.getElementById('inputText').value;
   if(!input){showToast('Please enter text.');return;}
   try{
-    document.getElementById('outputText').value=utf8ToBase64(input);
+    const encoded = utf8ToBase64(input);
+    document.getElementById('outputText').value=encoded;
     showToast('Encoded successfully! 🔒');
+    updateTextReport('Encoded', input.length, encoded.length);
   }catch(e){showToast('Encoding failed: '+e.message);}
 }
 
@@ -199,7 +253,14 @@ function decode(){
       document.getElementById('outputText').value=result;
     }
     showToast('Decoded successfully! 🔓');
+    updateTextReport('Decoded', input.length, result.length);
   }catch(e){showToast('Invalid Base64 string.');}
+}
+
+function updateTextReport(action, beforeLen, afterLen) {
+  const reportBox = document.getElementById('reportBox');
+  reportBox.innerHTML = `<strong>${action}</strong> operation completed.<br>Length changed from <strong>${beforeLen.toLocaleString()}</strong> to <strong>${afterLen.toLocaleString()}</strong> characters.<br>Processed locally using UTF-8 aware binary translation.`;
+  reportBox.style.display = 'block';
 }
 
 function swapText(){
@@ -222,6 +283,7 @@ function copyOutput(){
 function clearText(){
   document.getElementById('inputText').value='';
   document.getElementById('outputText').value='';
+  document.getElementById('reportBox').style.display='none';
 }
 
 // 이미지 모드
@@ -244,8 +306,18 @@ function handleFile(file){
     document.getElementById('b64Length').textContent=`${(dataUrl.length/1024).toFixed(1)} KB`;
     document.getElementById('imageResult').style.display='block';
     showToast('Image converted!');
+    updateImageReport(file.name, file.size, dataUrl.length);
   };
   reader.readAsDataURL(file);
+}
+
+function updateImageReport(filename, originSize, currentSize) {
+  const reportBox = document.getElementById('reportBox');
+  const sizeKb = (originSize/1024).toFixed(1);
+  const b64Kb = (currentSize/1024).toFixed(1);
+  const overhead = (((currentSize/(originSize||1))-1)*100).toFixed(1);
+  reportBox.innerHTML = `<strong>Image to Base64</strong> conversion completed for <em>${filename}</em>.<br>Original File Size: <strong>${sizeKb} KB</strong> ➔ Base64 String Size: <strong>${b64Kb} KB</strong>.<br>Due to ASCII representation, the size increased by approximately <strong>${overhead}%</strong>. Ready to be embedded via Data URI.`;
+  reportBox.style.display = 'block';
 }
 
 function copyImageBase64(){
@@ -258,6 +330,7 @@ function clearImage(){
   document.getElementById('previewImg').style.display='none';
   document.getElementById('imageResult').style.display='none';
   document.getElementById('fileInput').value='';
+  document.getElementById('reportBox').style.display='none';
 }
 
 function showToast(msg){

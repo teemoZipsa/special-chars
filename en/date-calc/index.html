@@ -53,12 +53,25 @@
   .quick-btn{background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-guide);padding:5px 12px;font-size:11px;cursor:pointer;transition:background .15s;font-family:inherit}
   .quick-btn:hover{background:var(--bg-btn-hover)}
   .section-divider{border:none;border-top:1px solid var(--border);margin:16px 0}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  /* Dynamic Report & Guide standard CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+  .report-box strong { color: var(--accent); }
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -116,17 +129,43 @@
     </div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>D-Day Countdown: Select start and end dates to calculate the difference.</li>
-        <li>For anniversaries, it is recommended to check "Include start date as day 1".</li>
-        <li>Date Math: Enter a base date and adjust by days (or use quick buttons).</li>
-        <li>You can copy the results if needed.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Date & D-Day Calculator</h2>
+    
+    <details class="guide" open>
+      <summary>1. How do I calculate a D-Day countdown?</summary>
+      <div class="guide-content">
+        <p>Simply select your "Start" date (typically today) and your "Target" date. The calculator will instantly show the remaining days (e.g., D-100) or elapsed days (e.g., D+50) along with a breakdown in weeks and months.</p>
+        <p><strong>Anniversaries vs. Deadlines:</strong> For couple anniversaries or milestones (where the first day is "Day 1"), make sure to check the <em>"Include start date as day 1"</em> box. If it's a deadline (e.g., days remaining until a test), leave it unchecked.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. How can I add or subtract days from a date?</summary>
+      <div class="guide-content">
+        <p>Use the "Date Math" section. Set a Base Date, then enter the number of days you want to add (e.g., 100) or subtract (e.g., -30). The tool will output the exact future or past date, including the day of the week.</p>
+        <p>We also provide quick buttons for common intervals like +7 days, +30 days, or +100 days (frequent for newborn celebrations or relationship milestones).</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Does the calculator account for leap years?</summary>
+      <div class="guide-content">
+        <p>Yes. The calculator leverages built-in, highly accurate date logic that automatically accounts for varying days in a month and leap years, ensuring your 100-day or 1-year calculations are perfectly exact.</p>
+      </div>
+    </details>
+
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Recommended Utility Tools</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/server-time/" class="tool-card">⏱️ Server Time</a>
+      <a href="/special-chars/en/timezone-conv/" class="tool-card">🌍 Timezone Converter</a>
+      <a href="/special-chars/en/timer/" class="tool-card">⏳ Online Timer</a>
+      <a href="/special-chars/en/calculator/" class="tool-card">🧮 Calculator</a>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>Real-time calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

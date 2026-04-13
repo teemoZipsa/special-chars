@@ -136,12 +136,26 @@
 
   /* 애니메이션 */
   .result-value{transition:color .3s}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  /* Dynamic Report & Guide standard CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin-top: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+  .report-box strong { color: var(--accent); }
+  /* 가이드 & 관련 도구 (표준) */
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -222,31 +236,44 @@
         </div>
       </div>
     </div>
+    <div id="reportBox" class="report-box" style="display:none;"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Enter your current average price and quantity held.</li>
-        <li>Enter the additional buy price and quantity to see your new average cost.</li>
-        <li>Toggle between Quantity and Amount input modes for convenience.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Average Cost Calculator</h2>
+    
+    <details class="guide" open>
+      <summary>1. What does it mean to average down?</summary>
+      <div class="guide-content">
+        <p><strong>Averaging down</strong> involves buying more of a stock or cryptocurrency when its price drops below your initial entry point. By doing so, you lower the overall average cost per share, which theoretically makes it easier to break even or profit once the price rebounds. However, this strategy assumes the investment will eventually recover, which carries risks.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. How does the Average Cost Calculator work?</summary>
+      <div class="guide-content">
+        <p>This calculator blends your current holdings with new purchases in real-time. Simply provide your <strong>Current Average Price</strong> and <strong>Held Quantity</strong>, then input the <strong>Add Buy Price</strong> and <strong>Quantity (or Amount)</strong>. The tool instantly computes your newly adjusted average cost, total invested amount, and updated share quantity.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Can I input standard currency amounts instead of quantities?</summary>
+      <div class="guide-content">
+        <p>Yes. You can switch the input toggle from "Quantity" to "Amount ($)". When selecting "Amount," the calculator automatically figures out how many fractional continuous shares/tokens you will acquire with your specified budget based on the additional buy price.</p>
+      </div>
+    </details>
+
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Related Tools</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/compound-interest/" class="tool-card">📈 Compound Interest</a>
+      <a href="/special-chars/en/percent-calc/" class="tool-card">📊 Percent Calc</a>
+      <a href="/special-chars/en/discount-calc/" class="tool-card">🛒 Discount Calc</a>
+      <a href="/special-chars/en/wage-calc/" class="tool-card">💰 Wage Calculator</a>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <strong>Q. What is averaging down vs averaging up?</strong>
-      <p><strong>Averaging down</strong> means buying more shares when the price drops to lower your average cost basis. <strong>Averaging up</strong> means buying more as the price rises to increase your position. Averaging down can reduce your break-even point but increases risk if the price keeps falling.</p>
-      <br>
-      <strong>Q. Why is average cost important?</strong>
-      <p>Your average cost determines your break-even point. If the current market price is above your average cost, you're in profit; below means a loss. By averaging down, you need a smaller price recovery to break even. For example, if you hold 10 shares at $50 and buy 10 more at $40, your new average is $45 — you profit even if the price only recovers to $45.</p>
-      <br>
-      <strong>Q. Is averaging down always a good idea?</strong>
-      <p>No. Averaging down only works if the asset eventually recovers. If the fundamentals are broken, you may be increasing your losses. Always keep position sizing in mind and avoid concentrating too much capital in a single investment.</p>
-    </div>
-  </details>
+  </section>
 
     <div class="footer"><span>Real-time Calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
@@ -340,21 +367,32 @@ function calc() {
     const diff = finalAvg - curPrice;
     const pct = ((diff / curPrice) * 100).toFixed(2);
     const changeEl = document.getElementById('priceChange');
+    let actionTxt = '';
+    
     if (diff < 0) {
       changeEl.textContent = `▼ ${fmtNum(Math.abs(diff), 4)} (${pct}%) — Averaged down!`;
       changeEl.className = 'result-change change-down';
+      actionTxt = '<strong>averaging down</strong>, lowering your break-even point!';
     } else if (diff > 0) {
       changeEl.textContent = `▲ ${fmtNum(diff, 4)} (+${pct}%) — Averaged up`;
       changeEl.className = 'result-change change-up';
+      actionTxt = '<strong>averaging up</strong> to increase your overall position.';
     } else {
       changeEl.textContent = 'No change';
       changeEl.className = 'result-change change-same';
+      actionTxt = 'maintaining exactly the same average cost while adding shares.';
     }
+
+    const reportBox = document.getElementById('reportBox');
+    reportBox.innerHTML = `<strong>Analysis summary:</strong> You are ${actionTxt}<br>Your new blended average cost becomes <strong>${fmtNum(finalAvg, 8)}</strong>, across a total of <strong>${fmtNum(totalQty, 8)}</strong> shares.`;
+    reportBox.style.display = 'block';
+
   } else {
     document.getElementById('finalPrice').textContent = '-';
     document.getElementById('finalInvest').textContent = '-';
     document.getElementById('finalQty').textContent = '-';
     document.getElementById('priceChange').textContent = '';
+    document.getElementById('reportBox').style.display = 'none';
   }
 }
 </script>
