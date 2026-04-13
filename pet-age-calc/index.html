@@ -159,6 +159,14 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     </div>
   </details>
 
+  <div class="article-cta" id="magazineWidget" style="display: none; margin: 0 12px 16px; padding: 24px; background: linear-gradient(135deg, var(--bg-card), var(--bg-hover)); border: 2px solid var(--accent); border-radius: 12px; text-align: center; position: relative; overflow: hidden; animation: fadeIn 0.5s ease-out;">
+    <h3 style="margin-top: 0; color: var(--text-primary); margin-bottom: 8px; font-size: 16px; font-weight: 800;">💡 고양이 1년이 7년이라는 거짓말</h3>
+    <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 13px; line-height: 1.4; word-break: keep-all;">고양이의 노화 주기에 감춰진 팩트와 수의학적 진실을 매거진에서 바로 확인하세요.</p>
+    <a href="/blog/cat-age-guide/" style="display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: var(--text-on-accent); padding: 10px 20px; font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 10px var(--shadow-accent);">
+      🐾 티모 매거진 읽기 ➔
+    </a>
+  </div>
+
   <div class="related-tools">
     <h4>🔗 추천 관련 계산 도구</h4>
     <ul>
@@ -297,6 +305,11 @@ function calc() {
   rBox.style.animation = 'none';
   void rBox.offsetWidth;
   rBox.style.animation = 'fadeIn 0.5s ease-out';
+
+  const magWidget = document.getElementById('magazineWidget');
+  if (magWidget) {
+    magWidget.style.display = petType === 'cat' ? 'block' : 'none';
+  }
 }
 
 calc();
