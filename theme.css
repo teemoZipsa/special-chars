@@ -248,6 +248,9 @@ html[data-theme="dark"] {
   transform: scale(1.05);
   box-shadow: var(--shadow-accent);
 }
+.theme-toggle-portal.blog-toggle-portal {
+  right: 64px;
+}
 
 /* 전환 애니메이션 */
 html[data-theme] body,
