@@ -68,9 +68,31 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .history-item .idx{color:var(--text-muted);font-size:11px;width:16px}
 .history-empty{text-align:center;color:var(--text-muted);padding:16px;font-size:13px}
 
-.guide{padding:0 20px 20px}
-.guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
-.guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+.guide-section { margin: 24px 12px 12px; padding: 24px 20px; background: var(--bg-bar); border-radius: 12px; border: 1px solid var(--border); }
+.guide-section h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+.guide { margin-bottom: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.guide summary { padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; background: var(--bg-guide); transition: background 0.2s; }
+.guide summary:hover { background: var(--bg-guide-hover); }
+.guide summary::-webkit-details-marker { display: none; }
+.guide summary::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+.guide[open] summary { background: var(--bg-btn); border-bottom: 1px solid var(--border); }
+.guide[open] summary::after { transform: rotate(180deg); }
+.guide-content { padding: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.guide-content h3 { font-size: 14px; color: var(--text-primary); margin: 12px 0 8px; }
+.guide-content p { margin-bottom: 12px; }
+.guide-content ul, .guide-content ol { padding-left: 20px; margin-bottom: 12px; }
+.guide-content li { margin-bottom: 4px; }
+.related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+.related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.tool-card { display: flex; flex-direction: column; align-items: center; gap: 8px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-decoration: none; color: var(--text-secondary); transition: all 0.2s; text-align: center; }
+.tool-card:hover { background: var(--bg-btn); transform: translateY(-2px); border-color: var(--accent); color: var(--text-primary); }
+.tool-icon { font-size: 20px; }
+.tool-name { font-size: 12px; font-weight: 600; }
 
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:var(--text-primary);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
@@ -139,16 +161,56 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
     </div>
   </div>
 
-  <details class="guide">
-    <summary>💡 How to Use</summary>
-    <div class="guide-content">
-      • All passwords are generated locally in your browser and never sent to a server.<br>
-      • Including uppercase, lowercase, numbers, and symbols provides maximum security.<br>
-      • Longer passwords are stronger. We recommend 12 or more characters.<br>
-      • Click a password in the history list to copy it instantly.<br>
-      • History is not saved and will be cleared when you close the page.
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Secure Passwords</h2>
+    
+    <details class="guide" open>
+      <summary>1. Is this password generator safe to use?</summary>
+      <div class="guide-content">
+        <p>Absolutely. Our <strong>local password generator</strong> uses your browser's native cryptographic randomized math functions (<code>crypto.getRandomValues</code>). Your passwords are generated 100% locally on your device and are <em>never</em> sent across the internet or saved to any database. Once you close the tab, the history is gone forever.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. What makes a strong password?</summary>
+      <div class="guide-content">
+        <p>A truly <strong>secure password</strong> relies heavily on two factors: length and variety.</p>
+        <ul>
+          <li><strong>Length:</strong> We recommend a minimum of 12 to 16 characters. Every additional character makes it exponentially harder for a computer to crack.</li>
+          <li><strong>Variety:</strong> You should check all the boxes: Uppercase, Lowercase, Numbers, and Symbols. This massively increases the pool of possible character combinations.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Can I recover a password if I forget to copy it?</summary>
+      <div class="guide-content">
+        <p>Yes, as long as you haven't closed the window! Your 10 most recently generated <strong>random passwords</strong> are kept in the 'Recent History' section below. You can simply click on any past password in the list to instantly copy it to your clipboard.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Utility Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/my-ip/" class="tool-card">
+          <span class="tool-icon">🌐</span>
+          <span class="tool-name">What is My IP</span>
+        </a>
+        <a href="/special-chars/en/qr-code/" class="tool-card">
+          <span class="tool-icon">📱</span>
+          <span class="tool-name">QR Code Gen</span>
+        </a>
+        <a href="/special-chars/en/uuid-gen/" class="tool-card">
+          <span class="tool-icon">🔑</span>
+          <span class="tool-name">UUID Generator</span>
+        </a>
+        <a href="/special-chars/en/lotto-gen/" class="tool-card">
+          <span class="tool-icon">🎰</span>
+          <span class="tool-name">Lotto Generator</span>
+        </a>
+      </div>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>100% Local Generation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

@@ -78,17 +78,32 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .init-loading p{font-size:13px;color:var(--text-info)}
 
 /* Guide */
-.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-section summary::-webkit-details-marker{display:none}
-.guide-section summary::after{content:'▼';font-size:10px;margin-left:auto;transition:transform .2s;color:var(--text-muted)}
-.guide-section[open] summary::after{transform:rotate(180deg)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-.guide-content strong{color:var(--text-secondary)}
-.guide-content ul{margin:8px 0;padding-left:20px}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box{margin:16px;padding:16px;background:var(--bg-input);border:1px solid var(--accent);border-radius:8px;color:var(--text-primary);font-size:13px;line-height:1.6;display:none;animation:fadeIn .3s}
+.report-box strong{color:var(--accent)}
+.guide-section{margin:24px 12px 12px;padding:24px 20px;background:var(--bg-bar);border-radius:12px;border:1px solid var(--border)}
+.guide-section h2{font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:16px;display:flex;align-items:center;gap:8px;line-height:1.4}
+.guide{margin-bottom:12px;background:var(--bg-app);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.guide summary{padding:14px 16px;font-size:14px;font-weight:600;color:var(--text-primary);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;line-height:1.4;transition:background .2s}
+.guide summary:hover{background:var(--bg-guide)}
+.guide summary::-webkit-details-marker{display:none}
+.guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .2s;flex-shrink:0}
+.guide[open] summary{background:var(--bg-guide);border-bottom:1px solid var(--border)}
+.guide[open] summary::after{transform:rotate(180deg)}
+.guide-content{padding:16px;font-size:13px;color:var(--text-secondary);line-height:1.6}
+.guide-content p{margin-bottom:12px}
+.guide-content ul,.guide-content ol{padding-left:20px;margin-bottom:12px}
 .guide-content li{margin-bottom:4px}
+.guide-content strong{color:var(--accent)}
+.related-tools{margin-top:24px;padding-top:20px;border-top:1px dashed var(--border)}
+.related-tools h3{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.tool-card{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;text-decoration:none;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:70px}
+.tool-card:hover{background:var(--bg-guide);border-color:var(--accent);transform:translateY(-2px)}
+.tool-card .icon{font-size:20px;display:block}
+.tool-card .title{font-size:12px;font-weight:600;color:var(--text-secondary);display:block;line-height:1.3}
+.tool-card:hover .title{color:var(--accent)}
 
 /* Bottom bar */
 .bottom-bar{background:var(--bg-body);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #222250}
@@ -168,33 +183,41 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
     </div>
   </div>
 
-  <!-- Guide -->
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Select <strong>two emojis</strong> from the grid below</li>
-        <li>If the pair is combinable, the <strong>merged emoji image</strong> will appear automatically</li>
-        <li>Try the <strong>🎲 Random</strong> button to discover fun combinations</li>
-        <li>You can <strong>save</strong> or <strong>copy</strong> the result image to clipboard</li>
-      </ol>
-      <ul>
-        <li>Click a slot to change just that emoji</li>
-        <li>Not all emoji pairs have a combination</li>
-      </ul>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Emoji Mixer</h2>
+    
+    <details class="guide" open>
+      <summary>1. How does the Emoji Mixer work?</summary>
+      <div class="guide-content">
+        <p>The Emoji Mixer allows you to select two different emojis and seamlessly merge them into a single, brand-new emoji image. Simply click <strong>two emojis</strong> from the grid above. If the pair is compatible, the <strong>merged emoji image</strong> will instantly appear.</p>
+        <p>You can also use the <strong>🎲 Random</strong> button to let the tool find unexpected, hilarious, and bizarre combinations out of over 100,000 possibilities!</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Why did I get a "No combination found" message?</summary>
+      <div class="guide-content">
+        <p>While there are tens of thousands of combinations, <em>not every single emoji pair</em> is supported. This tool is powered by the official Google Emoji Kitchen database, which relies on hand-crafted illustrations by designers. If a specific pair hasn't been drawn yet, it cannot be combined.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Can I use these emojis on WhatsApp, Discord, or Instagram?</summary>
+      <div class="guide-content">
+        <p>Yes! Once your combined emoji is generated, use the <strong>💾 Save</strong> button to download the image as a high-quality PNG, or use the <strong>📋 Copy</strong> button to paste it directly into your favorite messaging apps, social media posts, or Discord servers as a sticker.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Creative Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/prompt-gen/" class="tool-card"><span class="icon">🤖</span><span class="title">AI Prompts</span></a>
+        <a href="/special-chars/en/bg-remover/" class="tool-card"><span class="icon">✂️</span><span class="title">BG Remover</span></a>
+        <a href="/special-chars/en/image-format-converter/" class="tool-card"><span class="icon">🔄</span><span class="title">Format Converter</span></a>
+        <a href="/special-chars/en/image-compress/" class="tool-card"><span class="icon">🗜️</span><span class="title">Compressor</span></a>
+      </div>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <p><strong>Q. Can all emojis be combined?</strong></p>
-      <p>No, only combinations supported by Google Emoji Kitchen are available. There are currently over 100,000 combinations, and more are being added.</p>
-      <p style="margin-top:8px"><strong>Q. Can I use these images on social media?</strong></p>
-      <p>Yes, you can freely use them for personal purposes (messages, social media posts, etc.). The emoji combination images are provided by Google.</p>
-      <p style="margin-top:8px"><strong>Q. The image is not showing</strong></p>
-      <p>Please check your internet connection. Emoji data and combination images are loaded from external servers and require an internet connection.</p>
-    </div>
-  </details>
+  </section>
     <div class="footer"><span>Powered by Google Emoji Kitchen</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

@@ -59,12 +59,31 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .info-item .label{font-size:11px;color:var(--text-info);margin-bottom:2px}
 .info-item .value{font-size:15px;font-weight:700;color:var(--text-primary)}
 
-.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-.guide-content strong{color:var(--text-secondary)}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+.guide-section { margin: 24px 12px 12px; padding: 24px 20px; background: var(--bg-bar); border-radius: 12px; border: 1px solid var(--border); }
+.guide-section h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+.guide { margin-bottom: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.guide summary { padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; background: var(--bg-guide); transition: background 0.2s; }
+.guide summary:hover { background: var(--bg-guide-hover); }
+.guide summary::-webkit-details-marker { display: none; }
+.guide summary::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+.guide[open] summary { background: var(--bg-btn); border-bottom: 1px solid var(--border); }
+.guide[open] summary::after { transform: rotate(180deg); }
+.guide-content { padding: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.guide-content h3 { font-size: 14px; color: var(--text-primary); margin: 12px 0 8px; }
+.guide-content p { margin-bottom: 12px; }
+.guide-content ul, .guide-content ol { padding-left: 20px; margin-bottom: 12px; }
+.guide-content li { margin-bottom: 4px; }
+.related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+.related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.tool-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+.tool-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.tool-icon { font-size: 24px; margin-bottom: 8px; }
+.tool-name { font-size: 12px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
 
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
@@ -140,20 +159,56 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
     <div class="info-grid" id="infoGrid"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 Calculation Method</summary>
-    <div class="guide-content">
-      <strong>RER (Resting Energy Requirement)</strong><br>
-      RER = 70 × weight(kg)^0.75<br><br>
-      <strong>DER (Daily Energy Requirement)</strong><br>
-      DER = RER × activity factor<br>
-      • Puppy: ×2.0-3.0 / Adult: ×1.0-1.8 / Senior: ×1.0-1.4<br>
-      • Reduce 10-15% if spayed/neutered<br><br>
-      <strong>Food Amount Conversion</strong><br>
-      Calculated based on typical dry food at 3,500-4,000 kcal/kg.<br>
-      ⚠️ Check the calorie info on your food packaging for more accurate portions.
+  <section class="guide-section">
+    <h2>💡 Comprehensive Pet Feeding Guide</h2>
+    
+    <details class="guide" open>
+      <summary>1. How exactly is my pet's daily calorie need calculated?</summary>
+      <div class="guide-content">
+        <p>Our <strong>pet food calculator</strong> uses standard veterinary formulas to determine Daily Energy Requirement (DER). It involves two steps:</p>
+        <ol>
+          <li><strong>Step 1 (RER):</strong> Calculate Resting Energy Requirement based on weight (70 × kg<sup>0.75</sup>). This is the energy needed to just exist.</li>
+          <li><strong>Step 2 (DER):</strong> Multiply RER by a specific 'Activity Factor' depending on age (puppy vs adult), activity level, and neuter status.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Why does spaying or neutering affect food portions?</summary>
+      <div class="guide-content">
+        <p>After a dog or cat is spayed or neutered, their metabolism typically slows down and their energy requirements decrease by roughly 10% to 15%. If you don't reduce their daily food intake accordingly, it can rapidly lead to weight gain and obesity.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Is the gram calculation 100% accurate for every food?</summary>
+      <div class="guide-content">
+        <p>No. Remember that not all pet foods have the same calorie density. Our tool estimates portion sizes in grams based on a standard dry food density of roughly 3,600 kcal/kg. For the highest accuracy, you should look at your specific pet food package, find the "kcal/kg", and use the <strong>daily calorie</strong> output from our tool to calculate precise grams.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Utility Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/pet-bmi-calc/" class="tool-card">
+          <span class="tool-icon">⚖️</span>
+          <span class="tool-name">Pet BMI Calc</span>
+        </a>
+        <a href="/special-chars/en/pet-age-calc/" class="tool-card">
+          <span class="tool-icon">🐾</span>
+          <span class="tool-name">Pet Age Calc</span>
+        </a>
+        <a href="/special-chars/en/timer/" class="tool-card">
+          <span class="tool-icon">⏱️</span>
+          <span class="tool-name">Online Timer</span>
+        </a>
+        <a href="/special-chars/en/qr-code/" class="tool-card">
+          <span class="tool-icon">📱</span>
+          <span class="tool-name">QR Code Gen</span>
+        </a>
+      </div>
     </div>
-  </details>
+  </section>
 
   <div class="footer"><span>Based on RER/DER calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>

@@ -92,6 +92,23 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+
+.report-box {background:var(--bg-guide);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--accent);animation:fadeIn .5s ease-in-out;margin-top:10px}
+.report-box h3 {font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.report-box p {font-size:13px;color:var(--text-secondary);line-height:1.6}
+.report-box strong {color:var(--text-primary);font-weight:600}
+
+.related-tools {background:var(--bg-guide);border-radius:12px;padding:20px;margin:0 12px 12px}
+.related-tools h3 {font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.related-tools .tool-list {display:flex;flex-direction:column;gap:8px}
+.related-tools .tool-list a {display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-app);border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;color:var(--text-primary);border:1px solid var(--border);transition:all .2s}
+.related-tools .tool-list a:hover {background:var(--bg-btn);border-color:var(--accent);color:var(--accent);transform:translateX(4px)}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px) }
+  to { opacity:1; transform:translateY(0) }
+}
+
 @media(max-width:640px){
   .scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}
   .summary{grid-template-columns:1fr}
@@ -174,6 +191,8 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <!-- 상세 내역 -->
     <div class="detail-box" id="detailBox"></div>
 
+    <div class="report-box" id="analysisReport" style="display:none;"></div>
+
     <!-- 결과 복사 -->
     <button class="copy-btn" onclick="copyResult()">📋 결과 복사</button>
   </div>
@@ -183,20 +202,28 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <div class="guide-content" id="rateTableContent"></div>
   </details>
 
-  <details class="guide-section">
-    <summary>💡 중개수수료 안내</summary>
+  <details class="guide-section" open>
+    <summary>💡 실전 중개보수 및 부동산 상식 Q&A</summary>
     <div class="guide-content">
-      <p><b>• 법적 기준:</b> 2021년 10월 19일 개정 「공인중개사법 시행규칙」 적용</p>
-      <p><b>• 상한요율:</b> 최대 요율이며, 중개사와 협의하여 낮출 수 있습니다</p>
-      <p><b>• 한도액:</b> 일부 구간은 계산 금액이 한도액 초과 시 한도액만 적용</p>
-      <p><b>• 월세 환산:</b> 보증금 + (월세×100), 5천만 미만 시 보증금 + (월세×70)</p>
-      <p><b>• 부가세:</b> 일반과세자는 10% 별도, 간이과세자는 중개보수에 포함</p>
-      <p><b>• 비주택:</b> 상가·토지는 매매/임대 모두 0.9% 이내 (전국 공통)</p>
-      <p><b>• 오피스텔:</b> 전용 85㎡ 이하 + 주거시설 갖춘 경우 별도 요율 적용</p>
+      <strong>Q. 월세 중개수수료가 생각보다 비싼 것 같아요. 환산보증금이 뭔가요?</strong>
+      <p>월세의 경우 보증금만으로 계산하지 않고 <strong>환산보증금 [보증금 + (월세 × 100)]</strong>을 기준으로 거래 금액을 산정합니다. 다만, 이 환산보증금이 5천만 원 미만일 때는 소액 임차인 보호를 위해 <strong>[보증금 + (월세 × 70)]</strong>으로 계산하여 수수료 부담을 낮춰줍니다. 이 계산기는 해당 조건에 맞춰 자동으로 환산보증금을 계산합니다.</p>
       <br>
-      <p>⚠️ 본 계산기는 참고용이며, 실제 중개보수는 공인중개사와 협의하여 결정합니다.</p>
+      <strong>Q. 결과로 나온 수수료는 꼭 다 내야 하나요? (상한요율의 의미)</strong>
+      <p>아닙니다. 법에서 정한 요율과 한도액은 <strong>법정 '최대 한도액(상한요율)'</strong>을 의미합니다. 공인중개사와 협의하여 한도액 범위 내에서 수수료를 낮출 수 있습니다. 특히 매매가가 높거나 상가/토지(0.9%)의 경우 금액 단위가 크기 때문에 계약 전 미리 수수료 협의를 하는 것이 실무적인 관례입니다.</p>
+      <br>
+      <strong>Q. 부가세는 별도로 줘야 하나요?</strong>
+      <p>중개사무소의 <strong>사업자 등록 유형</strong>에 따라 다릅니다. '일반과세자'라면 법정 중개보수 외에 <strong>10%의 부가세</strong>를 별도로 지불해야 합니다. (이때 현금영수증이나 세금계산서 발행을 요구하세요.) 반면 해당 중개소가 '간이과세자'인 경우, 추가적인 부가세를 청구할 수 없으며 계산된 중개보수 한도액만 지불하면 됩니다. 중개소 벽면에 걸린 사업자등록증을 통해 확인 가능합니다.</p>
     </div>
   </details>
+
+  <div class="related-tools">
+    <h3>🔗 연관 금융/생활 계산기</h3>
+    <div class="tool-list">
+      <a href="/special-chars/loan-calc/"><span>💰 대출 이자 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/compound-interest/"><span>📈 복리 이자 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/percent-calc/"><span>🔢 퍼센트 계산기</span><span>바로가기 →</span></a>
+    </div>
+  </div>
 
   <div class="footer"><span>2021.10 개정 기준 · 실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
@@ -422,8 +449,36 @@ function calc() {
     <div class="detail-row"><span class="detail-label">합계 (VAT 포함)</span><span class="detail-value" style="color:var(--accent);font-size:15px;font-weight:800">${fmt(total)} 원</span></div>`;
   }
   
+    <div class="detail-row"><span class="detail-label">합계 (VAT 포함)</span><span class="detail-value" style="color:var(--accent);font-size:15px;font-weight:800">${fmt(total)} 원</span></div>`;
+  }
+  
   detailEl.innerHTML = detail;
   
+  // 다이나믹 리포트 생성
+  const report = document.getElementById('analysisReport');
+  report.style.display = 'flex';
+  
+  const isVatGeneral = vatOpt === 'general';
+  
+  let reportHTML = `<h3>💡 부동산 중개보수 진단 리포트</h3>`;
+  reportHTML += `<p>선택하신 <strong>${propNames[propType]} ${tradeNames[tradeType]}</strong> 거래(기준금액 <strong>${fmt(amount)}원</strong>)에 적용되는 법정 최대 중개보수는 <strong>${fmt(fee)}원</strong>입니다.</p>`;
+  
+  if (limitApplied) {
+    reportHTML += `<p>이 거래는 요율(<strong>${(rate * 100).toFixed(1)}%</strong>)로 계산 시 한도액을 초과하여, 법정 한도인 <strong>${fmt(limit)}원</strong>으로 금액이 제한되었습니다. 임차인(또는 소유주)의 부담을 덜어주는 특구 구간입니다.</p>`;
+  } else {
+    reportHTML += `<p>적용 구간 요율은 <strong>${(rate * 100).toFixed(1)}%</strong>이며, 법정 한도액 제한이 없는 구간입니다. 해당 금액은 <strong>법정 최고치(상한액)</strong>이므로, 계약 전 해당 부동산과 최종 수수료 협의를 타진해 보시는 것을 적극 권장합니다.</p>`;
+  }
+
+  if (isVatGeneral) {
+    reportHTML += `<p>설정된 옵션에 따라 중개소가 <strong>일반과세자</strong>인 상황을 가정하여 10%의 부가가치세(<strong>${fmt(vat)}원</strong>)가 추가되었습니다. 최종 지불 예상 금액은 부가세를 포함한 <strong>${fmt(total)}원</strong>이며, 결제 후 현금영수증이나 세금계산서 발급을 반드시 요구하세요.</p>`;
+  } else {
+    reportHTML += `<p>중개소가 <strong>간이과세자</strong>인 상태를 가정하여 산정되었습니다. 간이과세자는 별도의 10% 부가세를 청구할 권리가 없으므로, 총 지불 금액은 상기한 부가세 미포함 <strong>${fmt(total)}원</strong>을 초과할 수 없습니다.</p>`;
+  }
+
+  reportHTML += `<p>⚠️ <strong>유용한 팁:</strong> 상가/토지(0.9%)이거나 고가 주택의 경우 중개수수료 부담이 매우 크기 때문에, 가계약금을 입금하기 전 미리 수수료율 인하 및 쇼부를 협의해 두는 것이 추후의 감정싸움과 법적 분쟁을 예방하는 <strong>가장 스마트한 방법</strong>입니다.</p>`;
+
+  report.innerHTML = reportHTML;
+
   // 요율표 업데이트
   renderRateTable(amount);
 }

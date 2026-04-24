@@ -67,6 +67,14 @@
   .s-card .s-value.profit{color:var(--text-success)}
   .s-card .s-value.rate{color:var(--text-highlight)}
 
+  /* 리포트 박스 */
+  .report-box{background:var(--bg-guide);padding:20px;border-radius:12px;border:1px solid var(--border);line-height:1.6;font-size:14px;color:var(--text-primary);margin-top:16px;animation:fadeIn 0.5s ease-out}
+  .report-box h3{font-size:15px;margin-bottom:12px;font-weight:700}
+  .report-box p{margin-bottom:10px;color:var(--text-info);word-break:keep-all}
+  .report-box .highlight{font-weight:700;color:var(--text-primary)}
+  .report-tip{background:var(--bg-body);border-left:4px solid var(--text-success);padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0;font-size:13.5px}
+  .report-notice{font-size:12px;color:var(--text-muted)!important;margin-top:16px;padding-top:12px;border-top:1px dashed var(--border)}
+
   /* 이스터에그 */
   .buffett-msg{
     display:none;text-align:center;padding:0 16px 12px;
@@ -148,12 +156,18 @@
   }
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:var(--text-guide)}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
   .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
   .guide-section summary:hover{background:var(--bg-guide-hover)}
   .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
   .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+
+  .related-tools{margin:0 12px 12px;padding:16px;background:var(--bg-guide);border-radius:8px;border:1px solid var(--border)}
+  .related-tools h4{font-size:14px;margin-bottom:10px;font-weight:700;color:var(--text-primary)}
+  .related-tools ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+  .related-tools li a{font-size:13px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .related-tools li a:hover{opacity:0.8;text-decoration:underline}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -202,6 +216,23 @@
         <div class="s-value rate" id="sumRate">-</div>
       </div>
     </div>
+
+    <!-- SEO 친화적 사전 렌더링된 상세 분석 리포트 -->
+    <div class="report-box" id="reportBox">
+      <h3>📈 맞춤형 복리 수익 달성 리포트</h3>
+      <p>
+        기본 설정된 초기 투자 원금 <strong><span class="highlight" id="r-principal">1,000,000</span>원</strong>으로 매 시도 혹은 기간마다 <strong><span class="highlight" id="r-rate">10</span>%</strong>의 수익을 목표로 총 <strong><span class="highlight" id="r-times">10</span>번</strong> 반복 투자했을 때를 가정한 자산 성장 상세 시뮬레이션입니다.
+      </p>
+      <p>
+        해당 과정을 거쳐 최종적으로 달성되는 자산은 <strong>약 <span id="r-final" class="highlight" style="color:var(--text-success);">2,593,742</span>원</strong>으로 불어나게 됩니다. 이는 순수하게 도출된 수익 <strong><span id="r-profit">1,593,742</span>원</strong>이 발생한 결과이며, 투자 원금 대비 발생한 총 누적 수익률은 <strong><span id="r-total-rate" style="color:var(--text-highlight);">+159.4</span>%</strong>에 이릅니다.
+      </p>
+      <div class="report-tip">
+        <strong>💡 자산 증식 인사이트:</strong> <span id="r-tip">시작 자본금이 작더라도 수익이 꾸준히 재투자되는 구조가 갖춰지면 폭발적으로 자산이 성장합니다. 단, 한 번이라도 큰 손실이 날 경우 복리의 역효과가 나타나므로 원금을 방어하는 리스크 관리가 핵심입니다.</span>
+      </div>
+      <p class="report-notice">
+        ※ 본 리포트는 입력된 수익률이 매 투자/시도마다 한 치의 오차 없이 일정하게 달성된다는 가정하에, 슬리피지(체결 오차), 거래 수수료 및 소득세 등의 제반 비용을 모두 배제하고 계산된 순수 이론적 시뮬레이션입니다.
+      </p>
+    </div>
   </div>
 
   <div class="buffett-msg" id="buffettMsg"></div>
@@ -217,35 +248,44 @@
   </div>
 
   <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+    <summary>📖 복리 계산기 사용 안내</summary>
     <div class="guide-content">
       <ol>
-        <li>원금, 연 수익률(%), 투자 기간(년)을 입력하세요.</li>
-        <li>월 적립금을 추가하면 적립식 복리 계산도 가능합니다.</li>
-        <li>차트로 원금 대비 이자 성장을 한눈에 확인할 수 있습니다.</li>
+        <li><strong>원금 설정:</strong> 초기에 시작할 투자 금액을 입력하세요.</li>
+        <li><strong>수익률(%) 기입:</strong> 단타 트레이딩이라면 '1회당 수익률'을, 장기 투자라면 '연/월 평균 수익률'을 가정해서 기입합니다.</li>
+        <li><strong>반복 횟수:</strong> 단타의 경우 총 거래 횟수, 장기 투자의 경우 연수 혹은 개월 수를 입력하여 복리 승수 효과를 확인하세요.</li>
       </ol>
+      <p style="margin-top:8px;">★ 입력 후 차트와 내역을 통해 <b>눈덩이처럼 불어나는(Snowball Effect)</b> 자산 추이를 시각적으로 볼 수 있습니다.</p>
     </div>
   </details>
   <details class="guide-section">
-    <summary>💡 자주 묻는 질문</summary>
+    <summary>💡 자주 묻는 질문 (복리와 단리)</summary>
     <div class="guide-content">
-      <strong>Q. 단리와 복리의 차이는 무엇인가요?</strong>
-      <p>단리는 원금에 대해서만 이자를 계산하는 방식이고, 복리는 원금+이자(즉, 불어난 금액)에 대해 이자를 계산하는 방식입니다. 예를 들어 100만원을 연 10% 단리로 3년 투자하면 130만원이지만, 복리로는 133.1만원이 됩니다. 기간이 길어질수록 복리의 효과는 기하급수적으로 커집니다.</p>
+      <p><strong>Q. 단리와 복리의 구체적인 차이는 무엇인가요?</strong></p>
+      <p>단리는 처음에 투자한 '원금'에 대해서만 이자를 계산하는 방식이고, 복리는 원금에 이자가 더해진 금액(이자에 이자가 붙는 방식)에 대해 다음 이자를 계산하는 방식입니다. 이를테면 100만원을 연 10% 단리로 3년 거치하면 130만원이 되지만, 복리의 경우 133.1만원으로 차이가 발생하며, 10년, 20년으로 기간이 늘어날수록 격차는 기하급수적으로 커집니다.</p>
       <br>
-      <strong>Q. 72법칙이란 무엇인가요?</strong>
-      <p>72를 연 수익률(%)로 나누면 원금이 2배가 되는 대략적인 기간(년)을 알 수 있는 간편 공식입니다. 아래 표를 참고하세요:</p>
+      <p><strong>Q. 72법칙이란 정확히 어떤 공식인가요?</strong></p>
+      <p>72법칙은 복리 구조에서 현재의 원금이 정확히 2배로 불어나기까지 걸리는 시간을 대략적으로 산출하는 간편 공식입니다. 연 수익률(또는 월 수익률)로 '72'를 나누면 필요 기간이 나옵니다. (ex: 매년 8%의 수익률이라면 72 ÷ 8 = 9년)</p>
       <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
         <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">연 수익률</th><th style="padding:6px;border:1px solid var(--border)">2배 기간</th><th style="padding:6px;border:1px solid var(--border)">연 수익률</th><th style="padding:6px;border:1px solid var(--border)">2배 기간</th></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">72년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12년</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">36년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9년</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2년</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">4%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">18년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6년</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9년</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">5%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">14.4년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2년</td></tr>
+        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12년</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6년</td></tr>
       </table>
       <br>
-      <strong>Q. 월복리와 연복리 중 어느 것이 더 유리한가요?</strong>
-      <p>같은 연 수익률이라면 월복리가 연복리보다 약간 더 유리합니다. 예를 들어 연 12% 수익률일 때, 연복리는 1년 후 112만원이지만 월복리(월 1%씩)는 약 112.68만원이 됩니다. 이는 이자가 더 자주 원금에 합산되어 "이자에 이자"가 더 빨리 붙기 때문입니다. 이 계산기는 시도 단위 복리를 적용하므로, 월 수익률을 넣으면 월복리 시뮬레이션이 됩니다.</p>
+      <p><strong>Q. 복리 투자의 위험성이나 함정이 있나요?</strong></p>
+      <p>복리는 상승장에서 큰 수익을 주지만, <b>하락장에서도 똑같은 복리 계산이 적용</b>됩니다. 예를 들어 계좌가 반토막(-50%)이 났을 때 원금을 복구하려면 똑같은 50%의 수익률이 아닌 +100%의 수익률이 필요합니다. 워런 버핏의 철학인 "절대 원금을 잃지 마라"는 이러한 복리의 마이너스 증폭 효과를 경계한 것입니다.</p>
     </div>
   </details>
+
+  <div class="related-tools">
+    <h4>🔗 경제적 자유를 위한 수익 도구</h4>
+    <ul>
+      <li><a href="/special-chars/loan-calc/">🏢 부동산·전세 대출 이자 계산기</a></li>
+      <li><a href="/special-chars/percent-calc/">⚖️ 퍼센트 할인 및 마진율 계산기</a></li>
+      <li><a href="/special-chars/avg-price/">📈 주식/코인 물타기 평단가 계산기</a></li>
+    </ul>
+  </div>
     <div class="footer"><span>복리 효과 시뮬레이션</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -298,6 +338,28 @@ function calculate() {
   document.getElementById('sumTotal').textContent = fmtWon(finalAmount);
   document.getElementById('sumRate').textContent = '+' + totalRate + '%';
   document.getElementById('summary').style.display = 'block';
+
+  // 리포트 데이터 바인딩
+  document.getElementById('r-principal').textContent = fmtWon(principal);
+  document.getElementById('r-rate').textContent = rate;
+  document.getElementById('r-times').textContent = times;
+  document.getElementById('r-final').textContent = fmtWon(finalAmount);
+  document.getElementById('r-profit').textContent = fmtWon(totalProfit);
+  document.getElementById('r-total-rate').textContent = '+' + totalRate;
+
+  const tip = document.getElementById('r-tip');
+  if (totalRate > 100) {
+    tip.textContent = "수익률이 원금의 2배(100%)를 돌파했습니다. 복리 그래프가 J커브를 그리며 기하급수적으로 폭발하고 있는 단계입니다.";
+  } else if (totalRate > 20) {
+    tip.textContent = "자산이 꾸준히 팽창하고 있습니다. 이자가 다음 계산의 기초 자산이 되는 '눈덩이 효과'가 점차 강해지는 훌륭한 상황입니다.";
+  } else {
+    tip.textContent = "아직은 눈덩이 효과가 미미하지만, 투자의 횟수(기간)가 누적될수록 복리의 진정한 마법이 발휘될 것입니다. 초기의 인내심이 중요합니다.";
+  }
+
+  const rBox = document.getElementById('reportBox');
+  rBox.style.animation = 'none';
+  void rBox.offsetWidth;
+  rBox.style.animation = 'fadeIn 0.5s ease-out';
 
   // 이스터에그
   const msg = document.getElementById('buffettMsg');

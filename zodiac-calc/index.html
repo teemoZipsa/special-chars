@@ -60,6 +60,13 @@
         .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
         .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
         .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+        .report-box{margin-top:16px;padding:16px;border-radius:8px;background:var(--bg-input);border:1px solid var(--accent);color:var(--text-primary);font-size:13px;line-height:1.6;display:none;animation:fadeIn .3s}
+        .report-box strong{color:var(--accent)}
+        .related-tools{margin:12px;padding:16px;background:var(--bg-guide);border-radius:8px;border:1px solid var(--border)}
+        .related-tools h3{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text-primary);display:flex;align-items:center;gap:6px}
+        .tool-tags{display:flex;flex-wrap:wrap;gap:8px}
+        .tool-tag{padding:6px 12px;background:var(--bg-app);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-secondary);text-decoration:none;transition:all .2s}
+        .tool-tag:hover{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
 
         .bottom-bar{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
         .bottom-bar .info{font-size:11px;color:var(--text-info)}
@@ -114,19 +121,39 @@
                 <div class="compat-list" id="resultCompat"></div>
             </div>
         </div>
+        <div id="reportBox" class="report-box" style="display:none;"></div>
     </div>
 
-    <details class="guide-section">
-        <summary>📖 사용 방법</summary>
+    <div class="bottom-bar">
+        <button class="action-btn btn-clear" onclick="clearAll()">초기화</button>
+        <button class="action-btn btn-copy" onclick="copyResult()">결과 복사</button>
+    </div>
+
+    <details class="guide-section" open>
+        <summary>✅ 나의 별자리 분석 완벽 가이드</summary>
         <div class="guide-content">
-            <ol>
-                <li>생년월일을 선택하거나 직접 입력하세요 (또는 '오늘 날짜' 버튼 클릭)</li>
-                <li>자동으로 해당하는 별자리와 상세 정보가 표시됩니다</li>
-                <li>'결과 복사' 버튼으로 텍스트 결과를 복사할 수 있습니다</li>
-            </ol>
-            <p style="margin-top:8px">💡 별자리는 태양이 해당 황도대를 지나는 기간을 기준으로 합니다. 경계 날짜(cusp)에 태어난 경우 해에 따라 다를 수 있습니다.</p>
+            <strong>1. 생일이 같은데 별자리가 다를 수 있나요? (Cusp 경계선)</strong>
+            <p style="margin-bottom:8px">매년 태양의 위치가 미세하게 변하기 때문에, <strong>별자리가 바뀌는 경계 시간</strong>에 태어나신 분들은 태어난 연도와 시간에 따라 별자리가 달라질 수 있습니다. 이를 '커스프(Cusp)'라고 부릅니다.</p>
+            
+            <strong>2. 4가지 '원소'가 의미하는 것은 무엇인가요?</strong>
+            <p style="margin-bottom:8px">서양 점성술에서는 12별자리를 불, 물, 공기, 흙(땅) 4가지 주요 원소로 나눕니다.<br>• <strong>불(양, 사자, 사수)</strong>: 직관적, 열정적, 행동파<br>• <strong>물(게, 전갈, 물고기)</strong>: 감성적, 공감 능력, 무의식<br>• <strong>공기(쌍둥이, 천칭, 물병)</strong>: 지성적, 소통, 아이디어<br>• <strong>흙(황소, 처녀, 염소)</strong>: 현실적, 인내심, 물질적 감각</p>
+
+            <strong>3. 수호성(지배 행성)은 내 성격에 어떤 영향을 미치나요?</strong>
+            <p style="margin-bottom:8px">각 별자리는 자신을 보호하고 지배하는 천체(수호성)를 가집니다. 예를 들어 물병자리의 수호성인 <strong>천왕성</strong>은 변화와 독창성을 상징하며, 양자리의 수호성인 <strong>화성</strong>은 투지와 에너지를 상징합니다.</p>
+
+            <strong>4. 별자리 궁합, 어떻게 해석해야 할까요?</strong>
+            <p style="margin-bottom:8px">같은 원소끼리(예: 물과 물)는 서로 감정적인 공감대가 매우 높지만, 때로는 서로 보완해주는 원소(물과 흙, 불과 공기)를 만났을 때 더 큰 시너지 효과를 내기도 합니다. 궁합 리스트는 나의 부족한 점을 가장 자연스럽게 채워줄 수 있는 파트너를 찾을 때 강력한 참고 지표가 됩니다.</p>
         </div>
     </details>
+
+    <div class="related-tools">
+        <h3>💡 재미로 보는 운세/계산 도구</h3>
+        <div class="tool-tags">
+            <a href="/special-chars/lotto-gen/" class="tool-tag">🎰 로또 번호 생성기</a>
+            <a href="/special-chars/date-calc/" class="tool-tag">⏳ D-Day/날짜 계산기</a>
+            <a href="/special-chars/pet-age-calc/" class="tool-tag">🐶 강아지/고양이 나이 계산기</a>
+        </div>
+    </div>
     <div class="footer"><span>생년월일 기반 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -186,6 +213,21 @@ function calcZodiac() {
     }).join('');
 
     document.getElementById('resultCard').classList.add('show');
+    
+    updateReportBox(month, day, z);
+}
+
+function updateReportBox(month, day, z) {
+    const reportBox = document.getElementById('reportBox');
+    let traitsStr = z.traits.map(t => `<strong style="color:var(--accent)">[${t}]</strong>`).join(', ');
+    let compatStr = z.compat.map(c => `<strong>${c}</strong>`).join(', ');
+
+    let reportHTML = `입력하신 생일(<strong>${month}월 ${day}일</strong>) 기준 회원님의 별자리는 <strong>${z.symbol} ${z.name}(${z.en})</strong>입니다.<br><br>`;
+    reportHTML += `${z.name}는(은) <strong>${z.element}</strong>의 기운을 가지고 있으며, 수호성으로 <strong>${z.planet}</strong>의 영향을 받습니다. 이 때문에 주로 ${traitsStr} 성향이 두드러지는 경향이 있습니다.<br><br>`;
+    reportHTML += `인간관계나 연애에 있어서는 나의 성향과 밸런스를 맞춰주거나 감정선이 깊게 통하는 <strong>${compatStr}</strong>와(과) 만났을 때 최고의 시너지를 낼 수 있습니다.`;
+    
+    reportBox.innerHTML = reportHTML;
+    reportBox.style.display = 'block';
 }
 
 function setToday() {
@@ -200,6 +242,7 @@ function setToday() {
 function clearAll() {
     document.getElementById('birthDate').value = '';
     document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('reportBox').style.display = 'none';
     showToast('초기화되었습니다');
 }
 

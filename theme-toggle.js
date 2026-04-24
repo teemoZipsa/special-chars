@@ -72,13 +72,23 @@
     btn.onclick = toggleTheme;
     document.body.appendChild(btn);
 
+    var blogBtn = document.createElement('button');
+    blogBtn.className = 'theme-toggle-portal blog-toggle-portal';
+    blogBtn.textContent = '📰';
+    blogBtn.setAttribute('aria-label', '티모 매거진 블로그');
+    blogBtn.title = '티모 매거진 (블로그)';
+    blogBtn.onclick = function() { window.location.href = '/blog/'; };
+    document.body.appendChild(blogBtn);
+
     // 배너가 숨겨져 있으면 버튼 위치를 위로 올림
     function adjustPosition() {
       var banner = document.getElementById('updateBanner');
       if (!banner || banner.style.display === 'none' || banner.offsetHeight === 0) {
         btn.style.top = '16px';
+        blogBtn.style.top = '16px';
       } else {
         btn.style.top = '56px';
+        blogBtn.style.top = '56px';
       }
     }
     adjustPosition();

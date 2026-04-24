@@ -140,10 +140,27 @@
   .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
   .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
-.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
-.scroll-top-btn.visible{opacity:1;visibility:visible}
-.scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
-@media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
+  .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+  .scroll-top-btn.visible{opacity:1;visibility:visible}
+  .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
+
+  .report-box {background:var(--bg-guide);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px;border-left:4px solid var(--accent);animation:fadeIn .5s ease-in-out;margin-top:16px}
+  .report-box h3 {font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px}
+  .report-box p {font-size:13px;color:var(--text-secondary);line-height:1.6}
+  .report-box strong {color:var(--text-primary);font-weight:600}
+
+  .related-tools {background:var(--bg-guide);border-radius:12px;padding:20px;margin:0 12px 12px}
+  .related-tools h3 {font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .related-tools .tool-list {display:flex;flex-direction:column;gap:8px}
+  .related-tools .tool-list a {display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-app);border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;color:var(--text-primary);border:1px solid var(--border);transition:all .2s}
+  .related-tools .tool-list a:hover {background:var(--bg-btn);border-color:var(--accent);color:var(--accent);transform:translateX(4px)}
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(10px) }
+    to { opacity:1; transform:translateY(0) }
+  }
+
+  @media(max-width:640px){.scroll-top-btn{bottom:70px;right:16px;width:40px;height:40px;font-size:18px}}
 </style>
 </head>
 <body>
@@ -219,6 +236,8 @@
         </div>
       </div>
     </div>
+    
+    <div class="report-box" id="analysisReport" style="display:none;"></div>
   </div>
 
   <details class="guide-section">
@@ -227,23 +246,32 @@
       <ol>
         <li>현재 보유 수량과 평균 단가를 입력하세요.</li>
         <li>추가 매수할 수량과 매수 단가를 입력하면 새 평균 단가가 계산됩니다.</li>
-        <li>여러 번 추가 매수하는 경우 행을 추가하여 시뮬레이션할 수 있습니다.</li>
+        <li>여러 번 추가 매수하는 경우, 메모해두고 한 번에 합산하여 입력할 수도 있습니다. 금액 모드를 선택하여 원화 기준으로 바로 환산할 수 있습니다.</li>
       </ol>
     </div>
   </details>
-  <details class="guide-section">
-    <summary>💡 자주 묻는 질문</summary>
+  <details class="guide-section" open>
+    <summary>💡 주식/코인 물타기 전략 가이드</summary>
     <div class="guide-content">
-      <strong>Q. 물타기와 불타기의 차이는 무엇인가요?</strong>
-      <p><strong>물타기</strong>는 보유 중인 주식/코인의 가격이 하락했을 때 더 낮은 가격에 추가 매수하여 평균 매입 단가를 낮추는 전략입니다. 반대로 <strong>불타기</strong>는 가격이 상승하는 종목에 추가 매수하여 수익 규모를 키우는 전략입니다. 물타기는 평단가를 낮출 수 있지만, 하락이 계속되면 손실이 커질 위험이 있습니다.</p>
+      <strong>Q. 물타기와 불타기의 정확한 차이는 무엇인가요?</strong>
+      <p><strong>물타기(Averaging Down)</strong>는 보유 종목의 가격이 하락했을 때, 더 낮은 가격에 추가로 매수하여 '평균 매입 단가'를 낮추는 방어적 전략입니다. 반대로 <strong>불타기(Averaging Up)</strong>는 가격이 오르는 추세에서 긍정적인 전망을 바탕으로 추가 매수하여 전체 투자 규모와 수익금을 키우는 공격적 전략입니다.</p>
       <br>
-      <strong>Q. 평균 단가(평단가)가 중요한 이유는?</strong>
-      <p>평균 단가는 투자의 손익분기점을 결정합니다. 현재 가격이 평단가보다 높으면 수익, 낮으면 손실 상태입니다. 물타기로 평단가를 낮추면 더 적은 반등으로도 수익 전환이 가능해집니다. 예를 들어 5만원에 10주 보유 중 4만원에 10주를 추가 매수하면 평단가가 4.5만원으로 낮아져, 5만원까지 오르지 않아도 수익이 발생합니다.</p>
+      <strong>Q. 평단가를 낮추는 것이 무조건 유리한가요?</strong>
+      <p>물타기를 통해 평단가를 낮추면, 향후 주가가 조금만 반등해도 원금을 회복하거나 수익으로 전환될 수 있다는 장점이 있습니다. 그러나 <strong>기업의 펀더멘털이나 시장 상황이 악화되어 계속 하락하는 경우(소위 '지하실'로 가는 경우)</strong>, 물타기는 오히려 손실 금액을 폭발적으로 키우는 최악의 선택이 될 수 있습니다. 확실한 지지선이나 반등 근거가 있을 때만 신중하게 실행해야 합니다.</p>
       <br>
-      <strong>Q. 물타기를 하면 항상 유리한가요?</strong>
-      <p>아닙니다. 물타기는 해당 종목이 <strong>결국 반등할 것이라는 확신</strong>이 있을 때만 유효한 전략입니다. 기업 펀더멘털이 무너졌거나 코인 프로젝트 자체에 문제가 있다면, 물타기는 손실을 더 키울 수 있습니다. 또한 한 종목에 자금을 과도하게 집중하면 포트폴리오 리스크가 높아지므로, 투자 가능 금액의 일정 비율 이내에서 진행하는 것이 현명합니다.</p>
+      <strong>Q. 추가 매수 시 비율은 어떻게 설정하는 것이 좋나요?</strong>
+      <p>단순히 현재가에 맞춰 매수하기보다, 본인의 전체 투자 자산 대비 <strong>비중 조절(포트폴리오 리스크 관리)</strong>이 최우선입니다. 일반적으로는 하락폭이 -10%, -20% 등 유의미할 때 분할 매수하는 '피라미딩(Pyramiding) 기법'이나 '정액 분할 매수법(적립식)' 등을 활용하여 한 번에 너무 많은 자금이 한 종목에 묶이지 않도록 조절하는 것을 권장합니다.</p>
     </div>
   </details>
+
+  <div class="related-tools">
+    <h3>🔗 연관 금융/생활 계산기</h3>
+    <div class="tool-list">
+      <a href="/special-chars/percent-calc/"><span>🔢 퍼센트 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/compound-interest/"><span>📈 복리 이자 계산기</span><span>바로가기 →</span></a>
+      <a href="/special-chars/broker-fee-calc/"><span>🏠 부동산 중개보수 계산기</span><span>바로가기 →</span></a>
+    </div>
+  </div>
     <div class="footer"><span>숫자 입력 즉시 실시간 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -328,6 +356,8 @@ function calc() {
     }
   }
 
+  const report = document.getElementById('analysisReport');
+
   // 최종 계산
   if (!isNaN(curPrice) && !isNaN(curQty) && !isNaN(addPrice) && !isNaN(addQty) && addQty > 0) {
     const totalInvest = curPrice * curQty + addPrice * addQty;
@@ -342,21 +372,41 @@ function calc() {
     const diff = finalAvg - curPrice;
     const pct = ((diff / curPrice) * 100).toFixed(2);
     const changeEl = document.getElementById('priceChange');
+    
+    let actionType = '';
+    let reportDesc = '';
+
     if (diff < 0) {
-      changeEl.textContent = `▼ ${fmtNum(Math.abs(diff), 4)} (${pct}%) — 물타기 성공!`;
+      changeEl.textContent = `▼ ${fmtNum(Math.abs(diff), 4)} (${pct}%) — 물타기 적용됨`;
       changeEl.className = 'result-change change-down';
+      actionType = '물타기';
+      reportDesc = `기존 평단가 <strong>${fmtNum(curPrice, 8)}</strong>에서 추가 매수를 통해 <strong>${fmtNum(Math.abs(diff), 4)}</strong>만큼 단가를 낮추는 데 성공했습니다. 이제 <strong>${fmtNum(finalAvg, 8)}</strong>까지만 가격이 반등해도 본전(원금) 회복이 가능해집니다. 하락장 방어에 집중한 보수적 매수 보강 전략이 반영된 상태입니다.`;
     } else if (diff > 0) {
-      changeEl.textContent = `▲ ${fmtNum(diff, 4)} (+${pct}%) — 불타기`;
+      changeEl.textContent = `▲ ${fmtNum(diff, 4)} (+${pct}%) — 불타기 적용됨`;
       changeEl.className = 'result-change change-up';
+      actionType = '불타기';
+      reportDesc = `기존 평단가 <strong>${fmtNum(curPrice, 8)}</strong>에서 추가 매수로 인해 단가가 <strong>${fmtNum(diff, 4)}</strong>만큼 상승했습니다. 이는 상승장 추세를 타고 투자 비중을 늘리기 위한 공격적 움직임입니다. 최종 평단가 <strong>${fmtNum(finalAvg, 8)}</strong>을 새로운 기준으로 삼아, 보유 자산의 추세 상승을 주도면밀하게 모니터링하시기 바랍니다.`;
     } else {
       changeEl.textContent = '변동 없음';
       changeEl.className = 'result-change change-same';
+      actionType = '추가 매수';
+      reportDesc = `기존 평단가와 동일한 가격으로 추가 매수하여, 평균 단가의 변화 없이 보유 <strong>수량(${fmtNum(totalQty, 8)}개)</strong>과 <strong>투자 금액(${fmtWon(totalInvest)})</strong>만 증가했습니다. 매입 단가보다는 종목 비중 자체를 확대하기 위한 전략입니다.`;
     }
+
+    report.style.display = 'flex';
+    report.innerHTML = `
+      <h3>💡 ${actionType} 시뮬레이션 분석 리포트</h3>
+      <p>입력하신 매매 데이터를 기반으로, 총 <strong>${fmtWon(totalInvest)}</strong>의 누적 투자금이 투입되어 <strong>${fmtNum(totalQty, 8)}개</strong>의 물량을 확보하게 됩니다.</p>
+      <p>${reportDesc}</p>
+      <p>⚠️ <strong>투자 인사이트:</strong> 이 종목의 비중이 포트폴리오에 치명적 리스크를 주지 않는 선인지 잔고를 다시 한번 확인하세요.</p>
+    `;
+
   } else {
     document.getElementById('finalPrice').textContent = '-';
     document.getElementById('finalInvest').textContent = '-';
     document.getElementById('finalQty').textContent = '-';
     document.getElementById('priceChange').textContent = '';
+    report.style.display = 'none';
   }
 }
 </script>

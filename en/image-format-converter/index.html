@@ -70,11 +70,31 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 
 .privacy{font-size:10px;color:var(--text-placeholder);text-align:center}
 
-.guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-btn)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+.guide-section { margin: 24px 12px 12px; padding: 24px 20px; background: var(--bg-bar); border-radius: 12px; border: 1px solid var(--border); }
+.guide-section h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+.guide { margin-bottom: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.guide summary { padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; background: var(--bg-guide); transition: background 0.2s; }
+.guide summary:hover { background: var(--bg-guide-hover); }
+.guide summary::-webkit-details-marker { display: none; }
+.guide summary::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+.guide[open] summary { background: var(--bg-btn); border-bottom: 1px solid var(--border); }
+.guide[open] summary::after { transform: rotate(180deg); }
+.guide-content { padding: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.guide-content h3 { font-size: 14px; color: var(--text-primary); margin: 12px 0 8px; }
+.guide-content p { margin-bottom: 12px; }
+.guide-content ul, .guide-content ol { padding-left: 20px; margin-bottom: 12px; }
+.guide-content li { margin-bottom: 4px; }
+.related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+.related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.tool-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+.tool-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.tool-icon { font-size: 24px; margin-bottom: 8px; }
+.tool-name { font-size: 12px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
 
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
@@ -147,21 +167,57 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
     <div class="privacy">⚠️ 100% Local Browser Processing — Images are never sent to a server</div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <p><b>Supported Formats:</b></p>
-      <p>• <b>JPG</b> — Best for photos, small file size (lossy compression)</p>
-      <p>• <b>PNG</b> — Supports transparent backgrounds, ideal for graphics (lossless)</p>
-      <p>• <b>WebP</b> — Modern format, 25-35% smaller than JPG</p>
-      <br>
-      <p><b>Quality Settings:</b></p>
-      <p>• JPG/WebP: Adjust file size and quality with the quality slider</p>
-      <p>• PNG: Lossless format, no quality setting needed</p>
-      <br>
-      <p>⚠️ For animated GIFs, only the first frame is converted.</p>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Image Formatting</h2>
+    
+    <details class="guide" open>
+      <summary>1. Which image format should I use?</summary>
+      <div class="guide-content">
+        <p>Choosing the right format depends on your needs:</p>
+        <ul>
+          <li><strong>JPG (JPEG):</strong> Extremely common. Best for standard photographs. It uses lossy compression, resulting in significantly smaller file sizes. It does not support transparent backgrounds.</li>
+          <li><strong>PNG:</strong> Essential for graphics, logos, and images requiring transparency. It uses lossless compression, meaning no detail is lost, but the file size is generally larger.</li>
+          <li><strong>WebP:</strong> The modern web standard developed by Google. It offers superior compression logic relative to both JPG and PNG, preserving high quality while deeply cutting file size.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Does converting image formats reduce file size?</summary>
+      <div class="guide-content">
+        <p>Sometimes. Converting from PNG to JPG usually drastically cuts file size due to compression algorithms. Converting anything to WebP generally yields a file 25-35% smaller than standard formats. You can also manipulate the <strong>Quality Slider</strong> (for JPG and WebP) to further shrink the final file size.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Is my privacy protected during conversion?</summary>
+      <div class="guide-content">
+        <p>Absolutely. Unlike many online tools that upload your files to external servers, our Image Format Converter relies strictly on <strong>local browser processing</strong>. Your images never leave your desktop or mobile device.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Utility Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/image-compress/" class="tool-card">
+          <span class="tool-icon">🗜️</span>
+          <span class="tool-name">Image Compressor</span>
+        </a>
+        <a href="/special-chars/en/color-picker/" class="tool-card">
+          <span class="tool-icon">🎨</span>
+          <span class="tool-name">Color Picker</span>
+        </a>
+        <a href="/special-chars/en/qr-code/" class="tool-card">
+          <span class="tool-icon">📱</span>
+          <span class="tool-name">QR Code Generator</span>
+        </a>
+        <a href="/special-chars/en/pdf-tool/" class="tool-card">
+          <span class="tool-icon">📄</span>
+          <span class="tool-name">PDF Editor</span>
+        </a>
+      </div>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>100% Local Browser Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

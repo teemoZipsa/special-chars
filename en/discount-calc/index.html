@@ -57,11 +57,25 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .copy-btn{width:100%;padding:12px;background:var(--bg-header);color:var(--text-on-accent);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
 .copy-btn:hover{opacity:.85}
 .copy-btn:active{transform:scale(.98)}
-.guide-section{margin:12px 0 0;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-btn);color:var(--text-primary);padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
@@ -139,15 +153,40 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
       <button class="copy-btn" onclick="copyResult()">Copy Result</button>
     </div>
 
-    <details class="guide-section">
-      <summary>💡 How to Use</summary>
-      <div class="guide-content">
-        • Enter the original price and either a discount rate or discount amount — they are synced automatically.<br>
-        • Toggle sales tax on/off to see the tax-inclusive final price.<br>
-        • Switch "Input price is pre-tax" off to treat your input as a tax-included price (reverse calculation).<br>
-        • Click "Copy Result" to copy the calculation to your clipboard.
+    <section class="guide-section">
+      <h2>💡 Comprehensive Guide to Discount & Tax Calculator</h2>
+      
+      <details class="guide" open>
+        <summary>1. How do I calculate a simple discount?</summary>
+        <div class="guide-content">
+          <p>Enter your <strong>Original Price</strong>, then enter either the <strong>Discount Rate (%)</strong> or the specific <strong>Discount Amount ($)</strong>. The calculator will automatically sync the two fields and immediately show your final discounted price below.</p>
+        </div>
+      </details>
+  
+      <details class="guide">
+        <summary>2. How does the Sales Tax feature work?</summary>
+        <div class="guide-content">
+          <p>By toggling <strong>"Include Sales Tax (10%)"</strong>, the calculator will compute a 10% tax on the <em>after-discount</em> amount and add it to your final total. This is crucial for accurate invoicing or shopping in regions with value-added taxes (VAT).</p>
+        </div>
+      </details>
+  
+      <details class="guide">
+        <summary>3. What is the "Input price is pre-tax" toggle used for?</summary>
+        <div class="guide-content">
+          <p>If you have a price that <em>already includes</em> tax, but you need to know the base price and the tax amount separately (reverse calculation), turn this toggle <strong>off</strong>. The calculator will extract the tax value out of the given total for you.</p>
+        </div>
+      </details>
+  
+      <div class="related-tools">
+        <h2>🔗 Recommended Calculators</h2>
+        <div class="tools-grid">
+          <a href="/special-chars/en/wage-calc/" class="tool-card">💵 Wage Calculator</a>
+          <a href="/special-chars/en/compound-interest/" class="tool-card">📈 Compound Interest</a>
+          <a href="/special-chars/en/avg-price/" class="tool-card">📉 Average Price Calc</a>
+          <a href="/special-chars/en/percent-calc/" class="tool-card">📊 Percentage Calc</a>
+        </div>
       </div>
-    </details>
+    </section>
   </div>
   <div class="footer"><span>Real-time Calculation</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>

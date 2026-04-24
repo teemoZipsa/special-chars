@@ -47,21 +47,32 @@
         .btn-now{padding:10px 20px;background:var(--accent);color:var(--text-on-accent);border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit}
         .btn-now:hover{background:var(--accent-hover)}
 
-        .diff-banner{text-align:center;padding:12px;background:var(--bg-input);border-radius:10px;margin-bottom:12px;border:1px solid var(--border)}
-        .diff-text{font-size:14px;color:var(--text-primary);font-weight:600}
-        .diff-sub{font-size:11px;color:var(--text-info);margin-top:2px}
-
-        .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-        .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-        .guide-section summary:hover{background:var(--bg-guide-hover)}
-        .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-        .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-        .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+        .report-box { margin-top: 16px; padding: 20px; background: var(--bg-bar); border: 1px solid var(--border); border-radius: 12px; display: none; animation: fadeIn 0.5s ease-out; }
+        .report-box h3 { font-size: 15px; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .report-box p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 8px; }
+        .report-box .highlight { color: var(--accent); font-weight: 600; }
+        /* 가이드 & 관련 도구 (표준) */
+        .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+        .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+        .guide:last-child{margin-bottom:0}
+        .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+        .guide summary::-webkit-details-marker{display:none}
+        .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+        .guide[open] summary::after{transform:rotate(180deg)}
+        .guide summary:hover{background:var(--bg-guide-hover)}
+        .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+        .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+        .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+        .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+        .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .bottom-bar{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
         .bottom-bar .info{font-size:11px;color:var(--text-info)}
         .action-btn{padding:8px 20px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
-        .btn-clear{background:var(--bg-btn);color:var(--text-guide)}.btn-clear:hover{background:var(--bg-btn-hover)}
+        .btn-clear{background:var(--bg-input);color:var(--text-guide);border:1px solid var(--border);}.btn-clear:hover{background:var(--bg-btn);color:var(--text-primary);}
         .btn-copy{background:var(--accent);color:var(--text-on-accent)}.btn-copy:hover{background:var(--accent-hover)}
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:var(--text-on-accent);padding:10px 24px;border-radius:24px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(83,52,131,.6);transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;z-index:999}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
@@ -109,25 +120,55 @@
             <div class="tz-result-info" id="toResultInfo"></div>
         </div>
 
-        <!-- Diff -->
-        <div class="diff-banner" id="diffBanner" style="display:none">
-            <div class="diff-text" id="diffText"></div>
-            <div class="diff-sub" id="diffSub"></div>
+        <!-- 동적 타임존 분석 리포트 -->
+        <div id="reportContainer" class="report-box"></div>
+        
+        <!-- 하단 액션 버튼 -->
+        <div class="bottom-bar">
+            <div class="info">※ 서머타임(DST) 자동 고려</div>
+            <div style="display:flex; gap:8px;">
+                <button class="action-btn btn-clear" onclick="resetAll()">초기화</button>
+                <button class="action-btn btn-copy" onclick="copyResult()">결과 복사</button>
+            </div>
         </div>
     </div>
 
-    <details class="guide-section">
-        <summary>📖 사용 방법</summary>
-        <div class="guide-content">
-            <ol>
-                <li>'현재 시간' 버튼을 누르거나 날짜/시간을 직접 입력하세요</li>
-                <li>FROM(기준)과 TO(변환) 타임존을 각각 선택하세요</li>
-                <li>자동으로 변환된 시간과 시차가 표시됩니다</li>
-                <li>'↕ 전환' 버튼으로 FROM/TO를 쉽게 바꿀 수 있습니다</li>
-            </ol>
-            <p style="margin-top:8px">💡 서머타임(DST)은 브라우저의 IANA 타임존 DB를 사용하여 자동 반영됩니다.</p>
+    <section class="guide-section">
+        <h2>💡 타임존 변환기 완벽 사용 가이드</h2>
+        
+        <details class="guide" open>
+            <summary>타임존(Timezone)이란 무엇이고 왜 변환해야 하나요?</summary>
+            <div class="guide-content">
+                <p>세계는 지구의 자전으로 인해 경도 구역에 따라 서로 다른 로컬 시간대(타임존)를 사용하고 있습니다. <b>타임존 변환기</b>는 특정 기준 지역(예: 대한민국 서울)의 날짜와 시간을 입력하면 변환하고자 하는 목표 국가 및 지역(예: 미국 뉴욕)의 시간으로 오차 없이 정확히 계산해 주는 스마트 도구입니다.</p>
+                <p>글로벌 비즈니스의 화상 회의(Zoom 등), 해외 주식 시장의 개장 시간 파악, 해외 e스포츠 및 라이브 방송 시청 대기, 해외 여행 체류 일정 관리 등 현대의 전 세계적인 연결망 속에서 필수적으로 요구되는 <b>시차 정보를 누구나 쉽고 직관적으로 파악할 수 있도록 돕습니다.</b></p>
+            </div>
+        </details>
+
+        <details class="guide">
+            <summary>서머타임(DST, 일광 절약 시간제)은 어떻게 보정되나요?</summary>
+            <div class="guide-content">
+                <p>본 타임존 변환기는 국제 표준 인터넷 인프라인 <b>IANA(Internet Assigned Numbers Authority) 타임존 데이터베이스</b> 엔진을 브라우저를 통해 실시간으로 참조합니다.</p>
+                <p>따라서 미국의 일광 절약 시간제나 유럽의 서머타임 등 <b>각 해당 대륙 및 국가별 정책에 따라 시시각각 도입/해제되는 서머타임 변동 규칙이 100% 자동으로 반영 계산</b>됩니다. 사용자가 별도로 인터넷 검색을 통해 서머타임 여부를 파악해 1시간을 미리 빼거나 더하실 필요 없이, 출력된 결과물을 그대로 믿고 예약 및 일정에 사용하시면 됩니다.</p>
+            </div>
+        </details>
+
+        <details class="guide">
+            <summary>오프라인에서도 사용이 가능한가요?</summary>
+            <div class="guide-content">
+                <p>물론입니다. 저희 시스템의 모든 계산 로직은 사용자의 기기(브라우저 엔진) 자체에서 처리하는 <b>클라이언트 사이드 아키텍처</b>로 설계되었습니다. 따라서 PWA로 설치되어 있거나 캐시된 상태라면 외부 인터넷 연결 없이 오프라인 환경에서도 시차 변환기를 자유롭게 사용할 수 있으며 개인 정보 또한 철저하게 보호됩니다.</p>
+            </div>
+        </details>
+
+    </section>
+
+    <section class="related-tools">
+        <h2>🔗 관련 도구</h2>
+        <div class="tools-grid">
+            <a href="/special-chars/server-time/" class="tool-card">⌚ 서버 시간 확인기</a>
+            <a href="/special-chars/timer/" class="tool-card">⏳ 타이머</a>
+            <a href="/special-chars/dday-calc/" class="tool-card">📅 디데이 계산기</a>
         </div>
-    </details>
+    </section>
     <div class="footer"><span>서머타임 자동 반영</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -199,7 +240,8 @@ function convert() {
         document.getElementById('toResult').textContent = '--:--';
         document.getElementById('toResultDate').textContent = '';
         document.getElementById('toResultInfo').textContent = '';
-        document.getElementById('diffBanner').style.display = 'none';
+        const rpc = document.getElementById('reportContainer');
+        if (rpc) { rpc.style.display = 'none'; rpc.innerHTML = ''; }
         return;
     }
 
@@ -209,10 +251,6 @@ function convert() {
     const tempDate = new Date(fromStr);
     const fromParts = getDateTimeInTz(tempDate, fromTz);
     const localParts = { date: dateVal, time: timeVal };
-
-    // Calculate offset difference
-    const fromOffset = getOffsetMinutes(tempDate, fromTz);
-    const utcMs = tempDate.getTime() + (tempDate.getTimezoneOffset() * 60000) - (fromOffset * 60000) + (tempDate.getTimezoneOffset() * 60000);
 
     // Simpler approach: construct a UTC date from the "from" inputs
     const localDate = new Date(`${dateVal}T${timeVal}:00`);
@@ -239,11 +277,37 @@ function convert() {
     const diffMin = Math.round((toOffsetMs - fromOffsetMs) / 60000);
     const diffH = diffMin / 60;
     const fromInfo = TIMEZONES.find(t => t.id === fromTz);
-    const absDiffH = Math.abs(diffH);
-    const diffLabel = diffH > 0 ? `${absDiffH}시간 빠름` : diffH < 0 ? `${absDiffH}시간 느림` : '같은 시간대';
-    document.getElementById('diffText').textContent = `시차: ${diffH >= 0 ? '+' : ''}${diffH}시간`;
-    document.getElementById('diffSub').textContent = `${fromInfo ? fromInfo.label : fromTz} 기준 ${diffLabel}`;
-    document.getElementById('diffBanner').style.display = 'block';
+    
+    updateReport(fromInfo, toTzInfo, diffH);
+}
+
+function updateReport(from, to, diffH) {
+    const container = document.getElementById('reportContainer');
+    if (!container || !from || !to) return;
+    
+    container.style.display = 'block';
+    
+    const absDiff = Math.abs(diffH);
+    const diffLabel = diffH > 0 ? `${absDiff}시간 빠름` : diffH < 0 ? `${absDiff}시간 느림` : '동일한 시간대';
+    let analysis = '';
+    
+    if (diffH === 0) {
+        analysis = `선택하신 두 타임존 <b>${from.label}</b>와(과) <b>${to.label}</b>은(는) 사실상 동일한 시각을 나타내어 시차가 발생하지 않습니다. 예기치 않은 서머타임이 적용되는 특수한 경우가 아니라면 전 세계 어디에서든 같은 시간을 공유합니다.`;
+    } else if (diffH > 0) {
+        analysis = `기준 지역인 <b>${from.label}</b>에 비해 <b>${to.label}</b> 지역이 <span class="highlight">${absDiff}시간 더 빠릅니다.</span><br>따라서 현지 시간으로 비즈니스 일정을 계획하거나 알람을 맞출 때 ${absDiff}시간을 선제적으로 더해서 생각하셔야 합니다.`;
+    } else {
+        analysis = `기준 지역인 <b>${from.label}</b>에 비해 <b>${to.label}</b> 지역이 <span class="highlight">${absDiff}시간 더 느립니다.</span><br>글로벌 업무 미팅이나 커뮤니케이션 시 상대방의 시간에 맞춰 ${absDiff}시간을 여유있게 빼서 계산하는 것이 정확합니다.`;
+    }
+
+    container.innerHTML = `
+        <h3>📊 실시간 타임존 변환 분석 리포트</h3>
+        <p><b>변환 요약 결과:</b> ${from.abbr} ▶ ${to.abbr} (<span class="highlight">${diffLabel}</span>)</p>
+        <p style="margin-bottom:4px;"><b>시차 상승/하락 가이드:</b></p>
+        <p>${analysis}</p>
+        <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);">
+            <p style="margin-bottom:0; color:var(--text-info);">※ 현재 도출된 변환 결과는 IANA 최신 DB 규격을 기반으로 하며, 두 지역의 <b>서머타임(DST) 적용 유무가 자동으로 완벽하게 반영</b>되었습니다. 글로벌 소통 및 해외 여행 스케줄링 시 유용하게 사용하십시오.</p>
+        </div>
+    `;
 }
 
 function getOffsetMs(date, tz) {
@@ -274,20 +338,34 @@ function resetAll() {
     document.getElementById('toResult').textContent = '--:--';
     document.getElementById('toResultDate').textContent = '';
     document.getElementById('toResultInfo').textContent = '';
-    document.getElementById('diffBanner').style.display = 'none';
+    const container = document.getElementById('reportContainer');
+    if (container) {
+        container.style.display = 'none';
+        container.innerHTML = '';
+    }
     showToast('초기화되었습니다');
 }
 
 function copyResult() {
     const result = document.getElementById('toResult').textContent;
     if (result === '--:--') { showToast('먼저 시간을 입력하세요'); return; }
-    const fromTz = TIMEZONES.find(t => t.id === document.getElementById('fromTz').value);
-    const toTz = TIMEZONES.find(t => t.id === document.getElementById('toTz').value);
+    const fromTzInfo = TIMEZONES.find(t => t.id === document.getElementById('fromTz').value);
+    const toTzInfo = TIMEZONES.find(t => t.id === document.getElementById('toTz').value);
     const fromDate = document.getElementById('fromDate').value;
     const fromTime = document.getElementById('fromTime').value;
     const toResultDate = document.getElementById('toResultDate').textContent;
-    const diff = document.getElementById('diffText').textContent;
-    const text = `${fromTz ? fromTz.label : ''} ${fromDate} ${fromTime}\n→ ${toTz ? toTz.label : ''} ${toResultDate} ${result}\n${diff}`;
+    
+    const tempDate = new Date(`${fromDate}T${fromTime}:00`);
+    const fromOffsetMs = getOffsetMs(tempDate, fromTzInfo.id);
+    const utcDate = new Date(tempDate.getTime() - fromOffsetMs);
+    const toOffsetMs = getOffsetMs(utcDate, toTzInfo.id);
+    const diffMin = Math.round((toOffsetMs - fromOffsetMs) / 60000);
+    const diffH = diffMin / 60;
+    const absDiffH = Math.abs(diffH);
+    const diffLabel = diffH > 0 ? `${absDiffH}시간 빠름` : diffH < 0 ? `${absDiffH}시간 느림` : '같은 시간대';
+    const diffText = `시차: ${diffH >= 0 ? '+' : ''}${diffH}시간 (${fromTzInfo.label} 기준 ${diffLabel})`;
+
+    const text = `🌍 타임존 변환 결과\n[기준] ${fromTzInfo ? fromTzInfo.label : ''} ${fromDate} ${fromTime}\n[결과] ${toTzInfo ? toTzInfo.label : ''} ${toResultDate} ${result}\n[분석] ${diffText}`;
     navigator.clipboard.writeText(text).then(() => showToast('결과가 복사되었습니다'));
 }
 

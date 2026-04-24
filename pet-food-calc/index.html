@@ -64,6 +64,20 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
 .guide-content strong{color:var(--text-secondary)}
 
+.report-box{background:var(--bg-guide);padding:20px;border-radius:12px;border:1px solid var(--border);line-height:1.6;font-size:14px;color:var(--text-primary);margin-top:16px;animation:fadeIn 0.5s ease-out}
+.report-box h3{font-size:15px;margin-bottom:12px;font-weight:700}
+.report-box p{margin-bottom:10px;color:var(--text-info);word-break:keep-all}
+.report-box .highlight{font-weight:700;color:var(--text-primary)}
+.report-tip{background:var(--bg-body);border-left:4px solid var(--accent);padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0;font-size:13.5px}
+.report-notice{font-size:12px;color:var(--text-muted)!important;margin-top:16px;padding-top:12px;border-top:1px dashed var(--border)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.related-tools{margin:0 12px 12px;padding:16px;background:var(--bg-guide);border-radius:8px;border:1px solid var(--border)}
+.related-tools h4{font-size:14px;margin-bottom:10px;font-weight:700;color:var(--text-primary)}
+.related-tools ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+.related-tools li a{font-size:13px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+.related-tools li a:hover{opacity:0.8;text-decoration:underline}
+
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
 .footer a:hover{color:var(--text-secondary)}
@@ -135,22 +149,42 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <div class="meals-grid" id="mealsGrid"></div>
 
     <div class="info-grid" id="infoGrid"></div>
+
+    <!-- SEO 친화적 사전 렌더링된 상세 분석 리포트 -->
+    <div class="report-box" id="reportBox">
+      <h3>📋 맞춤형 사료/영양 분석 리포트</h3>
+      <p>
+        입력하신 <span class="highlight" id="r-type">🐶 강아지</span>의 정보(체중: <span class="highlight" id="r-weight">5.0</span>kg, 연령: <span class="highlight" id="r-stage">성견/성묘 (1~7세)</span>, 활동 수준: <span class="highlight" id="r-activity">보통 (산책 1~2회)</span>, 중성화: <span class="highlight" id="r-neutered">중성화 완료</span>)를 바탕으로 분석한 영양 급여 플랜입니다.
+      </p>
+      <p>
+        현재 반려동물의 생명 유지에 필요한 최소한의 <strong>기초 에너지 요구량(RER)은 약 <span id="r-rer">234</span> kcal</strong>로 측정됩니다. 여기에 성장 단계와 활동량을 고려한 가중치(활동 계수 <span id="r-factor">1.19</span>)를 반영하면, 하루에 섭취해야 할 가장 이상적인 <strong>목표 일일 에너지(DER)는 <span id="r-der" class="highlight">279</span> kcal</strong> 입니다.
+      </p>
+      <div class="report-tip" style="border-color:var(--accent);">
+        <strong>💡 실전 급여 가이드:</strong> 일반적인 건사료(1kg당 약 3,600kcal 기준)를 먹이신다면 <strong>하루 총 <span id="r-daily-grams">77</span>g</strong>을 급여하는 것이 적당합니다. 소화 부담을 줄이기 위해 하루 2회로 나누어 <strong>끼니당 약 <span id="r-half-grams">39</span>g씩</strong> 배분하는 것을 추천하며, 원활한 대사 작용을 위해 하루 약 <strong><span id="r-water">250</span>ml</strong> 이상의 수분도 챙겨주세요.
+      </div>
+      <p class="report-notice">
+        ※ 본 리포트는 WSAVA(세계소동물수의사회) 및 기초 영양 대사 기반 계산식을 따릅니다. 다만, 급여 중인 사료의 브랜드나 종류(습식, 화식, 처방식 등)에 따라 열량 밀도가 상이할 수 있으므로, 반드시 사료 포장지의 칼로리를 확인하시고 실제 체중 변화에 맞춰 양을 조금씩 조절하는 것이 가장 안전합니다.
+      </p>
+    </div>
   </div>
 
   <details class="guide-section">
-    <summary>📖 계산 방식</summary>
+    <summary>❓ 사료 급여량 산정 Q&A</summary>
     <div class="guide-content">
-      <strong>RER (기초 에너지 요구량)</strong><br>
-      RER = 70 × 체중(kg)^0.75<br><br>
-      <strong>DER (일일 에너지 요구량)</strong><br>
-      DER = RER × 활동 계수<br>
-      • 성장기: ×2.0~3.0 / 성견: ×1.0~1.8 / 노령: ×1.0~1.4<br>
-      • 중성화 시 약 10~15% 감소<br><br>
-      <strong>사료량 환산</strong><br>
-      일반 건사료 기준 약 3,500~4,000 kcal/kg으로 계산합니다.<br>
-      ⚠️ 사료 포장의 칼로리 정보를 확인해 더 정확한 양을 급여하세요.
+      <strong>Q. 계산된 적정 칼로리(DER)가 사료 포장지의 권장량과 다른데 어떡하나요?</strong><br>
+      일반적으로 사료 포장지에 표기된 권장량은 포괄적이고 보수적인 평균치일 확률이 높습니다. 본 동적 분석 리포트는 연령과 평소 활동량, 그리고 중성화 여부까지 디테일한 팩터를 반영한 값이므로, 우선 계산기 결과를 기준으로 급여를 시작하시고 이후 2~4주 뒤의 체형(BCS) 변화에 따라 양을 추가 조절하는 전략을 추천합니다.<br><br>
+      <strong>Q. 습식 사료나 화식을 먹이는데 결과값을 똑같이 적용하면 되나요?</strong><br>
+      아닙니다! 수분 함량이 높은 습식/화식은 일반 건사료(평균 3,600kcal/kg)에 비해 부피 대비 열량이 훨씬 낮습니다. 이 경우 리포트 내 <strong>'목표 일일 에너지(kcal)'</strong> 지표를 절대적 기준으로 삼으시고, 먹이시는 습식 사료 뒷면 성분표의 100g당 kcal 수치에 맞춰 급여량(g)을 수동으로 환산하셔야 올바른 관리가 가능합니다.
     </div>
   </details>
+
+  <div class="related-tools">
+    <h4>🔗 추천 관련 계산 도구</h4>
+    <ul>
+      <li><a href="/special-chars/pet-bmi-calc/">⚖️ 반려동물 비만도(품종별 표준 체중) 계산기</a></li>
+      <li><a href="/special-chars/pet-age-calc/">🐾 강아지/고양이 사람 나이 환산기</a></li>
+    </ul>
+  </div>
 
   <div class="footer"><span>RER/DER 기반 계산</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
@@ -245,6 +279,28 @@ function calc() {
       <div class="value">약 ${(monthCost / 10000).toFixed(1)}만원</div>
     </div>
   `;
+
+  // Update Dynamic Report
+  const stageOpt = document.getElementById('lifeStage').options[document.getElementById('lifeStage').selectedIndex].text;
+  const activityOpt = document.getElementById('activity').options[document.getElementById('activity').selectedIndex].text;
+  const neuteredOpt = document.getElementById('neutered').options[document.getElementById('neutered').selectedIndex].text;
+
+  document.getElementById('r-type').textContent = petType === 'dog' ? '🐶 강아지' : '🐱 고양이';
+  document.getElementById('r-weight').textContent = w.toFixed(1);
+  document.getElementById('r-stage').textContent = stageOpt;
+  document.getElementById('r-activity').textContent = activityOpt;
+  document.getElementById('r-neutered').textContent = neuteredOpt;
+  document.getElementById('r-rer').textContent = Math.round(rer);
+  document.getElementById('r-factor').textContent = factor.toFixed(2);
+  document.getElementById('r-der').textContent = Math.round(der);
+  document.getElementById('r-daily-grams').textContent = Math.round(dailyGrams);
+  document.getElementById('r-half-grams').textContent = Math.round(dailyGrams / 2);
+  document.getElementById('r-water').textContent = Math.round(w * 50);
+
+  const rBox = document.getElementById('reportBox');
+  rBox.style.animation = 'none';
+  void rBox.offsetWidth;
+  rBox.style.animation = 'fadeIn 0.5s ease-out';
 }
 
 calc();

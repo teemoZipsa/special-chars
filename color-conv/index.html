@@ -57,12 +57,22 @@
         .chip-label{color:var(--text-info);margin-bottom:1px}
         .chip-hex{color:var(--text-primary);font-weight:600;font-family:monospace}
 
-        .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-        .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-        .guide-section summary:hover{background:var(--bg-guide-hover)}
-        .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-        .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-        .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+        .guide-section{margin:12px; padding:16px; border:1px solid var(--border); border-radius:8px; background:var(--bg-app); margin-top:20px;}
+        .guide-title{font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:12px;}
+        .guide-item{margin-bottom:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-guide); overflow:hidden;}
+        .guide-item summary{padding:12px; font-size:13px; font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; color:var(--text-guide);}
+        .guide-item summary::after{content:'▼'; font-size:10px; color:var(--text-info); transition:transform 0.2s;}
+        .guide-item[open] summary::after{transform:rotate(180deg);}
+        .guide-item[open] summary{border-bottom:1px solid var(--border); background:var(--bg-btn);}
+        .guide-item .guide-content{padding:12px; font-size:13px; color:var(--text-info); line-height:1.6;}
+        .related-tools{margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
+        .tag-container{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+        .tool-tag{padding:6px 12px; background:rgba(83,52,131,0.1); color:var(--accent); border-radius:16px; font-size:11px; font-weight:600; text-decoration:none; transition:all 0.2s;}
+        .tool-tag:hover{background:var(--accent); color:var(--text-on-accent);}
+        
+        .report-box {margin-top:16px; padding:16px; background:rgba(83,52,131,0.05); border-left:4px solid var(--accent); border-radius:8px; font-size:13px; line-height:1.6; color:var(--text-primary); display:none;}
+        .report-box.show {display:block; animation:fadeIn 0.4s;}
+        @keyframes fadeIn {from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
 
         .bottom-bar{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
         .bottom-bar .info{font-size:11px;color:var(--text-info)}
@@ -119,22 +129,53 @@
             <div class="related-title">관련 색상</div>
             <div class="related-colors" id="relatedColors"></div>
         </div>
+        <div id="reportBox" class="report-box"></div>
     </div>
 
-    <details class="guide-section">
-        <summary>📖 사용 방법</summary>
-        <div class="guide-content">
-            <ol>
-                <li>컬러 피커를 클릭하여 원하는 색상을 시각적으로 선택하세요</li>
-                <li>또는 HEX / RGB / HSL 입력란에 직접 코드를 입력하세요</li>
-                <li>어느 한 곳을 변경하면 나머지 형식이 자동으로 변환됩니다</li>
-                <li>각 입력란의 '복사' 버튼으로 원하는 형식을 복사하세요</li>
-                <li>하단의 관련 색상(보색, 유사색)을 클릭하면 해당 색상으로 전환됩니다</li>
-            </ol>
-            <p style="margin-top:8px">💡 HEX: 웹 개발에서 가장 많이 사용. RGB: CSS 함수 형태. HSL: 색상(Hue)·채도(Saturation)·명도(Lightness) 기반으로 직관적 조절에 유리합니다.</p>
+    <div class="bottom-bar">
+        <span class="info">💡 클릭 한번으로 모든 코드를 복사하세요.</span>
+        <div style="display:flex; gap:8px;">
+            <button class="action-btn btn-clear" onclick="resetColor()">초기화</button>
+            <button class="action-btn btn-copy" onclick="copyAll()">전체 복사</button>
         </div>
-    </details>
-    <div class="footer"><span>클립보드 복사 지원</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
+    </div>
+
+    <div class="guide-section">
+        <div class="guide-title">🤔 색상 코드 변환기 관련 Q&A</div>
+        
+        <details class="guide-item">
+            <summary>HEX 코드와 RGB 코드는 어떤 차이가 있나요?</summary>
+            <div class="guide-content">
+                <strong>HEX 코드</strong>는 16진수로 색상을 표현하는 방식으로, 웹(HTML/CSS) 디자인에서 가장 보편적으로 사용됩니다. (예: <code>#533483</code>)<br/>
+                <strong>RGB 코드</strong>는 빛의 3원색인 Red, Green, Blue를 각각 0~255의 숫자로 나타내어 화면에 출력하는 방식입니다. 사진 보정, 모니터 출력 등에 주로 사용됩니다.
+            </div>
+        </details>
+        
+        <details class="guide-item">
+            <summary>HSL은 언제 주로 사용하나요?</summary>
+            <div class="guide-content">
+                <strong>HSL (Hue, Saturation, Lightness)</strong>는 '색상, 채도, 명도'로 구성된 단위입니다.<br/>
+                직관적으로 명도나 채도를 증감시키기 편해, 웹 접근성(대비)을 조절하거나 다크 모드용 컬러 팔레트를 만들 때 효율적으로 활용됩니다.
+            </div>
+        </details>
+        
+        <details class="guide-item">
+            <summary>관련 색상의 '보색'이란 무엇인가요?</summary>
+            <div class="guide-content">
+                <strong>보색(Complementary Color)</strong>은 색상환에서 서로 마주보고 있는 반대되는 색을 말합니다.<br/>
+                디자인에서 강렬한 대비를 주고 싶을 때나, 핵심 버튼(CTA)의 컬러를 선정할 때 보색이나 유사색을 참고하면 조화로운 배색이 가능합니다.
+            </div>
+        </details>
+
+        <div class="related-tools">
+            <div class="guide-title" style="font-size:12px; margin-bottom:8px;">🛠 연관 도구 추천</div>
+            <div class="tag-container">
+                <a href="/special-chars/unit-conv/" class="tool-tag">단위 변환기</a>
+                <a href="/special-chars/base64-tool/" class="tool-tag">Base64 디코더</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><span>양방향 색상 변환</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -204,7 +245,34 @@ function updateUI(source) {
     if (source !== 'hsl') document.getElementById('hslInput').value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 
     updateRelated(hsl);
+    updateReportBox(hsl, hex.toUpperCase());
     _updating = false;
+}
+
+function updateReportBox(hsl, hex) {
+    const box = document.getElementById('reportBox');
+    
+    let text = `🎨 현재 선택하신 색상은 <b>HEX ${hex}</b> 입니다.<br/>`;
+    
+    let brightness = hsl.l;
+    let saturation = hsl.s;
+    
+    if (brightness < 30) {
+        text += `이 색상은 명도가 매우 낮아(어두워) 배경으로 쓰일 경우 <b>흰색 글씨</b>와 배치하면 대비감이 뛰어납니다. (다크 테마 베이스 추천)`;
+    } else if (brightness > 80) {
+        text += `이 색상은 명도가 매우 높아(밝아) <b>어두운 글씨</b>와 배치했을 때 눈이 편안한 배경색으로 활용하기 좋습니다.`;
+    } else {
+        if (saturation > 70) {
+            text += `채도가 높아 눈에 아주 잘 띄는 색상입니다. 시선을 집중시켜야 하는 <b>강조 버튼(Call To Action)이나 배지(Badge)</b>포인트 컬러로 좋습니다.`;
+        } else if (saturation < 30) {
+            text += `채도가 낮아 차분하고 부드러운 분위기를 줍니다. 부가적인 텍스트 요거나 은은한 보조 배경색으로 추천합니다.`;
+        } else {
+            text += `너무 밝지도, 어둡지도 않은 중립적인 컬러로 디자인 여러 요소에 범용적으로 활용할 수 있습니다.`;
+        }
+    }
+    
+    box.innerHTML = text;
+    box.classList.add('show');
 }
 
 function fromPicker(val) {

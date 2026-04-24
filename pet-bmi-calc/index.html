@@ -80,6 +80,21 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
 .guide-content strong{color:var(--text-secondary)}
 
+.report-box{background:var(--bg-guide);padding:20px;border-radius:12px;border:1px solid var(--border);line-height:1.6;font-size:14px;color:var(--text-primary);margin-top:16px;animation:fadeIn 0.5s ease-out;display:none}
+.report-box.active{display:block}
+.report-box h3{font-size:15px;margin-bottom:12px;font-weight:700}
+.report-box p{margin-bottom:10px;color:var(--text-info);word-break:keep-all}
+.report-box .highlight{font-weight:700;color:var(--text-primary)}
+.report-tip{background:var(--bg-body);border-left:4px solid var(--accent);padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0;font-size:13.5px}
+.report-notice{font-size:12px;color:var(--text-muted)!important;margin-top:16px;padding-top:12px;border-top:1px dashed var(--border)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.related-tools{margin:0 12px 12px;padding:16px;background:var(--bg-guide);border-radius:8px;border:1px solid var(--border)}
+.related-tools h4{font-size:14px;margin-bottom:10px;font-weight:700;color:var(--text-primary)}
+.related-tools ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+.related-tools li a{font-size:13px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+.related-tools li a:hover{opacity:0.8;text-decoration:underline}
+
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
 .footer a:hover{color:var(--text-secondary)}
@@ -112,7 +127,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <div class="input-group">
       <label>현재 체중</label>
       <div class="input-row">
-        <input type="number" id="weight" value="5" min="0.5" max="100" step="0.1" oninput="calc()">
+        <input type="number" id="weight" value="3.5" min="0.5" max="100" step="0.1" oninput="calc()">
         <span class="unit">kg</span>
       </div>
     </div>
@@ -133,19 +148,50 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     </div>
 
     <div class="info-grid" id="infoGrid"></div>
+
+    <!-- SEO 친화적 사전 렌더링된 상세 분석 리포트 -->
+    <div class="report-box active" id="reportBox">
+      <h3>📋 맞춤형 체중 분석 리포트</h3>
+      <p>
+        입력하신 정보(반려동물 종류: <span class="highlight" id="r-type">🐶 강아지</span>, 품종: <span class="highlight"><span id="r-breed">말티즈</span></span>, 현재 체중: <span class="highlight"><span id="r-weight">3.5</span>kg</span>)를 바탕으로 분석한 결과입니다.
+      </p>
+      <p>
+        <span id="r-breed-name">말티즈</span> 품종의 의학적 표준 체중 범위는 <strong><span id="r-range-min">2.5</span>kg ~ <span id="r-range-max">4.0</span>kg</strong> 사이로 권장되고 있습니다. 이를 바탕으로 평가했을 때, 현재 반려동물은 <strong><span id="r-status" style="color:#22c55e;">[이상적]</span></strong>인 건강 체중 상태에 해당합니다. (해당 품종의 평균 이상 체중은 <span id="r-ideal">3.3</span>kg 입니다.)
+      </p>
+      <div class="report-tip" id="r-tip-box" style="border-color:#22c55e;">
+        <strong>💡 건강 관리 가이드:</strong> <span id="r-tip">건강한 정상 체중이에요! 지금처럼 꾸준한 산책과 균형 잡힌 사료 급여를 통해 안정적인 체형을 평생 유지해 주시기 바랍니다.</span>
+      </div>
+      <p class="report-notice">
+        ※ 본 결과는 대중적인 품종별 평균 체중 통계를 기준으로 한 분석치입니다. 같은 품종이더라도 부모견(묘)의 골격 크기나 타고난 체형에 따라 적정 체중 수치는 차이가 날 수 있습니다. 아이별 체형 상태는 늑골 촉진을 통한 체조직 평가(BCS)로 추가 점검을 권장합니다.
+      </p>
+    </div>
   </div>
 
     <!-- BCS 가이드 제거됨 -->
 
   <details class="guide-section">
-    <summary>❓ 자주 묻는 질문</summary>
+    <summary>❓ 반려동물 체중 관리 Q&A</summary>
     <div class="guide-content">
-      <strong>표준 체중이 왜 중요한가요?</strong><br>
-      비만은 관절 질환, 당뇨, 심장병 등의 위험을 높입니다. 이상 체중의 10~15% 이내를 유지하는 것이 좋습니다.<br><br>
-      <strong>사람 BMI처럼 계산하면 안 되나요?</strong><br>
-      반려동물은 품종별 체형 차이가 크기 때문에 BCS(체형 점수) + 품종별 표준 체중이 더 정확합니다.
+      <strong>Q. 표준 체중 관리가 왜 중요한가요?</strong><br>
+      비만은 무릎 슬개골 탈구를 비롯한 관절 질환, 치명적인 당뇨, 예고 없는 심장병 등의 발병 위험을 크게 높입니다. 따라서 전문가가 권하는 이상 체중의 10% 이내를 생애 주기에 맞춰 유지하는 것이 기대수명 연장과 직결됩니다.<br><br>
+      <strong>Q. 사람 BMI 공식처럼 계산하면 안 되나요?</strong><br>
+      반려동물은 치와와부터 대형마스티프까지 품종별 체중과 골격 차이가 워낙 심해 단일 공식(키/몸무게 구조) 적용이 불가합니다. 이 때문에 수의학에서는 BCS(체형 점수)와 품종의 표준 체중 통계를 병합하여 정확한 비만도를 판별합니다.
     </div>
   </details>
+
+  <div class="magazine-cta" id="catMagazineCta" style="display:none; margin: 0 12px 12px; padding: 16px; background: linear-gradient(135deg, var(--bg-hover), var(--bg-guide)); border: 2px solid var(--accent); border-radius: 8px; text-align: center;">
+    <h4 style="font-size:14px; margin-bottom:8px; font-weight:700; color:var(--text-primary)">우리 고양이 비만일까? 원시주머니일까? 🐱</h4>
+    <p style="font-size:12px; color:var(--text-info); margin-bottom:12px; word-break:keep-all;">2025년 최신 수의학 연구에 기반한 고양이 눈대중 체형 평가(BCS) 가이드를 티모 매거진에서 확인해보세요!</p>
+    <a href="/blog/cat-bmi-guide/" style="display:inline-block; padding:8px 16px; background:var(--accent); color:var(--text-on-accent); border-radius:8px; text-decoration:none; font-size:13px; font-weight:700;">가이드 읽어보기 ➔</a>
+  </div>
+
+  <div class="related-tools">
+    <h4>🔗 추천 관련 계산 도구</h4>
+    <ul>
+      <li><a href="/special-chars/pet-food-calc/">🥩 반려동물 맞춤 일일 권장 사료량 계산기</a></li>
+      <li><a href="/special-chars/pet-age-calc/">🐾 강아지/고양이 사람 나이 환산기</a></li>
+    </ul>
+  </div>
 
   <div class="footer"><span>품종별 표준 체중 비교 도구</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
@@ -302,6 +348,7 @@ function setType(t) {
   document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
   document.querySelector(`.type-tab[onclick*="${t}"]`).classList.add('active');
   document.getElementById('breedSearch').value = '';
+  document.getElementById('catMagazineCta').style.display = t === 'cat' ? 'block' : 'none';
   renderBreeds();
   calc();
 }
@@ -352,9 +399,11 @@ function calc() {
     const labelSpans = document.querySelectorAll('.gauge-labels span');
     labelSpans.forEach(s => s.style.fontWeight = 'normal');
     document.getElementById('gaugeMarker').style.display = 'none';
+    document.getElementById('reportBox').classList.remove('active');
     return;
   }
   
+  document.getElementById('reportBox').classList.add('active');
   document.getElementById('gaugeMarker').style.display = 'block';
 
   // Determine ideal weight
@@ -463,10 +512,32 @@ function calc() {
       <div class="value" style="font-size:11px;font-weight:500">${tip || ''}</div>
     </div>
   `;
+
+  // Dynamic Report UI Updates
+  document.getElementById('reportBox').style.animation = 'none';
+  void document.getElementById('reportBox').offsetWidth;
+  document.getElementById('reportBox').style.animation = 'fadeIn 0.5s ease-out';
+
+  document.getElementById('r-type').textContent = petType === 'dog' ? '🐶 강아지' : '🐱 고양이';
+  document.getElementById('r-breed').textContent = selectedBreed.name;
+  document.getElementById('r-weight').textContent = w.toFixed(1);
+  document.getElementById('r-breed-name').textContent = selectedBreed.name;
+  document.getElementById('r-range-min').textContent = selectedBreed.min.toFixed(1);
+  document.getElementById('r-range-max').textContent = selectedBreed.max.toFixed(1);
+  
+  const rStatus = document.getElementById('r-status');
+  rStatus.textContent = `[${statusText}]`;
+  rStatus.style.color = statusColor;
+  
+  document.getElementById('r-ideal').textContent = idealWeight.toFixed(1);
+  
+  const rTipBox = document.getElementById('r-tip-box');
+  rTipBox.style.borderColor = statusColor;
+  document.getElementById('r-tip').textContent = tip || '정상 범위 내 체중 유지를 목표로 하세요.';
 }
 
 renderBreeds();
-calc();
+selectBreed(2); // default: Maltese
 
 (function(){var b=document.querySelector('.scroll-top-btn');if(!b)return;window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>200)});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
 </script>

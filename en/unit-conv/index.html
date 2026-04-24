@@ -55,12 +55,31 @@
   .conv-triple .conv-field{flex:1;min-width:0}
   .conv-extra{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11px;color:var(--text-info)}
   .conv-extra input{width:60px;background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:4px 8px;font-size:12px;text-align:center;font-family:inherit}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  /* Dynamic Report & Guide standard CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin-top: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+  .report-box strong { color: var(--accent); }
+  .guide-section { margin: 24px 12px 12px; padding: 24px 20px; background: var(--bg-bar); border-radius: 12px; border: 1px solid var(--border); }
+  .guide-section h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+  .guide { margin-bottom: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .guide summary { padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; background: var(--bg-guide); transition: background 0.2s; }
+  .guide summary:hover { background: var(--bg-guide-hover); }
+  .guide summary::-webkit-details-marker { display: none; }
+  .guide summary::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+  .guide[open] summary { background: var(--bg-btn); border-bottom: 1px solid var(--border); }
+  .guide[open] summary::after { transform: rotate(180deg); }
+  .guide-content { padding: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .guide-content h3 { font-size: 14px; color: var(--text-primary); margin: 12px 0 8px; }
+  .guide-content p { margin-bottom: 12px; }
+  .guide-content ul, .guide-content ol { padding-left: 20px; margin-bottom: 12px; }
+  .guide-content li { margin-bottom: 4px; }
+  .related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+  .related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .tool-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text-secondary); transition: all 0.2s; text-align: center; gap: 6px; }
+  .tool-card:hover { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); transform: translateY(-2px); }
+  .tool-icon { font-size: 20px; }
+  .tool-name { font-size: 11px; font-weight: 600; }
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -84,16 +103,49 @@
     <div id="unitConvArea"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Select a category from the tabs above (Real Estate, Cooking, Shopping, Digital, Travel).</li>
-        <li>Enter a number in any field, and the other side converts automatically.</li>
-        <li>Supports special conversions like international shoe sizes.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Unit Converter</h2>
+    
+    <details class="guide" open>
+      <summary>1. How do I use the Unit Converter?</summary>
+      <div class="guide-content">
+        <ol>
+          <li>Select a category from the tabs above (Real Estate, Cooking, Shopping, Digital, Travel).</li>
+          <li>Enter a number in any field, and the corresponding unit will map and calculate automatically.</li>
+          <li>Supports advanced real-world conversions like country-specific shoe sizes.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Useful Tips</summary>
+      <div class="guide-content">
+        <p>This converter features a bidirectional mapping system. This means if you type into an output box (like GB or cm), the input box (like MB or inches) updates simultaneously, creating true reciprocal behavior without extra logic.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Essential Living & Travel Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/discount-calc/" class="tool-card">
+          <span class="tool-icon">🛍️</span>
+          <span class="tool-name">Discount Calc</span>
+        </a>
+        <a href="/special-chars/en/calculator/" class="tool-card">
+          <span class="tool-icon">🧮</span>
+          <span class="tool-name">Calculator</span>
+        </a>
+        <a href="/special-chars/en/date-calc/" class="tool-card">
+          <span class="tool-icon">📅</span>
+          <span class="tool-name">Date Calc</span>
+        </a>
+        <a href="/special-chars/en/pet-age-calc/" class="tool-card">
+          <span class="tool-icon">🐕</span>
+          <span class="tool-name">Pet Age Calc</span>
+        </a>
+      </div>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>Bidirectional Real-time Conversion</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

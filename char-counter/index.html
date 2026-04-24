@@ -60,6 +60,15 @@
   .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
   .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
   .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  .guide-content p{margin-bottom:8px}
+  .report-box{margin-top:16px;padding:16px;border-radius:8px;background:var(--bg-input);border:1px solid var(--accent);color:var(--text-primary);font-size:13px;line-height:1.6;display:none;animation:fadeIn .3s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  .report-box strong{color:var(--accent)}
+  .related-tools{margin:12px;padding:16px;background:var(--bg-input);border-radius:8px;border:1px solid var(--border)}
+  .related-tools h3{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text-primary);display:flex;align-items:center;gap:6px}
+  .tool-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tool-tag{padding:6px 12px;background:var(--bg-app);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-secondary);text-decoration:none;transition:all .2s}
+  .tool-tag:hover{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -102,19 +111,43 @@
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       <div class="progress-text" id="progressText">0 / 500</div>
     </div>
+    
+    <div id="reportBox" class="report-box" style="display:none;"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 사용 방법</summary>
+  <div class="bottom-bar">
+    <button class="action-btn btn-clear" onclick="clearCounter()">초기화</button>
+    <button class="action-btn btn-copy" onclick="copyStats()">결과 복사</button>
+  </div>
+
+  <details class="guide-section" open>
+    <summary>✅ 글자 수 및 바이트 계산기 완벽 가이드</summary>
     <div class="guide-content">
-      <ol>
-        <li>텍스트 입력 영역에 분석할 텍스트를 붙여넣거나 직접 입력하세요.</li>
-        <li>전체 글자, 공백 제외, 단어, 줄, 바이트 수가 실시간으로 표시됩니다.</li>
-        <li>제한 설정에서 글자 수 또는 바이트 제한을 걸면 진행률 바가 나타납니다.</li>
-        <li>"결과 복사" 버튼으로 통계를 클립보드에 복사할 수 있습니다.</li>
-      </ol>
+      <strong>1. 자기소개서 바이트 계산, 왜 중요한가요?</strong>
+      <p>이력서나 자소서를 작성할 때 기업(사람인, 잡코리아 등)마다 요구하는 바이트 기준이 다릅니다. 이는 내부 데이터베이스 시스템이 한글을 처리하는 방식(인코딩)이 다르기 때문입니다. 우리 툴은 <strong>UTF-8과 EUC-KR</strong> 두 가지 기준을 모두 제공하여 어떤 제출처에도 완벽하게 대응할 수 있도록 돕습니다.</p>
+      
+      <strong>2. EUC-KR과 UTF-8의 차이점 (한글 2바이트 vs 3바이트)</strong>
+      <p>• <strong>EUC-KR (취업포털 기준):</strong> 한글 및 한자 1글자를 <strong>2바이트</strong>로, 영문/숫자/띄어쓰기는 1바이트로 계산합니다. 과거 시스템이나 일부 채용 포털이 주로 채택한 방식입니다.<br>
+      • <strong>UTF-8 (웹 최신 표준):</strong> 한글 및 한자 1글자를 <strong>3바이트</strong>로, 영문/숫자는 1바이트로 계산합니다. 최신 시스템(네이버, 카카오 등)에서 주로 사용하는 방식입니다.</p>
+
+      <strong>3. 단어 수는 어떻게 계산되나요?</strong>
+      <p>띄어쓰기나 줄바꿈으로 구분된 문자열의 덩어리를 1개 단어로 셉니다. 영문 에세이(word count)나 논문 작성 시 자주 사용되며, 번역 단가 기준이나 구글 SEO 요건인 "1,000단어 이상"을 확인할 때 유용한 지표입니다.</p>
+
+      <strong>4. 글자 수 제한 설정 시 최적의 팁</strong>
+      <p>제한 설정에서 목표 글자 수나 바이트를 지정하면, 실시간 진행률(Progress 바)과 동적 리포트가 함께 나타납니다. <strong>실시간 잔여량 및 초과 알림</strong>을 통해 퇴고 작업을 훨씬 빠르고 정확하게 마무리할 수 있습니다.</p>
     </div>
   </details>
+
+  <div class="related-tools">
+    <h3>💡 유용한 업무/문서 도구</h3>
+    <div class="tool-tags">
+      <a href="/special-chars/biz-day-calc/" class="tool-tag">📅 영업일 계산기</a>
+      <a href="/special-chars/date-calc/" class="tool-tag">⏳ D-Day 계산기</a>
+      <a href="/special-chars/percent-calc/" class="tool-tag">📊 퍼센트 계산기</a>
+      <a href="/special-chars/wage-calc/" class="tool-tag">💰 주휴/급여 계산기</a>
+    </div>
+  </div>
+
     <div class="footer"><span>실시간 분석</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -145,6 +178,37 @@ function updateCounter(){
   else{document.getElementById('statBytes').textContent=utf8Bytes.toLocaleString();document.getElementById('statBytesType').textContent='UTF-8'}
   document.getElementById('limitValue').style.display=limitType==='none'?'none':'';
   updateProgress(limitType,chars,utf8Bytes,euckrBytes);
+  updateReportBox(text, chars, noSpace, words, limitType);
+}
+
+function updateReportBox(text, chars, noSpace, words, limitType) {
+  const reportBox = document.getElementById('reportBox');
+  if(!text) {
+    reportBox.style.display = 'none';
+    return;
+  }
+  
+  const euckr = calcEuckrBytes(text);
+  const utf8 = new TextEncoder().encode(text).length;
+  let reportHTML = `입력하신 텍스트는 총 <strong>${chars.toLocaleString()}자</strong>(공백 제외 <strong>${noSpace.toLocaleString()}자</strong>) 분량이며, <strong>${words.toLocaleString()}개</strong>의 단어로 구성되어 있습니다.<br>`;
+  reportHTML += `이력서 및 자소서 제출 시 자주 쓰이는 바이트 기준, <strong>EUC-KR(한글 2바이트)로는 ${euckr.toLocaleString()} Byte</strong>, <strong>UTF-8(한글 3바이트)로는 ${utf8.toLocaleString()} Byte</strong>를 차지합니다.`;
+  
+  const limit = parseInt(document.getElementById('limitValue').value)||0;
+  if(limitType !== 'none' && limit > 0) {
+    let current = limitType==='chars' ? chars : (limitType==='bytes-utf8' ? utf8 : euckr);
+    let unit = limitType==='chars' ? '자' : 'Byte';
+    let diff = limit - current;
+    if(diff > 0) {
+       reportHTML += `<br><br>👉 설정한 제한(${limit.toLocaleString()}${unit})까지 <strong>${diff.toLocaleString()}${unit} 남았습니다.</strong>`;
+    } else if (diff < 0) {
+       reportHTML += `<br><br>👉 설정한 제한(${limit.toLocaleString()}${unit})을 <strong style="color:#e74c3c">${Math.abs(diff).toLocaleString()}${unit} 초과했습니다.</strong> 내용을 더 요약해 주세요.`;
+    } else {
+       reportHTML += `<br><br>👉 설정한 제한(${limit.toLocaleString()}${unit})에 정확히 일치합니다! 완벽하네요.`;
+    }
+  }
+  
+  reportBox.innerHTML = reportHTML;
+  reportBox.style.display = 'block';
 }
 
 function calcEuckrBytes(text){let bytes=0;for(const ch of text){bytes+=ch.codePointAt(0)<=0x7F?1:2}return bytes}

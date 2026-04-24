@@ -84,9 +84,22 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
 
-.guide{padding:0 20px 20px}
-.guide summary{font-size:13px;color:var(--text-section);cursor:pointer;padding:8px 0}
-.guide-content{font-size:12px;color:var(--text-info);line-height:1.8;padding:8px 0}
+  /* 가이드 & 관련 도구 (표준) */
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
 .footer a:hover{color:var(--text-secondary)}
@@ -148,15 +161,40 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg-body)
     <div class="laps" id="lapsContainer"></div>
   </div>
 
-  <details class="guide">
-    <summary>💡 사용 가이드</summary>
-    <div class="guide-content">
-      • <b>타이머:</b> 시/분/초를 설정하고 시작하면 카운트다운됩니다. 완료 시 알림음이 울립니다.<br>
-      • <b>스톱워치:</b> 시작 버튼으로 시간을 측정하고, 🏁 버튼으로 랩 기록을 남길 수 있습니다.<br>
-      • 빠른 설정 버튼으로 자주 쓰는 시간을 바로 입력할 수 있습니다.<br>
-      • 25분 타이머 = 뽀모도로 기법에 활용하세요!
+  <section class="guide-section">
+    <h2>💡 타이머 / 스톱워치 가이드</h2>
+    <details class="guide" open>
+      <summary>타이머 사용법</summary>
+      <div class="guide-content">
+        시, 분, 초를 직접 입력하거나 숫자 버튼(예: 5분, 1시간)을 눌러 시간을 빠르게 설정하세요. 재생 버튼(▶)을 누르면 카운트다운이 시작되며, 시간이 다 되면 자동으로 알림음이 울립니다.
+      </div>
+    </details>
+    <details class="guide">
+      <summary>스톱워치 사용법</summary>
+      <div class="guide-content">
+        스톱워치 탭을 선택한 뒤 재생 버튼(▶)을 누르면 시간이 측정됩니다. 실행 중 랩 버튼(🏁)을 눌러 구간 기록을 남길 수 있습니다. 측정이 끝나면 정지 버튼(■)을 눌러주세요.
+      </div>
+    </details>
+    <details class="guide">
+      <summary>단축키</summary>
+      <div class="guide-content">
+        <ul style="padding-left: 20px; list-style-type: disc;">
+          <li><b>스페이스바</b>: 시작 / 정지</li>
+          <li><b>R</b>: 초기화(리셋)</li>
+          <li><b>L</b>: 랩 기록 (스톱워치 모드)</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 관련 도구</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/speech-timer/" class="tool-card">🗣️ 스피치 타이머</a>
+      <a href="/special-chars/server-time/" class="tool-card">⌚ 서버 시간 확인</a>
+      <a href="/special-chars/timezone-conv/" class="tool-card">🌍 세계 시간 변환</a>
     </div>
-  </details>
+  </section>
     <div class="footer"><span>백그라운드 알림 지원</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 

@@ -62,12 +62,25 @@
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:var(--text-guide)}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  /* Dynamic Report & Guide standard CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+  .report-box strong { color: var(--accent); }
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--bg-error, #ff4b2b);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(255,75,43,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:#e0431f}
@@ -165,41 +178,61 @@
       </div>
       <div class="result-desc" style="margin-top:8px" id="macro-desc">Balanced macro ratio for weight maintenance. (Carbs 5 : Pro 3 : Fat 2)</div>
     </div>
+    <div id="reportBox" class="report-box" style="display:none;"></div>
   </div>
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Enter your gender, age, weight, height and activity level.</li>
-        <li>Your BMR and daily recommended calories (TDEE) will be calculated instantly.</li>
-        <li>You'll also see the recommended macro ratios (carbs, protein, fat) based on your chosen goal.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Calorie Calculator</h2>
+    
+    <details class="guide" open>
+      <summary>1. What is BMR (Basal Metabolic Rate)?</summary>
+      <div class="guide-content">
+        <p>Your Basal Metabolic Rate (BMR) represents the amount of energy your body expends while fully at rest. Even if you were to sleep an entire day, your body continuously burns calories to maintain vital functions like breathing, circulation, and cell production. We utilize the highly accurate Mifflin-St Jeor equation for this calculation.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. How does the Activity Level Multiplier work?</summary>
+      <div class="guide-content">
+        <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
+          <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Level</th><th style="padding:6px;border:1px solid var(--border)">Multiplier</th><th style="padding:6px;border:1px solid var(--border)">Description</th></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border)">Sedentary</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.2</td><td style="padding:5px;border:1px solid var(--border)">Office job, little to no exercise</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border)">Lightly active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.375</td><td style="padding:5px;border:1px solid var(--border)">Light exercise 1-3 days/wk</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border)">Moderately active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.55</td><td style="padding:5px;border:1px solid var(--border)">Moderate exercise 3-5 days/wk</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border)">Very active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.725</td><td style="padding:5px;border:1px solid var(--border)">Hard exercise 6-7 days/wk</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border)">Extra active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.9</td><td style="padding:5px;border:1px solid var(--border)">Physical job + daily exercise</td></tr>
+        </table>
+        <p style="font-size:11px;color:var(--calc-expr-text);margin-top:8px;">* TDEE (Total Daily Energy Expenditure) = BMR × Activity Multiplier</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. How many calories should I cut for weight loss?</summary>
+      <div class="guide-content">
+        <p>A standard 500 kcal daily deficit from your TDEE will generally result in about 0.5kg (1 lb) of sustainable weight loss per week. We strongly advise against dropping below 1,500 kcal for men or 1,200 kcal for women, as extreme calorie reduction can lead to muscle loss, nutrient deficiencies, and metabolic slowdown.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>4. How are the macro ratios calculated?</summary>
+      <div class="guide-content">
+        <ul>
+          <li><strong>Maintenance:</strong> Carbs 50% / Protein 30% / Fat 20%</li>
+          <li><strong>Weight Loss:</strong> Carbs 40% / Protein 40% / Fat 20% (Increased protein prevents muscle loss during a calorie deficit).</li>
+          <li><strong>Weight Gain:</strong> Carbs 50% / Protein 30% / Fat 20% (High carbs for energy and workout performance).</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Further Health Calculators</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/bmi-calc/" class="tool-card">⚖️ BMI Calculator</a>
+      <a href="/special-chars/en/timer/" class="tool-card">⏱️ Workout Timer</a>
+      <a href="/special-chars/en/date-calc/" class="tool-card">📅 Date Calculator</a>
+      <a href="/special-chars/en/pet-food-calc/" class="tool-card">🐕 Pet Food Calculator</a>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <strong>Q. What is BMR?</strong>
-      <p>Basal Metabolic Rate (BMR) is the amount of energy you expend while at rest. Even if you sleep all day, your body burns this amount of calories just to keep your heart beating and lungs breathing. We use the highly accurate Mifflin-St Jeor equation.</p>
-      <br>
-      <strong>📊 Activity Level Multiplier</strong>
-      <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Level</th><th style="padding:6px;border:1px solid var(--border)">Multiplier</th><th style="padding:6px;border:1px solid var(--border)">Description</th></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">Sedentary</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.2</td><td style="padding:5px;border:1px solid var(--border)">Office job, work from home</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">Lightly active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.375</td><td style="padding:5px;border:1px solid var(--border)">Light exercise 1-3 days/wk</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">Moderately active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.55</td><td style="padding:5px;border:1px solid var(--border)">Moderate exercise 3-5 days/wk</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">Very active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.725</td><td style="padding:5px;border:1px solid var(--border)">Hard exercise 6-7 days/wk</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border)">Extra active</td><td style="padding:5px;border:1px solid var(--border);text-align:center">1.9</td><td style="padding:5px;border:1px solid var(--border)">Physical job + daily exercise</td></tr>
-      </table>
-      <p style="font-size:11px;color:var(--calc-expr-text)">* TDEE (Total Daily Energy Expenditure) = BMR × Multiplier</p>
-      <br>
-      <strong>Q. How many calories should I cut to lose weight?</strong>
-      <p>A 500kcal daily deficit from your TDEE will usually result in about 0.5kg (1 lb) of weight loss per week. We do not recommend dropping below 1,500kcal for men or 1,200kcal for women, as drastic calorie reduction can cause muscle loss and metabolic slowdown.</p>
-      <br>
-      <strong>Q. How are macro ratios calculated?</strong>
-      <p>For Maintenance: Carbs 50% / Protein 30% / Fat 20%. For Weight Loss: Carbs 40% / Protein 40% / Fat 20% (higher protein prevents muscle loss). For Weight Gain: Carbs 50% / Protein 30% / Fat 20%.</p>
-    </div>
-  </details>
+  </section>
     <div class="footer"><span>Mifflin-St Jeor formula</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 
@@ -267,6 +300,12 @@ function calc() {
   document.querySelector('.m-protein').innerText = `Protein (${Math.round(pP*100)}%)`;
   document.querySelector('.m-fat').innerText = `Fat (${Math.round(pF*100)}%)`;
   document.getElementById('macro-desc').innerText = mDesc;
+
+  const reportBox = document.getElementById('reportBox');
+  if (reportBox) {
+    reportBox.innerHTML = `<strong>Calorie Analysis:</strong> For a <strong>${gender === 'm' ? 'male' : 'female'}</strong> (${age} yrs, ${Math.round(weight)}kg), your TDEE is approx <strong>${Math.round(tdee).toLocaleString()} kcal</strong>. To ${goal === 'lose' ? 'lose weight safely' : goal === 'gain' ? 'build muscle' : 'maintain weight'}, your target is <strong>${Math.round(targetCal).toLocaleString()} kcal/day</strong>.`;
+    reportBox.style.display = 'block';
+  }
 }
 
 // init

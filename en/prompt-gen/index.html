@@ -60,12 +60,27 @@
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:var(--text-guide)}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  .guide-section{padding:16px;background:var(--bg-body);max-width:100%}
+  .guide-section h2{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-app);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-placeholder);transition:transform .2s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-btn)}
+  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-secondary);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-body)}
+  .guide-content p{margin-bottom:8px}
+  .guide-content p:last-child{margin-bottom:0}
+  .guide-content ul, .guide-content ol{padding-left:20px;margin-bottom:8px}
+  .guide-content li{margin-bottom:4px}
+  
+  .related-tools { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); }
+  .related-tools h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+  .tool-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 12px; background: var(--bg-app); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+  .tool-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  .tool-icon { font-size: 24px; margin-bottom: 8px; }
+  .tool-name { font-size: 12px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -142,29 +157,63 @@
       <button class="btn btn-secondary" onclick="clearAll()">🗑️ Reset</button>
     </div>
   </div>
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Choose a prompt template from the Quick Templates.</li>
-        <li>Fill in the fields with your specific details.</li>
-        <li>Click "Copy" and paste into ChatGPT, Claude, or any AI.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Prompt Generation</h2>
+    
+    <details class="guide" open>
+      <summary>1. How to Use</summary>
+      <div class="guide-content">
+        <ol>
+          <li>Choose a prompt template from the Quick Templates.</li>
+          <li>Fill in the fields with your specific details.</li>
+          <li>Click "Copy" and paste into ChatGPT, Claude, or any AI.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Tips for writing good prompts?</summary>
+      <div class="guide-content">
+        <p>The key is <strong>specificity</strong>. Instead of "write something," try "Write 10 Instagram Reels captions targeting women aged 20-30 for a vegan cosmetics brand in a casual tone." Use this tool's Role → Task → Context → Format → Constraints structure to create well-organized prompts naturally.</p>
+      </div>
+    </details>
+    
+    <details class="guide">
+      <summary>3. How do I use the preset templates?</summary>
+      <div class="guide-content">
+        <p>Presets provide optimized defaults for common tasks (writing, coding, translation, summary, brainstorming). Select a preset, fill in the blanks, and you're ready to go. You can also freely modify each field. For example, select "Writing" and just enter a topic to instantly generate a blog writing prompt.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>4. Are prompts used differently in ChatGPT vs Claude?</summary>
+      <div class="guide-content">
+        <p>The basic prompt structure works the same for both. However, ChatGPT works best with system messages for roles, while Claude performs better with XML tags (&lt;role&gt;, &lt;task&gt;). Prompts generated by this tool work well with both services.</p>
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <h3>🛠️ Recommended Utility Tools</h3>
+      <div class="tools-grid">
+        <a href="/special-chars/en/my-ip/" class="tool-card">
+          <span class="tool-icon">🌐</span>
+          <span class="tool-name">What is My IP</span>
+        </a>
+        <a href="/special-chars/en/qr-code/" class="tool-card">
+          <span class="tool-icon">📱</span>
+          <span class="tool-name">QR Code Gen</span>
+        </a>
+        <a href="/special-chars/en/uuid-gen/" class="tool-card">
+          <span class="tool-icon">🔑</span>
+          <span class="tool-name">UUID Generator</span>
+        </a>
+        <a href="/special-chars/en/lotto-gen/" class="tool-card">
+          <span class="tool-icon">🎰</span>
+          <span class="tool-name">Lotto Generator</span>
+        </a>
+      </div>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <strong>Q. Tips for writing good prompts?</strong>
-      <p>The key is <strong>specificity</strong>. Instead of "write something," try "Write 10 Instagram Reels captions targeting women aged 20-30 for a vegan cosmetics brand in a casual tone." Use this tool's Role → Task → Context → Format → Constraints structure to create well-organized prompts naturally.</p>
-      <br>
-      <strong>Q. How do I use the preset templates?</strong>
-      <p>Presets provide optimized defaults for common tasks (writing, coding, translation, summary, brainstorming). Select a preset, fill in the blanks, and you're ready to go. You can also freely modify each field. For example, select "Writing" and just enter a topic to instantly generate a blog writing prompt.</p>
-      <br>
-      <strong>Q. Are prompts used differently in ChatGPT vs Claude?</strong>
-      <p>The basic prompt structure works the same for both. However, ChatGPT works best with system messages for roles, while Claude performs better with XML tags (&lt;role&gt;, &lt;task&gt;). Prompts generated by this tool work well with both services.</p>
-    </div>
-  </details>
+  </section>
     <div class="footer"><span>AI Prompt Generator</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 <script>

@@ -148,12 +148,25 @@
   }
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:var(--text-guide)}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  /* Dynamic Report & Guide standard CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+  .report-box strong { color: var(--accent); }
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -216,36 +229,48 @@
     <div class="trades-list" id="tradesList"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Enter your initial principal, expected interest rate per period, and the number of periods (e.g. trades, months, or years).</li>
-        <li>The results will instantly show your exponential growth through the power of compounding.</li>
-        <li>Check the interactive chart to visualize the growth curve and see period-by-period details.</li>
-      </ol>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Compound Interest</h2>
+    
+    <details class="guide" open>
+      <summary>1. What is the difference between simple and compound interest?</summary>
+      <div class="guide-content">
+        <p>Simple interest calculates interest based solely on the original principal amount. Compound interest, however, continuously calculates interest on the principal <strong>AND</strong> the accumulated interest from previous periods. Over long horizons, compounding creates spectacular exponential growth, famously called "the eighth wonder of the world" by Albert Einstein.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. What is the Rule of 72?</summary>
+      <div class="guide-content">
+        <p>The Rule of 72 is an elegant mental math formula: simply divide 72 by your annual return rate to estimate exactly how many years it will take to double your investment.</p>
+        <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
+          <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Rate</th><th style="padding:6px;border:1px solid var(--border)">Years to Double</th><th style="padding:6px;border:1px solid var(--border)">Rate</th><th style="padding:6px;border:1px solid var(--border)">Years to Double</th></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">72 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12 years</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">36 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9 years</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2 years</td></tr>
+          <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">4%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">18 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6 years</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Is daily or monthly compounding better than annual?</summary>
+      <div class="guide-content">
+        <p>Absolutely. The more frequently your interest compounds, the higher your effective annual yield (APY) will be, since your "interest on interest" hits your account much sooner. This explicitly highlights why avoiding high-interest credit card debt (which often compounds daily) is so critical, yet capturing monthly stock dividends is highly beneficial.</p>
+      </div>
+    </details>
+
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Recommended Financial Calculators</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/discount-calc/" class="tool-card">🛍️ Discount Calculator</a>
+      <a href="/special-chars/en/percent-calc/" class="tool-card">📊 Percentage Calc</a>
+      <a href="/special-chars/en/wage-calc/" class="tool-card">💵 Wage Calculator</a>
+      <a href="/special-chars/en/avg-price/" class="tool-card">📉 Average Price Calc</a>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <strong>Q. What is the difference between simple and compound interest?</strong>
-      <p>Simple interest calculates interest only on the principal amount. Compound interest calculates interest on the principal AND the accumulated interest from previous periods. Over time, compounding creates exponential growth (often called "the eighth wonder of the world").</p>
-      <br>
-      <strong>Q. What is the Rule of 72?</strong>
-      <p>The Rule of 72 is a quick mental math formula: divide 72 by the annual return rate to estimate how many years it will take to double your money. Check the table below:</p>
-      <table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:11px">
-        <tr style="background:var(--bg-input);color:var(--text-guide)"><th style="padding:6px;border:1px solid var(--border)">Rate</th><th style="padding:6px;border:1px solid var(--border)">Years to Double</th><th style="padding:6px;border:1px solid var(--border)">Rate</th><th style="padding:6px;border:1px solid var(--border)">Years to Double</th></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">1%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">72 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12 years</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">2%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">36 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">8%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">9 years</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">3%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">24 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">10%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">7.2 years</td></tr>
-        <tr><td style="padding:5px;border:1px solid var(--border);text-align:center">4%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">18 years</td><td style="padding:5px;border:1px solid var(--border);text-align:center">12%</td><td style="padding:5px;border:1px solid var(--border);text-align:center">6 years</td></tr>
-      </table>
-      <br>
-      <strong>Q. Is daily/monthly compounding better than annual?</strong>
-      <p>Yes. The more frequently interest is compounded, the higher your effective yield will be, because "interest on interest" applies sooner. Since this calculator operates on "periods," you can simulate monthly compounding by simply entering your monthly interest rate (e.g. 1% a month for 12 periods, instead of 12% a year for 1 period).</p>
-    </div>
-  </details>
+  </section>
     <div class="footer"><span>Compound Effect Simulator</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
 

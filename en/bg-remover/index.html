@@ -84,12 +84,25 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
 .info-badge .badge-icon{font-size:16px;flex-shrink:0}
 .info-badge strong{color:var(--accent)}
 
-.guide-section{margin:0 12px 12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-.guide-section summary:hover{background:var(--bg-guide-hover)}
-.guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-.guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-
+/* Dynamic Report & Guide standard CSS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.report-box { margin-top: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+.report-box strong { color: var(--accent); }
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--text-info)}
 .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
 .footer a:hover{color:var(--text-secondary)}
@@ -171,29 +184,45 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg-body);colo
         <button class="action-btn btn-download" onclick="downloadResult()">💾 Download PNG</button>
         <button class="action-btn btn-reset" onclick="resetAll()">🔄 Choose another image</button>
       </div>
+
+      <div id="reportBox" class="report-box" style="display:none;"></div>
     </div>
   </div>
 
-  <details class="guide-section">
-    <summary>💡 How to Use</summary>
-    <div class="guide-content">
-      <p><b>What is this?</b></p>
-      <p>This tool instantly removes the background from your photos, leaving only the main subject (people, products, etc.) on a transparent background.</p>
-      <br>
-      <p><b>Great for:</b></p>
-      <p>• E-commerce product shots</p>
-      <p>• Profile pictures and ID photos</p>
-      <p>• Creating stickers for social media</p>
-      <p>• Presentation and design assets</p>
-      <br>
-      <p><b>Pro tips for the best results:</b></p>
-      <p>• Ensure high contrast between the subject and the background.</p>
-      <p>• Higher resolution images yield sharper edges.</p>
-      <p>• Our AI can handle complex details like hair and fur.</p>
-      <br>
-      <p>🔒 <b>Privacy First:</b> All processing happens securely in your own browser. Your images never leave your device.</p>
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to AI Background Remover</h2>
+    
+    <details class="guide" open>
+      <summary>1. Is this truly free and unlimited?</summary>
+      <div class="guide-content">
+        <p><strong>Yes, absolutely.</strong> Since the AI processing runs entirely on your device (using WebAssembly), there are no server costs on our end. This means you can use the tool as many times as you like, completely free.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. Are my images safe?</summary>
+      <div class="guide-content">
+        <p><strong>100% Secure.</strong> Your files are never uploaded to the cloud or saved on any external servers. The Web AI model runs strictly within your browser, ensuring maximum privacy for your sensitive or personal photos.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Why is the AI model 40MB?</summary>
+      <div class="guide-content">
+        <p>To deliver high-quality, professional edge detection without relying on a remote API, your browser securely downloads a compressed neural network model on your first visit. Once downloaded, your browser caches it, so subsequent uses are blazing fast even offline!</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Useful Developer & Image Tools</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/image-compress/" class="tool-card">🗜️ Image Compressor</a>
+      <a href="/special-chars/en/image-format-converter/" class="tool-card">🔄 Image Converter</a>
+      <a href="/special-chars/en/qr-code/" class="tool-card">📲 QR Code</a>
+      <a href="/special-chars/en/color-conv/" class="tool-card">🎨 Color Converter</a>
     </div>
-  </details>
+  </section>
 
   <div class="footer"><span>AI Background Removal · 100% Local Processing</span><a href="https://teemozipsa.github.io/en/">😺 More Tools</a></div>
 </div>
@@ -299,6 +328,12 @@ async function handleFile(file) {
     setView('result');
     showToast('✅ Background removed successfully!');
 
+    const beforeKb = (file.size / 1024).toFixed(1);
+    const afterKb = (resultBlob.size / 1024).toFixed(1);
+    const reportBox = document.getElementById('reportBox');
+    reportBox.innerHTML = `<strong>Analysis summary:</strong> Background removed successfully.<br>Original size: <strong>${beforeKb} KB</strong> ➔ Result size: <strong>${afterKb} KB</strong>.<br>Processed securely and completely on your local device.`;
+    reportBox.style.display = 'block';
+
   } catch (err) {
     console.error('Background removal error:', err);
     progressWrap.classList.remove('active');
@@ -362,12 +397,12 @@ window.downloadResult = function() {
   showToast('💾 Download complete!');
 };
 
-// 리셋
 window.resetAll = function() {
   resultArea.classList.remove('active');
   dropzone.style.display = '';
   fileInput.value = '';
   document.getElementById('progressSub').textContent = 'Downloading the AI model (~40MB) may take a moment on first use.';
+  document.getElementById('reportBox').style.display = 'none';
 };
 
 // 토스트

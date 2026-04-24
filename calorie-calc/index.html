@@ -59,6 +59,20 @@
   .progress-container{margin-top:12px;background:var(--bg-input);border-radius:8px;height:8px;position:relative;overflow:hidden}
   .progress-bar{height:100%;background:linear-gradient(90deg,#38bdf8,#f472b6,#facc15);width:100%}
 
+  .report-box{background:var(--bg-input);padding:20px;border-radius:12px;border:1px solid var(--border);line-height:1.6;font-size:14px;color:var(--text-primary);margin-top:16px;animation:fadeIn 0.5s ease-out}
+  .report-box h3{font-size:15px;margin-bottom:12px;font-weight:700}
+  .report-box p{margin-bottom:10px;color:var(--text-info);word-break:keep-all}
+  .report-box .highlight{font-weight:700;color:var(--text-primary)}
+  .report-tip{background:var(--bg-body);border-left:4px solid var(--text-error, #ff4b2b);padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0;font-size:13.5px}
+  .report-notice{font-size:12px;color:var(--text-muted)!important;margin-top:16px;padding-top:12px;border-top:1px dashed var(--border)}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  
+  .related-tools{margin:0 12px 12px;padding:16px;background:var(--bg-input);border-radius:8px;border:1px solid var(--border)}
+  .related-tools h4{font-size:14px;margin-bottom:10px;font-weight:700;color:var(--text-primary)}
+  .related-tools ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+  .related-tools li a{font-size:13px;color:var(--text-error, #ff4b2b);text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .related-tools li a:hover{opacity:0.8;text-decoration:underline}
+
   .footer{background:var(--bg-bar);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:11px;color:var(--calc-expr-text)}
   .footer a{color:var(--text-info);text-decoration:none;font-weight:600;transition:color .2s}
   .footer a:hover{color:var(--text-guide)}
@@ -165,6 +179,23 @@
       </div>
       <div class="result-desc" style="margin-top:8px" id="macro-desc">다이어트를 위한 균형 잡힌 비율입니다.</div>
     </div>
+
+    <!-- SEO 친화적 사전 렌더링된 상세 분석 리포트 -->
+    <div class="report-box" id="reportBox">
+      <h3>📋 맞춤형 칼로리 분석 리포트</h3>
+      <p>
+        입력하신 정보(<span class="highlight" id="r-gender">남성</span>, <span class="highlight"><span id="r-age">25</span>세</span>, <span class="highlight"><span id="r-height">170</span>cm</span>, <span class="highlight"><span id="r-weight">65</span>kg</span>)를 바탕으로 계산 분석한 기초대사량(BMR)은 <strong><span id="r-bmr" class="highlight">1,593</span> kcal</strong>입니다. 기초대사량은 가만히 있어도 생명 유지를 위해 소모되는 최소 에너지입니다.
+      </p>
+      <p>
+        선택하신 활동량(<span class="highlight" id="r-activity">보통 활동</span>)을 반영한 총 에너지 소비량(TDEE)은 <strong><span id="r-tdee">2,468</span> kcal</strong>로 추정됩니다. 고객님의 현재 목표인 <strong><span id="r-goal" style="color:#22c55e;">[현재 체중 유지]</span></strong>를 달성하기 위해 권장되는 하루 섭취 칼로리는 <span class="highlight" style="color:#ff4b2b;"><span id="r-target">2,468</span> kcal</span>입니다.
+      </p>
+      <div class="report-tip" style="border-color:#ff4b2b;">
+        <strong>💡 매크로(탄단지) 가이드:</strong> <span id="r-macro">다이어트를 위한 균형 잡힌 비율입니다. (탄5:단3:지2)</span>를 바탕으로 하루 탄수화물 <span id="r-tc">309</span>g, 단백질 <span id="r-tp">185</span>g, 지방 <span id="r-tf">55</span>g을 식단으로 섭취해 보세요.
+      </div>
+      <p class="report-notice">
+        ※ 위 결과는 해리스-베네딕트/미플린-세인트 죠어 공식을 기반으로 한 통계 추정치이므로, 개인의 근육량, 호르몬 상태 등 신체 특성에 따라 약간의 오차가 있을 수 있습니다. 단기간에 무리한 칼로리 조절보다는 본인의 컨디션에 맞게 점진적으로 식단을 조절하시는 것을 권장합니다.
+      </p>
+    </div>
   </div>
   <details class="guide-section">
     <summary>📖 사용 방법</summary>
@@ -200,6 +231,13 @@
       <p>목표에 따라 다릅니다. 체중 유지: 탄수화물 50% / 단백질 30% / 지방 20% (5:3:2). 다이어트: 탄수화물 40% / 단백질 40% / 지방 20% (4:4:2) — 단백질을 높여 근손실을 방지합니다. 벌크업: 탄수화물 50% / 단백질 30% / 지방 20%로 충분한 에너지와 단백질을 확보합니다.</p>
     </div>
   </details>
+  <div class="related-tools">
+    <h4>🔗 추천 다이어트 & 운동 도구</h4>
+    <ul>
+      <li><a href="/special-chars/bmi-calc/">📊 체질량지수(BMI) 정밀 분석 계산기</a></li>
+      <li><a href="/special-chars/calorie-calc/">🔥 나의 다른 도구 보러가기 (작업 예정)</a></li>
+    </ul>
+  </div>
     <div class="footer"><span>해리스-베네딕트 공식 기반</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -267,6 +305,35 @@ function calc() {
   document.querySelector('.m-protein').innerText = `단백질 (${Math.round(pP*100)}%)`;
   document.querySelector('.m-fat').innerText = `지방 (${Math.round(pF*100)}%)`;
   document.getElementById('macro-desc').innerText = mDesc;
+
+  // Dynamic Report Texts
+  document.getElementById('reportBox').style.animation = 'none';
+  void document.getElementById('reportBox').offsetWidth;
+  document.getElementById('reportBox').style.animation = 'fadeIn 0.5s ease-out';
+
+  document.getElementById('r-gender').textContent = gender === 'm' ? '남성' : '여성';
+  document.getElementById('r-age').textContent = age;
+  document.getElementById('r-height').textContent = height;
+  document.getElementById('r-weight').textContent = weight;
+  document.getElementById('r-bmr').textContent = Math.round(bmr).toLocaleString();
+  
+  const actSelect = document.getElementById('activity');
+  document.getElementById('r-activity').textContent = actSelect.options[actSelect.selectedIndex].text.split(' (')[0];
+  document.getElementById('r-tdee').textContent = Math.round(tdee).toLocaleString();
+  
+  const goalSelect = document.getElementById('goal');
+  const goalText = goalSelect.options[goalSelect.selectedIndex].text.split(' (')[0];
+  const rGoal = document.getElementById('r-goal');
+  rGoal.textContent = `[${goalText}]`;
+  if(goal === 'lose') rGoal.style.color = '#38bdf8';
+  else if(goal === 'gain') rGoal.style.color = '#ff4b2b';
+  else rGoal.style.color = '#22c55e';
+
+  document.getElementById('r-target').textContent = Math.round(targetCal).toLocaleString();
+  document.getElementById('r-macro').textContent = mDesc;
+  document.getElementById('r-tc').textContent = Math.round(carbs);
+  document.getElementById('r-tp').textContent = Math.round(protein);
+  document.getElementById('r-tf').textContent = Math.round(fat);
 }
 
 // init

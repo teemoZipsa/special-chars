@@ -55,12 +55,21 @@
   .conv-triple .conv-field{flex:1;min-width:0}
   .conv-extra{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11px;color:var(--text-info)}
   .conv-extra input{width:60px;background:var(--bg-btn);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:4px 8px;font-size:12px;text-align:center;font-family:inherit}
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  .report-box {margin:14px 12px; padding:16px; background:rgba(83,52,131,0.05); border-left:4px solid var(--accent); border-radius:8px; font-size:13px; line-height:1.6; color:var(--text-primary); display:none;}
+  .report-box.show {display:block; animation:fadeIn 0.4s;}
+  @keyframes fadeIn {from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+  .guide-section{margin:12px; padding:16px; border:1px solid var(--border); border-radius:8px; background:var(--bg-app); margin-top:20px;}
+  .guide-title{font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:12px;}
+  .guide-item{margin-bottom:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-guide); overflow:hidden;}
+  .guide-item summary{padding:12px; font-size:13px; font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; color:var(--text-guide);}
+  .guide-item summary::after{content:'▼'; font-size:10px; color:var(--text-info); transition:transform 0.2s;}
+  .guide-item[open] summary::after{transform:rotate(180deg);}
+  .guide-item[open] summary{border-bottom:1px solid var(--border); background:var(--bg-btn);}
+  .guide-item .guide-content{padding:12px; font-size:13px; color:var(--text-info); line-height:1.6;}
+  .related-tools{margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
+  .tag-container{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+  .tool-tag{padding:6px 12px; background:rgba(83,52,131,0.1); color:var(--accent); border-radius:16px; font-size:11px; font-weight:600; text-decoration:none; transition:all 0.2s;}
+  .tool-tag:hover{background:var(--accent); color:var(--text-on-accent);}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -82,19 +91,58 @@
   <div class="counter-body">
     <div class="conv-cat-tabs"><div class="tab-row" id="unitCatTabs"></div></div>
     <div id="unitConvArea"></div>
+    <div id="reportBox" class="report-box"></div>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 사용 방법</summary>
-    <div class="guide-content">
-      <ol>
-        <li>상단 카테고리 탭(부동산, 요리, 직구, 디지털, 여행)에서 원하는 분야를 선택하세요.</li>
-        <li>어느 쪽 입력칸에든 숫자를 입력하면 반대쪽이 자동으로 변환됩니다.</li>
-        <li>근(고기/채소), 신발 사이즈 등 특수 변환도 지원합니다.</li>
-        <li>"결과 복사" 버튼으로 변환 결과를 복사할 수 있습니다.</li>
-      </ol>
+  <div class="bottom-bar">
+    <span class="info">💡 입력하면 변경된 값을 바로 확인할 수 있습니다.</span>
+    <div style="display:flex; gap:8px;">
+      <button class="action-btn btn-clear" onclick="clearUnitConv()">초기화</button>
+      <button class="action-btn btn-copy" onclick="copyUnitResult()">결과 복사</button>
     </div>
-  </details>
+  </div>
+
+  <div class="guide-section">
+    <div class="guide-title">🤔 실생활 단위 변환 관련 Q&A</div>
+    
+    <details class="guide-item">
+      <summary>국민평형(국평)인 '34평'은 몇 제곱미터(㎡)인가요?</summary>
+      <div class="guide-content">
+        흔히 아파트 <strong>국민평형(국평)</strong>이라고 부르는 전용면적 84㎡는, 예전 평수 개념으로 공급면적 기준 약 33~34평에 해당합니다.<br/>
+        법정 계량 단위인 제곱미터(㎡) 사용이 의무화되면서 84㎡(전용면적), 112㎡(공급면적) 등으로 표기하지만, 여전히 많은 사람들이 직관적인 '평' 단위를 함께 참고하고 있습니다.<br/>
+        (1평 = 약 3.3058㎡)
+      </div>
+    </details>
+    
+    <details class="guide-item">
+      <summary>고기 1근과 채소 1근은 왜 무게가 다른가요?</summary>
+      <div class="guide-content">
+        한국에서 '근'은 척관법에서 유래한 질량의 단위로, 측정 대상에 따라 기준 중량이 다릅니다.<br/>
+        - <strong>육류(고기) 1근</strong> = 600g (일반적으로 3~4인분 정도의 양)<br/>
+        - <strong>채소/과일 1근</strong> = 일반적으로 400g (상추 등 잎채소류 등)<br/>
+        참고로 <strong>금 1돈</strong>은 3.75g이며, 약 1냥은 10돈(37.5g)입니다.
+      </div>
+    </details>
+    
+    <details class="guide-item">
+      <summary>해외직구 시 신발 사이즈와 무게(파운드)는 어떻게 변환하나요?</summary>
+      <div class="guide-content">
+        국가마다 표준 사이즈 표기법이 다릅니다.<br/>
+        - <strong>US (미국)</strong>: 남성 270mm의 경우 US 9, 여성 240mm의 경우 US 7을 주로 신습니다.<br/>
+        - <strong>EU (유럽)</strong>: 남성 270mm는 EU 42, 여성 240mm는 EU 37.5 수준입니다.<br/>
+        - <strong>파운드(lb) ↔ 킬로그램(kg)</strong>: 1파운드는 약 0.45kg입니다. 해외 배송비나 체중을 계산할 때 유용합니다.
+      </div>
+    </details>
+
+    <div class="related-tools">
+      <div class="guide-title" style="font-size:12px; margin-bottom:8px;">🛠 연관 도구 추천</div>
+      <div class="tag-container">
+        <a href="/special-chars/calculator/" class="tool-tag">일반 계산기</a>
+        <a href="/special-chars/percent-calc/" class="tool-tag">퍼센트 계산기</a>
+        <a href="/special-chars/color-conv/" class="tool-tag">색상 변환기</a>
+      </div>
+    </div>
+  </div>
     <div class="footer"><span>양방향 실시간 변환</span><a href="https://teemozipsa.github.io/">😺 더 많은 도구</a></div>
 </div>
 
@@ -146,7 +194,12 @@ function renderUnitCats(){
     btn.textContent=cat.label;btn.onclick=()=>switchUnitCat(catId);c.appendChild(btn);
   }
 }
-function switchUnitCat(catId){currentUnitCat=catId;renderUnitCats();renderConverters()}
+function switchUnitCat(catId){
+  currentUnitCat=catId;
+  renderUnitCats();
+  renderConverters();
+  document.getElementById('reportBox').classList.remove('show');
+}
 
 function renderConverters(){
   const area=document.getElementById('unitConvArea');const cat=UNIT_DATA[currentUnitCat];let html='';
@@ -191,6 +244,7 @@ function convSync(id,side){
       if(side==='a'){const v=parseFloat(elA.value);elB.value=isNaN(v)?'':roundDec(item.toB?item.toB(v):v*factor,item.dec)}
       else{const v=parseFloat(elB.value);elA.value=isNaN(v)?'':roundDec(item.toA?item.toA(v):v/factor,item.dec)}
     }
+    updateReportBox(id);
   }finally{_unitSyncing=false}
 }
 
@@ -209,7 +263,67 @@ function syncData(side){
   else{const v=parseFloat(tbEl.value);if(isNaN(v)){mbEl.value='';gbEl.value='';return}mbEl.value=roundDec(v*1048576,2);gbEl.value=roundDec(v*1024,4)}
 }
 
-function clearUnitConv(){document.querySelectorAll('#unitConvArea input[type="number"]').forEach(el=>el.value='')}
+function clearUnitConv(){
+  document.querySelectorAll('#unitConvArea input[type="number"]').forEach(el=>el.value='');
+  document.getElementById('reportBox').classList.remove('show');
+}
+
+function updateReportBox(id) {
+  const box = document.getElementById('reportBox');
+  let text = '';
+  
+  if (id === 'pyeong') {
+    const a = parseFloat(document.getElementById('conv-pyeong-a').value);
+    const b = parseFloat(document.getElementById('conv-pyeong-b').value);
+    if(isNaN(a) || isNaN(b)) { box.classList.remove('show'); return; }
+    text = `🏡 <b>${a}평</b>은 약 <b>${b}㎡</b> 입니다.<br/>주택 면적 계산 시 가장 대표적으로 사용되는 변환이며, 보통 전용 84㎡를(약 33~34평) '평민평형' 혹은 '국민평형'이라고 부릅니다.`;
+  } else if (id === 'geun') {
+    const a = parseFloat(document.getElementById('conv-geun-a').value);
+    const b = parseFloat(document.getElementById('conv-geun-b').value);
+    const sel = document.getElementById('conv-geun-opt');
+    if(!sel) return;
+    const isMeat = sel.value === "0";
+    if(isNaN(a) || isNaN(b)) { box.classList.remove('show'); return; }
+    text = `🛒 ${isMeat ? '고기류' : '채소류'} <b>${a}근</b>은 <b>${b}g</b>에 해당합니다.<br/>고기 1근(600g)은 성인 기준으로 보통 약 3인분 정도의 고기 양입니다.`;
+  } else if (id === 'shoe') {
+    const kr = parseFloat(document.getElementById('conv-shoe-kr').value);
+    const us = document.getElementById('conv-shoe-us').value;
+    const eu = document.getElementById('conv-shoe-eu').value;
+    if(isNaN(kr) || !us || !eu) { box.classList.remove('show'); return; }
+    const gText = _shoeGender === 'male' ? '남성' : '여성';
+    text = `👟 <b>${gText} 한국 사이즈 ${kr}mm</b>는 미국(US) <b>${us}</b>, 유럽(EU) <b>${eu}</b>와 유사한 크기입니다.<br/>(신발 제조사, 발볼 디자인에 따라 실제 착화감은 다를 수 있습니다.)`;
+  } else if (id === 'mile') {
+     const a = parseFloat(document.getElementById('conv-mile-a').value);
+     const b = parseFloat(document.getElementById('conv-mile-b').value);
+     if(isNaN(a) || isNaN(b)) { box.classList.remove('show'); return; }
+     text = `🚗 약 <b>${a} 마일(ml)</b> 주행거리는 <b>${b} 킬로미터(km)</b>로 변환됩니다.<br/>미국이나 영국의 렌터카 주행 및 속도제한 표지판은 대부분 마일 단위로 표시됩니다.`;
+  } else if (id === 'data') {
+     const mb = parseFloat(document.getElementById('conv-data-mb').value);
+     const gb = parseFloat(document.getElementById('conv-data-gb').value);
+     if(isNaN(mb) || isNaN(gb)) { box.classList.remove('show'); return; }
+     text = `💾 용량 <b>${mb} MB</b>는 약 <b>${gb} GB</b> 입니다.<br/>파일의 정확한 용량 계산 시 제조사 표기(1,000배수)와 운영체제 인식(1,024배수)에 미세한 차이가 발생할 수 있습니다.`;
+  } else if (id === 'temp') {
+     const a = parseFloat(document.getElementById('conv-temp-a').value);
+     const b = parseFloat(document.getElementById('conv-temp-b').value);
+     if(isNaN(a) || isNaN(b)) { box.classList.remove('show'); return; }
+     text = `🌡 섭씨 <b>${a}℃</b>는 화씨 <b>${b}℉</b>와 통용되는 온도입니다.<br/>보통 미국이나 바하마 등 해외직구/날씨 확인 시 화씨 데이터를 입력하여 섭씨로 확인할 수 있습니다.`;
+  } else if (id === 'lb') {
+     const a = parseFloat(document.getElementById('conv-lb-a').value);
+     const b = parseFloat(document.getElementById('conv-lb-b').value);
+     if(isNaN(a) || isNaN(b)) { box.classList.remove('show'); return; }
+     text = `📦 제품 중량 <b>${a} 파운드(lb)</b>는 약 <b>${b} kg</b> 이며, 해외 직구 시 배송대행지 무게 요금 산정의 핵심 기준이 됩니다.`;
+  } else {
+     box.classList.remove('show');
+     return;
+  }
+  
+  if (text) {
+    box.innerHTML = text;
+    box.classList.add('show');
+  } else {
+    box.classList.remove('show');
+  }
+}
 
 function copyUnitResult(){
   const cat=UNIT_DATA[currentUnitCat];let lines=[];

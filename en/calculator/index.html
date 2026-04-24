@@ -134,12 +134,26 @@
     transition: color 0.2s;
   }
   .footer a:hover { color: var(--text-secondary); }
-  .guide-section{margin:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .guide-section summary{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;align-items:center;gap:6px;background:var(--bg-guide);transition:background .2s}
-  .guide-section summary:hover{background:var(--bg-guide-hover)}
-  .guide-section[open] summary{background:var(--bg-btn);border-bottom:1px solid var(--border)}
-  .guide-content{padding:12px 14px;font-size:12px;color:var(--text-info);line-height:1.8}
-  .guide-content ol{padding-left:20px}.guide-content li{margin-bottom:4px}
+  /* Dynamic Report & Guide standard CSS */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .report-box { margin: 16px; padding: 16px; background: var(--bg-input); border: 1px solid var(--accent); border-radius: 8px; color: var(--text-primary); font-size: 13px; line-height: 1.6; display: none; animation: fadeIn 0.3s; }
+  .report-box strong { color: var(--accent); }
+  /* 가이드 & 관련 도구 (표준) */
+  .guide-section{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .guide-section h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .guide{background:var(--bg-app);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .guide:last-child{margin-bottom:0}
+  .guide summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-guide);list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--bg-guide);transition:background .2s}
+  .guide summary::-webkit-details-marker{display:none}
+  .guide summary::after{content:'▼';font-size:10px;color:var(--text-muted);transition:transform .3s}
+  .guide[open] summary::after{transform:rotate(180deg)}
+  .guide summary:hover{background:var(--bg-guide-hover)}
+  .guide-content{padding:14px;font-size:13px;color:var(--text-info);line-height:1.6;border-top:1px solid var(--border);background:var(--bg-app)}
+  .related-tools{margin-top:20px;background:var(--bg-bar);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .related-tools h2{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+  .tool-card{background:var(--bg-app);border:1px solid var(--border);padding:10px;border-radius:8px;text-align:center;text-decoration:none;color:var(--text-primary);font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .tool-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .scroll-top-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);border:none;font-size:20px;font-weight:700;cursor:pointer;z-index:900;box-shadow:0 2px 12px rgba(83,52,131,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
 .scroll-top-btn:hover{transform:scale(1.1);background:var(--accent-hover)}
@@ -186,29 +200,43 @@
     <button class="calc-btn eq" onclick="calculate()">=</button>
   </div>
 
-  <details class="guide-section">
-    <summary>📖 How to Use</summary>
-    <div class="guide-content">
-      <ol>
-        <li>Click the buttons on the screen or type numbers and operators directly via keyboard.</li>
-        <li>Use the C button to clear all, or backspace to delete the last input.</li>
-        <li>Use the % button for percentages, and = or Enter to see the result.</li>
-      </ol>
+  <div id="reportBox" class="report-box" style="display:none;"></div>
+
+  <section class="guide-section">
+    <h2>💡 Comprehensive Guide to Web Calculator</h2>
+    
+    <details class="guide" open>
+      <summary>1. Does this calculator support keyboard input?</summary>
+      <div class="guide-content">
+        <p><strong>Yes, fully supported!</strong> You can seamlessly use your keyboard. Numbers (0-9), operators (+, -, *, /), decimal point (.), and Enter (=) work natively. Use Escape to clear all and Backspace to delete the last entered digit.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>2. How does the percentage (%) button work?</summary>
+      <div class="guide-content">
+        <p>The % button instantly divides your current input by 100. This is exceptionally handy for calculating discounts or taxes. For instance, computing 15% of 200 is as simple as typing "200 × 15 %" yielding 30.</p>
+      </div>
+    </details>
+
+    <details class="guide">
+      <summary>3. Does it handle floating point precision errors?</summary>
+      <div class="guide-content">
+        <p>Absolutely. Unlike many basic JavaScript calculators that will show "0.1 + 0.2 = 0.30000000000000004", this tool includes built-in precision correction to ensure your financial and decimal math remains 100% accurate without weird trailing digits.</p>
+      </div>
+    </details>
+
+  </section>
+
+  <section class="related-tools">
+    <h2>🔗 Related Tools</h2>
+    <div class="tools-grid">
+      <a href="/special-chars/en/percent-calc/" class="tool-card">📊 Percent Calculator</a>
+      <a href="/special-chars/en/discount-calc/" class="tool-card">🛍️ Discount Calculator</a>
+      <a href="/special-chars/en/avg-price/" class="tool-card">📉 Average Price Calc</a>
+      <a href="/special-chars/en/compound-interest/" class="tool-card">📈 Compound Interest</a>
     </div>
-  </details>
-  <details class="guide-section">
-    <summary>💡 FAQ</summary>
-    <div class="guide-content">
-      <strong>Q. Can I use my keyboard to operate the calculator?</strong>
-      <p>Yes, it fully supports keyboard inputs. You can use numbers (0-9), operators (+, -, *, /), decimal point (.), Enter (=), Escape (Clear All), Backspace (Delete last digit), and % (Percentage) directly from your keyboard for fast, continuous calculations without clicking.</p>
-      <br>
-      <strong>Q. How do percentage (%) calculations work?</strong>
-      <p>The % button divides the currently entered number by 100. For example: "200 × 15 %" = 30 (15% of 200) or "500 + 10 %" = 550 (adding 10% to 500). Very useful for discounts or taxes.</p>
-      <br>
-      <strong>Q. Can I copy or save calculation results?</strong>
-      <p>Currently, there is no history log feature. The result is simply displayed on the screen. To continue calculating, simply press another operator to chain your operations from the previous result.</p>
-    </div>
-  </details>
+  </section>
 
   <div class="footer">
     <span>Full Keyboard Support</span>
@@ -285,10 +313,18 @@ function calculate() {
 
   if (result === 'Error') {
     currentInput = 'Error';
+    const reportBox = document.getElementById('reportBox');
+    if(reportBox) reportBox.style.display = 'none';
   } else {
     // 부동소수점 보정
     result = parseFloat(result.toPrecision(12));
     currentInput = String(result);
+    
+    const reportBox = document.getElementById('reportBox');
+    if (reportBox) {
+      reportBox.innerHTML = `<strong>Calculation completed:</strong> ${expression} <strong>${formatNum(result)}</strong>`;
+      reportBox.style.display = 'block';
+    }
   }
 
   operator = '';
@@ -304,6 +340,8 @@ function clearAll() {
   expression = '';
   shouldResetDisplay = false;
   updateDisplay();
+  const reportBox = document.getElementById('reportBox');
+  if(reportBox) reportBox.style.display = 'none';
 }
 
 function toggleSign() {
